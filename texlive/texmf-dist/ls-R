@@ -375,6 +375,7 @@ lppl-1-1.txt
 lppl-1-2.txt
 lppl.pdf
 lppl.txt
+ltluatex.pdf
 ltnews.pdf
 ltnews.tex
 ltunicode.pdf
@@ -388,7 +389,6 @@ manual.pdf
 modguide.pdf
 modguide.tex
 nfssfont.pdf
-patches.txt
 proc.pdf
 slides.pdf
 slifonts.pdf
@@ -4396,7 +4396,6 @@ lppl.tex
 ltluatex.lua
 ltluatex.tex
 ltnews.cls
-ltpatch.ltx
 ltxcheck.tex
 ltxdoc.cls
 ltxguide.cls

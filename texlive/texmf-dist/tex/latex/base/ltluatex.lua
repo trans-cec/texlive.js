@@ -49,6 +49,9 @@ local tex_setattribute = tex.setattribute
 local tex_setcount     = tex.setcount
 local texio_write_nl   = texio.write_nl
 local modules = modules or { }
+local function luatexbase_log(text)
+  texio_write_nl("log", text)
+end
 local function provides_module(info)
   if not (info and info.name) then
     luatexbase_error("Missing module name for provides_modules")
@@ -57,8 +60,7 @@ local function provides_module(info)
   local function spaced(text)
     return text and (" " .. text) or ""
   end
-  texio_write_nl(
-    "log",
+  luatexbase_log(
     "Lua module: " .. info.name
       .. spaced(info.date)
       .. spaced(info.version)
@@ -174,7 +176,7 @@ local function new_attribute(name)
     return -1
   end
   attributes[name]= tex_count["e@alloc@attribute@count"]
-  texio_write_nl("Lua-only attribute " .. name .. " = " ..
+  luatexbase_log("Lua-only attribute " .. name .. " = " ..
                  tex_count["e@alloc@attribute@count"])
   return tex_count["e@alloc@attribute@count"]
 end
@@ -186,7 +188,7 @@ local function new_whatsit(name)
     luatexbase_error("No room for a new custom whatsit")
     return -1
   end
-  texio_write_nl("Custom whatsit " .. (name or "") .. " = " ..
+  luatexbase_log("Custom whatsit " .. (name or "") .. " = " ..
                  tex_count["e@alloc@whatsit@count"])
   return tex_count["e@alloc@whatsit@count"]
 end
@@ -198,7 +200,7 @@ local function new_bytecode(name)
     luatexbase_error("No room for a new bytecode register")
     return -1
   end
-  texio_write_nl("Lua bytecode " .. (name or "") .. " = " ..
+  luatexbase_log("Lua bytecode " .. (name or "") .. " = " ..
                  tex_count["e@alloc@bytecode@count"])
   return tex_count["e@alloc@bytecode@count"]
 end
@@ -213,7 +215,7 @@ local function new_chunkname(name)
     return -1
   end
   lua.name[chunkname_count]=name
-  texio_write_nl("Lua chunkname " .. (name or "") .. " = " ..
+  luatexbase_log("Lua chunkname " .. (name or "") .. " = " ..
                  chunkname_count .. "\n")
   return chunkname_count
 end
@@ -408,7 +410,7 @@ local function add_to_callback(name, func, description)
     end
   end
   table.insert(l, priority, f)
-  texio_write_nl(
+  luatexbase_log(
     "Inserting `" .. description .. "' at position "
       .. priority .. " in `" .. name .. "'."
   )
@@ -450,7 +452,7 @@ local function remove_from_callback(name, description)
   end
   cb = l[index]
   table.remove(l, index)
-  texio_write_nl(
+  luatexbase_log(
     "Removing  `" .. description .. "' from `" .. name .. "'."
   )
   if #l == 0 then

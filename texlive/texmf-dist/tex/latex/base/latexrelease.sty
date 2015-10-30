@@ -1397,8 +1397,8 @@ of this package available from CTAN}
 \gdef\e@ch@ck#1#2#3#4{%
   \ifnum#1<#2\else
     \ifnum#1=#2\relax
-      #1\@cclvi
-      \ifx\count#4\advance#1 10 \fi
+      \global#1\@cclvi
+      \ifx\count#4\global\advance#1 10 \fi
     \fi
     \ifnum#1<#3\relax
     \else
