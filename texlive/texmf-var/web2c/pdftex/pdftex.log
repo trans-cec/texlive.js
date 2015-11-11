@@ -1,17 +1,18 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (INITEX)  30 OCT 2015 17:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (INITEX)  11 NOV 2015 14:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
- (/home/thunder/emsdk_portable/new/texlive/texmf-dist/web2c/cp227.tcx)
+ (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
 ***pdfetex.ini
 
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/pdfetex.i
-ni
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/config/pdftexc
-onfig.tex)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/etex/etex.src
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/base/plain.tex
-Preloading the plain format: codes, registers,
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/config/pd
+fetex.ini
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/config/
+pdftexconfig.tex)
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/etex/etex
+.src
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/base/plai
+n.tex Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
 \centering=\skip11
@@ -29,13 +30,13 @@ Preloading the plain format: codes, registers,
 \jot=\dimen14
 \interdisplaylinepenalty=\count23
 \interfootnotelinepenalty=\count24
- fonts, more fonts,
+ fonts,
+more fonts,
 \itfam=\fam4
 \slfam=\fam5
 \bffam=\fam6
 \ttfam=\fam7
-
-macros,
+ macros,
 \strutbox=\box11
 \mscount=\count25
 \tabs=\box12
@@ -50,20 +51,20 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex [skipping from \patterns to end-of-file...]))
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
+hyphen.tex [skipping from \patterns to end-of-file...]))
 \et@xinput=\read0
 \et@xtoks=\toks12
 
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/etex/etexdefs.li
-b Skipping module "grouptypes"; Loading module "interactionmodes";
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/etex/etex
+defs.lib Skipping module "grouptypes"; Loading module "interactionmodes";
 Skipping module "nodetypes"; Skipping module "iftypes";)
-(/home/thunder/emsdk_portable/new/texlive/texmf-var/tex/generic/config/language
-.def
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-var/tex/generic/config/l
+anguage.def
 \lang@USenglish=\language0
 
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex)) Augmenting the Plain TeX definitions: \tracingall;
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
+hyphen.tex)) Augmenting the Plain TeX definitions: \tracingall;
 Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
 register allocation;
 \et@xins=\count26
@@ -76,11 +77,11 @@ Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
 Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
 \et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
 \etexstatus, \module, \uselanguage, \r@tain, \r@cycle,)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/pdftexmag
-fix.tex) )
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/config/pd
+ftexmagfix.tex) )
 Beginning to dump on file pdftex.fmt
- (preloaded format=pdftex 2015.10.30)
-2890 strings of total length 43632
+ (preloaded format=pdftex 2015.11.11)
+2890 strings of total length 43800
 7960 memory locations dumped; current usage is 203&7321
 1260 multiletter control sequences
 \font\nullfont=nullfont

@@ -1,11 +1,67 @@
-var PDFTeX = function(opt_workerPath) {
+var TeXLive = function(opt_workerPath) {
+  //var self=this;
+  var chunksize= determineChunkSize();
   if (!opt_workerPath) {
-    opt_workerPath = 'pdftex-worker.js';
+    opt_workerPath = '';
   }
-  var worker = new Worker(opt_workerPath);
-  var self = this;
-  var initialized = false;
+  
+  var pdftex=new component(opt_workerPath+'pdftex-worker.js');
+  pdftex.compile = function(source_code) {
+    var p = new promise.Promise();
+    pdftex.compileRaw(source_code).then(function(binary_pdf) {
+      if(binary_pdf === false)
+        return p.done(false);
+  
+      pdf_dataurl = 'data:application/pdf;charset=binary;base64,' + window.btoa(binary_pdf);
+  
+      return p.done(pdf_dataurl);
+    });
+    return p;
+  }
+  
+  pdftex.compileRaw = function(source_code) {
+    if(typeof(chunkSize) === "undefined")
+      
+    var commands;
+    if(this.initialized)
+      commands = [
+        curry(self, 'FS_unlink', ['/input.tex']),
+      ];
+    else
+      commands = [
+        curry(pdftex, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true]),
+        curry(pdftex, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
+      ];
+  
+    var sendCompile = function() {
+      this.initialized = true;
+      return self.sendCommand({
+        'command': 'run',
+        'arguments': ['-interaction=nonstopmode', '-output-format', 'pdf', 'input.tex'],
+  //        'arguments': ['-debug-format', '-output-format', 'pdf', '&latex', 'input.tex'],
+      });
+    };
+  
+    var getPDF = function() {
+      console.log(arguments);
+      return self.FS_readFile('/input.pdf');
+    }
+  
+    return promise.chain(commands)
+      .then(sendCompile)
+      .then(getPDF);
+  };
+  TeXLive.prototype.pdftex = pdftex;
+//var bibtex = new component(opt_workerPath+'bibtex-worker.js');
 
+} ;
+
+var component = function(workerPath) {
+  var worker = new Worker(workerPath);
+  var self = component.prototype;
+  var initialized = false;
+  self.initialized=initialized;
+  
   self.on_stdout = function(msg) {
     console.log(msg);
   }
@@ -44,7 +100,7 @@ var PDFTeX = function(opt_workerPath) {
   var promises = [];
   var chunkSize = undefined;
 
-  var sendCommand = function(cmd) {
+  self.sendCommand = function(cmd) {
     var p = new promise.Promise();
     var msg_id = promises.push(p)-1;
 
@@ -57,7 +113,33 @@ var PDFTeX = function(opt_workerPath) {
     return p;
   };
 
-  var determineChunkSize = function() {
+  self.createCommand = function(command) {
+    self[command] = function() {
+      var args = [].concat.apply([], arguments);
+
+      return self.sendCommand({
+        'command':  command,
+        'arguments': args,
+      });
+    }
+  }
+  self.createCommand('FS_createDataFile'); // parentPath, filename, data, canRead, canWrite
+  self.createCommand('FS_readFile'); // filename
+  self.createCommand('FS_unlink'); // filename
+  self.createCommand('FS_createFolder'); // parent, name, canRead, canWrite
+  self.createCommand('FS_createPath'); // parent, name, canRead, canWrite
+  self.createCommand('FS_createLazyFile'); // parent, name, canRead, canWrite
+  self.createCommand('FS_createLazyFilesFromList'); // parent, list, parent_url, canRead, canWrite
+  self.createCommand('set_TOTAL_MEMORY'); // size
+
+
+
+
+
+
+};
+
+ var determineChunkSize = function() {
     var size = 1024;
     var max = undefined; 
     var min = undefined;
@@ -97,78 +179,9 @@ var PDFTeX = function(opt_workerPath) {
 
     return size;
   };
-
-
-  var createCommand = function(command) {
-    self[command] = function() {
-      var args = [].concat.apply([], arguments);
-
-      return sendCommand({
-        'command':  command,
-        'arguments': args,
-      });
-    }
-  }
-  createCommand('FS_createDataFile'); // parentPath, filename, data, canRead, canWrite
-  createCommand('FS_readFile'); // filename
-  createCommand('FS_unlink'); // filename
-  createCommand('FS_createFolder'); // parent, name, canRead, canWrite
-  createCommand('FS_createPath'); // parent, name, canRead, canWrite
-  createCommand('FS_createLazyFile'); // parent, name, canRead, canWrite
-  createCommand('FS_createLazyFilesFromList'); // parent, list, parent_url, canRead, canWrite
-  createCommand('set_TOTAL_MEMORY'); // size
-
-  var curry = function(obj, fn, args) {
+  
+    curry = function(obj, fn, args) {
     return function() {
       return obj[fn].apply(obj, args);
     }
   }
-
-  self.compile = function(source_code) {
-    var p = new promise.Promise();
-
-    self.compileRaw(source_code).then(function(binary_pdf) {
-      if(binary_pdf === false)
-        return p.done(false);
-
-      pdf_dataurl = 'data:application/pdf;charset=binary;base64,' + window.btoa(binary_pdf);
-
-      return p.done(pdf_dataurl);
-    });
-    return p;
-  }
-
-  self.compileRaw = function(source_code) {
-    if(typeof(chunkSize) === "undefined")
-      chunkSize = determineChunkSize();
-
-    var commands;
-    if(initialized)
-      commands = [
-        curry(self, 'FS_unlink', ['/input.tex']),
-      ];
-    else
-      commands = [
-        curry(self, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true]),
-        curry(self, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
-      ];
-
-    var sendCompile = function() {
-      initialized = true;
-      return sendCommand({
-        'command': 'run',
-        'arguments': ['-interaction=nonstopmode', '-output-format', 'pdf', 'input.tex'],
-//        'arguments': ['-debug-format', '-output-format', 'pdf', '&latex', 'input.tex'],
-      });
-    };
-
-    var getPDF = function() {
-      console.log(arguments);
-      return self.FS_readFile('/input.pdf');
-    }
-
-    return promise.chain(commands)
-      .then(sendCompile)
-      .then(getPDF);
-  };
-};

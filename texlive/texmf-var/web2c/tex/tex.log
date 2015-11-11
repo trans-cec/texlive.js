@@ -1,8 +1,10 @@
-This is TeX, Version 3.14159265 (TeX Live 2015) (INITEX)  30 OCT 2015 17:24
+This is TeX, Version 3.14159265 (TeX Live 2015) (INITEX)  11 NOV 2015 14:26
 **tex.ini
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/tex.ini
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/base/plain.tex
-Preloading the plain format: codes, registers,
+
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/config/te
+x.ini
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/base/plai
+n.tex Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
 \centering=\skip11
@@ -20,13 +22,13 @@ Preloading the plain format: codes, registers,
 \jot=\dimen14
 \interdisplaylinepenalty=\count23
 \interfootnotelinepenalty=\count24
- fonts, more fonts,
+ fonts,
+more fonts,
 \itfam=\fam4
 \slfam=\fam5
 \bffam=\fam6
 \ttfam=\fam7
-
-macros,
+ macros,
 \strutbox=\box11
 \mscount=\count25
 \tabs=\box12
@@ -41,11 +43,11 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex)) )
+(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
+hyphen.tex)) )
 Beginning to dump on file tex.fmt
- (preloaded format=tex 2015.10.30)
-2027 strings of total length 29495
+ (preloaded format=tex 2015.11.11)
+2027 strings of total length 29558
 4990 memory locations dumped; current usage is 110&4877
 926 multiletter control sequences
 \font\nullfont=nullfont

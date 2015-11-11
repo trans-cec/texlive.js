@@ -12,7 +12,10 @@
 %% See 00readme.txt for details.
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{fix2col}
-       [1998/08/17 v0.03 Output Routine fixes for two column mode (DPC,FMi)]
+       [2015/11/13 v0.04 Output Routine fixes for two column mode (DPC,FMi)]
+\@ifl@t@r\fmtversion{2014/12/31}
+{\PackageWarningNoLine{fix2col}{Obsolete package: ignored}\endinput}
+{}
 \def\@outputdblcol{%
   \if@firstcolumn
     \global\@firstcolumnfalse
