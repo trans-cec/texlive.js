@@ -24,27 +24,30 @@ CFG_OPTS_COMMON=\
 
 
 
-all: pdftex-worker.js texlive.lst
+all: pdftex bibtex texlive.lst
 
 test:
 	makefile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 	cur_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
 $(TLFILE):
-	wget -nc "http://mirrors.ctan.org/systems/texlive/Source/${TLFILE}
+	@echo "downloading Texlive"
+	wget -nc "http://mirrors.ctan.org/systems/texlive/Source/${TLFILE}"
 
 $(TLDIR): $(TLFILE)
+	@echo "unpacking sources"
 	rm -rf ${TLDIR}
 	tar -xf ${TLFILE}
 
-binary/tangle binary/tie binary/web2c: $(TLDIR)
+%tangle %tie %web2c: $(TLDIR)
+	@echo "building web2c binaries"
 	rm -rf tmp&&mkdir tmp
 	rm -rf binary&&mkdir binary
-	cd tmp&&../${TLDIR}/configure -C $(CFG_OPTS_COMMON) --disable-ptex --enable-pdftex
-	cd tmp&&make
-	cd tmp/texk/web2c&&make pdftex
+	cd tmp&&../${TLDIR}/configure -C $(CFG_OPTS_COMMON) --disable-ptex --enable-pdftex &>configure.log
+	cd tmp&&make &>make.log
+	cd tmp/texk/web2c&&make pdftex &>make.log
 	cp -rp tmp/texk/web2c/{tangle,tie,web2c} binary/
-	rm -rf tmp
+	#rm -rf tmp
 
 .PHONY: tangle tie web2c
 tangle tie web2c: binary/tangle binary/tie binary/web2c
@@ -56,31 +59,48 @@ build:
 	mkdir build
 
 build/Makefile: $(TLDIR) | build
+	@echo "configure.."
 	cd build&& \
 		CONFIG_SHELL=/bin/bash \
 	   	EMCONFIGURE_JS=0 \
-		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex CFLAGS=-DELIDE_CODE \
-		2>&1|tee configure.log
+		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex --enable-bibtex CFLAGS=-DELIDE_CODE \
+		&>configure.log
 
-build/texk/web2c/Makefile: build/Makefile
-	cd build&& ax_cv_c_float_words_bigendian=no emconfigure make 2>&1|tee make.log
+%texk/web2c/Makefile %texk/kpathsea/Makefile: build/Makefile
+	@echo "make in TeXLive root.."
+	cd build&& ax_cv_c_float_words_bigendian=no emconfigure make &>make.log
 
-kpathsea: $(TLDIR)
+build/texk/kpathsea/rebuild.stamp: build/texk/kpathsea/Makefile
+	cd build/texk/kpathsea/&&emmake make rebuild &> make.log
 
-pdftex.bc: binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile
-	cp -rp binary/{tangle,tie,web2c} build/texk/web2c/
-	cd build/texk/web2c && emmake make pdftex  -o tangle -o tie -o web2c -o web2c/makecpool
+.PHONY: kpathsea
+kpathsea: build/texk/kpathsea/rebuild.stamp
+	
+
+pdftex.bc: binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile kpathsea
+	@echo "make pdftex"
+	cp -rfp binary/{tangle,tie,web2c} build/texk/web2c/
+	cd build/texk/web2c && emmake make pdftex  -o tangle -o tie -o web2c -o web2c/makecpool &>pdftex.log
 	opt -strip-debug build/texk/web2c/pdftex >pdftex.bc
 
 pdftex-worker.js: pdftex-pre.js pdftex-post.js pdftex.bc
-	OBJFILES=$$(for i in `find build/texk/web2c/lib build/texk/kpathsea -name '*.o'` ; do llvm-nm $$i | grep main >/dev/null || echo $$i ; done) && \
+	@echo "create pdftex worker"
+	#OBJFILES=$$(for i in `find build/texk/web2c/lib build/texk/kpathsea -name '*.o'` ; do llvm-nm $$i | grep main >/dev/null || echo $$i ; done) && \
 		emcc  --memory-init-file 0 -v --closure 1 -s TOTAL_MEMORY=$$((128*1024*1024)) -O3  pdftex.bc -s INVOKE_RUN=0 --pre-js pdftex-pre.js --post-js pdftex-post.js -o pdftex-worker.js
+.PHONY: pdftex
 pdftex: pdftex-worker.js
 
-bibtex.bc:
+bibtex.bc:  binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile kpathsea
+	@echo "make bibtex"
+	cp -rfp binary/{tangle,tie,web2c} build/texk/web2c/
+	cd build/texk/web2c && emmake make bibtex  -o tangle &> bibtex.log
+	opt -strip-debug build/texk/web2c/bibtex >bibtex.bc
 
-bibtex-worker.js: bibtex-pre.js bibtex-post.js
 
+bibtex-worker.js: bibtex-pre.js bibtex-post.js bibtex.bc
+	emcc  --memory-init-file 0 --closure 1 -v -O3 --pre-js bibtex-pre.js --post-js bibtex-post.js  bibtex.bc -o bibtex-worker.js
+
+.PHONY: bibtex
 bibtex: bibtex-worker.js
 
 install-tl-unx.tar.gz:
@@ -95,9 +115,9 @@ texlive: install-tl-unx.tar.gz
 	echo TEXMFSYSVAR `pwd`/texlive/texmf-var >> texlive/profile.input
 	echo TEXMFSYSCONFIG `pwd`/texlive/texmf-config >> texlive/profile.input
 	echo TEXMFVAR `pwd`/home/texmf-var >> texlive/profile.input
-	echo "Installing Texlive"
-	cd texlive && ./install-tl-*/install-tl -profile profile.input
-	echo "Removing unnecessary files"
+	@echo "Installing Texlive"
+	@cd texlive && ./install-tl-*/install-tl -profile profile.input
+	@echo "Removing unnecessary files"
 	cd texlive && rm -rf bin readme* tlpkg install* *.html texmf-dist/doc
 
 texlive.lst: texlive
@@ -112,7 +132,9 @@ clean:
 	rm -f install-tl-unx.tar.gz
 	rm -f texlive.lst
 	rm -f pdftex-worker.js
+	rm -f bibtex-worker.js
 	rm -f pdftex.bc
+	rm -f bibtex.bc
 	rm -rf texlive
 
 dist:
@@ -122,4 +144,5 @@ dist:
 	rm -rf texlive-????????-source*
 	rm -f install-tl-unx.tar.gz
 	rm -f pdftex.bc
+	rm -f bibtex.bc
 
