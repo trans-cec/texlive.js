@@ -98,7 +98,7 @@ bibtex.bc:  binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile kpa
 
 
 bibtex-worker.js: bibtex-pre.js bibtex-post.js bibtex.bc
-	emcc  --memory-init-file 0 --closure 1 -v -O3 --pre-js bibtex-pre.js --post-js bibtex-post.js  bibtex.bc -o bibtex-worker.js
+	emcc  --memory-init-file 0 --closure 1 -v -O3 --pre-js bibtex-pre.js --post-js bibtex-post.js -s INVOKE_RUN=0 bibtex.bc -o bibtex-worker.js
 
 .PHONY: bibtex
 bibtex: bibtex-worker.js
