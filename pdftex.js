@@ -4,26 +4,25 @@ var TeXLive = function(opt_workerPath) {
   if (!opt_workerPath) {
     opt_workerPath = '';
   }
-  
+
   var pdftex=new component(opt_workerPath+'pdftex-worker.js');
   pdftex.compile = function(source_code) {
     var p = new promise.Promise();
     pdftex.compileRaw(source_code).then(function(binary_pdf) {
       if(binary_pdf === false)
         return p.done(false);
-  
+
       pdf_dataurl = 'data:application/pdf;charset=binary;base64,' + window.btoa(binary_pdf);
-  
+
       return p.done(pdf_dataurl);
     });
     return p;
   }
-  
+
   pdftex.compileRaw = function(source_code) {
-    if(typeof(chunkSize) === "undefined")
-      
+   var self=this;
     var commands;
-    if(this.initialized)
+    if(self.initialized)
       commands = [
         curry(self, 'FS_unlink', ['/input.tex']),
       ];
@@ -32,21 +31,20 @@ var TeXLive = function(opt_workerPath) {
         curry(pdftex, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true]),
         curry(pdftex, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
       ];
-  
+
     var sendCompile = function() {
-      this.initialized = true;
+      self.initialized = true;
       return self.sendCommand({
         'command': 'run',
         'arguments': ['-interaction=nonstopmode', '-output-format', 'pdf', 'input.tex'],
   //        'arguments': ['-debug-format', '-output-format', 'pdf', '&latex', 'input.tex'],
       });
     };
-  
+
     var getPDF = function() {
-      console.log(arguments);
       return self.FS_readFile('/input.pdf');
     }
-  
+
     return promise.chain(commands)
       .then(sendCompile)
       .then(getPDF);
@@ -58,10 +56,8 @@ var TeXLive = function(opt_workerPath) {
 
 var component = function(workerPath) {
   var worker = new Worker(workerPath);
-  var self = component.prototype;
-  var initialized = false;
-  self.initialized=initialized;
-  
+  var self = this;
+  self.initialized=false;
   self.on_stdout = function(msg) {
     console.log(msg);
   }
@@ -141,7 +137,7 @@ var component = function(workerPath) {
 
  var determineChunkSize = function() {
     var size = 1024;
-    var max = undefined; 
+    var max = undefined;
     var min = undefined;
     var delta = size;
     var success = true;
@@ -179,7 +175,7 @@ var component = function(workerPath) {
 
     return size;
   };
-  
+
     curry = function(obj, fn, args) {
     return function() {
       return obj[fn].apply(obj, args);
