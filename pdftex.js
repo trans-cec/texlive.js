@@ -5,31 +5,107 @@ var TeXLive = function(opt_workerPath) {
     opt_workerPath = '';
   }
 
+
+  var component = function(workerPath) {
+    var self = this;
+    var worker = new Worker(workerPath);
+    self.terminate = function(){worker.terminate()};
+    self.initialized=false;
+    self.on_stdout = function(msg) {
+      console.log(msg);
+    }
+
+    self.on_stderr = function(msg) {
+      console.log(msg);
+    }
+    worker.onmessage = function(ev) {
+      var data = JSON.parse(ev.data);
+      var msg_id;
+      if(!('command' in data))
+        console.log("missing command!", data);
+      switch(data['command']) {
+        case 'ready':
+          onready.done(true);
+          break;
+        case 'stdout':
+        case 'stderr':
+          self['on_'+data['command']](data['contents']);
+          break;
+        default:
+          //console.debug('< received', data);
+          msg_id = data['msg_id'];
+          if(('msg_id' in data) && (msg_id in promises)) {
+            promises[msg_id].done(data['result']);
+          }
+          else
+            console.warn('Unknown worker message '+msg_id+'!');
+      }
+    }
+    var onready = new promise.Promise();
+    var promises = [];
+    var chunkSize = undefined;
+    self.sendCommand = function(cmd) {
+      var p = new promise.Promise();
+      var msg_id = promises.push(p)-1;
+      onready.then(function() {
+        cmd['msg_id'] = msg_id;
+        worker.postMessage(JSON.stringify(cmd));
+      });
+      return p;
+    };
+    self.createCommand = function(command) {
+      self[command] = function() {
+        var args = [].concat.apply([], arguments);
+
+        return self.sendCommand({
+          'command':  command,
+          'arguments': args,
+        });
+      }
+    }
+    self.createCommand('FS_createDataFile'); // parentPath, filename, data, canRead, canWrite
+    self.createCommand('FS_readFile'); // filename
+    self.createCommand('FS_unlink'); // filename
+    self.createCommand('FS_createFolder'); // parent, name, canRead, canWrite
+    self.createCommand('FS_createPath'); // parent, name, canRead, canWrite
+    self.createCommand('FS_createLazyFile'); // parent, name, canRead, canWrite
+    self.createCommand('FS_createLazyFilesFromList'); // parent, list, parent_url, canRead, canWrite
+    self.createCommand('set_TOTAL_MEMORY'); // size
+  };
+
   var pdftex=new component(opt_workerPath+'pdftex-worker.js');
   pdftex.compile = function(source_code) {
+    var self=this;
     var p = new promise.Promise();
-    pdftex.compileRaw(source_code).then(function(binary_pdf) {
-      if(binary_pdf === false)
-        return p.done(false);
-
-      pdf_dataurl = 'data:application/pdf;charset=binary;base64,' + window.btoa(binary_pdf);
-
-      return p.done(pdf_dataurl);
-    });
+    pdftex.compileRaw(source_code).then(
+      function(binary_pdf) {
+        if(binary_pdf === false)
+          return p.done(false);
+        pdf_dataurl = 'data:application/pdf;charset=binary;base64,' + window.btoa(binary_pdf);
+        return p.done(pdf_dataurl);
+      });
     return p;
-  }
-
+  };
   pdftex.compileRaw = function(source_code) {
-   var self=this;
+     var self=this;
+     return pdftex.run(source_code).then(
+      function() {
+        return self.FS_readFile('/input.pdf');
+      }
+    );
+  };
+  pdftex.run = function(source_code) {
+    var self=this;
     var commands;
     if(self.initialized)
       commands = [
         curry(self, 'FS_unlink', ['/input.tex']),
+        curry(self, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true])
       ];
     else
       commands = [
-        curry(pdftex, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true]),
-        curry(pdftex, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
+        curry(self, 'FS_createDataFile', ['/', 'input.tex', source_code, true, true]),
+        curry(self, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
       ];
 
     var sendCompile = function() {
@@ -40,101 +116,61 @@ var TeXLive = function(opt_workerPath) {
   //        'arguments': ['-debug-format', '-output-format', 'pdf', '&latex', 'input.tex'],
       });
     };
-
-    var getPDF = function() {
-      return self.FS_readFile('/input.pdf');
-    }
-
     return promise.chain(commands)
       .then(sendCompile)
-      .then(getPDF);
   };
   TeXLive.prototype.pdftex = pdftex;
-//var bibtex = new component(opt_workerPath+'bibtex-worker.js');
 
-} ;
-
-var component = function(workerPath) {
-  var worker = new Worker(workerPath);
-  var self = this;
-  self.initialized=false;
-  self.on_stdout = function(msg) {
-    console.log(msg);
-  }
-
-  self.on_stderr = function(msg) {
-    console.log(msg);
-  }
-
-
-  worker.onmessage = function(ev) {
-    var data = JSON.parse(ev.data);
-    var msg_id;
-
-    if(!('command' in data))
-      console.log("missing command!", data);
-    switch(data['command']) {
-      case 'ready':
-        onready.done(true);
-        break;
-      case 'stdout':
-      case 'stderr':
-        self['on_'+data['command']](data['contents']);
-        break;
-      default:
-        //console.debug('< received', data);
-        msg_id = data['msg_id'];
-        if(('msg_id' in data) && (msg_id in promises)) {
-          promises[msg_id].done(data['result']);
-        }
-        else
-          console.warn('Unknown worker message '+msg_id+'!');
-    }
-  }
-
-  var onready = new promise.Promise();
-  var promises = [];
-  var chunkSize = undefined;
-
-  self.sendCommand = function(cmd) {
+  var bibtex = new component(opt_workerPath+'bibtex-worker.js');
+  bibtex.compile = function(aux){
+    var self=this;
     var p = new promise.Promise();
-    var msg_id = promises.push(p)-1;
-
-    onready.then(function() {
-      cmd['msg_id'] = msg_id;
-      //console.debug('> sending', cmd);
-      worker.postMessage(JSON.stringify(cmd));
-    });
-
+    bibtex.compileRaw(aux).then(
+      function(binary_bbl) {
+        if(binary_bbl === false)
+          return p.done(false);
+        pdf_dataurl = 'data:text/plain;charset=binary;base64,' + window.btoa(binary_bbl);
+        return p.done(pdf_dataurl);
+      });
     return p;
   };
-
-  self.createCommand = function(command) {
-    self[command] = function() {
-      var args = [].concat.apply([], arguments);
-
+  bibtex.compileRaw = function(aux) {
+     var self=this;
+     return bibtex.run(aux).then(
+      function() {
+        return self.FS_readFile('/input.bbl');
+      }
+    );
+  };
+  bibtex.run = function(source_code) {
+    var self=this;
+    var commands;
+    if(self.initialized)
+      commands = [
+        curry(self, 'FS_unlink', ['/input.aux']),
+        curry(self, 'FS_createDataFile', ['/', 'input.aux', aux, true, true])
+      ];
+    else
+      commands = [
+        curry(self, 'FS_createDataFile', ['/', 'input.aux', aux, true, true]),
+        curry(self, 'FS_createLazyFilesFromList', ['/', 'texlive.lst', './texlive', true, true]),
+      ];
+    var sendCompile = function() {
+      self.initialized = true;
       return self.sendCommand({
-        'command':  command,
-        'arguments': args,
+        'command': 'run',
+        'arguments': ['input.aux'],
       });
-    }
+    };
+    return promise.chain(commands)
+      .then(sendCompile)
+  };
+  TeXLive.prototype.bibtex=bibtex;
+  TeXLive.prototype.terminate = function(){
+    pdftex.terminate();
+    bibtex.terminate();
   }
-  self.createCommand('FS_createDataFile'); // parentPath, filename, data, canRead, canWrite
-  self.createCommand('FS_readFile'); // filename
-  self.createCommand('FS_unlink'); // filename
-  self.createCommand('FS_createFolder'); // parent, name, canRead, canWrite
-  self.createCommand('FS_createPath'); // parent, name, canRead, canWrite
-  self.createCommand('FS_createLazyFile'); // parent, name, canRead, canWrite
-  self.createCommand('FS_createLazyFilesFromList'); // parent, list, parent_url, canRead, canWrite
-  self.createCommand('set_TOTAL_MEMORY'); // size
-
-
-
-
-
-
 };
-
  var determineChunkSize = function() {
     var size = 1024;
     var max = undefined;
