@@ -1,6 +1,7 @@
-TLDATE = $(shell wget -qO- http://mirrors.ctan.org/systems/texlive/Source | grep -o 'texlive-[[:digit:]]*-source.tar.xz' | grep -o -m 1 '[[:digit:]]*')
+TLVERSION = $(shell wget -qO- http://mirrors.ctan.org/systems/texlive/Source | grep -o 'texlive-[^-]*-source.tar.xz' | grep -o -m1 '[0-9]\{8\}[^-]\?')
+TLDATE = $(shell echo ${TLVERSION}|grep -o [[:digit:]]*)
 TLDIR = texlive-${TLDATE}-source
-TLFILE = texlive-${TLDATE}-source.tar.xz
+TLFILE = texlive-${TLVERSION}-source.tar.xz
 SHELL=bash
 
 
@@ -38,6 +39,7 @@ $(TLDIR): $(TLFILE)
 	@echo "unpacking sources"
 	rm -rf ${TLDIR}
 	tar -xf ${TLFILE}
+	touch ${TLDIR}
 
 %tangle %tie %web2c: $(TLDIR)
 	@echo "building web2c binaries"
@@ -63,7 +65,7 @@ build/Makefile: $(TLDIR) | build
 	cd build&& \
 		CONFIG_SHELL=/bin/bash \
 	   	EMCONFIGURE_JS=0 \
-		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex --enable-bibtex CFLAGS=-DELIDE_CODE \
+		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex --enable-bibtex CFLAGS="-DELIDE_CODE -Wno-implicit"\
 		&>configure.log
 
 %texk/web2c/Makefile %texk/kpathsea/Makefile: build/Makefile
