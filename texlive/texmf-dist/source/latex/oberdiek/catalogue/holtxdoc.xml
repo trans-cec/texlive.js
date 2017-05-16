@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1999-2012'/>
   <license type='lppl1.3'/>
-  <version number='0.24'/>
+  <version number='0.27'/>
   <description>
     These are personal macros, which are not necessarily useful to
     other authors (they are provided as part off the source of others

@@ -9,7 +9,7 @@
 %% This is a generated file.
 %% 
 %% Project: stringenc
-%% Version: 2011/12/02 v1.10
+%% Version: 2016/05/16 v1.11
 %% 
 %% Copyright (C) 2007-2011 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -49,7 +49,7 @@
 %%    se-cp1257.def, stringenc-test1.tex, stringenc-test2.tex.
 %% 
 \ProvidesFile{se-ascii-print.def}%
-  [2011/12/02 v1.10 stringenc: Printable ASCII characters]%
+  [2016/05/16 v1.11 stringenc: Printable ASCII characters]%
 \expandafter\gdef\csname\SE@PrefixTo ascii-print\endcsname#1#2#3#4{%
   \ifnum"#1#2=\ltx@zero
     \ifnum"#3#4<127 %

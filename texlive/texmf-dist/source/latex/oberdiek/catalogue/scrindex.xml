@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2008'/>
   <license type='lppl1.3'/>
-  <version number='1.1'/>
+  <version number='1.2'/>
   <description>
     This package redefines environment `theindex' of package `index',
     if a class from <xref refid='koma-script'>KOMA-Script</xref> is loaded.

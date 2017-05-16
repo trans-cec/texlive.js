@@ -13,7 +13,7 @@
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
 %% 
-%% Copyright 1993-2015
+%% Copyright 1993-2016
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 

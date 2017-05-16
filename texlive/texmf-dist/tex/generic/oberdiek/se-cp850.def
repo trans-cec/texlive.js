@@ -9,7 +9,7 @@
 %% This is a generated file.
 %% 
 %% Project: stringenc
-%% Version: 2011/12/02 v1.10
+%% Version: 2016/05/16 v1.11
 %% 
 %% Copyright (C) 2007-2011 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -48,7 +48,7 @@
 %%    se-cp865.def, se-cp866.def, se-cp1250.def, se-cp1251.def,
 %%    se-cp1257.def, stringenc-test1.tex, stringenc-test2.tex.
 %% 
-\ProvidesFile{se-cp850.def}[2011/12/02 v1.10 stringenc: cp850]
+\ProvidesFile{se-cp850.def}[2016/05/16 v1.11 stringenc: cp850]
 \def\SE@this{cp850}
 \global\expandafter\let\csname\SE@PrefixTo\SE@this\endcsname
                        \SE@to@general

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1998,2000,2006,2008,2010,2011'/>
   <license type='lppl1.3'/>
-  <version number='3.4'/>
+  <version number='3.5'/>
   <description>
     Provides commands <tt>\setcounterref</tt> and
     <tt>\addtocounterref</tt> which use the section (or whatever)

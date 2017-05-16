@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1999,2003,2006-2008'/>
   <license type='lppl1.3'/>
-  <version number='1.8'/>
+  <version number='1.9'/>
   <description>
     Selects single pages, ranges of pages, odd pages or even pages
     for output.

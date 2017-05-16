@@ -1,19 +1,14 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (INITEX)  11 NOV 2015 14:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (INITEX)  16 MAY 2017 14:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
- (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
+ (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
 ***latex.ini
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/latexconf
-ig/latex.ini
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/config/
-pdftexconfig.tex)
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/late
-x.ltx
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/texs
-ys.cfg)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/latexconfig/latex.ini
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/pdftexconfig.
+tex)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/texsys.cfg)
 \openout15 = `texsys.aux'.
 
 
@@ -36,14 +31,14 @@ catcodes, registers,
 \z@=\dimen12
 \z@skip=\skip11
 \voidb@x=\box10
- compatibility for TeX 2,  parameters,
+ parameters,
 \normalbaselineskip=\skip12
 \normallineskip=\skip13
 \normallineskiplimit=\dimen13
 \interfootnotelinepenalty=\count23
 \strutbox=\box11
 
-LaTeX2e <2015/10/01> patch level 2
+LaTeX2e <2017/01/01> patch level 3
 hacks,
 \@tempcnta=\count24
 \@tempcntb=\count25
@@ -82,49 +77,37 @@ hacks,
 Local config file fonttext.cfg used
 
 ====================================
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/font
-text.cfg
-File: fonttext.cfg 2014/09/29 v2.3a LaTeX Kernel (Uncustomised text font setup)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.cfg
+File: fonttext.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised text font setup)
 
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/font
-text.ltx
-File: fonttext.ltx 2014/09/29 v2.3a LaTeX Kernel (Text font setup)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.ltx
+File: fonttext.ltx 2016/12/03 v3.0a LaTeX Kernel (Text font setup)
 
 === Don't modify this file, use a .cfg file instead ===
 
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/omle
-nc.def
-File: omlenc.def 2005/09/27 v1.99g Standard LaTeX file
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omlenc.def
+File: omlenc.def 2017/02/22 v2.0g Standard LaTeX file
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/t1en
-c.def
-File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2017/02/22 v2.0g Standard LaTeX file
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/ot1e
-nc.def
-File: ot1enc.def 2005/09/27 v1.99g Standard LaTeX file
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1enc.def
+File: ot1enc.def 2017/02/22 v2.0g Standard LaTeX file
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/omse
-nc.def
-File: omsenc.def 2005/09/27 v1.99g Standard LaTeX file
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omsenc.def
+File: omsenc.def 2017/02/22 v2.0g Standard LaTeX file
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/t1cm
-r.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/t1cmr.fd
 File: t1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/ot1c
-mr.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmr.fd
 File: ot1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/ot1c
-mss.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmss.fd
 File: ot1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/ot1c
-mtt.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd
 File: ot1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )))
 ====================================
@@ -132,35 +115,27 @@ File: ot1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 Local config file fontmath.cfg used
 
 ====================================
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/font
-math.cfg
-File: fontmath.cfg 2014/09/29 v2.3a LaTeX Kernel (Uncustomised math font setup)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.cfg
+File: fontmath.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised math font setup)
 
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/font
-math.ltx
-File: fontmath.ltx 2014/09/29 v2.3a LaTeX Kernel (Math font setup)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.ltx
+File: fontmath.ltx 2016/12/03 v3.0a LaTeX Kernel (Math font setup)
 
 === Don't modify this file, use a .cfg file instead ===
 
-LaTeX Font Info:    Redeclaring font encoding OML on input line 59.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 60.
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/omlc
-mm.fd
+LaTeX Font Info:    Redeclaring font encoding OML on input line 44.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 45.
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omlcmm.fd
 File: omlcmm.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/omsc
-msy.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omscmsy.fd
 File: omscmsy.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/omxc
-mex.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omxcmex.fd
 File: omxcmex.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/ucmr
-.fd
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ucmr.fd
 File: ucmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 \symoperators=\mathgroup0
@@ -168,31 +143,29 @@ File: ucmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 \symsymbols=\mathgroup2
 \symlargesymbols=\mathgroup3
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 78.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 63.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/cmm/m/it --> OML/cmm/b/it on input line 79.
+(Font)                  OML/cmm/m/it --> OML/cmm/b/it on input line 64.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 80.
+(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 65.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 88.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/m/it --> OT1/cmr/bx/it on input line 89.
+(Font)                  OT1/cmr/m/it --> OT1/cmr/bx/it on input line 74.
 ))
 ====================================
 
 Local config file preload.cfg used
 
 =====================================
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/prel
-oad.cfg
-File: preload.cfg 2014/09/29 v2.3a LaTeX Kernel (Uncustomised preload font setu
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/preload.cfg
+File: preload.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised preload font setu
 p)
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/latex/base/prel
-oad.ltx
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/preload.ltx
 File: preload.ltx 2014/09/29 v2.1g LaTeX Kernel (Font Preloading)
-)) page nos., x-ref, environments, center,
+))
+page nos., x-ref, environments, center,
 \@rightskip=\skip21
  verbatim, math definitions,
 \jot=\dimen20
@@ -235,8 +208,7 @@ File: preload.ltx 2014/09/29 v2.1g LaTeX Kernel (Font Preloading)
 \c@enumiii=\count42
 \c@enumiv=\count43
 \@itemdepth=\count44
-
-boxes,
+ boxes,
 \fboxrule=\dimen35
 \fboxsep=\dimen36
 \@mplistdepth=\count45
@@ -296,7 +268,8 @@ boxes,
 \@dashdim=\dimen71
 \@dashbox=\box21
 \@dashcnt=\count58
- title, sectioning,
+
+title, sectioning,
 \@secpenalty=\count59
 \c@secnumdepth=\count60
 \c@tocdepth=\count61
@@ -307,8 +280,7 @@ boxes,
 \c@footnote=\count63
 \c@mpfootnote=\count64
 \footnotesep=\dimen72
- index, bibliography,
-output,
+ index, bibliography, output,
 \bx@A=\insert252
 \bx@B=\insert251
 \bx@C=\insert250
@@ -424,36 +396,30 @@ output,
 ===========================================
 Local configuration file hyphen.cfg used
 ===========================================
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
+File: hyphen.cfg 2016/04/23 3.9r Babel hyphens
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/babel/h
-yphen.cfg
-File: hyphen.cfg 2015/08/03 3.9m Babel hyphens
-
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/babel/s
-witch.def
-File: switch.def 2015/08/03 3.9m Babel switching mechanism
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/babel/switch.def
+File: switch.def 2016/04/23 3.9r Babel switching mechanism
 )
 \l@english=\language0
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
-hyphen.tex)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
 \l@usenglish=\language0
 \l@USenglish=\language0
 \l@american=\language0
 \l@dumylang=\language1
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
-dumyhyph.tex)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/dumyhyph.tex)
 \l@nohyphenation=\language2
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/hyphen/
-zerohyph.tex))
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/zerohyph.tex))
  ) )
 Beginning to dump on file latex.fmt
- (preloaded format=latex 2015.11.11)
-5030 strings of total length 70438
-44209 memory locations dumped; current usage is 144&43615
-3378 multiletter control sequences
+ (preloaded format=latex 2017.5.16)
+5054 strings of total length 69532
+44393 memory locations dumped; current usage is 144&43801
+3400 multiletter control sequences
 \font\nullfont=nullfont
 \font\OMX/cmex/m/n/10=cmex10
 \font\tenln=line10

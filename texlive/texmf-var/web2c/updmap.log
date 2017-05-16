@@ -1,35 +1,38 @@
-updmap version r37866 (2015-07-17 21:00:04 +0200)
-Wed Nov 11 14:26:16 2015
+updmap version r43628 (2017-03-28 19:55:13 +0200)
+Tue May 16 14:24:54 2017
 
 Using the following config files:
-  /home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg
+  /tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg
 
 updmap is creating new map files
 using the following configuration:
-  LW35 font names                  : URWkb (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
-  prefer outlines                  : true (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
+  LW35 font names                  : URWkb (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
+  prefer outlines                  : true (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
   texhash enabled                  : false
-  download standard fonts (dvips)  : true (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
-  download standard fonts (pdftex) : true (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
-  kanjiEmbed replacement string    : noEmbed (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
-  kanjiVariant replacement string  :  (default)
+  download standard fonts (dvips)  : true (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
+  download standard fonts (pdftex) : true (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
+  jaEmbed replacement string       : ipaex (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/updmap.cfg)
+  jaVariant replacement string     : <empty> (default)
+  scEmbed replacement string       : noEmbed (default)
+  tcEmbed replacement string       : noEmbed (default)
+  koEmbed replacement string       : noEmbed (default)
   create a mapfile for pxdvi       : false (default)
 
 Scanning for LW35 support files
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/dvips35.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/pdftex35.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/ps2pk35.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/dvips35.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/pdftex35.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/ps2pk35.map
 
   [  3 files]
 
 Scanning for MixedMap entries
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cm.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cmextra.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/cm/cmtext-bsr-interpolated.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cyrillic.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/latxfont.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/symbols.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cm.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cmextra.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/cm/cmtext-bsr-interpolated.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cyrillic.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/latxfont.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/symbols.map
 
     [  6 files]
 
@@ -38,19 +41,19 @@ Scanning for KanjiMap entries
     [  0 files]
 
 Scanning for Map entries
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/charter.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/dummy-space/dummy-space.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/euler.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/fpls.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/mathpple.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/pazo.map
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/utopia.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/charter.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/dummy-space/dummy-space.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/euler.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/fpls.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/mathpple.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/pazo.map
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/utopia.map
 
          [  7 files]
 
 
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/ps2pk35.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/ps2pk35.map:
 cob
 cobo
 com
@@ -303,7 +306,7 @@ tmui108r
 zd
 zpzdr-reversed
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/dvips35.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/dvips35.map:
 cob
 cobo
 com
@@ -555,7 +558,7 @@ tmui108r
 zd
 zpzdr-reversed
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/pdftex35.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/pdftex35.map:
 cob
 cobo
 com
@@ -808,7 +811,7 @@ tmui108r
 zd
 zpzdr-reversed
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cm.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cm.map:
 cmb10
 cmbsy10
 cmbx10
@@ -886,7 +889,7 @@ cmtt9
 cmu10
 cmvtt10
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cmextra.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cmextra.map:
 cmbsy5
 cmbsy6
 cmbsy7
@@ -902,7 +905,7 @@ cmmib7
 cmmib8
 cmmib9
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/cm/cmtext-bsr-interpolated.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/cm/cmtext-bsr-interpolated.map:
 cmbxti12
 cmbxti7
 cmitt12
@@ -910,7 +913,7 @@ cmitt9
 cmsl6
 cmsltt9
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cyrillic.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/cyrillic.map:
 wncyb10
 wncyb5
 wncyb6
@@ -934,7 +937,7 @@ wncyss10
 wncyss8
 wncyss9
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/latxfont.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/latxfont.map:
 lasy10
 lasy5
 lasy6
@@ -950,7 +953,7 @@ lcmssi8
 line10
 linew10
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/symbols.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/symbols.map:
 msam10
 msam5
 msam6
@@ -964,7 +967,7 @@ msbm7
 msbm8
 msbm9
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/charter.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/charter.map:
 bchb8r
 bchbi8r
 bchbo8r
@@ -972,10 +975,10 @@ bchr8r
 bchri8r
 bchro8r
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/dummy-space/dummy-space.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/dummy-space/dummy-space.map:
 dummy-space
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/euler.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/amsfonts/euler.map:
 euex10
 euex7
 euex8
@@ -1017,24 +1020,24 @@ eusm7
 eusm8
 eusm9
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/fpls.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/fpls.map:
 pplbij8r
 pplbj8r
 pplrc8r
 pplrij8r
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/mathpple.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/tetex/mathpple.map:
 eurbo10
 eurmo10
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/pazo.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/pazo.map:
 fplmb
 fplmbb
 fplmbi
 fplmr
 fplmri
 
-/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/utopia.map:
+/tmp/tex/texlive.js/texlive/texmf-dist/fonts/map/dvips/psnfss/utopia.map:
 putb8r
 putbi8r
 putbo8r
@@ -1043,16 +1046,16 @@ putri8r
 putro8r
 
 Files generated:
-  /home/thunder/emsdk_portable/texlive.js/texlive/texmf-var/fonts/map/dvips/updmap:
-       15844 2015-11-11 14:26:16 builtin35.map
-       21317 2015-11-11 14:26:16 download35.map
-       23991 2015-11-11 14:26:16 psfonts_pk.map
-       27842 2015-11-11 14:26:16 psfonts_t1.map
-       27837 2015-11-11 14:26:16 ps2pk.map
-          14 2015-11-11 14:26:16 psfonts.map -> psfonts_t1.map
-  /home/thunder/emsdk_portable/texlive.js/texlive/texmf-var/fonts/map/pdftex/updmap:
-       27844 2015-11-11 14:26:16 pdftex_dl14.map
-       26179 2015-11-11 14:26:16 pdftex_ndl14.map
-          15 2015-11-11 14:26:16 pdftex.map -> pdftex_dl14.map
-  /home/thunder/emsdk_portable/texlive.js/texlive/texmf-var/fonts/map/dvipdfmx/updmap:
-         367 2015-11-11 14:26:16 kanjix.map
+  /tmp/tex/texlive.js/texlive/texmf-var/fonts/map/dvips/updmap:
+       15804 2017-05-16 14:24:54 builtin35.map
+       21277 2017-05-16 14:24:54 download35.map
+       23951 2017-05-16 14:24:54 psfonts_pk.map
+       27802 2017-05-16 14:24:54 psfonts_t1.map
+       27797 2017-05-16 14:24:54 ps2pk.map
+          14 2017-05-16 14:24:54 psfonts.map -> psfonts_t1.map
+  /tmp/tex/texlive.js/texlive/texmf-var/fonts/map/pdftex/updmap:
+       27804 2017-05-16 14:24:54 pdftex_dl14.map
+       26139 2017-05-16 14:24:54 pdftex_ndl14.map
+          15 2017-05-16 14:24:54 pdftex.map -> pdftex_dl14.map
+  /tmp/tex/texlive.js/texlive/texmf-var/fonts/map/dvipdfmx/updmap:
+         327 2017-05-16 14:24:54 kanjix.map

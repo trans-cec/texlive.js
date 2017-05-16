@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2009-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.8'/>
+  <version number='1.9'/>
   <description>
     This LaTeX packages provides two hooks for <tt>\end{document}</tt>
     that are executed after the hook of <tt>\AtEndDocument</tt>:

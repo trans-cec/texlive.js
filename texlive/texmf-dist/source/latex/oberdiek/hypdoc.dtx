@@ -1,11 +1,13 @@
 % \iffalse meta-comment
 %
 % File: hypdoc.dtx
-% Version: 2011/08/19 v1.11
+% Version: 2016/10/02 v1.13
 % Info: Hyper extensions for doc.sty
 %
 % Copyright (C) 2002, 2006, 2007, 2009-2011 by
 %    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+%    2016
+%    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -75,7 +77,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: hypdoc 2011/08/19 v1.11 Hyper extensions for doc.sty (HO)}
+\Msg{* Package: hypdoc 2016/10/02 v1.13 Hyper extensions for doc.sty (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -87,7 +89,7 @@
 This is a generated file.
 
 Project: hypdoc
-Version: 2011/08/19 v1.11
+Version: 2016/10/02 v1.13
 
 Copyright (C) 2002, 2006, 2007, 2009-2011 by
    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -148,7 +150,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{hypdoc.drv}%
-  [2011/08/19 v1.11 Hyper extensions for doc.sty (HO)]%
+  [2016/10/02 v1.13 Hyper extensions for doc.sty (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \begin{document}
@@ -157,7 +159,6 @@ and the derived files
 %</driver>
 % \fi
 %
-% \CheckSum{718}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -178,8 +179,10 @@ and the derived files
 % \GetFileInfo{hypdoc.drv}
 %
 % \title{The \xpackage{hypdoc} package}
-% \date{2011/08/19 v1.11}
-% \author{Heiko Oberdiek\\\xemail{heiko.oberdiek at googlemail.com}}
+% \date{2016/10/02 v1.13}
+% \author{Heiko Oberdiek\thanks
+% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
+% \xemail{heiko.oberdiek at googlemail.com}}
 %
 % \maketitle
 %
@@ -355,7 +358,7 @@ and the derived files
 %<*package>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{hypdoc}%
-  [2011/08/19 v1.11 Hyper extensions for doc.sty (HO)]%
+  [2016/10/02 v1.13 Hyper extensions for doc.sty (HO)]%
 %    \end{macrocode}
 %    The package identification is done at the top of the |.dtx| file
 %    in order to use only one identification string.
@@ -560,7 +563,7 @@ and the derived files
   \else
     \stepcounter{HD@unique}%
     \pdfbookmark[\HD@guesstoclevel{\HDorg@listoffigures}]%
-        {\contentsname}{toc\theHD@unique}%
+        {\listfigurename}{toc\theHD@unique}%
   \fi
   \begingroup
     \HD@sectionpatch
@@ -584,7 +587,7 @@ and the derived files
   \else
     \stepcounter{HD@unique}%
     \pdfbookmark[\HD@guesstoclevel{\HDorg@listoftables}]%
-        {\contentsname}{toc\theHD@unique}%
+        {\listtablename}{toc\theHD@unique}%
   \fi
   \begingroup
     \HD@sectionpatch
@@ -719,7 +722,7 @@ and the derived files
         \let\Hy@writebookmark\HDorg@writebookmark
         \stepcounter{HD@unique}%
         \pdfbookmark[\HD@guesstoclevel{\HDorg@glossary@prologue}]%
-            {\glossaryname}{glossary\theHD@unique}%
+            {\changehistoryname}{glossary\theHD@unique}%
       \endgroup
     \fi
     \HDorg@glossary@prologue
@@ -731,6 +734,12 @@ and the derived files
 %    \begin{macro}{\glossaryname}
 %    \begin{macrocode}
 \providecommand*{\glossaryname}{Change History}
+%    \end{macrocode}
+%    \end{macro}
+%
+%    \begin{macro}{\glossaryname}
+%    \begin{macrocode}
+\providecommand*{\changehistoryname}{\glossaryname}
 %    \end{macrocode}
 %    \end{macro}
 %
@@ -1137,7 +1146,7 @@ and the derived files
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{ftp://ftp.ctan.org/tex-archive/}}:
+% CTAN\footnote{\url{http://ctan.org/pkg/hypdoc}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/hypdoc.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/hypdoc.pdf}] Documentation.
@@ -1330,7 +1339,7 @@ and the derived files
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2002,2006,2007,2009-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.11'/>
+  <version number='1.13'/>
   <description>
     This package adds hypertext features to the package
     <xref refid='doc'>doc</xref> that is used in the documentation
@@ -1412,6 +1421,14 @@ and the derived files
 %   \item
 %     Latest comma in option list for hyperref removed to avoid option clash
 %     because of \hologo{LaTeX} 2011/06/27 with the new \cs{in@}.
+%   \end{Version}
+%   \begin{Version}{2016/05/16 v1.12}
+%   \item
+%     Documentation updates.
+%   \end{Version}
+%   \begin{Version}{2016/10/02 v1.13}
+%   \item
+%     Fixes to bookmarknames, also introduce \cs{changehistoryname}
 %   \end{Version}
 % \end{History}
 %

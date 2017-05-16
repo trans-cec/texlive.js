@@ -1,6 +1,24 @@
 (This file public domain.  Originally written by Norbert Preining and
 Karl Berry, 2010.)
 
+<p><b>tlmgr 41258 (TeX Live 2016):</b>
+<li>support for system-level configuration files in 
+<tt>TEXMFSYSCONFIG/tlmgr/config</tt>, where a restricted set of allowed
+actions can be defined, in addition to the usual tlmgr config file
+directives.
+<li>the font and other gui controls can be specified as options to the
+<tt>gui</tt> action.
+<li>verify package checksums during installation; sha-512 used instead
+of md5 for checksums; new config file setting <tt>no-checksums</tt>.
+<li>gpg verification supported, with new action <tt>key</tt> and new
+options and config settings <tt>--require-verification</tt> and
+<tt>verify-downloads</tt>.
+<li>unify installer and tlmgr package installation implementations.
+
+<p><b>tlmgr revision 39198 (released 5jan16):</b>
+<li>message and doc changes.
+<li>ConTeXt paper size changes.
+
 <p><b>tlmgr revision 37738 (released 3jul15):</b>
 <li>more accurate error codes, e.g., for paper sizes.
 <li>info searches titles, descriptions, file names, topics if available.

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2011,2012'/>
   <license type='lppl1.3'/>
-  <version number='1.13'/>
+  <version number='1.14'/>
   <description>
     The package offers a means of loading a bundle of (other) packages
     &#x201C;at once&#x201D;, offering a means of reducing the amount of log output

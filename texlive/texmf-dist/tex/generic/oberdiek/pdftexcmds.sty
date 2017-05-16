@@ -9,7 +9,7 @@
 %% This is a generated file.
 %% 
 %% Project: pdftexcmds
-%% Version: 2011/11/29 v0.20
+%% Version: 2017/03/19 v0.25
 %% 
 %% Copyright (C) 2007, 2009-2011 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -104,7 +104,7 @@
   \fi
 \expandafter\x\csname ver@pdftexcmds.sty\endcsname
 \ProvidesPackage{pdftexcmds}%
-  [2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)]%
+  [2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
   \catcode13=5 % ^^M
   \endlinechar=13 %
@@ -275,7 +275,7 @@
       if tex.enableprimitives then
         tex.enableprimitives(
           'pdf@',
-          {'primitive', 'ifprimitive', 'pdfdraftmode'}
+          {'primitive', 'ifprimitive', 'pdfdraftmode','draftmode'}
         )
         tex.enableprimitives('', {'luaescapestring'})
       end
@@ -298,14 +298,15 @@
     \fi
   \fi
 }
-\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX
-\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% LuaTeX
-\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% LuaTeX
-\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX
-\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% LuaTeX
-\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% LuaTeX
+\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX, luatex
+\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX, luatex
+\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% oldLuaTeX
+\ifluatex\else
 \begingroup
   \expandafter\ifx\csname pdf@primitive\endcsname\relax
   \else
@@ -329,6 +330,7 @@
     \fi
   \fi
 \endgroup
+\fi
 \begingroup
   \@PackageInfoNoLine{pdftexcmds}{%
     \string\pdf@primitive\space is %
@@ -410,6 +412,9 @@
   \fi
 }
 \ifluatex
+\ifx\pdfdraftmode\@undefined
+  \let\pdfdraftmode\draftmode
+\fi
 \else
   \pdf@isprimitive
 \fi
@@ -474,20 +479,22 @@
 \else
   \expandafter\pdftexcmds@AtEnd
 \fi%
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname RequirePackage\endcsname\relax
-  \def\TMP@RequirePackage#1[#2]{%
-    \begingroup\expandafter\expandafter\expandafter\endgroup
-    \expandafter\ifx\csname ver@#1.sty\endcsname\relax
-      \input #1.sty\relax
-    \fi
-  }%
-  \TMP@RequirePackage{luatex-loader}[2009/04/10]%
-\else
-  \RequirePackage{luatex-loader}[2009/04/10]%
+\ifnum\luatexversion<80
+  \begingroup\expandafter\expandafter\expandafter\endgroup
+  \expandafter\ifx\csname RequirePackage\endcsname\relax
+    \def\TMP@RequirePackage#1[#2]{%
+      \begingroup\expandafter\expandafter\expandafter\endgroup
+      \expandafter\ifx\csname ver@#1.sty\endcsname\relax
+        \input #1.sty\relax
+      \fi
+    }%
+    \TMP@RequirePackage{luatex-loader}[2009/04/10]%
+  \else
+    \RequirePackage{luatex-loader}[2009/04/10]%
+  \fi
 \fi
 \pdftexcmds@directlua{%
-  require("oberdiek.pdftexcmds")%
+  require("pdftexcmds")%
 }
 \ifnum\luatexversion>37 %
   \ifnum0%
@@ -499,13 +506,13 @@
     \everyjob\expandafter{%
       \the\everyjob
       \pdftexcmds@directlua{%
-        require("oberdiek.pdftexcmds")%
+        require("pdftexcmds")%
       }%
     }%
   \fi
 \fi
 \begingroup
-  \def\x{2011/11/29 v0.20}%
+  \def\x{2017/03/19 v0.25}%
   \ltx@onelevel@sanitize\x
   \edef\y{%
     \pdftexcmds@directlua{%
@@ -702,11 +709,8 @@
 \fi
 \ifnum\luatexversion<68 %
 \else
-  \def\pdf@shellescape{%
-    \directlua0{%
-      oberdiek.pdftexcmds.shellescape()%
-    }%
-  }%
+  \protected\edef\pdf@shellescape{%
+   \numexpr\directlua{tex.sprint(status.shell_escape)}\relax}
 \fi
 \def\pdf@system#1{%
   \directlua0{%

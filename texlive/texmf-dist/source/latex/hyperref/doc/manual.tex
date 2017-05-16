@@ -12,13 +12,18 @@
 % Manual updates:
 % * Steve Peter and Karl Berry, 7/03.
 % * Heiko Oberdiek, 2006-2012.
+% * HO-support 2017
 %
 
-\def\mydate{November 2012}
+\def\mydate{January 2017}
 
 \RequirePackage{ifpdf}
 \ifpdf % We are running pdfTeX in pdf mode
+\ifx\directlua\undefinded
 \documentclass[pdftex]{article}
+\else
+\documentclass[luatex]{article}
+\fi
 \else
 \documentclass{article}
 \fi
@@ -39,6 +44,12 @@
 
 % from doc.sty
 \makeatletter
+\ifx\l@nohyphenation\@undefined
+\newlanguage\l@nohyphenation
+\fi
+\ifx\l@nohyphenation\@undefined
+  \newlanguage\l@nohyphenation
+\fi
 \DeclareRobustCommand\meta[1]{%
   \ensuremath\langle
   \ifmmode \expandafter \nfss@text \fi
@@ -142,7 +153,7 @@
 
 \ifpdf
   \usepackage[%
-    pdftex,%
+%    pdftex,% might be luatex, just allow automatic default
     colorlinks,%
     hyperindex,%
     plainpages=false,%
@@ -624,6 +635,7 @@ hyperindex     & boolean & true    & Makes the page numbers of index entries int
 hyperfootnotes & boolean & true    & Makes the footnote marks into hyperlinks to the footnote text.
                                      Easily broken \ldots\\
 encap          &         &         & Sets encap character for hyperindex \\
+linktoc        & text    & section & make text (\verb|section|), page number (\verb|page|), both (\verb|all|) or nothing (\verb|none|) be link on TOC, LOF and LOT \\
 linktocpage    & boolean & false   & make page number, not text, be link on TOC, LOF and LOT \\
 breaklinks     & boolean & false   & allow links to break over lines by making links over multiple lines into PDF links to
                                      the same target \\
@@ -884,6 +896,7 @@ implicit           & \textit{true}          & redefine \LaTeX\ internals \\
 latex2html         &                        & use \textsf{\LaTeX2HTML} backend \\
 linkbordercolor    & \textit{1 0 0}         & color of border around links \\
 linkcolor          & \textit{red}           & color of links \\
+linktoc            & \textit{section}       & make text be link on TOC, LOF and LOT \\
 linktocpage        & \textit{false}         & make page number, not text, be link on TOC, LOF and LOT \\
 menubordercolor    & \textit{1 0 0}         & color of border around menu links \\
 menucolor          & \textit{red}           & color for menu links \\

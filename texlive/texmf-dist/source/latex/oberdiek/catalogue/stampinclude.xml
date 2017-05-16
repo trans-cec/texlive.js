@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2008'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     This package replaces <tt>\includeonly</tt> and selects the files for
     <tt>\include</tt> by inspecting the timestamp of the <tt>.aux</tt> file.

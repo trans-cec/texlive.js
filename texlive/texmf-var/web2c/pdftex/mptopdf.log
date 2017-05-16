@@ -1,15 +1,13 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (INITEX)  11 NOV 2015 14:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (INITEX)  16 MAY 2017 14:24
  restricted \write18 enabled.
  %&-line parsing enabled.
- (/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
+ (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
 **mptopdf.tex
 
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/generic/context
-/mptopdf/mptopdf.tex
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/context/base/sy
-st-tex.mkii
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/plain/base/plai
-n.tex Preloading the plain format: codes, registers,
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/context/mptopdf/mptopdf.tex
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/context/base/mkii/syst-tex.mkii
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
 \centering=\skip11
@@ -126,24 +124,18 @@ output routines,
  hyphenation
 skipping \input in plain
 skipping \tenrm in plain
-))
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/context/base/su
-pp-mis.mkii
+)) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/context/base/mkii/supp-mis.mkii
 loading : ConTeXt Support Macros / Miscellaneous (2004.10.26)
-)
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/context/base/su
-pp-pdf.mkii
+) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 loading : ConTeXt Support Macros / PDF
-)
-(/home/thunder/emsdk_portable/texlive.js/texlive/texmf-dist/tex/context/base/su
-pp-mpe.mkii
+) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/context/base/mkii/supp-mpe.mkii
 loading : ConTeXt Support Macros / MPS extensions
 ) )
 Beginning to dump on file mptopdf.fmt
- (preloaded format=mptopdf 2015.11.11)
-3286 strings of total length 49244
+ (preloaded format=mptopdf 2017.5.16)
+3291 strings of total length 49064
 13893 memory locations dumped; current usage is 116&13746
-1661 multiletter control sequences
+1664 multiletter control sequences
 \font\nullfont=nullfont
 0 words of font info for 0 preloaded fonts
 0 hyphenation exceptions

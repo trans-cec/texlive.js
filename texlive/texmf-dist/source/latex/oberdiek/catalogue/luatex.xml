@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2009,2010'/>
   <license type='lppl1.3'/>
-  <version number='0.4'/>
+  <version number='0.6'/>
   <description>
     LuaTeX is an extended version of pdfTeX using Lua as an embedded
     scripting language.  The LuaTeX project&#x2019;s main objective

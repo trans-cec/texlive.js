@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2008,2010'/>
   <license type='lppl1.3'/>
-  <version number='1.4'/>
+  <version number='1.5'/>
   <description>
     TeX&#x2019;s <tt>\let</tt> assignment does not work for LaTeX macros
     with optional arguments or for macros that are defined

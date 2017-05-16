@@ -6,12 +6,12 @@
 -- 
 --  pdftexcmds.dtx  (with options: `lua')
 --  
---  This (was) a generated file.
+--  This is a generated file.
 --  
 --  Project: pdftexcmds
---  Version: 2013/04/28 v0.20-eroux
+--  Version: 2017/03/19 v0.25
 --  
---  Copyright (C) 2007, 2009-2011, 2013 by
+--  Copyright (C) 2007, 2009-2011 by
 --     Heiko Oberdiek <heiko.oberdiek at googlemail.com>
 --  
 --  This work may be distributed and/or modified under the
@@ -41,9 +41,7 @@
 module("oberdiek.pdftexcmds", package.seeall)
 local systemexitstatus
 function getversion()
-  tex.write("2011/11/29 v0.20")
-  -- could not change above version string due to runtime version checks.
-  -- eroux/karl, 28apr13
+  tex.write("2017/03/19 v0.25")
 end
 function strcmp(A, B)
   if A == B then
@@ -152,8 +150,6 @@ function unescapehex(str, mode, patch)
     end
     result = utf8
   end
-  -- this next line added for current luatex; this is the only
-  -- change in the file.  eroux, 28apr13.
   local unpack = _G["unpack"] or table.unpack
   tex.settoks(toks, string.char(unpack(result)))
 end
@@ -257,6 +253,7 @@ function filedump(offset, length, filename)
         end
         local dump = filehandle:read(length)
         escapehex(dump)
+        filehandle:close()
       end
     end
   end
@@ -274,6 +271,7 @@ function filemdfivesum(filename)
     if filehandle then
       local contents = filehandle:read("*a")
       escapehex(md5.sum(contents))
+      filehandle:close()
     end
   end
 end

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
-# $Id: tlmgrgui.pl 38523 2015-10-02 01:35:27Z preining $
+# $Id: tlmgrgui.pl 41232 2016-05-18 06:04:47Z preining $
 #
-# Copyright 2009-2015 Norbert Preining
+# Copyright 2009-2016 Norbert Preining
 # This file is licensed under the GNU General Public License version 2
 # or any later version.
 #
@@ -13,8 +13,8 @@
 $^W = 1;
 use strict;
 
-my $guisvnrev = '$Revision: 38523 $';
-my $guidatrev = '$Date: 2015-10-02 03:35:27 +0200 (Fri, 02 Oct 2015) $';
+my $guisvnrev = '$Revision: 41232 $';
+my $guidatrev = '$Date: 2016-05-18 08:04:47 +0200 (Wed, 18 May 2016) $';
 my $tlmgrguirevision;
 if ($guisvnrev =~ m/: ([0-9]+) /) {
   $tlmgrguirevision = $1;
@@ -131,6 +131,7 @@ my $selection_value = 0;
 $::opt_lang = $config{"gui-lang"} if (defined($config{"gui-lang"}));
 $::opt_lang = $opts{"gui-lang"} if (defined($opts{"gui-lang"}));
 require("TeXLive/trans.pl");
+load_translations();
 
 
 my @archsavail;
@@ -241,6 +242,20 @@ sub guimain {
 ############## GUI ########################
 
 sub build_initial_gui {
+  # processed @::SAVEDARGV to replace 
+  #  --font='foobar'
+  # with 
+  #  --font 'foobar'
+  # as required by Tk::CmdLine.
+  my @a;
+  for my $c (@::SAVEDARGV) {
+    if ($c =~ m/^--?(font|background|class|display|screen|foreground|geometry|name|title|xrm)=(.*)$/) {
+      push @a, "--$1", $2;
+    } else {
+      push @a, $c;
+    }
+  }
+  Tk::CmdLine::SetArguments(@a);
   $mw = MainWindow->new;
   $mw->title("TeX Live Manager $TeXLive::TLConfig::ReleaseYear");
   $mw->withdraw;
@@ -1282,30 +1297,31 @@ sub apply_settings_changes {
 sub init_paper_xdvi {
   if (!win32()) {
     $papers{"xdvi"} = TeXLive::TLPaper::get_paper_list("xdvi");
-    $currentpaper{"xdvi"} = ${$papers{"xdvi"}}[0];
+    $currentpaper{"xdvi"} = $papers{"xdvi"}->[0];
   }
 }
 sub init_paper_pdftex {
   $papers{"pdftex"} = TeXLive::TLPaper::get_paper_list("pdftex");
-  $currentpaper{"pdftex"} = ${$papers{"pdftex"}}[0];
+  $currentpaper{"pdftex"} = $papers{"pdftex"}->[0];
 }
 sub init_paper_dvips {
   $papers{"dvips"} = TeXLive::TLPaper::get_paper_list("dvips");
-  $currentpaper{"dvips"} = ${$papers{"dvips"}}[0];
+  $currentpaper{"dvips"} = $papers{"dvips"}->[0];
 }
 sub init_paper_context {
   if (defined($localtlpdb->get_package("bin-context"))) {
     $papers{"context"} = TeXLive::TLPaper::get_paper_list("context");
-    $currentpaper{"context"} = ${$papers{"context"}}[0];
+    $currentpaper{"context"} = $papers{"context"}->[0];
   }
 }
 sub init_paper_dvipdfmx {
   $papers{"dvipdfmx"} = TeXLive::TLPaper::get_paper_list("dvipdfmx");
-  $currentpaper{"dvipdfmx"} = ${$papers{"dvipdfmx"}}[0];
+  $currentpaper{"dvipdfmx"} = $papers{"dvipdfmx"}->[0];
 }
+
 sub init_paper_psutils {
   $papers{"psutils"} = TeXLive::TLPaper::get_paper_list("psutils");
-  $currentpaper{"psutils"} = ${$papers{"psutils"}}[0];
+  $currentpaper{"psutils"} = $papers{"psutils"}->[0];
 }
 
 
@@ -1383,6 +1399,7 @@ sub do_gui_language_setting {
     sk => "Slovak",
     sl => "Slovenian",
     sr => "Serbian",
+    uk => "Ukrainian",
     vi => "Vietnamese",
     "zh_CN" => "Simplified Chinese",
     "zh_TW" => "Traditional Chinese"
@@ -1925,8 +1942,6 @@ sub SelectedPackages {
 sub critical_updates_done_msg_and_end {
   # terminate here immediately so that we are sure the auto-updater
   # is run immediately
-  # make sure we exit in finish(0)
-  $::gui_mode = 0;
   # warn that program will now be terminated
   $mw->Dialog(-title => __("Warning"),
     -text => __("Critical updates have been installed.\nProgram will terminate now.\nPlease restart if necessary."),
@@ -1934,7 +1949,8 @@ sub critical_updates_done_msg_and_end {
   # also delete the main window before we kill the process to 
   # make sure that Tk is happy (segfault on cmd line, email Taco)
   $mw->destroy;
-  finish(0); 
+  # don't call finish(0) as we need to exit immediately
+  exit(0); 
 }
   
 sub update_all_packages {
@@ -2577,18 +2593,17 @@ sub update_loaded_location_string {
   my @tags = sort keys %repos;
   my @vals;
   if ($#tags > 0) {
-    @vals = map { "$_:$repos{$_}" } sort sort_main_first @tags;
+    @vals = map {
+      "$_:$repos{$_} (" .
+      ($remotetlpdb->virtual_get_tlpdb($_)->is_verified ?
+        __("verified") : __("not verified")) . ")"
+    } sort sort_main_first @tags;
   } else {
+    $arg .= " (" . ($remotetlpdb->is_verified ?
+      __("verified") : __("not verified")) . ")";
     @vals = ( $arg );
   }
-  my $locstr;
   if ($#tags > 0) {
-    $locstr = $repos{'main'};
-    for my $t (keys %repos) {
-      if ($t ne 'main') {
-        $locstr .= " $repos{$t}";
-      }
-    }
     $loaded_text_button->configure(-text => __("multiple repositories"));
   } else {
     $loaded_text_button->configure(-text => $arg);

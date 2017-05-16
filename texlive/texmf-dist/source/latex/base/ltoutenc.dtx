@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2015
+% Copyright 1993-2017
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -35,16 +35,17 @@
 %<OML>\ProvidesFile{omlenc.def}
 %<OT4>\ProvidesFile{ot4enc.def}
 %<TS1>\ProvidesFile{ts1enc.def}[2001/06/05 v3.0e (jk/car/fm)
+%<TU>\ProvidesFile{tuenc.def}
 %<package>\ProvidesPackage{fontenc}
 %<TS1sty>\ProvidesPackage{textcomp}
-%<OT1|T1|OMS|OML|OT4|package|TS1sty> [2005/09/27 v1.99g
-%<OT1|T1|OMS|OML|OT4|TS1>         Standard LaTeX file]
+%<OT1|T1|OMS|OML|OT4|TU|package|TS1sty> [2017/02/22 v2.0g
+%<OT1|T1|OMS|OML|OT4|TS1|TU>         Standard LaTeX file]
 %<package|TS1sty>                 Standard LaTeX package]
 %
 %<*driver>
 % \fi
 \ProvidesFile{ltoutenc.dtx}
-             [2015/08/28 v1.99m LaTeX Kernel (font encodings)]
+             [2017/02/22 v2.0g LaTeX Kernel (font encodings)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltoutenc.dtx}
@@ -66,23 +67,6 @@
 %</driver>
 % \fi
 %
-% \CheckSum{2825}
-%
-% \CharacterTable
-%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%   Digits        \0\1\2\3\4\5\6\7\8\9
-%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%   Dollar        \$     Percent       \%     Ampersand     \&
-%   Acute accent  \'     Left paren    \(     Right paren   \)
-%   Asterisk      \*     Plus          \+     Comma         \,
-%   Minus         \-     Point         \.     Solidus       \/
-%   Colon         \:     Semicolon     \;     Less than     \<
-%   Equals        \=     Greater than  \>     Question mark \?
-%   Commercial at \@     Left bracket  \[     Backslash     \\
-%   Right bracket \]     Circumflex    \^     Underscore    \_
-%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%   Right brace   \}     Tilde         \~}
 %
 %
 % \changes{v1.99e}{2004/02/13}{Documentation fixes: typos}
@@ -515,6 +499,8 @@
 %                   the OT1 encoding, created by B.~Jackowski and
 %                   M.~Ry\'cko for use with the Polish version of
 %                   Computer Modern and Computer Concrete.\\
+%      |TU|       & generates |tuenc.def| for Unicode font
+%                   encoding. \\
 %      |package|  & generates |fontenc.sty| for
 %                   selecting encodings. \\
 %      |2ekernel| & for the kernel commands.\\
@@ -906,7 +892,7 @@
       \expandafter\reserved@b\expandafter{\reserved@a{##1}}%
    \fi
    \expandafter\def\csname\expandafter\string\csname
-      #2\endcsname\string#1-\string#3\endcsname{#4}}
+      #2\endcsname\string#1-\string#3\@empty\endcsname{#4}}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -1107,7 +1093,7 @@
 %
 %
 % \begin{macro}{\UndeclareTextCommand}
-%    This command safely removes and encoding specific declaration
+%    This command safely removes an encoding specific declaration
 %    for a given encoding. It is helpful if one intends to use the
 %    default definition always and therefore wants to get rid of
 %    a declaration for some specific encoding.
@@ -1474,7 +1460,7 @@
 \let\ldots\dots
 %    \end{macrocode}
 % \changes{v1.99m}{2015/02/16}{Added \cs{textcommabelow} latex/4414}
-% Default definition of comma below.
+% Default definition of the commabelow accent.
 %    \begin{macrocode}
 %</2ekernel>
 %<latexrelease>\IncludeInRelease{2015/10/01}{\textcommabelow}{comma accent}%
@@ -1487,6 +1473,52 @@
 %</2ekernel|latexrelease>
 %<latexrelease>\IncludeInRelease{0000/00/00}{\textcommabelow}{comma accent}%
 %<latexrelease>\let\textcommabelow\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-G\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-K\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-k\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-L\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-l\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-N\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-n\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-R\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-r\endcsname\@undefined
+%<latexrelease>\EndIncludeInRelease
+%    \end{macrocode}
+%
+% \changes{v1.99n}{2015/02/16}{Added \cs{textcommaabove}}
+% Default definition of the commaabove accent(E.G.).
+%    \begin{macrocode}
+%<latexrelease>\IncludeInRelease{2016/02/01}{\textcommaabove}{comma above}%
+%<*2ekernel|latexrelease>
+\DeclareTextCommandDefault\textcommaabove[1]{%
+  \hmode@bgroup
+  \ooalign{%
+    \hidewidth
+    \raise.7ex\hbox{%
+      \check@mathfonts\fontsize\ssf@size\z@\math@fontsfalse\selectfont`%
+    }%
+   \hidewidth\crcr
+   \null#1\crcr
+  }%
+  \egroup
+}
+%<latexrelease>\EndIncludeInRelease
+%</2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{0000/00/00}{\textcommaabove}{comma above}%
+%<latexrelease>\let\textcommaabove\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\OT1\string\c-g\endcsname\@undefined
+%<latexrelease>\expandafter
+%<latexrelease>  \let\csname\string\T1\string\c-g\endcsname\@undefined
 %<latexrelease>\EndIncludeInRelease
 %    \end{macrocode}
 %
@@ -1630,6 +1662,8 @@
 %      {Added \cs{r} A}
 % \changes{v1.96}{2002/10/28}{%
 %   coding change, to follow bug fix by DEK in plain.tex (pr/3469)}
+% \changes{v2.0f}{2017/02/19}{%
+%     add \cs{@empty} to guard against 3rd argument being empty}
 %    \begin{macrocode}
 \DeclareTextCompositeCommand{\r}{OT1}{A}
    {\leavevmode\setbox\z@\hbox{!}\dimen@\ht\z@\advance\dimen@-1ex%
@@ -1687,6 +1721,16 @@
 \DeclareTextCompositeCommand{\'}{OT1}{i}{\@tabacckludge'\i}
 \DeclareTextCompositeCommand{\^}{OT1}{i}{\^\i}
 \DeclareTextCompositeCommand{\"}{OT1}{i}{\"\i}
+%    \end{macrocode}
+%
+% T1 encoding is given more extensive set of overloads for \verb|\c|
+% But here we just adjust \verb|\c{g}|.
+% \changes{v1.99n}{2015/02/16}{Added composites for \cs{c}}
+% \changes{v1.99m}{2016/06/19}{OT1 definition (was duplicate T1 definition)}
+%    \begin{macrocode}
+\ifx\textcommaabove\@undefined\else
+\DeclareTextCompositeCommand{\c}{OT1}{g}{\textcommaabove{g}}
+\fi
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -2039,6 +2083,23 @@
 %    \begin{macrocode}
 \DeclareTextCompositeCommand{\k}{T1}{o}{\textogonekcentered{o}}
 \DeclareTextCompositeCommand{\k}{T1}{O}{\textogonekcentered{O}}
+%    \end{macrocode}
+% \changes{v1.99n}{2015/02/16}{Added composites for \c{c}}
+%    \begin{macrocode}
+\ifx\textcommaabove\@undefined\else
+\DeclareTextCompositeCommand{\c}{T1}{g}{\textcommaabove{g}}
+\fi
+\ifx\textcommabelow\@undefined\else
+\DeclareTextCompositeCommand{\c}{T1}{G}{\textcommabelow{G}}
+\DeclareTextCompositeCommand{\c}{T1}{K}{\textcommabelow{K}}
+\DeclareTextCompositeCommand{\c}{T1}{k}{\textcommabelow{k}}
+\DeclareTextCompositeCommand{\c}{T1}{L}{\textcommabelow{L}}
+\DeclareTextCompositeCommand{\c}{T1}{l}{\textcommabelow{l}}
+\DeclareTextCompositeCommand{\c}{T1}{N}{\textcommabelow{N}}
+\DeclareTextCompositeCommand{\c}{T1}{n}{\textcommabelow{n}}
+\DeclareTextCompositeCommand{\c}{T1}{R}{\textcommabelow{R}}
+\DeclareTextCompositeCommand{\c}{T1}{r}{\textcommabelow{r}}
+\fi
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -2576,6 +2637,533 @@
 %    \begin{macrocode}
 \DeclareTextSymbol{\textdiv}{TS1}{246}
 %</TS1>
+%    \end{macrocode}
+%
+% \subsection{Definitions for the TU encoding}
+%
+% \changes{v2.0a}{2016/12/04}{Added TU encoding}
+% \changes{v2.0b}{2017/01/23}{Added TU specific commands in ASCII range pr/4500}
+% \changes{v2.0c}{2017/01/24}{TeX ligature syntax for xetex and luatex reversed}
+% \changes{v2.0c}{2017/01/24}{Make \cs{textasteriskcentered} U+2217 not U+204E}
+% \changes{v2.0c}{2017/01/24}{Declare TU composites for i and j}
+% \changes{v2.0d}{2017/01/24}{Declare macron composites for YyGg}
+% \changes{v2.0e}{2017/02/12}{Declare fallback code for \cs{textasteriskcentered}}
+% \changes{v2.0f}{2017/02/19}{%
+%     declare composites with empty base for hat and tilde,
+%     use same slots for \cs{textasciicircum} ans \cs{textasciitilde}}
+% \changes{v2.0f}{2017/02/19}{%
+%     declare straight quotes using new \cs{remove@tlig} command}
+% \changes{v2.0g}{2017/02/22}{Fix typo introduced at 2.0f}
+%
+% The TU encoding was originally introduced in the contributed
+% package \texttt{fontspec} as a Unicode encoding for XeTeX and
+% LuaTeX.
+%
+% Normally for these engines, the input consists of Unicode characters
+% encoded in UTF-8. There is therefore little need to use the
+% traditional (ASCII) encoding-specific commands
+%
+% However, sometimes (e.g. for backwards compatibility) it can be
+% useful to access these Unicode characters via such ASCII-based
+% markup. The commands provided here
+% Cover the characters in the T1 and TS1 encodings, but specified in
+% Unicode position. Almost all the command names have been
+% mechanically extracted form the \texttt{inputenc} UTF-8 support,
+% which is essentially doing a reverse mapping from UTF-8 data to
+% \LaTeX\ LICR commands.
+%
+% A few additional names for character which were supported in the
+% original \texttt{fontspec} version of this file have also been
+% added, even though they are not currently in the default
+% \texttt{inputenc} UTF-8 declarations.
+%
+%    \begin{macrocode}
+%<*TU>
+%    \end{macrocode}
+% In the base interface the Unicode encoding is always known as TU
+% But we parameterise the encoding name to allow for modelling
+% differences in Unicode support by different fonts.
+%    \begin{macrocode}
+\providecommand\UnicodeEncodingName{TU}
+%    \end{macrocode}
+% As the Unicode encoding, TU, is only currently available with XeTeX
+% or LuaTeX, we detect these engines first, and make adjustments for the
+% differing font loading syntax. For other engines, we issue a warning
+% then abort this file, switching back to T1 encoding.
+%    \begin{macrocode}
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname XeTeXrevision\endcsname\relax
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+  \begingroup\expandafter\expandafter\expandafter\endgroup
+  \expandafter\ifx\csname directlua\endcsname\relax
+%    \end{macrocode}
+%
+% Not LuaTeX or XeTeX, abort with a warning.
+%    \begin{macrocode}
+    \PackageWarningNoLine{fontenc}
+      {\UnicodeEncodingName\space
+       encoding is only available with XeTeX and LuaTeX.\MessageBreak
+       Defaulting to T1 encoding}
+      \def\encodingdefault{T1}
+    \expandafter\expandafter\expandafter\endinput
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+  \else
+%    \end{macrocode}
+%
+% LuaTeX.
+%    \begin{macrocode}
+    \def\UnicodeFontTeXLigatures{+tlig;}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+    \def\reserved@a#1{%
+      \def\@remove@tlig##1{\@remove@tlig@##1\@nil#1\@nil\relax}
+      \def\@remove@tlig@##1#1{\@remove@tlig@@##1}}
+    \edef\reserved@b{\detokenize{+tlig;}}
+    \expandafter\reserved@a\expandafter{\reserved@b}
+    \def\@remove@tlig@@#1\@nil#2\relax{#1}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+    \def\remove@tlig#1{%
+      \begingroup
+      \font\remove@tlig
+      \expandafter\@remove@tlig\expandafter{\fontname\font}%
+      \remove@tlig
+      \char#1\relax
+      \endgroup
+    }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+  \fi
+\else
+%    \end{macrocode}
+%
+% XeTeX
+%    \begin{macrocode}
+  \def\UnicodeFontTeXLigatures{mapping=tex-text;}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+  \def\remove@tlig#1{\XeTeXglyph\numexpr\XeTeXcharglyph#1\relax}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\fi
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\def\UnicodeFontFile#1#2{"[#1]:#2"}
+\def\UnicodeFontName#1#2{"#1:#2"}
+%    \end{macrocode}
+%
+% Declare the encoding
+%    \begin{macrocode}
+\DeclareFontEncoding\UnicodeEncodingName{}{}
+%    \end{macrocode}
+%
+% Declare accent command to use a postpended combining character
+% rather than the TeX |\accent| primitive
+%    \begin{macrocode}
+\def\add@unicode@accent#1#2{%
+  \if\relax\detokenize{#2}\relax^^a0\else#2\fi
+  \char#1\relax}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\def\DeclareUnicodeAccent#1#2#3{%
+  \DeclareTextCommand{#1}{#2}{\add@unicode@accent{#3}}%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareTextCommand\textquotesingle \UnicodeEncodingName{%
+                                                \remove@tlig{"0027}}
+\DeclareTextCommand\textasciigrave  \UnicodeEncodingName{%
+                                                \remove@tlig{"0060}}
+\DeclareTextCommand\textquotedbl    \UnicodeEncodingName{%
+                                                \remove@tlig{"0022}}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareTextSymbol{\textdollar}          \UnicodeEncodingName{"0024}
+\DeclareTextSymbol{\textless}            \UnicodeEncodingName{"003C}
+\DeclareTextSymbol{\textgreater}         \UnicodeEncodingName{"003E}
+\DeclareTextSymbol{\textbackslash}       \UnicodeEncodingName{"005C}
+\DeclareTextSymbol{\textasciicircum}     \UnicodeEncodingName{"005E}
+\DeclareTextSymbol{\textunderscore}      \UnicodeEncodingName{"005F}
+\DeclareTextSymbol{\textbraceleft}       \UnicodeEncodingName{"007B}
+\DeclareTextSymbol{\textbar}             \UnicodeEncodingName{"007C}
+\DeclareTextSymbol{\textbraceright}      \UnicodeEncodingName{"007D}
+\DeclareTextSymbol{\textasciitilde}      \UnicodeEncodingName{"007E}
+\DeclareTextSymbol{\textexclamdown}      \UnicodeEncodingName{"00A1}
+\DeclareTextSymbol{\textcent}            \UnicodeEncodingName{"00A2}
+\DeclareTextSymbol{\textsterling}        \UnicodeEncodingName{"00A3}
+\DeclareTextSymbol{\textcurrency}        \UnicodeEncodingName{"00A4}
+\DeclareTextSymbol{\textyen}             \UnicodeEncodingName{"00A5}
+\DeclareTextSymbol{\textbrokenbar}       \UnicodeEncodingName{"00A6}
+\DeclareTextSymbol{\textsection}         \UnicodeEncodingName{"00A7}
+\DeclareTextSymbol{\textasciidieresis}   \UnicodeEncodingName{"00A8}
+\DeclareTextSymbol{\textcopyright}       \UnicodeEncodingName{"00A9}
+\DeclareTextSymbol{\textordfeminine}     \UnicodeEncodingName{"00AA}
+\DeclareTextSymbol{\guillemotleft}       \UnicodeEncodingName{"00AB}
+\DeclareTextSymbol{\textlnot}            \UnicodeEncodingName{"00AC}
+\DeclareTextSymbol{\textregistered}      \UnicodeEncodingName{"00AE}
+\DeclareTextSymbol{\textasciimacron}     \UnicodeEncodingName{"00AF}
+\DeclareTextSymbol{\textdegree}          \UnicodeEncodingName{"00B0}
+\DeclareTextSymbol{\textpm}              \UnicodeEncodingName{"00B1}
+\DeclareTextSymbol{\texttwosuperior}     \UnicodeEncodingName{"00B2}
+\DeclareTextSymbol{\textthreesuperior}   \UnicodeEncodingName{"00B3}
+\DeclareTextSymbol{\textasciiacute}      \UnicodeEncodingName{"00B4}
+\DeclareTextSymbol{\textmu}              \UnicodeEncodingName{"00B5}
+\DeclareTextSymbol{\textparagraph}       \UnicodeEncodingName{"00B6}
+\DeclareTextSymbol{\textperiodcentered}  \UnicodeEncodingName{"00B7}
+\DeclareTextSymbol{\textonesuperior}     \UnicodeEncodingName{"00B9}
+\DeclareTextSymbol{\textordmasculine}    \UnicodeEncodingName{"00BA}
+\DeclareTextSymbol{\guillemotright}      \UnicodeEncodingName{"00BB}
+\DeclareTextSymbol{\textonequarter}      \UnicodeEncodingName{"00BC}
+\DeclareTextSymbol{\textonehalf}         \UnicodeEncodingName{"00BD}
+\DeclareTextSymbol{\textthreequarters}   \UnicodeEncodingName{"00BE}
+\DeclareTextSymbol{\textquestiondown}    \UnicodeEncodingName{"00BF}
+\DeclareTextSymbol{\AE}                  \UnicodeEncodingName{"00C6}
+\DeclareTextSymbol{\DH}                  \UnicodeEncodingName{"00D0}
+\DeclareTextSymbol{\texttimes}           \UnicodeEncodingName{"00D7}
+\DeclareTextSymbol{\O}                   \UnicodeEncodingName{"00D8}
+\DeclareTextSymbol{\TH}                  \UnicodeEncodingName{"00DE}
+\DeclareTextSymbol{\ss}                  \UnicodeEncodingName{"00DF}
+\DeclareTextSymbol{\ae}                  \UnicodeEncodingName{"00E6}
+\DeclareTextSymbol{\dh}                  \UnicodeEncodingName{"00F0}
+\DeclareTextSymbol{\textdiv}             \UnicodeEncodingName{"00F7}
+\DeclareTextSymbol{\o}                   \UnicodeEncodingName{"00F8}
+\DeclareTextSymbol{\th}                  \UnicodeEncodingName{"00FE}
+\DeclareTextSymbol{\DJ}                  \UnicodeEncodingName{"0110}
+\DeclareTextSymbol{\dj}                  \UnicodeEncodingName{"0111}
+\DeclareTextSymbol{\i}                   \UnicodeEncodingName{"0131}
+\DeclareTextSymbol{\IJ}                  \UnicodeEncodingName{"0132}
+\DeclareTextSymbol{\ij}                  \UnicodeEncodingName{"0133}
+\DeclareTextSymbol{\L}                   \UnicodeEncodingName{"0141}
+\DeclareTextSymbol{\l}                   \UnicodeEncodingName{"0142}
+\DeclareTextSymbol{\NG}                  \UnicodeEncodingName{"014A}
+\DeclareTextSymbol{\ng}                  \UnicodeEncodingName{"014B}
+\DeclareTextSymbol{\OE}                  \UnicodeEncodingName{"0152}
+\DeclareTextSymbol{\oe}                  \UnicodeEncodingName{"0153}
+\DeclareTextSymbol{\textflorin}          \UnicodeEncodingName{"0192}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{Y}{"0232}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{y}{"0232}
+\DeclareTextSymbol{\j}                   \UnicodeEncodingName{"0237}
+\DeclareTextSymbol{\textasciicaron}      \UnicodeEncodingName{"02C7}
+\DeclareTextSymbol{\textasciibreve}      \UnicodeEncodingName{"02D8}
+\DeclareTextSymbol{\textacutedbl}        \UnicodeEncodingName{"02DD}
+\DeclareTextSymbol{\textgravedbl}        \UnicodeEncodingName{"02F5}
+\DeclareTextSymbol{\texttildelow}        \UnicodeEncodingName{"02F7}
+\DeclareTextSymbol{\textbaht}            \UnicodeEncodingName{"0E3F}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{G}{"1E20}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{g}{"1E21}
+\DeclareTextSymbol{\SS}                  \UnicodeEncodingName{"1E9E}
+\DeclareTextSymbol{\textcompwordmark}    \UnicodeEncodingName{"200C}
+\DeclareTextSymbol{\textendash}          \UnicodeEncodingName{"2013}
+\DeclareTextSymbol{\textemdash}          \UnicodeEncodingName{"2014}
+\DeclareTextSymbol{\textbardbl}          \UnicodeEncodingName{"2016}
+\DeclareTextSymbol{\textquoteleft}       \UnicodeEncodingName{"2018}
+\DeclareTextSymbol{\textquoteright}      \UnicodeEncodingName{"2019}
+\DeclareTextSymbol{\quotesinglbase}      \UnicodeEncodingName{"201A}
+\DeclareTextSymbol{\textquotedblleft}    \UnicodeEncodingName{"201C}
+\DeclareTextSymbol{\textquotedblright}   \UnicodeEncodingName{"201D}
+\DeclareTextSymbol{\quotedblbase}        \UnicodeEncodingName{"201E}
+\DeclareTextSymbol{\textdagger}          \UnicodeEncodingName{"2020}
+\DeclareTextSymbol{\textdaggerdbl}       \UnicodeEncodingName{"2021}
+\DeclareTextSymbol{\textbullet}          \UnicodeEncodingName{"2022}
+\DeclareTextSymbol{\textellipsis}        \UnicodeEncodingName{"2026}
+\DeclareTextSymbol{\textperthousand}     \UnicodeEncodingName{"2030}
+\DeclareTextSymbol{\textpertenthousand}  \UnicodeEncodingName{"2031}
+\DeclareTextSymbol{\guilsinglleft}       \UnicodeEncodingName{"2039}
+\DeclareTextSymbol{\guilsinglright}      \UnicodeEncodingName{"203A}
+\DeclareTextSymbol{\textreferencemark}   \UnicodeEncodingName{"203B}
+\DeclareTextSymbol{\textinterrobang}     \UnicodeEncodingName{"203D}
+\DeclareTextSymbol{\textfractionsolidus} \UnicodeEncodingName{"2044}
+\DeclareTextSymbol{\textlquill}          \UnicodeEncodingName{"2045}
+\DeclareTextSymbol{\textrquill}          \UnicodeEncodingName{"2046}
+\DeclareTextSymbol{\textdiscount}        \UnicodeEncodingName{"2052}
+\DeclareTextSymbol{\textcolonmonetary}   \UnicodeEncodingName{"20A1}
+\DeclareTextSymbol{\textlira}            \UnicodeEncodingName{"20A4}
+\DeclareTextSymbol{\textnaira}           \UnicodeEncodingName{"20A6}
+\DeclareTextSymbol{\textwon}             \UnicodeEncodingName{"20A9}
+\DeclareTextSymbol{\textdong}            \UnicodeEncodingName{"20AB}
+\DeclareTextSymbol{\texteuro}            \UnicodeEncodingName{"20AC}
+\DeclareTextSymbol{\textpeso}            \UnicodeEncodingName{"20B1}
+\DeclareTextSymbol{\textcelsius}         \UnicodeEncodingName{"2103}
+\DeclareTextSymbol{\textnumero}          \UnicodeEncodingName{"2116}
+\DeclareTextSymbol{\textcircledP}        \UnicodeEncodingName{"2117}
+\DeclareTextSymbol{\textrecipe}          \UnicodeEncodingName{"211E}
+\DeclareTextSymbol{\textservicemark}     \UnicodeEncodingName{"2120}
+\DeclareTextSymbol{\texttrademark}       \UnicodeEncodingName{"2122}
+\DeclareTextSymbol{\textohm}             \UnicodeEncodingName{"2126}
+\DeclareTextSymbol{\textmho}             \UnicodeEncodingName{"2127}
+\DeclareTextSymbol{\textestimated}       \UnicodeEncodingName{"212E}
+\DeclareTextSymbol{\textleftarrow}       \UnicodeEncodingName{"2190}
+\DeclareTextSymbol{\textuparrow}         \UnicodeEncodingName{"2191}
+\DeclareTextSymbol{\textrightarrow}      \UnicodeEncodingName{"2192}
+\DeclareTextSymbol{\textdownarrow}       \UnicodeEncodingName{"2193}
+\DeclareTextSymbol{\textminus}           \UnicodeEncodingName{"2212}
+%    \end{macrocode}
+% Not all fonts have U+2217 but using U+002A requires some adjustment.
+%    \begin{macrocode}
+\DeclareTextCommand{\textasteriskcentered}\UnicodeEncodingName{%
+  \iffontchar\font"2217 \char"2217 \else
+    \begingroup
+      \fontsize
+       {\the\dimexpr1.2\dimexpr\f@size pt\relax}%
+       {\f@baselineskip}%
+      \selectfont
+      \raisebox{-0.6ex}[\dimexpr\height-0.6ex][0pt]{*}%
+    \endgroup
+  \fi
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\DeclareTextSymbol{\textsurd}            \UnicodeEncodingName{"221A}
+\DeclareTextSymbol{\textlangle}          \UnicodeEncodingName{"2329}
+\DeclareTextSymbol{\textrangle}          \UnicodeEncodingName{"232A}
+\DeclareTextSymbol{\textblank}           \UnicodeEncodingName{"2422}
+\DeclareTextSymbol{\textvisiblespace}    \UnicodeEncodingName{"2423}
+\DeclareTextSymbol{\textopenbullet}      \UnicodeEncodingName{"25E6}
+\DeclareTextSymbol{\textbigcircle}       \UnicodeEncodingName{"25EF}
+\DeclareTextSymbol{\textmusicalnote}     \UnicodeEncodingName{"266A}
+\DeclareTextSymbol{\textmarried}         \UnicodeEncodingName{"26AD}
+\DeclareTextSymbol{\textdivorced}        \UnicodeEncodingName{"26AE}
+\DeclareTextSymbol{\textinterrobangdown} \UnicodeEncodingName{"2E18}
+%    \end{macrocode}
+% Accents must be declared before the composites that use them.
+%    \begin{macrocode}
+\DeclareUnicodeAccent{\`}                \UnicodeEncodingName{"0300}
+\DeclareUnicodeAccent{\'}                \UnicodeEncodingName{"0301}
+\DeclareUnicodeAccent{\^}                \UnicodeEncodingName{"0302}
+\DeclareUnicodeAccent{\~}                \UnicodeEncodingName{"0303}
+\DeclareUnicodeAccent{\"}                \UnicodeEncodingName{"0308}
+\DeclareUnicodeAccent{\H}                \UnicodeEncodingName{"030B}
+\DeclareUnicodeAccent{\r}                \UnicodeEncodingName{"030A}
+\DeclareUnicodeAccent{\v}                \UnicodeEncodingName{"030C}
+\DeclareUnicodeAccent{\u}                \UnicodeEncodingName{"0306}
+\DeclareUnicodeAccent{\=}                \UnicodeEncodingName{"0304}
+\DeclareUnicodeAccent{\.}                \UnicodeEncodingName{"0307}
+\DeclareUnicodeAccent{\b}                \UnicodeEncodingName{"0332}
+\DeclareUnicodeAccent{\c}                \UnicodeEncodingName{"0327}
+\DeclareUnicodeAccent{\d}                \UnicodeEncodingName{"0323}
+\DeclareUnicodeAccent{\k}                \UnicodeEncodingName{"0328}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareTextComposite{\^}             \UnicodeEncodingName {}{"005E}
+\DeclareTextComposite{\~}             \UnicodeEncodingName {}{"007E}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{A}{"00C0}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{A}{"00C1}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{A}{"00C2}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{A}{"00C3}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{A}{"00C4}
+\DeclareTextComposite{\r}             \UnicodeEncodingName{A}{"00C5}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{C}{"00C7}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{E}{"00C8}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{E}{"00C9}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{E}{"00CA}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{E}{"00CB}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{I}{"00CC}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{I}{"00CD}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{I}{"00CE}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{I}{"00CF}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{N}{"00D1}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{O}{"00D2}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{O}{"00D3}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{O}{"00D4}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{O}{"00D5}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{O}{"00D6}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{U}{"00D9}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{U}{"00DA}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{U}{"00DB}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{U}{"00DC}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{Y}{"00DD}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{a}{"00E0}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{a}{"00E1}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{a}{"00E2}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{a}{"00E3}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{a}{"00E4}
+\DeclareTextComposite{\r}             \UnicodeEncodingName{a}{"00E5}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{c}{"00E7}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{e}{"00E8}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{e}{"00E9}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{e}{"00EA}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{e}{"00EB}
+\DeclareTextComposite{\`}             \UnicodeEncodingName\i {"00EC}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{i}{"00EC}
+\DeclareTextComposite{\'}             \UnicodeEncodingName\i {"00ED}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{i}{"00ED}
+\DeclareTextComposite{\^}             \UnicodeEncodingName\i {"00EE}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{i}{"00EE}
+\DeclareTextComposite{\"}             \UnicodeEncodingName\i {"00EF}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{i}{"00EF}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{n}{"00F1}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{o}{"00F2}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{o}{"00F3}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{o}{"00F4}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{o}{"00F5}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{o}{"00F6}
+\DeclareTextComposite{\`}             \UnicodeEncodingName{u}{"00F9}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{u}{"00FA}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{u}{"00FB}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{u}{"00FC}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{y}{"00FD}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{y}{"00FF}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{A}{"0100}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{a}{"0101}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{A}{"0102}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{a}{"0103}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{A}{"0104}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{a}{"0105}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{C}{"0106}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{c}{"0107}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{C}{"0108}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{c}{"0109}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{C}{"010A}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{c}{"010B}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{C}{"010C}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{c}{"010D}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{D}{"010E}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{d}{"010F}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{E}{"0112}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{e}{"0113}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{E}{"0114}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{e}{"0115}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{E}{"0116}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{e}{"0117}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{E}{"0118}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{e}{"0119}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{E}{"011A}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{e}{"011B}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{G}{"011C}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{g}{"011D}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{G}{"011E}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{g}{"011F}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{G}{"0120}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{g}{"0121}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{G}{"0122}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{g}{"0123}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{H}{"0124}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{h}{"0125}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{I}{"0128}
+\DeclareTextComposite{\~}             \UnicodeEncodingName\i {"0129}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{i}{"0129}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{I}{"012A}
+\DeclareTextComposite{\=}             \UnicodeEncodingName\i {"012B}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{i}{"012B}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{I}{"012C}
+\DeclareTextComposite{\u}             \UnicodeEncodingName\i {"012D}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{i}{"012D}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{I}{"012E}
+\DeclareTextComposite{\k}             \UnicodeEncodingName\i {"012F}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{i}{"012F}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{I}{"0130}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{J}{"0134}
+\DeclareTextComposite{\^}             \UnicodeEncodingName\j {"0135}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{j}{"0135}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{K}{"0136}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{k}{"0137}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{L}{"0139}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{l}{"013A}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{L}{"013B}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{l}{"013C}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{L}{"013D}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{l}{"013E}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{N}{"0143}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{n}{"0144}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{N}{"0145}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{n}{"0146}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{N}{"0147}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{n}{"0148}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{O}{"014C}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{o}{"014D}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{O}{"014E}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{o}{"014F}
+\DeclareTextComposite{\H}             \UnicodeEncodingName{O}{"0150}
+\DeclareTextComposite{\H}             \UnicodeEncodingName{o}{"0151}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{R}{"0154}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{r}{"0155}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{R}{"0156}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{r}{"0157}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{R}{"0158}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{r}{"0159}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{S}{"015A}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{s}{"015B}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{S}{"015C}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{s}{"015D}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{S}{"015E}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{s}{"015F}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{S}{"0160}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{s}{"0161}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{T}{"0162}
+\DeclareTextComposite{\c}             \UnicodeEncodingName{t}{"0163}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{T}{"0164}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{t}{"0165}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{U}{"0168}
+\DeclareTextComposite{\~}             \UnicodeEncodingName{u}{"0169}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{U}{"016A}
+\DeclareTextComposite{\=}             \UnicodeEncodingName{u}{"016B}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{U}{"016C}
+\DeclareTextComposite{\u}             \UnicodeEncodingName{u}{"016D}
+\DeclareTextComposite{\r}             \UnicodeEncodingName{U}{"016E}
+\DeclareTextComposite{\r}             \UnicodeEncodingName{u}{"016F}
+\DeclareTextComposite{\H}             \UnicodeEncodingName{U}{"0170}
+\DeclareTextComposite{\H}             \UnicodeEncodingName{u}{"0171}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{U}{"0172}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{u}{"0173}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{W}{"0174}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{w}{"0175}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{Y}{"0176}
+\DeclareTextComposite{\^}             \UnicodeEncodingName{y}{"0177}
+\DeclareTextComposite{\"}             \UnicodeEncodingName{Y}{"0178}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{Z}{"0179}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{z}{"017A}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{Z}{"017B}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{z}{"017C}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{Z}{"017D}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{z}{"017E}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{A}{"01CD}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{a}{"01CE}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{I}{"01CF}
+\DeclareTextComposite{\v}             \UnicodeEncodingName\i {"01D0}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{i}{"01D0}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{O}{"01D1}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{o}{"01D2}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{U}{"01D3}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{u}{"01D4}
+\DeclareTextComposite{\=}             \UnicodeEncodingName\AE{"01E2}
+\DeclareTextComposite{\=}             \UnicodeEncodingName\ae{"01E3}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{G}{"01E6}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{g}{"01E7}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{K}{"01E8}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{k}{"01E9}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{O}{"01EA}
+\DeclareTextComposite{\k}             \UnicodeEncodingName{o}{"01EB}
+\DeclareTextComposite{\v}             \UnicodeEncodingName\j {"01F0}
+\DeclareTextComposite{\v}             \UnicodeEncodingName{j}{"01F0}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{G}{"01F4}
+\DeclareTextComposite{\'}             \UnicodeEncodingName{g}{"01F5}
+\DeclareTextComposite{\textcommabelow}\UnicodeEncodingName{S}{"0218}
+\DeclareTextComposite{\textcommabelow}\UnicodeEncodingName{s}{"0219}
+\DeclareTextComposite{\textcommabelow}\UnicodeEncodingName{T}{"021A}
+\DeclareTextComposite{\textcommabelow}\UnicodeEncodingName{t}{"021B}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{B}{"1E02}
+\DeclareTextComposite{\.}             \UnicodeEncodingName{b}{"1E03}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</TU>
 %    \end{macrocode}
 %
 % \section{Package files}

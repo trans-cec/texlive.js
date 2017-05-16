@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2011'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     The package defines the command <tt>\eolgrab</tt> that reads an
     string terminated by end of line, and then calls a macro with that

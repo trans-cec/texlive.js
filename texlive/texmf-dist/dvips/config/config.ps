@@ -1,4 +1,4 @@
-% $Id: config.ps 24459 2011-11-02 15:13:04Z preining $
+% $Id: config.ps 41704 2016-07-14 22:33:33Z karl $
 % config.ps - configuration file for dvips.
 % Tomas Rokicki, Thomas Esser, Karl Berry, et al., 1986ff, public domain.
 
@@ -122,6 +122,15 @@ j
 @+ %%BeginPaperSize: smallbook
 @+ /setpagedevice where
 @+  { pop << /PageSize [504 666] >> setpagedevice }
+@+ if
+@+ %%EndPaperSize
+
+% Special paper size for IEEE Computer Society Journals
+@ ieeecs 7.875in 10.75in
+@+ ! %%DocumentPaperSizes: ieeecs
+@+ %%BeginPaperSize: ieeecs
+@+ /setpagedevice where
+@+  { pop << /PageSize [567 774] >> setpagedevice }
 @+ if
 @+ %%EndPaperSize
 

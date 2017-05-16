@@ -3,7 +3,7 @@
 %% driver files from the doc files in this package when run through
 %% LaTeX or TeX.
 %%
-%% Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 %% Copyright 1989-2008 Johannes L. Braams and any individual authors
 %% listed elsewhere in this file.  All rights reserved.
 %% 
@@ -22,27 +22,19 @@
 %% 
 %% The Current Maintainer of this work is Javier Bezos.
 %% 
-%% The list of all files belonging to the LaTeX base distribution is
-%% given in the file `manifest.bbl. See also `legal.bbl' for additional
-%% information.
-%% 
 %% The list of derived (unpacked) files belonging to the distribution
 %% and covered by LPPL is defined by the unpacking scripts (with
 %% extension .ins) which are part of the distribution.
 %%
 %% --------------- start of docstrip commands ------------------
 %%
-%% Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 %% Copyright 2005-2008 Johannes L. Braams
 %%
 %% This file is part of the `babel' system.
 %%
-%% You are allowed to distribute this file together with all files
-%% mentioned in manifest.bbl.
 %%
-%% You are not allowed to modify its contents.
-%%
-\def\filedate{2014/03/24}
+\def\filedate{2016/02/05}
 \def\batchfile{babel.ins}
 \input docstrip.tex
 
@@ -62,16 +54,15 @@
 \fi}
 
 % Modify docstrip. A pseudo-guard is defined to set variables:
-% <<name=value>>. These variables are used with <@name@>
-% Two further pseudo-guards define "block" variables: <<*name>> and
-% <</name>> delimite the lines to be retrived with <@name@>. Note
-% the verbatim guard is overriden, which it's not used here.
-% It's done in two passes: 1) with saving true, blocks are always
-% read and saved; 2) with saving false, blocks are always ignored,
-% but replacing  <@name@>.
-% While <@name@> can be used freely outside <<>>, it is only
-% allowed inside <<>> if previouly defined. Deeper nesting is
-% not allowed.
+% <<name=value>>. These variables are used with <@name@> Two further
+% pseudo-guards define "block" variables: <<*name>> and <</name>>
+% delimite the lines to be retrived with <@name@>. Note the verbatim
+% guard is overridden, but it's not used here.  This is done in two
+% passes: 1) with saving true, there is a dummy pass, generating
+% nothing, but blocks are read and saved; 2) with saving false, blocks
+% are always ignored, but replacing <@name@>.  While <@name@> can be
+% used freely outside <<>>, it's only allowed inside <<>> if
+% previously defined. Deeper nesting is not allowed.
 
 \def\replaceVar#1<@#2{%
   #1%
@@ -127,7 +118,7 @@
 \declarepreamble\mainpreamble
 This is a generated file.
 
-Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 Copyright 1989-2008 Johannes L. Braams and any individual authors
 listed elsewhere in this file.  All rights reserved.
 
@@ -164,7 +155,7 @@ extension .ins) which are part of the distribution.
 This file was generated from file(s) of the Babel system.
 ---------------------------------------------------------
 
-Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 Copyright (C) 2008 Johannes Braams. All rights reserved.
 
 To produce the documentation in the way you like you are allowed
@@ -176,7 +167,7 @@ to change this driver file.
 This file was generated from file(s) of the Babel system.
 ---------------------------------------------------------
 
-Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 Copyright (C) 2008 Johannes Braams. All rights reserved.
 
 This file is a style file for the MakeIndex program
@@ -190,8 +181,6 @@ This file is a style file for the MakeIndex program
 \askonceonly
 
 \usedir{tex/generic/babel}
-
-\askforoverwritefalse
 
 \usepreamble\mainpreamble
 
@@ -228,7 +217,6 @@ This file is a style file for the MakeIndex program
          }
 
 % compatibility files
-
 \def\compatfile#1{\file{#1.sty}{\from{bbcompat.dtx}{#1}}}
 
 \generate{%

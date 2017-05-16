@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2012'/>
   <license type='lppl1.3'/>
-  <version number='2.24'/>
+  <version number='2.26'/>
   <description>
     This package offers a means to remove the limitation, of only two
     properties, that is inherent in the way LaTeX&#x2019;s reference system

@@ -20,7 +20,7 @@
 % \iffalse    This is a METACOMMENT
 %
 %% Package `multicol' to use with LaTeX2e
-%% Copyright 1989-2015 Frank Mittelbach
+%% Copyright 1989-2016 Frank Mittelbach
 %%
 %%  In addition to the terms of LPPL any distributed version
 %%  (unchanged or modified) of multicol has to keep the statement
@@ -91,25 +91,9 @@
 %<driver> \ProvidesFile{multicol.drv}
 % \fi
 %         \ProvidesFile{multicol.dtx}
-          [2015/08/19 v1.8n  multicolumn formatting (FMi)]
+          [2016/04/07 v1.8p  multicolumn formatting (FMi)]
 %
 %
-%% \CheckSum{1894}
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
 %%
 %
 % \changes{v1.5n}{1997/06/05}{Applied improvement of documentation,
@@ -230,19 +214,20 @@
 %
 % \end{multicols}
 %
-% \RLmulticolcolumns
 %
 % \begin{multicols}{3}[\section*{Preface to version 1.7
 %                         (right to left support)}]
 %    The 1.7 release adds support for languages that are typeset
 %    right-to-left. For those languages the order of the columns on the page
-%    also need to be reversed---something that wasn't supported before. This
+%    also need to be reversed---something that wasn't supported before. The next
 %    paragraph demonstrates the result (as it is typeset as if we are writing
-%    in a left-to-right language---so restart reading the rightmost column
-%    first if you started with this column).
+%    in a left-to-right language--- so read the rightmost column
+%    first). The change is initialized via
+%    |\RLmulticolcolumns| and returning to left-right (default)
+%    is done via |\LRmulticolcolumns|.
 % \end{multicols}
 %
-% \LRmulticolcolumns
+% \RLmulticolcolumns
 %
 % \begin{multicols}{3}
 %    Right-to-left typesetting will only reverse the column orders. Any
@@ -260,6 +245,7 @@
 %\end{verbatim}
 % \end{multicols}
 %
+% \LRmulticolcolumns
 %
 % \begin{multicols}{3}[\section*{Preface to version 1.5 + 1.6}]
 %   \hbadness=10000
@@ -1911,8 +1897,11 @@
 %    environment the counter |\col@number| gets a default of |1|
 %    outside the the environment.
 % \changes{v1.3d}{1991/10/23}{\cs{col@number} set to one}
+% \changes{v1.8o}{2016/02/08}{\cs{col@number} already initialized in the 
+%    kernel, so not initializing it in the package 
+%    in case the document is in two-column (pr/4435)}
 %    \begin{macrocode}
-\col@number = 1
+%\col@number = 1
 \multicoltolerance = 9999
 \multicolpretolerance = -1
 \premulticols = 50pt
@@ -2390,7 +2379,11 @@
 %                       routine used in \LaTeX.}
 %    Admittedly this is a funny way to do it.
 %
+%    Within the OR |\boxmaxdepth| needs to be unrestricted so we set it back
+%    now as it was changed above.
+% \changes{v1.8p}{2016/04/07}{Reset \cs{boxmaxdepth}} 
 %    \begin{macrocode}
+   \boxmaxdepth\maxdimen
    \setbox\@cclv\vbox{\unvbox\partial@page
                       \page@sofar}%
 %    \end{macrocode}
@@ -3842,7 +3835,8 @@
 %    in some stretchable vertical glue so that the last column still
 %    containing text is not vertically stretched out. 
 %
-%    We do this as follows: first we cancel out |\lastskip| if it was
+%    We do this as follows: first we ensure that we are back in vertical mode
+%    and then we cancel out |\lastskip| if it was
 %    positive (in case of a negative glue we assume that it was
 %    deliberate, for a deliberate positive glue one needs to use
 %    |\vspace*|). We can't simply use |\remove@discardable@items| here
@@ -3862,8 +3856,11 @@
 % \changes{v1.8j}{2015/03/07}{Redesign the whole approach.}
 % \changes{v1.8k}{2015/03/21}{And a bit more redesign because of the
 %    change in \cs{remove@discardable@items}}
+% \changes{v1.8o}{2016/02/08}{Ensure we are back in vmode before using
+%    \cs{prevdepth} (pr/4448)}
 %    \begin{macrocode}
 \@namedef{endmulticols*}{%
+   \par
    \ifdim\lastskip>\z@ \vskip-\lastskip \fi
    \ifdim \prevdepth>\z@
      \vskip-\ifdim\prevdepth>\boxmaxdepth 

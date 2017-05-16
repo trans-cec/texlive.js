@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2009-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.8'/>
+  <version number='1.10'/>
   <description>
       This package implements color support based on LuaTeX's node
       attributes.

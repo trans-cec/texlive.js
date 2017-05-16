@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1997, 1998, 2008 2015 LaTeX Project and Peter Breitenlohner.
+% Copyright 1997, 1998, 2008 2015 2016 LaTeX Project and Peter Breitenlohner.
 % 
 % This file (etex.sty) may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3 of
@@ -13,6 +13,7 @@
 % This work has the LPPL maintenance status "maintained".
 % 
 % The Current Maintainer of this work is David Carlisle.
+% https://github.com/davidcarlisle/dpctex/issues
 % \fi
 
 \NeedsTeXFormat{LaTeX2e}
@@ -22,7 +23,10 @@
 %        [2015/03/02 v2.1 eTeX basic definition package (PEB,DPC)]
 %        [2015/07/06 v2.2 eTeX basic definition package (PEB,DPC)]
 %        [2015/07/08 v2.3 eTeX basic definition package (PEB,DPC)]
-         [2015/09/02 v2.4 eTeX basic definition package (PEB,DPC)]
+%        [2015/09/02 v2.4 eTeX basic definition package (PEB,DPC)]
+%        [2016/01/07 v2.5 eTeX basic definition package (PEB,DPC)]
+%        [2016/01/11 v2.6 eTeX basic definition package (PEB,DPC)]
+         [2016/08/01 v2.7 eTeX basic definition package (PEB,DPC)]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -112,6 +116,26 @@ etex.sty code will not be used.\MessageBreak
 To force etex package to load, add\MessageBreak
 \string\RequirePackage{etex}\MessageBreak
 at the start of the document}
+
+% 2.5 define the global allocation to be the standard ones
+% as extended allocation is already in use. Helps with
+% compatibility with some packages that use these commands 
+% after loading etex.
+% 2.6 avoid error from outer if used with (e)plain
+\expandafter\let\csname globcount\expandafter\endcsname
+                \csname newcount\endcsname
+\expandafter\let\csname globdimen\expandafter\endcsname
+                \csname newdimen\endcsname
+\expandafter\let\csname globskip\expandafter\endcsname
+                \csname newskip\endcsname
+\expandafter\let\csname globmuskip\expandafter\endcsname
+                \csname newmuskip\endcsname
+\expandafter\let\csname globtoks\expandafter\endcsname
+                \csname newtoks\endcsname
+\expandafter\let\csname globmarks\expandafter\endcsname
+                \csname newmarks\endcsname
+% end of 2.5/2.6 change
+
 \expandafter\endinput\fi
 
 % End of 2.2 addition.
@@ -125,6 +149,25 @@ at the start of the document}
 \DeclareOption{localallocnolog}{\let\et@xwlog\@gobble} % be quiet
 \DeclareOption{localallocshow}{\let\et@xwlog\typeout} % debugging
 % End of 2.3 addition.
+
+% v2.7
+% \extrafloats does not work with this package
+% but make it give a sensible error, not mis-parse \ifnum.
+%
+% Note that using \extrafloats earlier might not be safe as
+% it could in principle clash with registers used for local allocation.
+% However it probably works (as local allocation is used locally...).
+% A better fix would be not to load this package with current LaTeX.
+% This current etex package is just provided to force the old behaviour
+% and such documents should not be using new features such as \extrafloats).
+\ifdefined\extrafloats
+\def\extrafloats#1{%
+  \PackageError{etex}{%
+    \noexpand\extrafloats is incompatible with etex.sty allocation.\MessageBreak
+    Try using \noexpand\extrafloats before loading etex}%
+    \@ehc}
+\fi
+% end of v2.7 change
 
 \def\eTeX{%
   $\m@th\varepsilon$-\TeX}

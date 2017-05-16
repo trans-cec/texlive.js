@@ -6,12 +6,12 @@
 -- 
 --  luatex.dtx  (with options: `lua')
 --  
---  This (was) a generated file.
+--  This is a generated file.
 --  
 --  Project: luatex
---  Version: 2013/04/28 v0.4-roux
+--  Version: 2016/05/16 v0.6
 --  
---  Copyright (C) 2007, 2009, 2010, 2013, 2014 by
+--  Copyright (C) 2007, 2009, 2010 by
 --     Heiko Oberdiek <heiko.oberdiek at googlemail.com>
 --  
 --  This work may be distributed and/or modified under the
@@ -47,14 +47,11 @@ function kpse_module_loader(module)
       texio.write_nl("(" .. file .. ")")
       return loader
     end
-    return "\n\t[oberdiek.luatex.kpse_module_loader]-eroux Loading error:\n\t"
+    return "\n\t[oberdiek.luatex.kpse_module_loader] Loading error:\n\t"
            .. error
   end
-  return "\n\t[oberdiek.luatex.kpse_module_loader]-eroux Search failed"
+  return "\n\t[oberdiek.luatex.kpse_module_loader] Search failed"
 end
--- following line changed to use package.searchers instead of
--- package.loaders for current luatex; this is the only change in the
--- code.  eroux, 28apr13, (or package.loaders), 29mar14.
 table.insert(package.searchers or package.loaders, kpse_module_loader)
 -- 
 --  End of File `oberdiek.luatex.lua'.

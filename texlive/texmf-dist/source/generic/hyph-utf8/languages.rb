@@ -37,7 +37,18 @@ class Language
 		@licence = language_hash["licence"]
 		@authors = language_hash["authors"]
 
+		@has_quotes = false
+		@has_dashes = false
+
 		if @synonyms==nil then @synonyms = [] end
+	end
+
+	def set_quotes
+		@has_quotes = true
+	end
+
+	def set_dashes
+		@has_dashes = true
 	end
 
 	# TODO: simplify this (reduce duplication)
@@ -113,6 +124,7 @@ class Language
 	attr_reader :code, :name, :synonyms, :hyphenmin, :encoding, :exceptions, :message
 	attr_reader :description_s, :description_l, :version
 	attr_reader :licence, :authors
+	attr_reader :has_quotes, :has_dashes
 	# this hack is needed for Serbian
 	attr_writer :code
 end
@@ -205,6 +217,8 @@ class Authors < Hash
 	# email doesn't work
 	"javier_mugica"       => ["Javier", "Múgica", "javier{at}digi21{dot}eu", true, true],
 	"georgi_boshnakov"    => ["Georgi", "Boshnakov", "georgi{dot}boshnakov{at}manchester{dot}ac{dot}uk", true, true],
+	"mike_kroutikov"      => ["Mike", "Kroutikov", "pgmmpk{at}gmail{dot}com", true, true],
+	"aleksandr_andreev"   => ["Aleksandr", "Andreev", "", true, true],
 }
 #
 		authors.each do |a|
@@ -384,7 +398,7 @@ class Languages < Hash
 	"message" => "Hyphenation patterns for Ancient Greek",
 
 	"version"       => "5.0",
-	"last_modified" => "2008-06-06",
+	"last_modified" => "2016-05-12",
 	"type"          => "rules",
 	"authors"       => ["dimitrios_filippou"],
 	"licence"       => "LPPL",
@@ -784,11 +798,11 @@ class Languages < Hash
 	"exceptions" => false,
 	"message" => "Spanish hyphenation patterns",
 
-	"version"       => "4.6",
-	"last_modified" => "2010-05-18",
+	"version"       => "4.7",
+	"last_modified" => "2015-11-12",
 	"type"          => "dictionary",
 	"authors"       => [ "javier_bezos" ],
-	"licence"       => "LPPL",
+	"licence"       => "MIT/X11",
 	"description_s" => "Spanish hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -828,18 +842,17 @@ class Languages < Hash
 	"use_new_loader" => true,
 	"use_old_patterns" => false,
 	"filename_old_patterns" => "frhyph.tex",
-	"hyphenmin" => [2,3],
+	"hyphenmin" => [2,2],
 	"encoding" => "ec",
 	"exceptions" => false,
-	"message" => "French hyphenation patterns (V2.12, 2002/12/11)",
+	"message" => "French hyphenation patterns",
 
-	"version"       => "2.12",
-	"last_modified" => "2002-12-11",
+	"version"       => "2.13",
+	"last_modified" => "2016-05-12",
 	"type"          => "rules",
-	"authors"       => ["rene_bastian", "daniel_flipo", "bernard_gaulle"],
-	# TODO for Arthur: recreate mailing-list
-	# "email"         => ["cesure-l{at}gutenberg{dot}eu{dot}org"],
-	"licence"       => "other-free", # Knuthian type
+	"authors"       => ["daniel_flipo", "bernard_gaulle", "arthur_reutenauer"],
+	"email"         => ["cesure-l{at}gutenberg{dot}eu{dot}org"],
+	"licence"       => "MIT",
 	"description_s" => "French hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -886,7 +899,7 @@ class Languages < Hash
 	"last_modified" => "2004-04-13",
 	"type"          => "dictionary",
 	"authors"       => [ "een_saar" ],
-	"licence"       => "LPPL",
+	"licence"       => "LPPL|MIT", # Dual MIT-LPPL
 	"description_s" => "Estonian hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -982,7 +995,7 @@ class Languages < Hash
 	"last_modified" => "2010-05",
 	"type"          => "rules",
 	"authors"       => ["sahak_petrosyan"],
-	"licence"       => "LPGL",
+	"licence"       => "LGPL",
 	"description_s" => "Armenian hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -1268,6 +1281,30 @@ class Languages < Hash
 		"those of 'plain' Latin, the latter being more adapted to modern Latin.",
 	],
 },
+# liturgicallatin
+{
+	"code" => "la-x-liturgic",
+	"name" => "liturgicallatin",
+	"use_new_loader" => true,
+	"use_old_patterns" => false,
+	"filename_old_patterns" => nil,
+	"hyphenmin" => [2,2],
+	"encoding" => "ec",
+	"exceptions" => false,
+	"message" => "Liturgical Latin hyphenation patterns",
+
+	"version"       => "1.030",
+	"last_modified" => "2016-04-28",
+	"type"          => "rules",
+	"authors"       => [ "claudio_beccari" ],
+	"licence"       => "MIT",
+	"description_s" => "Liturgical Latin hyphenation patterns",
+	"description_l" => [
+		#......................................................................#
+		"Hyphenation patterns for the Liturgical Latin in T1/EC and UTF-8",
+		"encodings.",
+	],
+},
 # lithuanian
 {
 	"code" => "lt",
@@ -1344,6 +1381,32 @@ class Languages < Hash
 		"to their meaning."
 	],
 },
+# occitan
+{
+	"code" => "oc",
+	"name" => "occitan",
+	"use_new_loader" => true,
+	"use_old_patterns" => false,
+	"hyphenmin" => [2,2],
+	"encoding" => "ec",
+	"exceptions" => false,
+	"message" => "Occitan hyphenation patterns",
+
+	"version"       => "0.1",
+	"last_modified" => "2016-02-04",
+	"type"          => "rules",
+	"authors"       => [ "claudio_beccari" ],
+	"licence"       => "LPPL",
+	"description_s" => "Occitan hyphenation patterns",
+	"description_l" => [
+		#......................................................................#
+		"Hyphenation patterns for Occitan in T1/EC and UTF-8 encodings.",
+		"They are supposed to be valid for all the Occitan variants",
+		"spoken and written in the wide area called 'Occitanie' by the French.",
+		"It ranges from the Val d'Aran within Catalunya, to the South Western",
+		"Italian Alps encompassing the southern half of the French pentagon.",
+	],
+},
 # polish
 {
 	"code" => "pl",
@@ -1386,7 +1449,7 @@ class Languages < Hash
 	"last_modified" => "1996-07-21",
 	"type"          => "rules", # TODO: we could create a generating script
 	"authors"       => ["pedro_j_de_rezende", "j_joao_dias_almeida"],
-	"licence"       => "LPPL",
+	"licence"       => "BSD-3",
 	"description_s" => "Portuguese hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -1832,11 +1895,11 @@ class Languages < Hash
 	"message" => "Assamese hyphenation patterns",
 
 	# this is true for all Indic patterns
-	"version"       => "0.5.3",
-	"last_modified" => "2010-05-01",
+	"version"       => "0.9.0",
+	"last_modified" => "2016-01-16",
 	"type"          => "rules",
 	"authors"       => ["santhosh_thottingal"],
-	"licence"       => "LGPL",
+	"licence"       => "MIT",
 	"description_s" => "Indic hyphenation patterns",
 	"description_l" => [
 		#......................................................................#
@@ -2045,6 +2108,26 @@ class Languages < Hash
 		"Hyphenation patterns for Georgian in T8M, T8K and UTF-8 encodings.",
 	],
 },
+# Church Slavonic
+{
+	"code" => "cu",
+	"name" => "churchslavonic",
+	"use_new_loader" => true,
+	"hyphenmin" => [1, 2],
+	"encoding" => nil,
+	"exceptions" => true,
+	"message" => "Church Slavonic hyphenation patterns",
+
+	"version" => nil,
+	"last_modified" => "2016-04-16",
+	"type" => "machine learning",
+	"authors" => ["mike_kroutikov", "aleksandr_andreev"],
+	"licence" => "MIT",
+	"description_s" => "Church Slavonic hyphenation patterns",
+	"description_l" => [
+		"Hyphenation patterns for Church Slavonic in UTF-8 encoding",
+	],
+}
 # dumylang -> dumyhyph.tex
 # nohyphenation -> zerohyph.tex
 # arabic -> zerohyph.tex
@@ -2052,8 +2135,18 @@ class Languages < Hash
 # =persian
 		]
 
+		# TODO: do not hardcode this list; auto-generate it instead
+		languages_with_quotes = ['af', 'fr', 'fur', 'it', 'oc', 'pms', 'rm', 'uk', 'zh-latn-pinyin']
+		languages_with_dashes = ['af', 'pt', 'ru', 'tk', 'uk']
+
 		languages.each do |l|
 			language = Language.new(l)
+			if languages_with_quotes.include?(language.code) then
+				language.set_quotes()
+			end
+			if languages_with_dashes.include?(language.code) then
+				language.set_dashes()
+			end
 			@@list.push(language)
 			self[language.code] = language
 		end

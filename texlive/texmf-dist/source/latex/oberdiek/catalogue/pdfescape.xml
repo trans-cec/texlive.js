@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2010,2011'/>
   <license type='lppl1.3'/>
-  <version number='1.13'/>
+  <version number='1.14'/>
   <description>
     This package implements <xref refid='pdftex'>pdfTeX</xref>'s
     escape features (<tt>\pdfescapehex</tt>, <tt>\pdfunescapehex</tt>,

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2005-2010,2012'/>
   <license type='lppl1.3'/>
-  <version number='2.7'/>
+  <version number='2.8'/>
   <description>
     This package can be used to attach files to a PDF document.
     It is a further development of Scott Pakin&#x2019;s package

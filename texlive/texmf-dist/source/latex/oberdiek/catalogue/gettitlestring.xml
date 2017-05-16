@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2009,2010'/>
   <license type='lppl1.3'/>
-  <version number='1.4'/>
+  <version number='1.5'/>
   <description>
     Cleans up the title string (removing <tt>\label</tt> commands) for
     packages (such as <xref refid='nameref'>nameref</xref>) that

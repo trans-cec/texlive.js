@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2015
+% Copyright 1993-2016
 %
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
@@ -22,7 +22,7 @@
 % \fi
 % \iffalse
 %% Package varioref to use with LaTeX2e
-%% Copyright (C) 1992-2015  Frank Mittelbach, all rights reserved.
+%% Copyright (C) 1992-2016  Frank Mittelbach, all rights reserved.
 %%
 %% For additions or updates to the language options please contact
 %% the author at
@@ -34,31 +34,19 @@
 %
 %<package>\NeedsTeXFormat{LaTeX2e}[1995/05/16]
 %<package>\ProvidesPackage{varioref}
-%<package>    [2015/09/22 v1.5b package for extended references (FMi)]
+%<package>    [2016/02/16 v1.5c package for extended references (FMi)]
 % \fi
 %
-% \CheckSum{2165}
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
 %%
 %
 %
 % \changes{v1.0a}{1993/12/06}{Upgrade to LaTeX2e}
 % \changes{v1.0g}{1994/05/27}{Use \cmd\DeclareRobustCommand}
+% \changes{v1.5c}{2016/02/09}{Revamped some of the documentation to better
+%	explain how varioref could be used in a multi-lingual context}
+
 %
+% \newcommand\NewIn[1]{\marginpar{\fbox{\fbox{\sffamily\tabular{l}New in\\#1\endtabular}}}}
 %
 % \title{The \texttt{varioref} package\thanks{This file
 %        has version number \fileversion, last
@@ -83,6 +71,12 @@
 %   Generated strings are customizable so that these
 %   commands are usable with various languages.
 % \end{abstract}
+%
+%
+% \columnsep=2\columnsep
+% \begin{multicols}{2}
+%   \tableofcontents
+% \end{multicols}
 %
 % \section{Introduction}
 %
@@ -167,9 +161,9 @@
 % to achieve the desired effect.
 %
 %
-% \subsection{Additions in 1998}
-%
-% \DescribeMacro\vrefrange This command is similar to |\vref| but it
+% \DescribeMacro\vrefrange 
+% \NewIn{1998}
+% This command is similar to |\vref| but it
 % takes two mandatory arguments denoting a range to refer to (e.g., a
 % sequences of figures or a sequence of equations, etc.). So if
 % |fig:a| is your first figure in the sequence and |fig:c| your last
@@ -232,9 +226,9 @@
 % \end{quote}
 % in case the are on different pages.
 %
-% \subsection{Additions in 2001}
 %
 % The user commands |\vref|, |\vpageref|, and |\vpagerefrange| all
+% \NewIn{2001}
 % work by first removing any space on their left and then inserting
 % some space of their own (|\vref|, for example, a nonbreakable
 % space). That seemed like a good idea back then, but it has the
@@ -251,9 +245,9 @@
 % generated text (they do nevertheless remove space at the left).
 %
 %
-% \subsection{Additions in 2002}
 %
 % \DescribeMacro\labelformat
+% \NewIn{2002}
 % A reference via |\ref| produces by default the data associated with
 % the corresponding |\label| command (typically a number); any
 % additional formatting has to be provided by the user. If, for
@@ -308,17 +302,45 @@
 %\end{verbatim}
 % textual references can be suppressed.
 %
+% \section{Multi-lingual usage}
+%
+% The package works well together with the babel system if it is
+% loaded \textit{after} the babel package, e.g., a document in English
+% (default), French and German text could load the packages as
+% follows:
+%\begin{verbatim}
+%   \usepackage[ngerman,french,english]{babel,varioref}
+%\end{verbatim}
+% (or in two separate lines if you prefer one |\usepackage| line per
+% package). Depending on the current babel language |\vref| and
+% friends would then generate strings in different languages. If the
+% language options are given as global options to the document class
+% then it is enough to use
+%\begin{verbatim}
+%   \usepackage{babel,varioref}
+%\end{verbatim}
+% to achieve the same effect.
+%
+% If more than one language is specified with \texttt{varioref} then
+% it will start using the last language selected. Switching of
+% languages is managed through Babel; nevertheless all languages of
+% interest need to be specified when \texttt{varioref} is loaded so
+% that it can integrate their strings into the Babel system.
+%
 %
 % \section{Customization}
 %
 % The package supports all options defined by the babel package to
 % translate the fixed strings into other languages than English.
-% (Some languages need updating, however.)
-% It also supports languages currently not in babel;
-% check the section on options later on.
+% (Some languages need updating, however---help is appreciated.)  It
+% also supports languages currently not in babel (those can only be
+% used standalone, obviously); check the section on options later~on.
+%
+%
+% \pagebreak[3]
 %
 % You can also modify some or all of the strings by redefining the
-% following commands.
+% following commands after the package has been loaded.
 %\DescribeMacro\reftextbefore
 %\DescribeMacro\reftextfacebefore
 %\DescribeMacro\reftextafter
@@ -346,22 +368,8 @@
 % |\vpageref| commands.  As an example see the definitions of
 % |\reftextbefore| etc.\ \vpageref[below]{reftextbefore}.
 %
-% \begin{itshape} If babel is being used then the above commands need to be
-% changed using the Babel mechanism, e.g.,
-%\begin{verbatim}
-%\addto\extrasngerman{%
-%   \renewcommand\reftextfaceafter {auf der n\"achsten Seite}%
-%    ...
-%  }
-%\end{verbatim}
-% Otherwise babel will reintroduce its own defaults each time the language is
-% changed (which happens in particular during |\begin{document}| where the
-%    main language is selected).
-% \end{itshape}
-%
-% \subsection{Additions in 1998}
-%
 % The commands |\vrefrange| and |\vpagerefrange| produce their text
+% \NewIn{1998}
 % using two macros described below. By redefining them one can modify
 % the results to accommodate special requirements.
 %
@@ -379,14 +387,32 @@
 % describes the range of figures, tables, or whatever the labels refer
 % to, the default for English is ``|\ref{#1} to~\ref{#2}|''.
 %
+% \subsection{\ldots\ if Babel is used}
+%
+% \begin{itshape} If babel is being used then the above commands need to be
+% changed using the Babel mechanism, e.g.,
+%\begin{verbatim}
+%  \addto\extrasngerman{%
+%     \renewcommand\reftextfaceafter {auf der n\"achsten Seite}%
+%      ... }
+%\end{verbatim}
+% Otherwise babel will reintroduce its own defaults whenever the language is
+% changed (which happens in particular during |\begin{document}| where the
+%    main language is selected).
+% \end{itshape}
+%
+%
+%
 %
 % \section{Options}
 %
 % As mentioned above the package supports all standard options offered
-% by the Babel system to customize the strings produced. In addition it
-% offers the option \texttt{draft} to turn error messages into warnings
-% during development. The default \texttt{final} produces error message
-% when a generated string falls onto a page boundary (see next section).
+% by the Babel system to customize the strings produced, it may also
+% have a few not supported by babel, for a full list look
+% in section\vref{sec:impoptions}. In addition it offers the option
+% \texttt{draft} to turn error messages into warnings during
+% development. The default \texttt{final} produces error message when
+% a generated string falls onto a page boundary (see next section).
 %
 %
 % \section{A few warnings}
@@ -439,7 +465,7 @@
 %    \begin{macrocode}
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{varioref}
+\usepackage{multicol,varioref}
 \GetFileInfo{varioref.sty}
 \setlength\hfuzz{1pt}    % ignore slight overfulls
 \EnableCrossrefs
@@ -506,7 +532,7 @@
 %  \end{macro}
 %
 %
-% \subsection{Options}
+% \subsection{Options}\label{sec:impoptions}
 %
 %  \begin{macro}{\vref@excuse}
 %    Excuse that we don't know the strings for a certain language.
@@ -1540,7 +1566,7 @@
 % \changes{v1.4e}{2003/01/08}{Use \cs{vref@label} instead of
 %    \cs{label} (pr/3489)}
 %    \begin{macrocode}
-   \vref@label{\the\c@vrcnt @xvr}%
+  \vref@label{\the\c@vrcnt @xvr}%
 %    \end{macrocode}
 % \changes{v1.1g}{1998/05/10}{Test if inside AMS display (pr2175)}
 %    Inside displays of the \texttt{amsmath} package the |\label| command
@@ -1550,16 +1576,26 @@
 %    [This is no longer necessary as |\label| isn't used any more]
 %    \begin{macrocode}
 %  \ifx\label\label@in@display\else
-    \ifx\@tempa\@tempb\else
+  \ifx\@tempa\@tempb
+    \let\vref@may@loop\relax
+  \else
 %    \end{macrocode}
 %    If both points do not fall onto the same page with either issue
 %    an error or a warning message.
+%    However, we do no longer issue that warning now but wait until we
+%    are sure that both labels aren't ``far away'' because in that
+%    case it doesn't matter. So we just save that info in a macro now.
 % \changes{v1.0g}{1994/05/27}{Looping pages shown in wrong order}
+% \changes{v1.5c}{2016/02/16}{Delay generating the looping warning
+%                until we know more}
 %    \begin{macrocode}
-    \vref@err{\noexpand\vref or \noexpand\vpageref at page boundary
+    \edef\vref@may@loop{%
+      \noexpand\vref@err{\noexpand\vref or \noexpand\vpageref
+              at page boundary
               \@tempb-\@tempa\space (may loop)%
               }%
-    \fi
+      }%
+   \fi
 %  \fi
 %    \end{macrocode}
 %    Same game for the user requested label; this time the page
@@ -1696,12 +1732,14 @@
 %    \end{macrocode}
 %    If the above test also returns false then we have object and
 %    references on pages which are far away or don't contain simple
-%    page numbers. Therefore we generate the |\reftextfaraway| string.
+%    page numbers. Therefore we generate the |\reftextfaraway| string
+%    and drop any possible ``looping warning'' in |\vref@may@loop|.
 %    Recall that this is a macro which has the user label as an
 %    argument.
 %    \begin{macrocode}
           \else
-            \reftextfaraway{#3}%
+          \let\vref@may@loop\relax % added
+          \reftextfaraway{#3}%
           \fi
         \fi
        }%
@@ -1709,7 +1747,9 @@
 %    We do the same if our first test (that the page with the object
 %    has a positive page number) turns out to be false.
 %    \begin{macrocode}
-       {\reftextfaraway{#3}}%
+       {%
+         \let\vref@may@loop\relax %added
+         \reftextfaraway{#3}}%
   \fi
 %    \end{macrocode}
 %    Finally we generate the internal label so that it can be check on
@@ -1725,8 +1765,14 @@
 %    the latter command.
 % \changes{v1.4e}{2003/01/08}{Use \cs{vref@label} instead of
 %    \cs{label}  (pr/3489)}
+% \changes{v1.5c}{2016/02/16}{}
 %    \begin{macrocode}
    \vref@label{\the\c@vrcnt @vr}%
+%    \end{macrocode}
+%    Finally we run |\vref@may@loop| which is either |\relax| or generates
+%    a ``may loop'' warning or error as appropriate.
+%    \begin{macrocode}
+   \vref@may@loop
 }
 %    \end{macrocode}
 % \end{macro}

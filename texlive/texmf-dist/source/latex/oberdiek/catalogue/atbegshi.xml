@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.16'/>
+  <version number='1.18'/>
   <description>
     This package is a modern reimplementation of package
     <xref refid='everyshi'>everyshi</xref>, providing various commands

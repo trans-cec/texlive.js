@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2000,2003,2006-2008,2010'/>
   <license type='lppl1.3'/>
-  <version number='1.8'/>
+  <version number='1.9'/>
   <description>
     Defines <tt>\engord</tt> (used like <tt>\arabic</tt>,
     <tt>\roman</tt>, etc.), and <tt>\engordnumber</tt> (which formats

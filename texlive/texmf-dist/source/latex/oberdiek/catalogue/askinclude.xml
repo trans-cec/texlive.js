@@ -8,7 +8,7 @@
   <copyright owner="Pablo A. Straub" year='1991-1994'/>
   <copyright owner="Heiko Oberdiek" year='2007,2008,2011'/>
   <license type='lppl1.3'/>
-  <version number='2.2'/>
+  <version number='2.3'/>
   <description>
     The package asks the user which files to put in a \includeonly
     command.  There is provision for answering &#x201C;same as last

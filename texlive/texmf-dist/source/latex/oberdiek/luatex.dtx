@@ -1,11 +1,13 @@
 % \iffalse meta-comment
 %
 % File: luatex.dtx
-% Version: 2010/03/09 v0.4
+% Version: 2016/05/16 v0.6
 % Info: LuaTeX basic definition package
 %
 % Copyright (C) 2007, 2009, 2010 by
 %    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+%    2016
+%    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -87,7 +89,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: luatex 2010/03/09 v0.4 LuaTeX basic definition package (HO)}
+\Msg{* Package: luatex 2016/05/16 v0.6 LuaTeX basic definition package (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -99,7 +101,7 @@
 This is a generated file.
 
 Project: luatex
-Version: 2010/03/09 v0.4
+Version: 2016/05/16 v0.6
 
 Copyright (C) 2007, 2009, 2010 by
    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -186,7 +188,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{luatex.drv}%
-  [2010/03/09 v0.4 LuaTeX basic definition package (HO)]%
+  [2016/05/16 v0.6 LuaTeX basic definition package (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \usepackage{paralist}
@@ -196,7 +198,6 @@ and the derived files
 %</driver>
 % \fi
 %
-% \CheckSum{1429}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -217,8 +218,10 @@ and the derived files
 % \GetFileInfo{luatex.drv}
 %
 % \title{The \xpackage{luatex} package}
-% \date{2010/03/09 v0.4}
-% \author{Heiko Oberdiek\\\xemail{heiko.oberdiek at googlemail.com}}
+% \date{2016/05/16 v0.6}
+% \author{Heiko Oberdiek\thanks
+% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
+% \xemail{heiko.oberdiek at googlemail.com}}
 %
 % \maketitle
 %
@@ -572,7 +575,7 @@ and the derived files
   \fi
 \expandafter\x\csname ver@luatex.sty\endcsname
 \ProvidesPackage{luatex}%
-  [2010/03/09 v0.4 LuaTeX basic definition package (HO)]%
+  [2016/05/16 v0.6 LuaTeX basic definition package (HO)]%
 %    \end{macrocode}
 %
 % \subsection{Catcodes}
@@ -952,6 +955,7 @@ and the derived files
 %    \end{macro}
 %    \begin{macro}{\newattribute}
 %    \begin{macrocode}
+\ifx\newattribute\@undefined
 \LuT@newcommand\newattribute[1]{%
   \ifnum\LuT@AllocAttribute<65535 %
     \global\advance\LuT@AllocAttribute\@ne
@@ -963,6 +967,7 @@ and the derived files
     \errmessage{No room for a new \string\attribute}%
   \fi
 }
+\fi
 %    \end{macrocode}
 %    \end{macro}
 %
@@ -970,13 +975,16 @@ and the derived files
 %
 %    \begin{macro}{\setattribute}
 %    \begin{macrocode}
+\ifx\setattribute\@undefined
 \LuT@newcommand\setattribute[2]{%
   #1=\numexpr#2\relax
 }
+\fi
 %    \end{macrocode}
 %    \end{macro}
 %    \begin{macro}{\unsetattribute}
 %    \begin{macrocode}
+\ifx\unsetattribute\@undefined
 \ifnum\luatexversion<37
   \LuT@newcommand\LuT@UnsetAttributeValue[0]{}%
   \let\LuT@UnsetAttributeValue\m@ne
@@ -986,6 +994,7 @@ and the derived files
 \LuT@newcommand\unsetattribute[1]{%
   #1=\LuT@UnsetAttributeValue
 }
+\fi
 %    \end{macrocode}
 %    \end{macro}
 %
@@ -1003,6 +1012,7 @@ and the derived files
 %    \end{macro}
 %    \begin{macro}{\newcatcodetable}
 %    \begin{macrocode}
+\ifx\newcatcodetable\@undefined
 \LuT@newcommand\newcatcodetable[1]{%
   \ifnum\LuT@AllocCatcodeTable<1114110 % 0x10FFFF is maximal \chardef
     % or < 268435455 % 2^28 - 1
@@ -1016,6 +1026,7 @@ and the derived files
     \errmessage{No room for a new \string\catcodetable}%
   \fi
 }%
+\fi
 %    \end{macrocode}
 %    \end{macro}
 %
@@ -1268,7 +1279,7 @@ and the derived files
   \fi
 \expandafter\x\csname ver@luatex-loader.sty\endcsname
 \ProvidesPackage{luatex-loader}%
-  [2010/03/09 v0.4 Lua module loader (HO)]%
+  [2016/05/16 v0.6 Lua module loader (HO)]%
 %    \end{macrocode}
 %    \begin{macrocode}
 \begingroup\catcode61\catcode48\catcode32=10\relax%
@@ -1345,7 +1356,12 @@ function kpse_module_loader(module)
   end
   return "\n\t[oberdiek.luatex.kpse_module_loader] Search failed"
 end
-table.insert(package.loaders, kpse_module_loader)
+%    \end{macrocode}
+% following line changed to use package.searchers instead of
+% package.loaders for current luatex; this is the only change in the
+% code.  eroux, 28apr13, (or package.loaders), 29mar14.
+%    \begin{macrocode}
+table.insert(package.searchers or package.loaders, kpse_module_loader)
 %    \end{macrocode}
 %    \begin{macrocode}
 %</lua>
@@ -1686,7 +1702,7 @@ table.insert(package.loaders, kpse_module_loader)
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{ftp://ftp.ctan.org/tex-archive/}}:
+% CTAN\footnote{\url{http://ctan.org/pkg/luatex}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/luatex.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/luatex.pdf}] Documentation.
@@ -1886,7 +1902,7 @@ table.insert(package.loaders, kpse_module_loader)
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2009,2010'/>
   <license type='lppl1.3'/>
-  <version number='0.4'/>
+  <version number='0.6'/>
   <description>
     LuaTeX is an extended version of pdfTeX using Lua as an embedded
     scripting language.  The LuaTeX project&#x2019;s main objective
@@ -1934,6 +1950,17 @@ table.insert(package.loaders, kpse_module_loader)
 %     Support for lua states removed.
 %   \item
 %     Calling tex.enableprimitives for used primitives.
+%   \end{Version}
+%   \begin{Version}{2016/05/10 v0.5}
+%   \item
+%    Use package.searchers
+%   \item only conditionally define commands such as
+%   \verb|\newcatcodetable|
+%   that are now defined in the Lua\LaTeX\ format.
+%   \end{Version}
+%   \begin{Version}{2016/05/16 v0.6}
+%   \item
+%     Documentation updates.
 %   \end{Version}
 % \end{History}
 %

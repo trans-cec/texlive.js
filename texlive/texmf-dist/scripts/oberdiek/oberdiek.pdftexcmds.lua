@@ -9,7 +9,7 @@
 --  This is a generated file.
 --  
 --  Project: pdftexcmds
---  Version: 2011/11/29 v0.20
+--  Version: 2017/03/19 v0.25
 --  
 --  Copyright (C) 2007, 2009-2011 by
 --     Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -41,7 +41,7 @@
 module("oberdiek.pdftexcmds", package.seeall)
 local systemexitstatus
 function getversion()
-  tex.write("2011/11/29 v0.20")
+  tex.write("2017/03/19 v0.25")
 end
 function strcmp(A, B)
   if A == B then
@@ -150,6 +150,7 @@ function unescapehex(str, mode, patch)
     end
     result = utf8
   end
+  local unpack = _G["unpack"] or table.unpack
   tex.settoks(toks, string.char(unpack(result)))
 end
 function escapestring(str, mode)
@@ -252,6 +253,7 @@ function filedump(offset, length, filename)
         end
         local dump = filehandle:read(length)
         escapehex(dump)
+        filehandle:close()
       end
     end
   end
@@ -269,6 +271,7 @@ function filemdfivesum(filename)
     if filehandle then
       local contents = filehandle:read("*a")
       escapehex(md5.sum(contents))
+      filehandle:close()
     end
   end
 end

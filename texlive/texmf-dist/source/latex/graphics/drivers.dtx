@@ -3,7 +3,7 @@
 %
 %% drivers.dtx Copyright (C) 1994      David Carlisle Sebastian Rahtz
 %%             Copyright (C) 1995 1996 1997 1998 1999 David Carlisle
-%%             Copyright (C) 2000--2015 David Carlisle, LaTeX3 Project
+%%             Copyright (C) 2000--2016 David Carlisle, LaTeX3 Project
 %%
 %% This file is part of the Standard LaTeX `Graphics Bundle'.
 %% It may be distributed under the terms of the LaTeX Project Public
@@ -37,7 +37,7 @@
     \NeedsTeXFormat{LaTeX2e}
     \ProvidesFile{drivers.dtx}
 %</driver>
-        [2014/10/14 v3.0j Driver-dependent file (DPC,SPQR)]
+        [2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)]
 %
 %<*driver>
     \documentclass{ltxdoc}
@@ -54,7 +54,6 @@
 %</driver>
 % \fi
 %
-% \CheckSum{1546}
 %
 %
 % \providecommand\OzTeX{O\kern-.03em z\kern-.15em\TeX}
@@ -547,6 +546,36 @@
 % first page of a document.
 %    \begin{macrocode}
 \def\Gin@PS@file@header#1{\AtBeginDvi{\special{header=#1}}}
+%    \end{macrocode}
+%
+% \section{Page Size}
+%
+% \changes{v3.0l}{2016/06/02}{page size special added to patch pdftex.def}
+% \changes{v3.0m}{2016/06/17}{guards for contributed packages and plain TeX}
+%    \begin{macrocode}
+\@ifundefined{ifGin@setpagesize}
+  {\expandafter\let\csname ifGin@setpagesize\expandafter\endcsname
+                    \csname iftrue\endcsname}
+  {}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\ifGin@setpagesize
+\ifx\paperwidth\@undefined\else
+  \AtBeginDocument{\AtBeginDvi{%
+    \begingroup
+    \ifx\stockwidth\@undefined\else
+      \paperwidth\stockwidth
+      \paperheight\stockheight
+    \fi
+    \ifdim\paperwidth>\z@
+      \ifdim\paperheight>\z@
+        \special{papersize=\the\paperwidth,\the\paperheight}%
+      \fi
+    \fi
+    \endgroup}}
+\fi
+\fi
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -1621,15 +1650,17 @@ please rename the file to .eps file extension.^^J%
 \def\Gin@extensions{.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps}
 %    \end{macrocode}
 %
+% \changes{v3.0k}{2015/12/30}
+%     {compressed files don't require gunzip for dvips/xdvi}
 %    \begin{macrocode}
 \@namedef{Gin@rule@.ps}#1{{eps}{.ps}{#1}}
 \@namedef{Gin@rule@.eps}#1{{eps}{.eps}{#1}}
 \@namedef{Gin@rule@.mps}#1{{eps}{.mps}{#1}}
-\@namedef{Gin@rule@.pz}#1{{eps}{.bb}{`gunzip -c #1}}
-\@namedef{Gin@rule@.eps.Z}#1{{eps}{.eps.bb}{`gunzip -c #1}}
-\@namedef{Gin@rule@.ps.Z}#1{{eps}{.ps.bb}{`gunzip -c #1}}
-\@namedef{Gin@rule@.ps.gz}#1{{eps}{.ps.bb}{`gunzip -c #1}}
-\@namedef{Gin@rule@.eps.gz}#1{{eps}{.eps.bb}{`gunzip -c #1}}
+\@namedef{Gin@rule@.pz}#1{{eps}{.bb}{#1}}
+\@namedef{Gin@rule@.eps.Z}#1{{eps}{.eps.bb}{#1}}
+\@namedef{Gin@rule@.ps.Z}#1{{eps}{.ps.bb}{#1}}
+\@namedef{Gin@rule@.ps.gz}#1{{eps}{.ps.bb}{#1}}
+\@namedef{Gin@rule@.eps.gz}#1{{eps}{.eps.bb}{#1}}
 %    \end{macrocode}
 %
 %    \begin{macrocode}

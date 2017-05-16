@@ -11,7 +11,7 @@ return {
   content = {
     variables = {
       TEXMFLOCAL = "selfautoparent:/texmf-local",
-      TEXMFVAR = "/home/thunder/emsdk_portable/texlive.js/home/texmf-var",
+      TEXMFVAR = "/tmp/tex/texlive.js/home/texmf-var",
     },
   },
 }

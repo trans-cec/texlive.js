@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2010'/>
   <license type='lppl1.3'/>
-  <version number='0.3'/>
+  <version number='0.4'/>
   <description>
     Since PDF 1.5 portions of a page can be marked for better accessibility
     support. For example, replacement texts or expansions of abbreviations can

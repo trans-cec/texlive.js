@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     Since version 1.40 <xref refid='pdftex'>pdfTeX</xref> supports
     several color stacks. This package shows how a separate colour stack

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.10'/>
+  <version number='1.11'/>
   <description>
     This package deals with input encodings. The first stage
     provides input encodings using

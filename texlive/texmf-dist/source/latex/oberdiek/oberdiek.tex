@@ -5,8 +5,8 @@
 \newcommand*{\CTANroot}{ftp://ftp.ctan.org/tex-archive/}
 \newcommand*{\Subject}{CTAN:\CTANdir}
 \newcommand*{\Author}{Heiko Oberdiek}
-\newcommand*{\Email}{heiko.oberdiek at googlemail.com}
-\newcommand*{\Date}{2012/05/28}
+\newcommand*{\Email}{ho-tex at tug.org}
+\newcommand*{\Date}{2017/03/19}
 
 % Copyright (C) 2006-2011 by
 %    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -33,7 +33,7 @@
 \ifluatex
   \usepackage{fontspec}[2011/09/18]%
   \usepackage{unicode-math}[2011/09/19]%
-  \setmathfont{lmmath-regular.otf}%
+  \setmathfont{latinmodern-math.otf}%
 \fi
 
 \usepackage[
@@ -114,7 +114,7 @@
     \makeatletter
     \def\@prj{#1}%
     \let\contentsline\foreign@contentsline
-    \input{../\@prj/\@prj.toc}%
+    \input{\@prj.toc}%
   \endgroup
 }
 \def\foreign@contentsline#1#2#3#4{%
@@ -233,13 +233,13 @@
 [\entrysep]
 \entry{grffile}{2012/04/05}{1.16}{Extended file name support for graphics}%
 [\entrysep]
-\entry{hobsub}{2012/05/28}{1.13}{Construct package bundles}%
+\entry{hobsub}{2012/04/25}{1.12}{Construct package bundles}%
 [\entrysep]
 \entry{hologo}{2012/04/26}{1.10}{A logo collection with bookmark support}%
 [\entrysep]
 \entry{holtxdoc}{2012/03/21}{0.24}{Private additional ltxdoc support}%
 [\entrysep]
-\entry{hopatch}{2012/05/28}{1.2}{Wrapper for package hooks}%
+\entry{hopatch}{2011/06/24}{1.1}{Wrapper for package hooks}%
 [\entrysep]
 \entry{hycolor}{2011/01/30}{1.7}{Color options for hyperref/bookmark}%
 [\entrysep]
