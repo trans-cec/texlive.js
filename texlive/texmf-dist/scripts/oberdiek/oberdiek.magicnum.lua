@@ -9,7 +9,7 @@
 --  This is a generated file.
 --  
 --  Project: magicnum
---  Version: 2011/04/10 v1.4
+--  Version: 2016/05/16 v1.5
 --  
 --  Copyright (C) 2007, 2009-2011 by
 --     Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -39,7 +39,7 @@
 --  
 module("oberdiek.magicnum", package.seeall)
 function getversion()
-  tex.write("2011/04/10 v1.4")
+  tex.write("2016/05/16 v1.5")
 end
 local data = {
   ["tex.catcode"] = {

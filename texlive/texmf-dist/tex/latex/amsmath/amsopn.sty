@@ -7,17 +7,7 @@
 %% amsopn.dtx 
 %% 
 %% Copyright 1995, 1999 American Mathematical Society.
-%% 
-%% American Mathematical Society
-%% Technical Support
-%% Publications Technical Group
-%% 201 Charles Street
-%% Providence, RI 02904
-%% USA
-%% tel: (401) 455-4080
-%%      (800) 321-4267 (USA and Canada only)
-%% fax: (401) 331-3842
-%% email: tech-support@ams.org
+%% Copyright 2016 LaTeX3 Project and American Mathematical Society.
 %% 
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3c
@@ -29,19 +19,26 @@
 %% 
 %% This work has the LPPL maintenance status `maintained'.
 %% 
-%% The Current Maintainer of this work is the American Mathematical
-%% Society.
+%% The Current Maintainer of this work is the LaTeX3 project.
 %% 
 \NeedsTeXFormat{LaTeX2e}% LaTeX 2.09 can't be used (nor non-LaTeX)
 [1994/12/01]% LaTeX date must December 1994 or later
-\ProvidesPackage{amsopn}[1999/12/14 v2.01 operator names]
+\ProvidesPackage{amsopn}[2016/03/08 v2.02 operator names]
 \def\nolimits@{\@ifnextchar\limits{\nolimits\@gobble}{\nolimits}}
 \begingroup \catcode`\"=12
+\ifx\Umathcode\@undefined
 \gdef\newmcodes@{\mathcode`\'39\mathcode`\*42\mathcode`\."613A%
   \ifnum\mathcode`\-=45 \else
     \mathchardef\std@minus\mathcode`\-\relax
   \fi
   \mathcode`\-45\mathcode`\/47\mathcode`\:"603A\relax}
+\else
+\gdef\newmcodes@{\mathcode`\'39\mathcode`\*42\mathcode`\."613A%
+  \ifnum\Umathcodenum`\-=45 \else
+    \Umathcharnumdef\std@minus\Umathcodenum`\-\relax
+  \fi
+  \mathcode`\-45\mathcode`\/47\mathcode`\:"603A\relax}
+\fi
 \endgroup
 \DeclareRobustCommand{\operatorname}{%
   \@ifstar{\qopname\newmcodes@ m}%

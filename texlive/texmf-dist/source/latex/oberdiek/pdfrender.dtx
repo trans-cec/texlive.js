@@ -1,11 +1,13 @@
 % \iffalse meta-comment
 %
 % File: pdfrender.dtx
-% Version: 2010/01/28 v1.2
+% Version: 2016/05/17 v1.4
 % Info: Access to some PDF graphics parameters
 %
 % Copyright (C) 2010 by
 %    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+%    2016
+%    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -86,7 +88,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: pdfrender 2010/01/28 v1.2 Access to some PDF graphics parameters (HO)}
+\Msg{* Package: pdfrender 2016/05/17 v1.4 Access to some PDF graphics parameters (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -98,7 +100,7 @@
 This is a generated file.
 
 Project: pdfrender
-Version: 2010/01/28 v1.2
+Version: 2016/05/17 v1.4
 
 Copyright (C) 2010 by
    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -171,7 +173,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{pdfrender.drv}%
-  [2010/01/28 v1.2 Access to some PDF graphics parameters (HO)]%
+  [2016/05/17 v1.4 Access to some PDF graphics parameters (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \usepackage{longtable}
@@ -182,7 +184,6 @@ and the derived files
 %</driver>
 % \fi
 %
-% \CheckSum{1460}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -203,8 +204,10 @@ and the derived files
 % \GetFileInfo{pdfrender.drv}
 %
 % \title{The \xpackage{pdfrender} package}
-% \date{2010/01/28 v1.2}
-% \author{Heiko Oberdiek\\\xemail{heiko.oberdiek at googlemail.com}}
+% \date{2016/05/17 v1.4}
+% \author{Heiko Oberdiek\thanks
+% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
+% \xemail{heiko.oberdiek at googlemail.com}}
 %
 % \maketitle
 %
@@ -457,7 +460,7 @@ and the derived files
   \fi
 \expandafter\x\csname ver@pdfrender.sty\endcsname
 \ProvidesPackage{pdfrender}%
-  [2010/01/28 v1.2 Access to some PDF graphics parameters (HO)]%
+  [2016/05/17 v1.4 Access to some PDF graphics parameters (HO)]%
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -514,6 +517,9 @@ and the derived files
 \TMP@EnsureCode{94}{7}% ^ (superscript)
 \TMP@EnsureCode{96}{12}% `
 \TMP@EnsureCode{124}{12}% |
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \def\PdfRender@AtEndHook{}
 \expandafter\def\expandafter\PdfRender@AtEnd\expandafter{%
   \expandafter\PdfRender@AtEndHook
@@ -577,6 +583,13 @@ and the derived files
 \fi
 %    \end{macrocode}
 %    \end{macro}
+% Luatex compatibility
+%    \begin{macrocode}
+\ifx\pdfextension\@undefined\else
+  \PdfRender@RequirePackage{luatex85}[2016/01/01]
+\fi
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \PdfRender@RequirePackage{ifpdf}[2010/01/28]
 \PdfRender@RequirePackage{infwarerr}[2007/09/09]
@@ -1479,10 +1492,10 @@ and the derived files
 %    \begin{macrocode}
 %<*test2>
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesFile{pdfrender-test2.tex}[2010/01/28]
+\ProvidesFile{pdfrender-test2.tex}[2016/05/17]
 \documentclass{article}
 \usepackage{color}
-\usepackage{pdfrender}[2010/01/28]
+\usepackage{pdfrender}[2016/05/17]
 \begin{document}
 Hello World
 \newpage
@@ -1520,9 +1533,9 @@ Stop
 %    \begin{macrocode}
 %<*test3>
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesFile{pdfrender-test3.tex}[2010/01/28]
+\ProvidesFile{pdfrender-test3.tex}[2016/05/17]
 \documentclass{article}
-\usepackage{pdfrender}[2010/01/28]
+\usepackage{pdfrender}[2016/05/17]
 \usepackage{hyperref}
 \usepackage{bookmark}
 \begin{document}
@@ -1545,9 +1558,9 @@ Stop
 %    \begin{macrocode}
 %<*test4>
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesFile{pdfrender-test4.tex}[2010/01/28]
+\ProvidesFile{pdfrender-test4.tex}[2016/05/17]
 \documentclass[12pt]{article}
-\usepackage{pdfrender}[2010/01/28]
+\usepackage{pdfrender}[2016/05/17]
 \usepackage{color}
 \usepackage{qstest}
 \IncludeTests{*}
@@ -1613,6 +1626,7 @@ Stop
 %
 %    \begin{macrocode}
 %<*test5>
+\input luatex85.sty
 \pdfoutput=1 %
 \hsize=6.5in
 \vsize=8.9in
@@ -1646,7 +1660,7 @@ After %
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{ftp://ftp.ctan.org/tex-archive/}}:
+% CTAN\footnote{\url{http://ctan.org/pkg/pdfrender}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfrender.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfrender.pdf}] Documentation.
@@ -1844,7 +1858,7 @@ After %
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2010'/>
   <license type='lppl1.3'/>
-  <version number='1.2'/>
+  <version number='1.4'/>
   <description>
     The package provides interfaces for the user to control PDF
     parameters, such as line width or text rendering mode.  The
@@ -1922,6 +1936,15 @@ After %
 %     Dependency from package \xpackage{color} is removed.
 %   \item
 %     Compatibility for \plainTeX\ and even ini\TeX\ added.
+%   \end{Version}
+%   \begin{Version}{2016/05/14 v1.3}
+%   \item
+%     Use package \xpackage{luatex85} for compatibility with new LuaTeX.
+%   \end{Version}
+%   \begin{Version}{2016/05/17 v1.4}
+%   \item
+%     Documentation updates.
+%   \item adjust luatex85 reference so that it works in plain TeX.
 %   \end{Version}
 % \end{History}
 %

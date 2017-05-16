@@ -12,7 +12,7 @@
 %% 
 %% 
 %% graphics.dtx Copyright (C) 1994      David Carlisle Sebastian Rahtz
-%%              Copyright (C) 1995--2015 David Carlisle, LaTeX3 Project
+%%              Copyright (C) 1995--2016 David Carlisle, LaTeX3 Project
 %%
 %% This file is part of the Standard LaTeX `Graphics Bundle'.
 %% It may be distributed under the terms of the LaTeX Project Public
@@ -23,7 +23,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesPackage{graphics}
-          [2014/10/28 v1.0p  Standard LaTeX Graphics (DPC,SPQR)]
+          [2016/10/09 v1.0u  Standard LaTeX Graphics (DPC,SPQR)]
 \edef\Gin@codes{%
  \catcode`\noexpand\^^A\the\catcode`\^^A\relax
  \catcode`\noexpand\"\the\catcode`\"\relax
@@ -53,6 +53,9 @@
     \def\Ginclude@graphics#1{%
       \rule{\@ifundefined{Gin@@ewidth}{150pt}{\Gin@@ewidth}}%
       {\@ifundefined{Gin@@eheight}{100pt}{\Gin@@eheight}}}}}
+\newif\ifGin@setpagesize\Gin@setpagesizetrue
+\DeclareOption{setpagesize}{\Gin@setpagesizetrue}
+\DeclareOption{nosetpagesize}{\Gin@setpagesizefalse}
 \providecommand\Gin@driver{}
 \DeclareOption{dvips}{\def\Gin@driver{dvips.def}}
 \DeclareOption{xdvi}{\ExecuteOptions{dvips}}
@@ -61,6 +64,8 @@
 \DeclareOption{dvipdfmx}{\def\Gin@driver{dvipdfmx.def}}
 \DeclareOption{xetex}{\def\Gin@driver{xetex.def}}
 \DeclareOption{pdftex}{\def\Gin@driver{pdftex.def}}
+\DeclareOption{luatex}{\def\Gin@driver{luatex.def}}
+\DeclareOption{dvisvgm}{\def\Gin@driver{dvisvgm.def}}
 \DeclareOption{dvipsone}{\def\Gin@driver{dvipsone.def}}
 \DeclareOption{dviwindo}{\ExecuteOptions{dvipsone}}
 \DeclareOption{emtex}{\def\Gin@driver{emtex.def}}
@@ -470,7 +475,7 @@
   \fi
   \ifdim\dimen@>\z@
     \loop
-      \ifdim\dimen@<8192\p@
+      \ifdim\ifnum\count@<\tw@\maxdimen\else\dimen@\fi<8192\p@
         \dimen@\tw@\dimen@
         \divide\count@\tw@
     \repeat

@@ -9,7 +9,7 @@
 %% This is a generated file.
 %% 
 %% Project: soulutf8
-%% Version: 2007/09/09 v1.0
+%% Version: 2016/05/16 v1.1
 %% 
 %% Copyright (C) 2007 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -103,7 +103,7 @@
   \fi
 \expandafter\x\csname ver@soulutf8.sty\endcsname
 \ProvidesPackage{soulutf8}%
-  [2007/09/09 v1.0 Permit use of UTF-8 characters in soul (HO)]%
+  [2016/05/16 v1.1 Permit use of UTF-8 characters in soul (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
   \catcode13=5 % ^^M
   \endlinechar=13 %
@@ -200,8 +200,8 @@
   \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{soul}}%
   \ProcessOptions\relax
   \RequirePackage{soul}[2003/11/17]%
-  \RequirePackage{infwarerr}[2007/09/09]%
-  \RequirePackage{etexcmds}[2007/09/09]%
+  \RequirePackage{infwarerr}[2016/05/16]%
+  \RequirePackage{etexcmds}[2016/05/16]%
 \fi
 \ifetex@unexpanded
   \catcode33=14 % '!': comment

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007'/>
   <license type='lppl1.3'/>
-  <version number='0.4'/>
+  <version number='0.5'/>
   <description>
     This package allows the setting and clearing
     of flags in bit fields and converts the bit field into a

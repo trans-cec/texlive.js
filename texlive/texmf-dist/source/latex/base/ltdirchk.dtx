@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2015
+% Copyright 1993-2016
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -28,7 +28,7 @@
 % \fi
 %
 % \ProvidesFile{ltdirchk.dtx}
-%              [2015/81/33 v1.2 LaTeX Kernel (System Dependent Parts)]
+%              [2015/10/02 v1.2a LaTeX Kernel (System Dependent Parts)]
 %
 % \iffalse
 %%% From File: ltdirchk.dtx
@@ -39,7 +39,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltdirchk.dtx}
-             [2015/10/02 v1.2a LaTeX Kernel (System Dependent Parts)]
+             [2016/10/15 v1.2b LaTeX Kernel (System Dependent Parts)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltdirchk.dtx}
@@ -82,7 +82,6 @@
 %         {documentation improvements mainly from internal/2520}
 % \changes{v1.0w}{1998/08/17}{(RmS) Documentation improvements.}
 %
-% \CheckSum{627}
 %
 % \section{\LaTeX\ System Dependent Initialisations}
 %
@@ -293,6 +292,16 @@
 %    \begin{macrocode}
   \fi
 \fi
+%    \end{macrocode}
+%
+% \changes{v1.2b}{2016/10/15}{Require e\TeX{}}
+% A test can now be made for e\TeX{}.
+%    \begin{macrocode}
+%<initex>\ifx\eTeXversion\undefined
+%<initex>  \errmessage
+%<initex>    {LaTeX requires e-TeX}
+%<initex>  \expandafter\endinput
+%<initex>\fi
 %    \end{macrocode}
 %
 % That distraction over, back to the basics of a format.

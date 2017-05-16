@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006,2007,2009-2012'/>
   <license type='lppl1.3'/>
-  <version number='1.16'/>
+  <version number='1.17'/>
   <description>
     This package provides \kvsetkeys, a variant of package
     <xref refid='keyval'>keyval</xref>'s <tt>\setkeys</tt>.  It allows

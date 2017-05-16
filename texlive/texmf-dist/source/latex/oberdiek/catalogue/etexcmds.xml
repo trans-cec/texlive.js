@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2010,2011'/>
   <license type='lppl1.3'/>
-  <version number='1.5'/>
+  <version number='1.6'/>
   <description>
     New primitive commands are introduced in e-TeX; sometimes the
     names collide with existing macros.  This package solves the

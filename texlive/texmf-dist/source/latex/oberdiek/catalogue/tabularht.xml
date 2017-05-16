@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2005-2007'/>
   <license type='lppl1.3'/>
-  <version number='2.5'/>
+  <version number='2.6'/>
   <description>
     The tabularht package defines some environments that add a height
     specification to tabular and array environments.  The default set

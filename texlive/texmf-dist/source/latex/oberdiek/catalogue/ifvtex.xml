@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2001,2006-2008,2010'/>
   <license type='lppl1.3'/>
-  <version number='1.5'/>
+  <version number='1.6'/>
   <description>
     The package looks for VTeX and sets the switch <tt>\ifvtex</tt>.
     In the presence of VTeX, the mode switches <tt>\ifvtexdvi</tt>,

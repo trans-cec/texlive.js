@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1999,2006,2008'/>
   <license type='lppl1.3'/>
-  <version number='1.5'/>
+  <version number='1.6'/>
   <description>
     Variants of <tt>\newcommand</tt>, <tt>\renewcommand</tt> and
     <tt>\providecommand</tt> are provided.

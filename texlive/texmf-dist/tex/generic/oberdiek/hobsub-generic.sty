@@ -39,7 +39,7 @@
 %% This is a generated file.
 %% 
 %% Project: hobsub
-%% Version: 2012/05/28 v1.13
+%% Version: 2016/05/16 v1.14
 %% 
 %% Copyright (C) 2011, 2012 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -132,7 +132,7 @@
 \fi
 \expandafter\x\csname ver@hobsub-generic.sty\endcsname
 \ProvidesPackage{hobsub-generic}%
- [2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)]%
+ [2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -256,11 +256,11 @@
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname ProvidesPackage\endcsname\relax
 \immediate\write-1{%
- Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)%
+ Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)%
 }%
 \else
 \ProvidesPackage{hobsub}%
- [2012/05/28 v1.13 Construct package bundles (HO)]%
+ [2016/05/16 v1.14 Construct package bundles (HO)]%
 \fi
 \endinput
 <hobsub>
@@ -332,7 +332,7 @@
 \fi
 \expandafter\x\csname ver@infwarerr.sty\endcsname
 \ProvidesPackage{infwarerr}%
- [2010/04/08 v1.3 Providing info/warning/error messages (HO)]%
+ [2016/05/16 v1.4 Providing info/warning/error messages (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -616,7 +616,7 @@
 \fi
 \expandafter\x\csname ver@ltxcmds.sty\endcsname
 \ProvidesPackage{ltxcmds}%
- [2011/11/09 v1.22 LaTeX kernel commands for general use (HO)]%
+ [2016/05/16 v1.23 LaTeX kernel commands for general use (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -1323,7 +1323,7 @@ $   \next
 \fi
 \expandafter\x\csname ver@ifluatex.sty\endcsname
 \ProvidesPackage{ifluatex}%
- [2010/03/01 v1.3 Provides the ifluatex switch (HO)]%
+ [2016/05/16 v1.4 Provides the ifluatex switch (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -1551,7 +1551,7 @@ $   \next
 \fi
 \expandafter\x\csname ver@ifvtex.sty\endcsname
 \ProvidesPackage{ifvtex}%
- [2010/03/01 v1.5 Detect VTeX and its facilities (HO)]%
+ [2016/05/16 v1.6 Detect VTeX and its facilities (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -1776,7 +1776,7 @@ $   \next
 \fi
 \expandafter\x\csname ver@intcalc.sty\endcsname
 \ProvidesPackage{intcalc}%
- [2007/09/27 v1.1 Expandable calculations with integers (HO)]%
+ [2016/05/16 v1.2 Expandable calculations with integers (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -3401,235 +3401,44 @@ $   \next
 <hobsub>
 \hobsub@StopPackage
 \hobsub@StartPackage{ifpdf}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-\catcode13=5 % ^^M
-\endlinechar=13 %
-\catcode35=6 % #
-\catcode39=12 % '
-\catcode44=12 % ,
-\catcode45=12 % -
-\catcode46=12 % .
-\catcode58=12 % :
-\catcode64=11 % @
-\catcode123=1 % {
-\catcode125=2 % }
-\expandafter\let\expandafter\x\csname ver@ifpdf.sty\endcsname
-\ifx\x\relax % plain-TeX, first loading
-\else
-\def\empty{}%
-\ifx\x\empty % LaTeX, first loading,
-% variable is initialized, but \ProvidesPackage not yet seen
-\else
-\expandafter\ifx\csname PackageInfo\endcsname\relax
-\def\x#1#2{%
-\immediate\write-1{Package #1 Info: #2.}%
-}%
-\else
-\def\x#1#2{\PackageInfo{#1}{#2, stopped}}%
-\fi
-\x{ifpdf}{The package is already loaded}%
-\aftergroup\endinput
-\fi
-\fi
-\endgroup%
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-\catcode13=5 % ^^M
-\endlinechar=13 %
-\catcode35=6 % #
-\catcode39=12 % '
-\catcode40=12 % (
-\catcode41=12 % )
-\catcode44=12 % ,
-\catcode45=12 % -
-\catcode46=12 % .
-\catcode47=12 % /
-\catcode58=12 % :
-\catcode64=11 % @
-\catcode91=12 % [
-\catcode93=12 % ]
-\catcode123=1 % {
-\catcode125=2 % }
-\expandafter\ifx\csname ProvidesPackage\endcsname\relax
-\def\x#1#2#3[#4]{\endgroup
-\immediate\write-1{Package: #3 #4}%
-\xdef#1{#4}%
-}%
-\else
-\def\x#1#2[#3]{\endgroup
-#2[{#3}]%
-\ifx#1\@undefined
-\xdef#1{#3}%
-\fi
-\ifx#1\relax
-\xdef#1{#3}%
-\fi
-}%
-\fi
-\expandafter\x\csname ver@ifpdf.sty\endcsname
-\ProvidesPackage{ifpdf}%
- [2011/01/30 v2.3 Provides the ifpdf switch (HO)]%
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-\catcode13=5 % ^^M
-\endlinechar=13 %
-\catcode123=1 % {
-\catcode125=2 % }
-\catcode64=11 % @
-\def\x{\endgroup
-\expandafter\edef\csname ifpdf@AtEnd\endcsname{%
-\endlinechar=\the\endlinechar\relax
-\catcode13=\the\catcode13\relax
-\catcode32=\the\catcode32\relax
-\catcode35=\the\catcode35\relax
-\catcode61=\the\catcode61\relax
-\catcode64=\the\catcode64\relax
-\catcode123=\the\catcode123\relax
-\catcode125=\the\catcode125\relax
-}%
-}%
-\x\catcode61\catcode48\catcode32=10\relax%
-\catcode13=5 % ^^M
-\endlinechar=13 %
-\catcode35=6 % #
-\catcode64=11 % @
-\catcode123=1 % {
-\catcode125=2 % }
-\def\TMP@EnsureCode#1#2{%
-\edef\ifpdf@AtEnd{%
-\ifpdf@AtEnd
-\catcode#1=\the\catcode#1\relax
-}%
-\catcode#1=#2\relax
-}
-\TMP@EnsureCode{10}{12}% ^^J
-\TMP@EnsureCode{39}{12}% '
-\TMP@EnsureCode{40}{12}% (
-\TMP@EnsureCode{41}{12}% )
-\TMP@EnsureCode{44}{12}% ,
-\TMP@EnsureCode{45}{12}% -
-\TMP@EnsureCode{46}{12}% .
-\TMP@EnsureCode{47}{12}% /
-\TMP@EnsureCode{58}{12}% :
-\TMP@EnsureCode{60}{12}% <
-\TMP@EnsureCode{91}{12}% [
-\TMP@EnsureCode{93}{12}% ]
-\TMP@EnsureCode{94}{7}% ^
-\TMP@EnsureCode{96}{12}% `
-\edef\ifpdf@AtEnd{\ifpdf@AtEnd\noexpand\endinput}
-\begingroup
+%% Source File: ifpdf.dtx
+%% Copyright 2016-2017 Heiko Oberdiek and LaTeX3 project
+%%
+%% This file may be distributed under the terms of the LPPL.
+%% https://www.latex-project.org/lppl/
+\ifx\ProvidesPackage\undefined
+\def\next#1#2[#3]{\wlog{#2 #3}\expandafter\gdef
+\csname ver\string @ifpdf.sty\endcsname{#3}}
+\expandafter\next\fi
+\ProvidesPackage{ifpdf}
+[2017/03/15 v3.2 Provides the ifpdf switch]
 \expandafter\ifx\csname ifpdf\endcsname\relax
-\else
-\edef\i/{\expandafter\string\csname ifpdf\endcsname}%
-\expandafter\ifx\csname PackageError\endcsname\relax
-\def\x#1#2{%
-\edef\z{#2}%
-\expandafter\errhelp\expandafter{\z}%
-\errmessage{Package ifpdf Error: #1}%
-}%
-\def\y{^^J}%
-\newlinechar=10 %
-\else
-\def\x#1#2{%
-\PackageError{ifpdf}{#1}{#2}%
-}%
-\def\y{\MessageBreak}%
-\fi
-\x{Name clash, \i/ is already defined}{%
- Incompatible versions of \i/ can cause problems,\y
- therefore package loading is aborted.%
-}%
-\endgroup
-\expandafter\ifpdf@AtEnd
-\fi%
-\endgroup
-\begingroup
-\def\skip#1\relax\begingroup{}%
-\expandafter\ifx\csname pdfoutput\endcsname\relax
-\else
-\expandafter\skip
-\fi
-\expandafter\ifx\csname directlua\endcsname\relax
-\expandafter\skip
-\fi
-\endgroup
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname RequirePackage\endcsname\relax
-\def\TMP@RequirePackage#1[#2]{%
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname ver@#1.sty\endcsname\relax
-\input #1.sty\relax
-\fi
-}%
-\TMP@RequirePackage{ifluatex}[2009/04/10]%
-\else
-\RequirePackage{ifluatex}[2009/04/10]%
-\fi
-\ifluatex
-\ifnum\luatexversion<36 %
-\else
-\begingroup
-\directlua{tex.enableprimitives('ifpdf', {'pdfoutput'})}%
-\global\let\pdfoutput\ifpdfpdfoutput
-\endgroup
-\fi
-\fi
-\relax\begingroup\endgroup
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname newif\endcsname\relax
-\edef\pdffalse{%
-\let
-\expandafter\noexpand\csname ifpdf\endcsname
-\expandafter\noexpand\csname iffalse\endcsname
-}%
-\edef\pdftrue{%
-\let
-\expandafter\noexpand\csname ifpdf\endcsname
-\expandafter\noexpand\csname iftrue\endcsname
-}%
-\pdffalse
-\else
 \csname newif\expandafter\endcsname\csname ifpdf\endcsname
+\else
+\ifx\pdftrue\undefined
+\ifx\PackageError\undefined
+\begingroup\def\PackageError#1#2#3{\endgroup\errmessage{#2}}
 \fi
+\PackageError{ifpdf}{incompatible ifpdf definition}{}
+\expandafter\expandafter\expandafter
+\fi
+\fi
+\let\ifpdf\iffalse
+\ifx\directlua\undefined
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname pdfoutput\endcsname\relax
 \else
-\ifnum\pdfoutput<1 %
-\else
+\ifnum\pdfoutput>0 %
 \pdftrue
 \fi
 \fi
-\begingroup
-\expandafter\ifx\csname pdfoutput\endcsname\relax
 \else
-\escapechar=92 %
-\edef\m{\meaning\pdfoutput}%
-\edef\p{\string\pdfoutput}%
-\ifx\m\p
-\else
-\expandafter\ifx\csname PackageWarningNoLine\endcsname\relax
-\def\PackageWarningNoLine#1#2{%
-\immediate\write16{%
- Package `#1' Warning: #2.%
-}%
-}%
+\directlua{%
+if (tex.outputmode or tex.pdfoutput or 0) > 0 then
+ tex.print('\string\\pdftrue')
+end
+}
 \fi
-\PackageWarningNoLine{ifpdf}{%
- Someone has redefined \string\pdfoutput%
-}%
-\fi
-\fi
-\endgroup
-\begingroup
-\expandafter\ifx\csname PackageInfo\endcsname\relax
-\def\x#1#2{%
-\immediate\write-1{Package #1 Info: #2.}%
-}%
-\else
-\let\x\PackageInfo
-\expandafter\let\csname on@line\endcsname\empty
-\fi
-\x{ifpdf}{pdfTeX in PDF mode is \ifpdf\else not \fi detected}%
-\endgroup
-\ifpdf@AtEnd%
 \endinput
 <hobsub>
 \hobsub@StopPackage
@@ -3700,7 +3509,7 @@ $   \next
 \fi
 \expandafter\x\csname ver@etexcmds.sty\endcsname
 \ProvidesPackage{etexcmds}%
- [2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)]%
+ [2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -3949,7 +3758,7 @@ $   \next
 \fi
 \expandafter\x\csname ver@kvsetkeys.sty\endcsname
 \ProvidesPackage{kvsetkeys}%
- [2012/04/25 v1.16 Key value parser (HO)]%
+ [2016/05/16 v1.17 Key value parser (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -4489,7 +4298,7 @@ $ \x
 \fi
 \expandafter\x\csname ver@kvdefinekeys.sty\endcsname
 \ProvidesPackage{kvdefinekeys}%
- [2011/04/07 v1.3 Define keys (HO)]%
+ [2016/05/16 v1.4 Define keys (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -4647,7 +4456,7 @@ $ \x
 \fi
 \expandafter\x\csname ver@luatex-loader.sty\endcsname
 \ProvidesPackage{luatex-loader}%
- [2010/03/09 v0.4 Lua module loader (HO)]%
+ [2016/05/16 v0.6 Lua module loader (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5\endlinechar=13\relax%
 \catcode10=12 % ^^J
@@ -4752,7 +4561,7 @@ $ \x
 \fi
 \expandafter\x\csname ver@pdftexcmds.sty\endcsname
 \ProvidesPackage{pdftexcmds}%
- [2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)]%
+ [2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -4923,7 +4732,7 @@ $ \x
  if tex.enableprimitives then
  tex.enableprimitives(
  'pdf@',
-{'primitive', 'ifprimitive', 'pdfdraftmode'}
+{'primitive', 'ifprimitive', 'pdfdraftmode','draftmode'}
  )
  tex.enableprimitives('', {'luaescapestring'})
  end
@@ -4946,14 +4755,15 @@ $ \x
 \fi
 \fi
 }
-\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX
-\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% LuaTeX
-\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% LuaTeX
-\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX
-\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% LuaTeX
-\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% LuaTeX
+\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX, luatex
+\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX, luatex
+\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% oldLuaTeX
+\ifluatex\else
 \begingroup
 \expandafter\ifx\csname pdf@primitive\endcsname\relax
 \else
@@ -4977,6 +4787,7 @@ $ \x
 \fi
 \fi
 \endgroup
+\fi
 \begingroup
 \@PackageInfoNoLine{pdftexcmds}{%
 \string\pdf@primitive\space is %
@@ -5058,6 +4869,9 @@ $ \x
 \fi
 }
 \ifluatex
+\ifx\pdfdraftmode\@undefined
+\let\pdfdraftmode\draftmode
+\fi
 \else
 \pdf@isprimitive
 \fi
@@ -5122,6 +4936,7 @@ $ \x
 \else
 \expandafter\pdftexcmds@AtEnd
 \fi%
+\ifnum\luatexversion<80
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname RequirePackage\endcsname\relax
 \def\TMP@RequirePackage#1[#2]{%
@@ -5134,8 +4949,9 @@ $ \x
 \else
 \RequirePackage{luatex-loader}[2009/04/10]%
 \fi
+\fi
 \pdftexcmds@directlua{%
- require("oberdiek.pdftexcmds")%
+ require("pdftexcmds")%
 }
 \ifnum\luatexversion>37 %
 \ifnum0%
@@ -5147,13 +4963,13 @@ $ \x
 \everyjob\expandafter{%
 \the\everyjob
 \pdftexcmds@directlua{%
- require("oberdiek.pdftexcmds")%
+ require("pdftexcmds")%
 }%
 }%
 \fi
 \fi
 \begingroup
-\def\x{2011/11/29 v0.20}%
+\def\x{2017/03/19 v0.25}%
 \ltx@onelevel@sanitize\x
 \edef\y{%
 \pdftexcmds@directlua{%
@@ -5350,11 +5166,8 @@ $ \x
 \fi
 \ifnum\luatexversion<68 %
 \else
-\def\pdf@shellescape{%
-\directlua0{%
- oberdiek.pdftexcmds.shellescape()%
-}%
-}%
+\protected\edef\pdf@shellescape{%
+\numexpr\directlua{tex.sprint(status.shell_escape)}\relax}
 \fi
 \def\pdf@system#1{%
 \directlua0{%
@@ -5460,7 +5273,7 @@ $ \x
 \fi
 \expandafter\x\csname ver@pdfescape.sty\endcsname
 \ProvidesPackage{pdfescape}%
- [2011/11/25 v1.13 Implements pdfTeX's escape features (HO)]%
+ [2016/05/16 v1.14 Implements pdfTeX's escape features (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -6198,7 +6011,7 @@ $       \the\count\ltx@cclv
 \fi
 \expandafter\x\csname ver@bigintcalc.sty\endcsname
 \ProvidesPackage{bigintcalc}%
- [2012/04/08 v1.3 Expandable calculations on big integers (HO)]%
+ [2016/05/16 v1.4 Expandable calculations on big integers (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -7986,7 +7799,7 @@ $ \BIC@Temp 9{18\or27\or36\or45\or54\or63\or72\or81}%
 \fi
 \expandafter\x\csname ver@bitset.sty\endcsname
 \ProvidesPackage{bitset}%
- [2011/01/30 v1.1 Handle bit-vector datatype (HO)]%
+ [2016/05/16 v1.2 Handle bit-vector datatype (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -9396,7 +9209,7 @@ $ \BIC@Temp 9{18\or27\or36\or45\or54\or63\or72\or81}%
 \fi
 \expandafter\x\csname ver@uniquecounter.sty\endcsname
 \ProvidesPackage{uniquecounter}%
- [2011/01/30 v1.2 Provide unlimited unique counter (HO)]%
+ [2016/05/16 v1.3 Provide unlimited unique counter (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     This package defines poor man&#x2018;s symbols for mathematical
     relation symbols such as &#x201C;colon equals&#x201D;.

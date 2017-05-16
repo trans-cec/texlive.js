@@ -2,6 +2,8 @@
 %% File: hyperref.dtx Copyright 1995-2001 Sebastian Rahtz,
 %% with portions written by David Carlisle and Heiko Oberdiek,
 %% 2001-2012 Heiko Oberdiek.
+%% 2016-2017 Oberdiek Package Suport Group
+%%      https://github.com/ho-tex/hyperref/issues
 %%
 %% This file is part of the `Hyperref Bundle'.
 %% -------------------------------------------
@@ -28,6 +30,7 @@
 %<check>\ProvidesFile{hycheck.tex}
 %<hypertex>\ProvidesFile{hypertex.def}
 %<pdftex>\ProvidesFile{hpdftex.def}
+%<luatex>\ProvidesFile{hluatex.def}
 %<pdfmark>\ProvidesFile{pdfmark.def}
 %<vtexpdfmark>\ProvidesFile{hvtexmrk.def}
 %<dvips>\ProvidesFile{hdvips.def}
@@ -45,7 +48,7 @@
 %<puvnenc>\ProvidesFile{puvnenc.def}
 %<puarenc>\ProvidesFile{puarenc.def}
 %<psdextra>\ProvidesFile{psdextra.def}
-%<!none>  [2012/11/06 v6.83m %
+%<!none>  [2017/03/14 v6.85a %
 %<package>  Hypertext links for LaTeX]
 %<nohyperref>  Dummy hyperref (SR)]
 %<driver>  Hyperref documentation driver file]
@@ -54,6 +57,8 @@
 %<hypertex>\Hy@VersionCheck{hypertex.def}
 %<pdftex>  Hyperref driver for pdfTeX]
 %<pdftex>\Hy@VersionCheck{hpdftex.def}
+%<luatex>  Hyperref driver for luaTeX]
+%<luatex>\Hy@VersionCheck{hluatex.def}
 %<pdfmark>  Hyperref definitions for pdfmark specials]
 %<pdfmark>\Hy@VersionCheck{pdfmark.def}
 %<vtexpdfmark> Hyperref driver for VTeX in PDF/PS mode (pdfmark specials)]
@@ -111,12 +116,11 @@
   %
   % title
   %
-  \GetFileInfo{hyperref.drv}%
+  \GetFileInfo{hyperref.sty}%
   \title{Hypertext marks in \LaTeX}%
-  \author{Sebastian Rahtz\\%
-    Email: \texttt{sebastian.rahtz at oucs.ox.ac.uk}\\[1.5ex]%
+  \author{Sebastian Rahtz (deceased)\\%
     Heiko Oberdiek (maintainer)\\%
-    Email: \texttt{heiko.oberdiek at googlemail.com}}%
+    \texttt{https://github.com/ho-tex/hyperref/issues}}%
   % \date{processed \today}%
   \date{\filedate\space\fileversion}%
   \maketitle
@@ -147,7 +151,6 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{39761}
 %
 % \MakeShortVerb{|}
 % \StopEventually{}
@@ -493,6 +496,16 @@
 %<*package>
 %    \end{macrocode}
 % \section{Package options and setup}\label{options}
+%
+% \subsection{Lua\TeX\ compatibility}
+%
+% Until a Lua\TeX\ driver is writen, load |luatex85| so that
+% the |pdftex| driver continues to work with Lua\TeX.
+%    \begin{macrocode}
+%\ifx\directlua\@undefined\else
+%  \RequirePackage{luatex85}
+%\fi
+%    \end{macrocode}
 %
 % \subsection{Save catcodes}
 %    There are many packages that change the standard catcodes.
@@ -5350,6 +5363,7 @@
 \DeclareVoidOption{pdftex}{%
   \ifpdf
     \def\Hy@driver{hpdftex}%
+    \PassOptionsToPackage{pdftex}{color}%
   \else
     \Hy@Error{%
       Wrong driver option `pdftex',\MessageBreak
@@ -5357,9 +5371,26 @@
     }\@ehc
   \fi
 }
+\DeclareVoidOption{luatex}{%
+  \ifpdf
+    \ifx\pdfextension\@undefined
+      \def\Hy@driver{hpdftex}%
+      \PassOptionsToPackage{pdftex}{color}%
+    \else
+      \def\Hy@driver{hluatex}%
+      \PassOptionsToPackage{luatex}{color}%
+    \fi
+  \else
+    \Hy@Error{%
+      Wrong driver option `luatex',\MessageBreak
+      because luaTeX in PDF mode is not detected%
+    }\@ehc
+  \fi
+}
 \DeclareVoidOption{nativepdf}{%
   \HyOpt@CheckDvi{nativepdf}{%
     \def\Hy@driver{hdvips}%
+    \PassOptionsToPackage{dvips}{color}%
   }%
 }
 \DeclareVoidOption{dvipdfm}{%
@@ -5370,6 +5401,7 @@
 \DeclareVoidOption{dvipdfmx}{%
   \HyOpt@CheckDvi{dvipdfmx}{%
     \def\Hy@driver{hdvipdfm}%
+    \PassOptionsToPackage{dvipdfmx}{color}%
   }%
 }
 \define@key{Hyp}{dvipdfmx-outline-open}[true]{%
@@ -5398,6 +5430,7 @@
 \DeclareVoidOption{dvips}{%
   \HyOpt@CheckDvi{dvips}{%
     \def\Hy@driver{hdvips}%
+    \PassOptionsToPackage{dvips}{color}%
   }%
 }
 \DeclareVoidOption{hypertex}{%
@@ -5462,6 +5495,7 @@
 \DeclareVoidOption{dvipsone}{%
   \HyOpt@CheckDvi{dvipsone}{%
     \def\Hy@driver{hdvipson}%
+    \PassOptionsToPackage{dvipsone}{color}%
   }%
 }
 \DeclareVoidOption{textures}{%
@@ -5480,6 +5514,7 @@
 \DeclareVoidOption{ps2pdf}{%
   \HyOpt@CheckDvi{ps2pdf}{%
     \def\Hy@driver{hdvips}%
+    \PassOptionsToPackage{dvips}{color}%
   }%
 }
 %    \end{macrocode}
@@ -5909,6 +5944,28 @@
   \def\theoremautorefname{Teorema}%
   \def\pageautorefname{P\'agina}%
 }
+%    \end{macrocode}
+%    \begin{macrocode}
+\def\HyLang@catalan{%
+\def\equationautorefname{Equaci\'o}%
+\def\footnoteautorefname{Nota al peu de p\`agina}%
+\def\itemautorefname{Element}%
+\def\figureautorefname{Figura}%
+\def\tableautorefname{Taula}%
+\def\partautorefname{Part}%
+\def\appendixautorefname{Ap\`endix}%
+\def\chapterautorefname{Cap\'itol}%
+\def\sectionautorefname{Secci\'o}%
+\def\subsectionautorefname{Subsecci\'o}%
+\def\subsubsectionautorefname{Subsubsecci\'o}%
+\def\paragraphautorefname{Par\`agraf}%
+\def\subparagraphautorefname{Subpar\`agraf}%
+\def\FancyVerbLineautorefname{L\'inia}%
+\def\theoremautorefname{Teorema}%
+\def\pageautorefname{P\`agina}%
+}
+%    \end{macrocode}
+%    \begin{macrocode}
 \def\HyLang@vietnamese{%
   \def\equationautorefname{Ph\uhorn{}\ohorn{}ng tr\`inh}%
   \def\footnoteautorefname{Ch\'u th\'ich}%
@@ -5993,6 +6050,7 @@
 \HyLang@DeclareLang{brazilian}{portuges}{}
 \HyLang@DeclareLang{portuguese}{portuges}{}
 \HyLang@DeclareLang{spanish}{spanish}{}
+\HyLang@DeclareLang{catalan}{catalan}{}
 \HyLang@DeclareLang{afrikaans}{afrikaans}{}
 \HyLang@DeclareLang{french}{french}{}
 \HyLang@DeclareLang{frenchb}{french}{}
@@ -6723,14 +6781,26 @@
     \hypercalcbpdef\@pdfremotestartview{#1}%
     \edef\@pdfremotestartview{\@pdfremotestartview}%
     \Hy@Match\@pdfremotestartview{}{%
-      ^(XYZ -?(null|\HyPat@NonNegativeReal/) %
-            -?(null|\HyPat@NonNegativeReal/) %
-            (null|\HyPat@NonNegativeReal/)|%
-        Fit(|B|%
-         (H|V|BH|BV) (null|\HyPat@NonNegativeReal/)|%
-         R \HyPat@NonNegativeReal/ \HyPat@NonNegativeReal/ %
-           \HyPat@NonNegativeReal/ \HyPat@NonNegativeReal/%
-      ))$%
+      ^(XYZ(%
+            ()| %
+            (null|-?\HyPat@NonNegativeReal/) %
+            (null|-?\HyPat@NonNegativeReal/) %
+            (null|\HyPat@NonNegativeReal/)%
+          )|% end of "XYZ"
+        Fit(%
+            ()|%
+            B|%
+            (H|V|BH|BV)(%
+                ()| %
+                (null|\HyPat@NonNegativeReal/)%
+              )|%
+            R %
+                \HyPat@NonNegativeReal/ %
+                \HyPat@NonNegativeReal/ %
+                \HyPat@NonNegativeReal/ %
+                \HyPat@NonNegativeReal/%
+          )% end of "Fit"
+      )$%
     }{}{%
       \Hy@Warning{%
          Invalid value `\@pdfremotestartview'\MessageBreak
@@ -7270,7 +7340,11 @@
 %    \begin{macrocode}
   \ifx\Hy@driver\@empty
   \else
-    \def\Hy@temp{hpdftex}%
+     \ifx\pdfextension\@undefined
+       \def\Hy@temp{hpdftex}%
+     \else
+       \def\Hy@temp{hluatex}%
+     \fi
     \ifpdf
       \ifx\Hy@driver\Hy@temp
       \else
@@ -7344,7 +7418,11 @@
       \def\HyOpt@DriverType{ (autodetected)}%
       \providecommand*{\Hy@defaultdriver}{hypertex}%
       \ifpdf
-        \def\Hy@driver{hpdftex}%
+        \ifx\pdfextension\@undefined
+          \def\Hy@driver{hpdftex}%
+        \else
+          \def\Hy@driver{hluatex}%
+        \fi
       \else
         \ifxetex
           \def\Hy@driver{hxetex}%
@@ -9352,7 +9430,7 @@
   \def\Fld@align{#1}%
 }
 \define@key{Field}{value}{%
-  \def\Fld@value{#1}%
+  \Hy@pdfstringdef\Fld@value{#1}%
 }
 \define@key{Field}{checkboxsymbol}{%
   \Fld@DingDef\Fld@cbsymbol{#1}%
@@ -11304,7 +11382,13 @@
 %    \end{macrocode}
 %
 % Support for package \texttt{amsthm} (Daniel M\"ullner):
+% also \texttt{cleveref}.
 %    \begin{macrocode}
+\Hy@AtBeginDocument{%
+\@ifpackageloaded{cleveref}{%
+\let\Hy@savedthm\@thm
+\def\@thm{\ifhmode\unskip\fi\Hy@savedthm}%
+}{%
 \@ifpackageloaded{amsthm}{%
 %    \end{macrocode}
 % Class amsbook uses a different definition of \cs{@thm},
@@ -11436,7 +11520,17 @@
       \clubpenalty\@clubpenalty \everypar{}%
     \fi
   }%
-}{}
+}%
+%    \end{macrocode}
+% non \texttt{amsthm} case, remove final space on line before a theorem
+% for githib issue 11.
+%    \begin{macrocode}
+{%
+\let\Hy@savedthm\@thm
+\def\@thm{\ifhmode\unskip\fi\Hy@savedthm}%
+}%
+}%
+}
 %    \end{macrocode}
 %
 % \section{Footnotes}\label{footnotes}
@@ -14987,10 +15081,12 @@
   \Hy@DisableOption{ocgcolorlinks}%
 \fi
 %    \end{macrocode}
+% Use primitive counter arithmetic here to avoid amsmath
+% redefining |\stepcounter| (github issue/13)
 %    \begin{macrocode}
 \def\Hy@BeginAnnot#1{%
-  \stepcounter{Hy@AnnotLevel}%
-  \ifnum\value{Hy@AnnotLevel}=\@ne
+  \global\advance\c@Hy@AnnotLevel\@ne
+  \ifnum\c@Hy@AnnotLevel=\@ne
     #1%
   \fi
 }
@@ -14999,7 +15095,7 @@
     \Hy@endcolorlink
     \@pdfm@mark{eann}%
   \fi
-  \addtocounter{Hy@AnnotLevel}\m@ne
+  \global\advance\c@Hy@AnnotLevel\m@ne
 }
 %    \end{macrocode}
 %    \begin{macrocode}
@@ -19777,6 +19873,7 @@
   \Fld@flags
   /Q \Fld@align
   /BS<</W \Fld@borderwidth /S/\Fld@borderstyle>>%
+  /AP<< /N <</Yes<<>>>> >>  %new string /Yes is from below
   /MK<<%
     \ifnum\Fld@rotation=\z@
     \else
@@ -19901,12 +19998,22 @@
   >>%
   /DA(/ZaDb \strip@pt\Fld@charsize\space Tf%
       \ifx\Fld@color\@empty\else\space\Fld@color\fi)%
-  \ifx\@currValue\Fld@default
-    /V/\Fld@default
-    /DV/\Fld@default
-  \else
+%    \end{macrocode}
+%^^A  \ifx\@currValue\Fld@default %old code
+%^^A    /V/\Fld@default
+%^^A    /DV/\Fld@default
+%^^A  \else
+%^^A    /V/Off%
+%^^A    /DV/Off%
+%^^A  \fi
+% New code, the default value is used for all buttons
+%    \begin{macrocode}
+  \ifx\Fld@default\@empty
     /V/Off%
     /DV/Off%
+  \else
+   /V/\Fld@default
+   /DV/\Fld@default
   \fi
   \Fld@additionalactions
 }
@@ -21228,6 +21335,7 @@
 \DeclareTextCommand{\C}{PU}[1]{#1\83\017}% U+030F
 % U+0311 COMBINING INVERTED BREVE; breveinvertedcmb
 \DeclareTextCommand{\textinvbreve}{PU}[1]{#1\83\021}% U+0311
+\DeclareTextCommand{\newtie}{PU}[1]{#1\83\021}% U+0311
 % U+0323 COMBINING DOT BELOW; dotbelowcmb, *dotbelowcomb
 \DeclareTextCommand{\d}{PU}[1]{#1\83\043}% U+0323
 % U+0324 COMBINING DIAERESIS BELOW; dieresisbelowcmb; \textsubumlaut (tipa)

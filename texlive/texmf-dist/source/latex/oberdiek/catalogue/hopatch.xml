@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2011,2012'/>
   <license type='lppl1.3'/>
-  <version number='1.2'/>
+  <version number='1.3'/>
   <description>
     The hopatch package provides a command with which the user may
     register a piece of patch code for a particular package.  Hopatch

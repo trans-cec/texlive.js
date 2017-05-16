@@ -2,7 +2,7 @@
 % \iffalse
 %
 %% color.dtx Copyright (C) 1994--1999 David Carlisle
-%%           Copyright (C) 2005--2015 David Carlisle, LaTeX3 Project
+%%           Copyright (C) 2005--2016 David Carlisle, LaTeX3 Project
 %%
 %% This file is part of the Standard LaTeX `Graphics Bundle'.
 %% It may be distributed under the terms of the LaTeX Project Public
@@ -19,7 +19,7 @@
 %<driver> \ProvidesFile{color.drv}
 % \fi
 %         \ProvidesFile{color.dtx}
-          [2014/10/28 v1.1a Standard LaTeX Color (DPC)]
+          [2016/07/10 v1.1e Standard LaTeX Color (DPC)]
 %
 % \iffalse
 %<*driver>
@@ -42,7 +42,6 @@
 % \MaintainedByLaTeXTeam{graphics}
 % \maketitle
 %
-% \CheckSum{440}
 %
 %
 % \title{The implementation of the \LaTeX\ Colour interface.}
@@ -143,6 +142,21 @@
 %    \end{macrocode}
 % \end{option}
 %
+% \begin{option}{setpagesize}
+% \begin{option}{nosetpagesize}
+% The |setpagesize| option requests that the driver option sets the page size.
+% \changes{v1.1d}{2016/06/02}
+%     {(no)setpagesize options added}
+% (Whichever option is used, the page size is not set by this package if |\mag|
+% has been changed from its default value.)
+%    \begin{macrocode}
+\newif\ifGin@setpagesize\Gin@setpagesizetrue
+\DeclareOption{setpagesize}{\Gin@setpagesizetrue}
+\DeclareOption{nosetpagesize}{\Gin@setpagesizefalse}
+%    \end{macrocode}
+% \end{option}
+% \end{option}
+%
 % Now the options for supported drivers.
 %
 % \begin{option}{dvips}
@@ -190,6 +204,24 @@
 %  Han The Thanh's \TeX\ variant.
 %    \begin{macrocode}
 \DeclareOption{pdftex}{\def\Gin@driver{pdftex.def}}
+%    \end{macrocode}
+% \end{option}
+%
+% \begin{option}{luatex}
+% \changes{v1.1b}{2016/01/03}
+%     {luatex added}
+%  Lua\TeX\ \TeX\ variant.
+%    \begin{macrocode}
+\DeclareOption{luatex}{\def\Gin@driver{luatex.def}}
+%    \end{macrocode}
+% \end{option}
+%
+% \begin{option}{luatex}
+% \changes{v1.1c}{2016/05/09}
+%     {dvisvgm added}
+%  dvisvgm driver.
+%    \begin{macrocode}
+\DeclareOption{dvisvgm}{\def\Gin@driver{dvisvgm.def}}
 %    \end{macrocode}
 % \end{option}
 %

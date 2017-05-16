@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2005-2007'/>
   <license type='lppl1.3'/>
-  <version number='1.7'/>
+  <version number='1.8'/>
   <description>
     If math stuff is set in an <tt>\hbox</tt>, then TeX
     performs some optimization and omits the implicit

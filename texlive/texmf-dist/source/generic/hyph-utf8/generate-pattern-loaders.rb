@@ -7,7 +7,6 @@ load 'languages.rb'
 
 $package_name="hyph-utf8"
 
-
 # TODO - make this a bit less hard-coded
 $path_tex_generic=File.expand_path("../../../tex/generic")
 $path_loadhyph="#{$path_tex_generic}/#{$package_name}/loadhyph"
@@ -35,7 +34,7 @@ text_header =
 %     source/generic/hyph-utf8/generate-pattern-loaders.rb
 % See also http://tug.org/tex-hyphen
 %
-% Copyright 2008-2014 TeX Users Group.
+% Copyright 2008-2016 TeX Users Group.
 % You may freely use, modify and/or distribute this file.
 % (But consider adapting the scripts if you need modifications.)
 %
@@ -83,14 +82,14 @@ text_patterns_quote =  "    \\input hyph-quote-#{language.code}.tex"
 ###########
 
 lccodes_common = []
-if language.code == 'af' or language.code == 'it' or language.code == 'rm' or language.code == 'fur' or language.code == 'pms' or language.code == 'fr' or language.code == 'uk' or language.code == 'zh-latn-pinyin' then
+if language.has_quotes then
 	lccodes_common.push("\\lccode`\\'=`\\'")
 end
-if language.code == 'af' or language.code == 'pt' or language.code == 'tk' or language.code == 'ru' or language.code == 'uk' then
+if language.has_dashes then
 	lccodes_common.push("\\lccode`\\-=`\\-")
 end
 
-if language.code == 'sh-latn' or language.code == 'sh-cyrl' then
+if ['sh-latn', 'sh-cyrl'].include?(language.code) then
 	text_patterns_utf8 = ["    \\input hyph-sh-latn.tex",
 	                      "    \\input hyph-sh-cyrl.tex"]
 	text_engine_utf8   = ["    #{comment_engine_utf8}",
@@ -119,11 +118,11 @@ end
 ########################################
 # GROUP nr. 1 - ONLY USABLE WITH UTF-8 #
 ########################################
-			# some special cases firs
+			# some special cases first
 			#
 			# some languages (sanskrit) are useless in 8-bit engines; we only want to load them for UTF engines
 			# TODO - maybe consider doing something similar for ibycus
-			if ['sa','as','bn','gu','hi','hy','kn','lo','mul-ethi','ml','mr','or','pa','ta','te'].include?(language.code) then
+			if ['cu', 'sa','as','bn','gu','hi','hy','kn','lo','mul-ethi','ml','mr','or','pa','ta','te'].include?(language.code) then
 				file.puts(text_if_native_utf)
 				file.puts(text_engine_utf8)
 				# lccodes
@@ -131,6 +130,12 @@ end
 					file.puts('    % Set \lccode for Ethiopian word space.')
 					file.puts('    \lccode"1361="1361')
 					file.puts('    \lccode"1362="1362')
+				elsif language.code == "cu" then
+					file.puts('    % fix lccodes for some characters (they were recently included in Unicode)')
+					file.puts('    \lccode"1C82="1C82 % sharp o in lowercase "uk"')
+					['1DF6', '1DF7', '1DF8', '1DF9', 'A69E', '1C86', 'A67E', 'FE2E', 'FE2F'].each do |l|
+						file.puts("    \\lccode\"#{l}=\"#{l}")
+					end
 				elsif language.code != 'lo' then
 					file.puts('    % Set \lccode for ZWNJ and ZWJ.')
 					file.puts('    \lccode"200C="200C')
@@ -151,7 +156,7 @@ end
 #######################
 # GROUP nr. 2 - ASCII #
 #######################
-			elsif language.code == 'it' or language.code == 'rm' or language.code == 'pms' then
+			elsif ['it', 'pms', 'rm'].include?(language.code)
 				file.puts(text_if_native_utf)
 				file.puts(text_engine_utf8)
 				file.puts(text_patterns)
@@ -207,13 +212,17 @@ end
 				file.puts(text_if_native_utf)
 				file.puts(text_engine_utf8)
 				file.puts(text_patterns_utf8)
-				if language.code == 'af' or language.code == 'fr' or language.code == 'fur' or language.code == 'uk' or language.code == 'zh-latn-pinyin' then
+				if language.has_quotes
 					file.puts(text_patterns_quote)
 				end
 				file.puts('\else')
 				file.puts(text_engine_8bit)
-				file.puts(text_patterns_conv)
-				file.puts(text_patterns)
+				if ['la-x-liturgic'].include?(language.code) then
+					file.puts(text_patterns_ptex)
+				else
+					file.puts(text_patterns_conv)
+					file.puts(text_patterns)
+				end
 				file.puts('\fi\else')
 				file.puts(text_engine_ptex)
 				file.puts(text_patterns_ptex)
@@ -226,5 +235,3 @@ end
 		end
 	end
 end
-
-

@@ -7,7 +7,7 @@
 %% babel.dtx  (with options: `core')
 %% This is a generated file.
 %% 
-%% Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 %% Copyright 1989-2008 Johannes L. Braams and any individual authors
 %% listed elsewhere in this file.  All rights reserved.
 %% 
@@ -38,12 +38,12 @@
 %% and covered by LPPL is defined by the unpacking scripts (with
 %% extension .ins) which are part of the distribution.
 %% File 'babel.dtx'
-%%\ProvidesFile{babel.dtx}[2015/08/03 v3.9m The Babel package]
+%%\ProvidesFile{babel.dtx}[2016/04/23 v3.9r The Babel package]
 %% Babel package for LaTeX2e.
 %% Copyright (C) 1989-2008 by Johannes Braams,
 %%                            TeXniek
 %%                            all rights reserved.
-%% Copyright (C) 2013-2014 by Johannes Braams
+%% Copyright (C) 2013-2016 by Johannes Braams
 %%                            TeXniek
 %%                            by Javier Bezos
 %%                            all rights reserved.
@@ -56,32 +56,46 @@
     \wlog{File: #1 #4 #3 <#2>}%
     \let\ProvidesFile\@undefined}
 \fi
-\ProvidesFile{babel.def}[2015/08/03 3.9m Babel common definitions]
+\ProvidesFile{babel.def}[2016/04/23 3.9r Babel common definitions]
 \ifx\AtBeginDocument\@undefined
   \input plain.def\relax
 \fi
-\def\bbl@tempa{3.9m}%
+\ifx\bbl@ifshorthand\@undefined
+  \def\bbl@ifshorthand#1#2#3{#2}%
+  \def\bbl@opt@safe{BR}
+  \def\AfterBabelLanguage#1#2{}
+  \let\bbl@afterlang\relax
+  \let\bbl@language@opts\@empty
+\fi
+\def\bbl@tempa{3.9r}%
 \ifx\bbl@version\bbl@tempa\else
   \input switch.def\relax
 \fi
 \ifx\bbl@languages\@undefined
-  \openin1 = language.def
-  \ifeof1
-    \closein1
-    \message{I couldn't find the file language.def}
-  \else
-    \closein1
-    \begingroup
-      \def\addlanguage#1#2#3#4#5{%
-        \expandafter\ifx\csname lang@#1\endcsname\relax\else
-          \global\expandafter\let\csname l@#1\expandafter\endcsname
-            \csname lang@#1\endcsname
-        \fi}%
-      \def\uselanguage#1{}%
-      \input language.def
-    \endgroup
+  \ifx\directlua\@undefined
+    \openin1 = language.def
+    \ifeof1
+      \closein1
+      \message{I couldn't find the file language.def}
+    \else
+      \closein1
+      \begingroup
+\def\addlanguage#1#2#3#4#5{%
+  \expandafter\ifx\csname lang@#1\endcsname\relax\else
+    \global\expandafter\let\csname l@#1\expandafter\endcsname
+      \csname lang@#1\endcsname
+  \fi}%
+\def\uselanguage#1{}%
+\input language.def
+      \endgroup
+    \fi
   \fi
   \chardef\l@english\z@
+\fi
+\ifx\directlua\@undefined\else
+  \ifx\bbl@luapatterns\@undefined
+    \input luababel.def
+  \fi
 \fi
 \def\bbl@add#1#2{%
   \@ifundefined{\expandafter\@gobble\string#1}%
@@ -1308,18 +1322,18 @@
   \AtBeginDocument{%
     \@ifpackageloaded{ifthen}{%
       \bbl@redefine@long\ifthenelse#1#2#3{%
-        \let\bbl@tempa\pageref
+        \let\bbl@temp@pref\pageref
         \let\pageref\org@pageref
-        \let\bbl@tempb\ref
+        \let\bbl@temp@ref\ref
         \let\ref\org@ref
         \@safe@activestrue
         \org@ifthenelse{#1}{%
-          \let\pageref\bbl@tempa
-          \let\ref\bbl@tempb
+          \let\pageref\bbl@temp@pref
+          \let\ref\bbl@temp@ref
           \@safe@activesfalse
           #2}{%
-          \let\pageref\bbl@tempa
-          \let\ref\bbl@tempb
+          \let\pageref\bbl@temp@pref
+          \let\ref\bbl@temp@ref
           \@safe@activesfalse
           #3}%
         }%
@@ -1415,7 +1429,10 @@
 \AtEndOfPackage{\edef\latinencoding{\cf@encoding}}
 \AtBeginDocument{%
   \@ifpackageloaded{fontspec}%
-    {\xdef\latinencoding{EU\ifcase\bbl@engine\or2\or1\fi}}%
+    {\xdef\latinencoding{%
+       \@ifundefined{UTFencname}%
+         {EU\ifcase\bbl@engine\or2\or1\fi}%
+         {\UTFencname}}}%
     {\gdef\latinencoding{OT1}%
      \ifx\cf@encoding\bbl@t@one
        \xdef\latinencoding{\bbl@t@one}%

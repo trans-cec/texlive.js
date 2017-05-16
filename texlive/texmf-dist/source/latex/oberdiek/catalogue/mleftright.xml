@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2010'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     The package defines variants <tt>\mleft</tt> and <tt>\mright</tt>
     of <tt>\left</tt> and <tt>\right</tt>, that make the delimiters

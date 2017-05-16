@@ -13,7 +13,7 @@
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
 %% 
-%% Copyright 1993-2015
+%% Copyright 1993-2016
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
@@ -43,7 +43,7 @@
 %% extension .ins) which are part of the distribution.
 %%% From File: ltmath.dtx
 \ProvidesFile{leqno.clo}
-        [2015/03/31 v1.1i Standard LaTeX option
+        [2016/12/29 v1.2a Standard LaTeX option
                                    (left equation numbers)]
 \renewcommand\@eqnnum{\hb@xt@.01\p@{}%
                       \rlap{\normalfont\normalcolor

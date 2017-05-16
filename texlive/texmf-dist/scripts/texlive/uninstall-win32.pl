@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: uninstall-win32.pl 36785 2015-04-12 14:40:36Z peter $
+# $Id: uninstall-win32.pl 40579 2016-04-17 21:34:37Z siepo $
 # Copyright 2008, 2010, 2011, 2012, 2014 Norbert Preining
 #
 # GUI for tlmgr
@@ -75,9 +75,10 @@ sub doit {
   # unsetenv_reg("TEXBINDIR");
   # unsetenv_reg("TEXMFSYSVAR");
   # unsetenv_reg("TEXMFCNF");
-  unregister_uninstaller($localtlpdb->option("w32_multi_user"));
-  broadcast_env();
-  update_assocs();
+  TeXLive::TLWinGoo::unregister_uninstaller(
+    $localtlpdb->option("w32_multi_user"));
+  TeXLive::TLWinGoo::broadcast_env();
+  TeXLive::TLWinGoo::update_assocs();
 }
 
 Tk::MainLoop();

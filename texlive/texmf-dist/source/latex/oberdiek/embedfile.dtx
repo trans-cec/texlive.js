@@ -1,11 +1,13 @@
 % \iffalse meta-comment
 %
 % File: embedfile.dtx
-% Version: 2011/04/13 v2.6
+% Version: 2016/05/15 v2.7
 % Info: Embed files into PDF
 %
 % Copyright (C) 2006-2011 by
 %    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+%    2016
+%    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -89,7 +91,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: embedfile 2011/04/13 v2.6 Embed files into PDF (HO)}
+\Msg{* Package: embedfile 2016/05/15 v2.7 Embed files into PDF (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -101,7 +103,7 @@
 This is a generated file.
 
 Project: embedfile
-Version: 2011/04/13 v2.6
+Version: 2016/05/15 v2.7
 
 Copyright (C) 2006-2011 by
    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -179,7 +181,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{embedfile.drv}%
-  [2011/04/13 v2.6 Embed files into PDF (HO)]%
+  [2016/05/15 v2.7 Embed files into PDF (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \begin{document}
@@ -188,7 +190,6 @@ and the derived files
 %</driver>
 % \fi
 %
-% \CheckSum{1363}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -209,8 +210,10 @@ and the derived files
 % \GetFileInfo{embedfile.drv}
 %
 % \title{The \xpackage{embedfile} package}
-% \date{2011/04/13 v2.6}
-% \author{Heiko Oberdiek\\\xemail{heiko.oberdiek at googlemail.com}}
+% \date{2016/05/15 v2.7}
+% \author{Heiko Oberdiek\thanks
+% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
+% \xemail{heiko.oberdiek at googlemail.com}}
 %
 % \maketitle
 %
@@ -567,7 +570,7 @@ This example document contains three embedded files.
 \usepackage[bookmarks=false]{hyperref}
 % provides \pdfstringdef that is then used by `title' and
 % other keys.
-\usepackage{embedfile}[2011/04/13]
+\usepackage{embedfile}[2016/05/15]
 \embedfilesetup{
   view=details,
   initialfile=embedfile.pdf
@@ -635,8 +638,8 @@ You need Acrobat Reader 8 or higher.
 %<*dtxattach>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{dtx-attach}
-  [2011/04/13 v2.6 Embed \string\jobname.dtx (HO)]%
-\RequirePackage{embedfile}[2011/04/13]
+  [2016/05/15 v2.7 Embed \string\jobname.dtx (HO)]%
+\RequirePackage{embedfile}[2016/05/15]
 \embedfile[%
   stringmethod=escape,%
   mimetype=plain/text,%
@@ -726,7 +729,7 @@ You need Acrobat Reader 8 or higher.
   \fi
 \expandafter\x\csname ver@embedfile.sty\endcsname
 \ProvidesPackage{embedfile}%
-  [2011/04/13 v2.6 Embed files into PDF (HO)]%
+  [2016/05/15 v2.7 Embed files into PDF (HO)]%
 %    \end{macrocode}
 %
 % \subsection{Catcodes}
@@ -802,6 +805,13 @@ You need Acrobat Reader 8 or higher.
 }
 %    \end{macrocode}
 %    \end{macro}
+%
+% Luatex compat
+%    \begin{macrocode}
+\ifx\pdfextension\@undefined\else
+  \EmFi@RequirePackage{luatex85}[2016/01/01]
+\fi
+%    \end{macrocode}
 %
 % \subsection{Check for recent \pdfTeX\ in PDF mode}
 %
@@ -1807,7 +1817,7 @@ Test (plain-\TeX): {\tt embedfile.dtx} should be embedded.%
 \NeedsTeXFormat{LaTeX2e}
 \let\SavedJobname\jobname
 \def\jobname{embedfile}
-\RequirePackage{dtx-attach}[2011/04/13]
+\RequirePackage{dtx-attach}[2016/05/15]
 \let\jobname\SavedJobname
 \documentclass{minimal}
 \begin{document}
@@ -1832,6 +1842,12 @@ Test (plain-\TeX): {\tt embedfile.dtx} should be embedded.%
       'pdfoutput'%
     })%
   }%
+  \ifx\pdfextension\undefined\else
+    \protected\def\pdflastobj {\numexpr\pdffeedback lastobj\relax}
+    \protected\def\pdfnames   {\pdfextension names }
+    \protected\def\pdfobj     {\pdfextension obj }
+    \let\pdfoutput            \outputmode
+  \fi
 \fi
 \pdfoutput=1 %
 \input embedfile.sty %
@@ -1851,7 +1867,7 @@ Test (plain-\TeX): {\tt embedfile.dtx} should be embedded.%
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{ftp://ftp.ctan.org/tex-archive/}}:
+% CTAN\footnote{\url{http://ctan.org/pkg/embedfile}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/embedfile.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/embedfile.pdf}] Documentation.
@@ -2051,7 +2067,7 @@ Test (plain-\TeX): {\tt embedfile.dtx} should be embedded.%
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2011'/>
   <license type='lppl1.3'/>
-  <version number='2.6'/>
+  <version number='2.7'/>
   <description>
     This package embeds files in a PDF document, using the PDF
     format's embedding operation (note the contrast with the attach
@@ -2162,6 +2178,10 @@ Test (plain-\TeX): {\tt embedfile.dtx} should be embedded.%
 %   \begin{Version}{2011/04/13 v2.6}
 %   \item
 %     Docu fixes (thanks Hans-Martin M\"unch).
+%   \end{Version}
+%   \begin{Version}{2016/05/15 v2.7}
+%   \item
+%     luaTeX compatibility
 %   \end{Version}
 % \end{History}
 %

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2011'/>
   <license type='lppl1.3'/>
-  <version number='1.2'/>
+  <version number='1.3'/>
   <description>
     Package <xref refid='listings'>listings</xref> does not support files
     with multi-byte encodings such as UTF-8.  In the case of

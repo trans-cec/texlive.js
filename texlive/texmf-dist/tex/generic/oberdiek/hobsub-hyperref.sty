@@ -23,7 +23,7 @@
 %% This is a generated file.
 %% 
 %% Project: hobsub
-%% Version: 2012/05/28 v1.13
+%% Version: 2016/05/16 v1.14
 %% 
 %% Copyright (C) 2011, 2012 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -116,7 +116,7 @@
 \fi
 \expandafter\x\csname ver@hobsub-hyperref.sty\endcsname
 \ProvidesPackage{hobsub-hyperref}%
- [2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)]%
+ [2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -161,7 +161,7 @@
 \TMP@EnsureCode{96}{12}% `
 \edef\HOBsub@AtEnd{\HOBsub@AtEnd\noexpand\endinput}
 \NeedsTeXFormat{LaTeX2e}
-\RequirePackage{hobsub-generic}[2012/05/28]
+\RequirePackage{hobsub-generic}[2016/05/16]
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname ver@hobsub.sty\endcsname\relax
 \else
@@ -242,11 +242,11 @@
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname ProvidesPackage\endcsname\relax
 \immediate\write-1{%
- Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)%
+ Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)%
 }%
 \else
 \ProvidesPackage{hobsub}%
- [2012/05/28 v1.13 Construct package bundles (HO)]%
+ [2016/05/16 v1.14 Construct package bundles (HO)]%
 \fi
 \endinput
 <hobsub>
@@ -302,7 +302,7 @@
 \escapechar=92 % `\\
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{letltxmacro}%
- [2010/09/02 v1.4 Let assignment for LaTeX macros (HO)]
+ [2016/05/16 v1.5 Let assignment for LaTeX macros (HO)]
 \newcommand*{\LetLtxMacro}{%
 \llm@ModeLetLtxMacro{}%
 }
@@ -471,7 +471,7 @@
 \edef\HOpatch@AtEnd{\HOpatch@AtEnd\noexpand\endinput}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{hopatch}%
- [2012/05/28 v1.2 Wrapper for package hooks (HO)]
+ [2016/05/16 v1.3 Wrapper for package hooks (HO)]
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname RequirePackage\endcsname\relax
 \def\TMP@RequirePackage#1[#2]{%
@@ -573,8 +573,8 @@
 \hobsub@StopPackage
 \hobsub@StartPackage{xcolor-patch}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{xcolor-patch}[2011/01/30 xcolor patch]
-\RequirePackage{hopatch}[2011/01/30]
+\ProvidesPackage{xcolor-patch}[2016/05/16 xcolor patch]
+\RequirePackage{hopatch}[2016/05/16]
 \hopatch@AfterPackage{xcolor}{%
 \long\def\reserved@a#1#2#3{%
 \long\def\@@tmp##1##2{%
@@ -774,7 +774,7 @@
 \edef\AtVeryEnd@AtEnd{\AtVeryEnd@AtEnd\noexpand\endinput}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{atveryend}%
- [2011/06/30 v1.8 Hooks at the very end of document (HO)]
+ [2016/05/16 v1.9 Hooks at the very end of document (HO)]
 \def\AtVeryEnd@ifundefined#1{%
 \begingroup\expandafter\expandafter\expandafter\endgroup
 \expandafter\ifx\csname #1\endcsname\relax
@@ -1470,7 +1470,7 @@
 \fi
 \expandafter\x\csname ver@atbegshi.sty\endcsname
 \ProvidesPackage{atbegshi}%
- [2011/10/05 v1.16 At begin shipout hook (HO)]%
+ [2016/06/09 v1.18 At begin shipout hook (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -1837,8 +1837,10 @@ X \endgroup
 \RequirePackage{ifpdf}[2011/01/30]%
 \fi
 \ifpdf
-\def\AtBegShi@horigin{\pdfhorigin}%
-\def\AtBegShi@vorigin{\pdfvorigin}%
+\def\AtBegShi@horigin{%
+\ifx\pdfhorigin\@undefined\pdfvariable horigin\else\pdfhorigin\fi}%
+\def\AtBegShi@vorigin{%
+\ifx\pdfvorigin\@undefined\pdfvariable vorigin\else\pdfvorigin\fi}%
 \else
 \def\AtBegShi@horigin{72.27pt}%
 \def\AtBegShi@vorigin{72.27pt}%
@@ -2293,7 +2295,7 @@ X \endgroup
 \fi
 \expandafter\x\csname ver@refcount.sty\endcsname
 \ProvidesPackage{refcount}%
- [2011/10/16 v3.4 Data extraction from label references (HO)]%
+ [2016/05/16 v3.5 Data extraction from label references (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
 \catcode13=5 % ^^M
 \endlinechar=13 %
@@ -2592,8 +2594,8 @@ X \endgroup
 \hobsub@StartPackage{hycolor}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{hycolor}%
- [2011/01/30 v1.7 Color options for hyperref/bookmark (HO)]%
-\RequirePackage{xcolor-patch}[2011/01/30]
+ [2016/05/16 v1.8 Color options for hyperref/bookmark (HO)]%
+\RequirePackage{xcolor-patch}[2016/05/16]
 \begingroup
 \catcode`\!=13 %
 \catcode`\:=13 %

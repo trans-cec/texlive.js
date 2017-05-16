@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007,2010,2011'/>
   <license type='lppl1.3'/>
-  <version number='1.6'/>
+  <version number='1.7'/>
   <description>
     This package catches the contents of a file and puts it in a macro.
     It requires <xref refid='etex'>e-TeX</xref>. Both

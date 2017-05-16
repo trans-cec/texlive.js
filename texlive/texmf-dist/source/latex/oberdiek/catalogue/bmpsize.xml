@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2009'/>
   <license type='lppl1.3'/>
-  <version number='1.6'/>
+  <version number='1.7'/>
   <description>
     This package analyzes bitmap images to extract size and resolution
     data.  It adds this feature to the graphics package so it is no

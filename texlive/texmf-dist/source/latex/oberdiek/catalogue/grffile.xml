@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2012'/>
   <license type='lppl1.3'/>
-  <version number='1.16'/>
+  <version number='1.17'/>
   <description>
     The package extends the file name processing of package
     <xref refid='graphics'>graphics</xref> to support a larger range

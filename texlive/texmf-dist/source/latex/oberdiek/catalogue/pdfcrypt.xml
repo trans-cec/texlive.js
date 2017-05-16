@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2001,2006,2007'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     Allows the setting of pdf encryption options for VTeX and some
     older versions of pdfTeX.  The options can be set as package

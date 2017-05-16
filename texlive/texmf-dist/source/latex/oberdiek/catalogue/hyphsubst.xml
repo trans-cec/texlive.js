@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2008'/>
   <license type='lppl1.3'/>
-  <version number='0.2'/>
+  <version number='0.3'/>
   <description>
     A TeX format file may include alternative hyphenation patterns
     for a language with a different name. If the naming convention

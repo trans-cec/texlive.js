@@ -9,7 +9,7 @@
 --  This is a generated file.
 --  
 --  Project: luacolor
---  Version: 2011/11/01 v1.8
+--  Version: 2016/05/16 v1.10
 --  
 --  Copyright (C) 2007, 2009-2011 by
 --     Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -37,10 +37,10 @@
 --  
 module("oberdiek.luacolor", package.seeall)
 function getversion()
-  tex.write("2011/11/01 v1.8")
+  tex.write("2016/05/16 v1.10")
 end
 local ifpdf
-if tonumber(tex.pdfoutput) > 0 then
+if tonumber(tex.outputmode or tex.pdfoutput) > 0 then
   ifpdf = true
 else
   ifpdf = false
@@ -126,7 +126,7 @@ local node_types = {
   [node.id("whatsit")] = {
     [node.subtype("special")] = COLOR,
     [node.subtype("pdf_literal")] = COLOR,
-    [node.subtype("pdf_refximage")] = COLOR,
+-- TODO (DPC)    [node.subtype("pdf_refximage")] = COLOR,
   },
   [node.id("glue")] =
     function(n)
@@ -151,8 +151,8 @@ local function get_type(n)
 end
 local mode = 2 -- luatex.pdfliteral.direct
 local WHATSIT = node.id("whatsit")
-local SPECIAL = 3
-local PDFLITERAL = 8
+local SPECIAL = node.subtype("special")
+local PDFLITERAL = node.subtype("pdf_literal")
 local DRY_FALSE = false
 local DRY_TRUE = true
 local function traverse(list, color, dry)

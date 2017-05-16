@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1999-2001,2006-2008,2011'/>
   <license type='lppl1.3'/>
-  <version number='1.11'/>
+  <version number='1.12'/>
   <description>
     The package offers a solution to the problem that when you link to
     a float using <xref refid='hyperref'>hyperref</xref>, the link

@@ -48,14 +48,15 @@ local tex_count        = tex.count
 local tex_setattribute = tex.setattribute
 local tex_setcount     = tex.setcount
 local texio_write_nl   = texio.write_nl
+local luatexbase_warning
+local luatexbase_error
 local modules = modules or { }
 local function luatexbase_log(text)
   texio_write_nl("log", text)
 end
 local function provides_module(info)
   if not (info and info.name) then
-    luatexbase_error("Missing module name for provides_modules")
-    return
+    luatexbase_error("Missing module name for provides_module")
   end
   local function spaced(text)
     return text and (" " .. text) or ""
@@ -72,9 +73,10 @@ luatexbase.provides_module = provides_module
 local function msg_format(mod, msg_type, text)
   local leader = ""
   local cont
+  local first_head
   if mod == "LaTeX" then
     cont = string_gsub(leader, ".", " ")
-    leader = leader .. "LaTeX: "
+    first_head = leader .. "LaTeX: "
   else
     first_head = leader .. "Module "  .. msg_type
     cont = "(" .. mod .. ")"
@@ -107,10 +109,10 @@ local function module_error(mod, text)
   error(msg_format(mod, "Error", text))
 end
 luatexbase.module_error = module_error
-local function luatexbase_warning(text)
+function luatexbase_warning(text)
   module_warning("luatexbase", text)
 end
-local function luatexbase_error(text)
+function luatexbase_error(text)
   module_error("luatexbase", text)
 end
 local luaregisterbasetable = { }
@@ -124,17 +126,18 @@ local registermap = {
   skipzero      = "assign_skip"    ,
   tokszero      = "assign_toks"    ,
 }
-local i, j
 local createtoken
-if tex.luatexversion >79 then
- createtoken   = newtoken.create
+if tex.luatexversion > 81 then
+  createtoken = token.create
+elseif tex.luatexversion > 79 then
+  createtoken = newtoken.create
 end
-local hashtokens    = tex.hashtokens
+local hashtokens    = tex.hashtokens()
 local luatexversion = tex.luatexversion
 for i,j in pairs (registermap) do
   if luatexversion < 80 then
-    luaregisterbasetable[hashtokens()[i][1]] =
-      hashtokens()[i][2]
+    luaregisterbasetable[hashtokens[i][1]] =
+      hashtokens[i][2]
   else
     luaregisterbasetable[j] = createtoken(i).mode
   end
@@ -142,7 +145,7 @@ end
 local registernumber
 if luatexversion < 80 then
   function registernumber(name)
-    local nt = hashtokens()[name]
+    local nt = hashtokens[name]
     if(nt and luaregisterbasetable[nt[1]]) then
       return nt[2] - luaregisterbasetable[nt[1]]
     else
@@ -167,52 +170,52 @@ __index = function(t,key)
 return registernumber(key) or nil
 end}
 )
-luatexbase.attributes=attributes
+luatexbase.attributes = attributes
+local attribute_count_name = attribute_count_name or "e@alloc@attribute@count"
 local function new_attribute(name)
-  tex_setcount("global", "e@alloc@attribute@count",
-                          tex_count["e@alloc@attribute@count"] + 1)
-  if tex_count["e@alloc@attribute@count"] > 65534 then
+  tex_setcount("global", attribute_count_name,
+                          tex_count[attribute_count_name] + 1)
+  if tex_count[attribute_count_name] > 65534 then
     luatexbase_error("No room for a new \\attribute")
-    return -1
   end
-  attributes[name]= tex_count["e@alloc@attribute@count"]
+  attributes[name]= tex_count[attribute_count_name]
   luatexbase_log("Lua-only attribute " .. name .. " = " ..
-                 tex_count["e@alloc@attribute@count"])
-  return tex_count["e@alloc@attribute@count"]
+                 tex_count[attribute_count_name])
+  return tex_count[attribute_count_name]
 end
 luatexbase.new_attribute = new_attribute
+local whatsit_count_name = whatsit_count_name or "e@alloc@whatsit@count"
 local function new_whatsit(name)
-  tex_setcount("global", "e@alloc@whatsit@count",
-                         tex_count["e@alloc@whatsit@count"] + 1)
-  if tex_count["e@alloc@whatsit@count"] > 65534 then
+  tex_setcount("global", whatsit_count_name,
+                         tex_count[whatsit_count_name] + 1)
+  if tex_count[whatsit_count_name] > 65534 then
     luatexbase_error("No room for a new custom whatsit")
-    return -1
   end
   luatexbase_log("Custom whatsit " .. (name or "") .. " = " ..
-                 tex_count["e@alloc@whatsit@count"])
-  return tex_count["e@alloc@whatsit@count"]
+                 tex_count[whatsit_count_name])
+  return tex_count[whatsit_count_name]
 end
 luatexbase.new_whatsit = new_whatsit
+local bytecode_count_name = bytecode_count_name or "e@alloc@bytecode@count"
 local function new_bytecode(name)
-  tex_setcount("global", "e@alloc@bytecode@count",
-                         tex_count["e@alloc@bytecode@count"] + 1)
-  if tex_count["e@alloc@bytecode@count"] > 65534 then
+  tex_setcount("global", bytecode_count_name,
+                         tex_count[bytecode_count_name] + 1)
+  if tex_count[bytecode_count_name] > 65534 then
     luatexbase_error("No room for a new bytecode register")
-    return -1
   end
   luatexbase_log("Lua bytecode " .. (name or "") .. " = " ..
-                 tex_count["e@alloc@bytecode@count"])
-  return tex_count["e@alloc@bytecode@count"]
+                 tex_count[bytecode_count_name])
+  return tex_count[bytecode_count_name]
 end
 luatexbase.new_bytecode = new_bytecode
+local chunkname_count_name = chunkname_count_name or "e@alloc@luachunk@count"
 local function new_chunkname(name)
-  tex_setcount("global", "e@alloc@luachunk@count",
-                         tex_count["e@alloc@luachunk@count"] + 1)
-  local chunkname_count = tex_count["e@alloc@luachunk@count"]
+  tex_setcount("global", chunkname_count_name,
+                         tex_count[chunkname_count_name] + 1)
+  local chunkname_count = tex_count[chunkname_count_name]
   chunkname_count = chunkname_count + 1
   if chunkname_count > 65534 then
     luatexbase_error("No room for a new chunkname")
-    return -1
   end
   lua.name[chunkname_count]=name
   luatexbase_log("Lua chunkname " .. (name or "") .. " = " ..
@@ -255,36 +258,44 @@ local callbacktypes = callbacktypes or {
   read_truetype_file = exclusive,
   read_type1_file    = exclusive,
   read_opentype_file = exclusive,
+  find_cidmap_file   = data,
+  read_cidmap_file   = exclusive,
   process_input_buffer  = data,
   process_output_buffer = data,
   process_jobname       = data,
-  token_filter          = exclusive,
-  buildpage_filter      = simple,
-  pre_linebreak_filter  = list,
-  linebreak_filter      = list,
-  post_linebreak_filter = list,
-  hpack_filter          = list,
-  vpack_filter          = list,
-  pre_output_filter     = list,
-  hyphenate             = simple,
-  ligaturing            = simple,
-  kerning               = simple,
-  mlist_to_hlist        = list,
-  pre_dump            = simple,
-  start_run           = simple,
-  stop_run            = simple,
-  start_page_number   = simple,
-  stop_page_number    = simple,
-  show_error_hook     = simple,
-  show_error_message  = simple,
-  show_lua_error_hook = simple,
-  start_file          = simple,
-  stop_file           = simple,
+  contribute_filter      = simple,
+  buildpage_filter       = simple,
+  build_page_insert      = exclusive,
+  pre_linebreak_filter   = list,
+  linebreak_filter       = list,
+  append_to_vlist_filter = list,
+  post_linebreak_filter  = list,
+  hpack_filter           = list,
+  vpack_filter           = list,
+  hpack_quality          = list,
+  vpack_quality          = list,
+  pre_output_filter      = list,
+  process_rule           = list,
+  hyphenate              = simple,
+  ligaturing             = simple,
+  kerning                = simple,
+  insert_local_par       = simple,
+  mlist_to_hlist         = list,
+  pre_dump             = simple,
+  start_run            = simple,
+  stop_run             = simple,
+  start_page_number    = simple,
+  stop_page_number     = simple,
+  show_error_hook      = simple,
+  show_warning_message = simple,
+  show_error_message   = simple,
+  show_lua_error_hook  = simple,
+  start_file           = simple,
+  stop_file            = simple,
+  call_edit            = simple,
   finish_pdffile = data,
   finish_pdfpage = data,
   define_font = exclusive,
-  find_cidmap_file           = data,
-  pdf_stream_filter_callback = data,
 }
 luatexbase.callbacktypes=callbacktypes
 local callback_register = callback_register or callback.register
@@ -293,7 +304,6 @@ function callback.register()
 end
 local function data_handler(name)
   return function(data, ...)
-    local i
     for _,i in ipairs(callbacklist[name]) do
       data = i.func(data,...)
     end
@@ -309,13 +319,12 @@ local function list_handler(name)
   return function(head, ...)
     local ret
     local alltrue = true
-    local i
     for _,i in ipairs(callbacklist[name]) do
       ret = i.func(head, ...)
       if ret == false then
         luatexbase_warning(
-          "Function `i.description' returned false\n"
-            .. "in callback `name'"
+          "Function `" .. i.description .. "' returned false\n"
+            .. "in callback `" .. name .."'"
          )
          break
       end
@@ -329,7 +338,6 @@ local function list_handler(name)
 end
 local function simple_handler(name)
   return function(...)
-    local i
     for _,i in ipairs(callbacklist[name]) do
       i.func(...)
     end
@@ -343,24 +351,33 @@ local handlers = {
 }
 local user_callbacks_defaults = { }
 local function create_callback(name, ctype, default)
-  if not name or
-    name == "" or
-    callbacktypes[name] or
-    not(default == false or  type(default) == "function")
-    then
-      luatexbase_error("Unable to create callback " .. name)
+  if not name  or name  == ""
+  or not ctype or ctype == ""
+  then
+    luatexbase_error("Unable to create callback:\n" ..
+                     "valid callback name and type required")
   end
+  if callbacktypes[name] then
+    luatexbase_error("Unable to create callback `" .. name ..
+                     "':\ncallback is already defined")
+  end
+  if default ~= false and type (default) ~= "function" then
+    luatexbase_error("Unable to create callback `" .. name ..
+                     ":\ndefault is not a function")
+   end
   user_callbacks_defaults[name] = default
   callbacktypes[name] = types[ctype]
 end
 luatexbase.create_callback = create_callback
 local function call_callback(name,...)
-  if not name or
-    name == "" or
-    user_callbacks_defaults[name] == nil
-    then
-        luatexbase_error("Unable to call callback " .. name)
+  if not name or name == "" then
+    luatexbase_error("Unable to create callback:\n" ..
+                     "valid callback name required")
   end
+  if user_callbacks_defaults[name] == nil then
+    luatexbase_error("Unable to call callback `" .. name
+                     .. "':\nunknown or empty")
+   end
   local l = callbacklist[name]
   local f
   if not l then
@@ -375,10 +392,11 @@ local function call_callback(name,...)
 end
 luatexbase.call_callback=call_callback
 local function add_to_callback(name, func, description)
-  if
-    not name or
-    name == "" or
-    not callbacktypes[name] or
+  if not name or name == "" then
+    luatexbase_error("Unable to register callback:\n" ..
+                     "valid callback name required")
+  end
+  if not callbacktypes[name] or
     type(func) ~= "function" or
     not description or
     description == "" then
@@ -387,7 +405,6 @@ local function add_to_callback(name, func, description)
         .. "Correct usage:\n"
         .. "add_to_callback(<callback>, <function>, <description>)"
     )
-    return
   end
   local l = callbacklist[name]
   if l == nil then
@@ -417,10 +434,11 @@ local function add_to_callback(name, func, description)
 end
 luatexbase.add_to_callback = add_to_callback
 local function remove_from_callback(name, description)
-  if
-    not name or
-    name == "" or
-    not callbacktypes[name] or
+  if not name or name == "" then
+    luatexbase_error("Unable to remove function from callback:\n" ..
+                     "valid callback name required")
+  end
+  if not callbacktypes[name] or
     not description or
     description == "" then
     luatexbase_error(
@@ -428,7 +446,6 @@ local function remove_from_callback(name, description)
         .. "Correct usage:\n"
         .. "remove_from_callback(<callback>, <description>)"
     )
-    return
   end
   local l = callbacklist[name]
   if not l then
@@ -436,8 +453,6 @@ local function remove_from_callback(name, description)
       "No callback list for `" .. name .. "'\n")
   end
   local index = false
-  local i,j
-  local cb = {}
   for i,j in ipairs(l) do
     if j.description == description then
       index = i
@@ -448,9 +463,8 @@ local function remove_from_callback(name, description)
     luatexbase_error(
       "No callback `" .. description .. "' registered for `" ..
       name .. "'\n")
-    return
   end
-  cb = l[index]
+  local cb = l[index]
   table.remove(l, index)
   luatexbase_log(
     "Removing  `" .. description .. "' from `" .. name .. "'."
@@ -465,11 +479,11 @@ luatexbase.remove_from_callback = remove_from_callback
 local function in_callback(name, description)
   if not name
     or name == ""
+    or not callbacklist[name]
     or not callbacktypes[name]
     or not description then
       return false
   end
-  local i
   for _, i in pairs(callbacklist[name]) do
     if i.description == description then
       return true
@@ -490,12 +504,12 @@ local function callback_descriptions (name)
   local d = {}
   if not name
     or name == ""
+    or not callbacklist[name]
     or not callbacktypes[name]
     then
     return d
   else
-  local i
-  for k, i in pairs(callbacklist[name] or {}) do
+  for k, i in pairs(callbacklist[name]) do
     d[k]= i.description
     end
   end

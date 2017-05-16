@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2007'/>
   <license type='lppl1.3'/>
-  <version number='1.1'/>
+  <version number='1.2'/>
   <description>
     LaTeX offers <tt>\AtBeginDvi</tt>.  This package provides the
     counterpart <tt>\AtEndDvi</tt>. The execution of its argument is

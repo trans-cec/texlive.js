@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2015
+% Copyright 1993-2016
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -33,7 +33,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltclass.dtx}
-             [2014/09/29 v1.1i LaTeX Kernel (Class & Package Interface)]
+             [2016/11/09 v1.2b LaTeX Kernel (Class & Package Interface)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltclass.dtx}
@@ -55,7 +55,6 @@
 % All rights reserved.
 % \fi
 %
-% \CheckSum{1199}
 %
 % \changes{v1.0f}{1994/05/22}{Use new warning and error commands}
 % \changes{v1.0l}{1994/11/17}{\cs{@tempa} to \cs{reserved@a}}
@@ -630,9 +629,10 @@
 \@onlypreamble\@ifl@t@r
 %    \end{macrocode}
 %
+% \changes{v1.1j}{2016/06/20}
+%         {don't declare as \cs{@onlypreamble}}
 %    \begin{macrocode}
 \def\@parse@version#1/#2/#3#4#5\@nil{#1#2#3#4 }
-\@onlypreamble\@parse@version
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -662,9 +662,18 @@
 % \changes{v1.1i}{2011/08/19}
 %         {Re-jig definition after more stringent \cs{in@} test.}
 %    \begin{macrocode}
+%</2ekernel>
+%<latexrelease>\IncludeInRelease{2017/01/01}%
+%<latexrelease>                 {\@if@pti@ns}{Spaces in option clash check}%
+%<*2ekernel|latexrelease>
 \def\@if@pti@ns#1#2{%
  \let\reserved@a\@firstoftwo
- \@for\reserved@b:=#2\do{%
+%    \end{macrocode}
+% \changes{v1.2a}{2016/10/02}
+%         {Ignore spaces while checking for option clash}
+%    \begin{macrocode}
+ \edef\reserved@b{\zap@space#2 \@empty}%
+ \@for\reserved@b:=\reserved@b\do{%
    \ifx\reserved@b\@empty
    \else
      \expandafter\in@\expandafter{\expandafter,\reserved@b,}{,#1,}%
@@ -675,6 +684,28 @@
    \fi
  }%
  \reserved@a}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\@if@pti@ns}{Spaces in option clash check}%
+%<latexrelease>\def\@if@pti@ns#1#2{%
+%<latexrelease> \let\reserved@a\@firstoftwo
+%<latexrelease> \@for\reserved@b:=#2\do{%
+%<latexrelease>  \ifx\reserved@b\@empty
+%<latexrelease>   \else
+%<latexrelease>   \expandafter\in@\expandafter
+%<latexrelease>                   {\expandafter,\reserved@b,}{,#1,}%
+%<latexrelease>    \ifin@
+%<latexrelease>    \else
+%<latexrelease>     \let\reserved@a\@secondoftwo
+%<latexrelease>    \fi
+%<latexrelease>  \fi
+%<latexrelease> }%
+%<latexrelease> \reserved@a}
+%<*2ekernel>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \@onlypreamble\@if@pti@ns
 %    \end{macrocode}
 % \end{macro}
@@ -972,11 +1003,37 @@
 % \changes{v0.2k}{1993/12/06}
 %         {Preserve \cs{CurrentOption}.}
 %    \begin{macrocode}
+%</2ekernel>
+%<latexrelease>\IncludeInRelease{2017/01/01}%
+%<latexrelease>                 {\@if@pti@ns}{Spaces in \ExecuteOptions}%
+%<*2ekernel|latexrelease>
 \def\ExecuteOptions#1{%
+%    \end{macrocode}
+% \changes{v1.2a}{2016/10/02}
+%         {Ignore spaces in argument}
+% Use |\@fortmp| here as it is anyway cleared during |\@for| loop
+% so does not change any existing names.
+%    \begin{macrocode}
+  \edef\@fortmp{\zap@space#1 \@empty}%
   \def\reserved@a##1\@nil{%
-    \@for\CurrentOption:=#1\do{\csname ds@\CurrentOption\endcsname}%
+    \@for\CurrentOption:=\@fortmp\do
+             {\csname ds@\CurrentOption\endcsname}%
     \edef\CurrentOption{##1}}%
   \expandafter\reserved@a\CurrentOption\@nil}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\@if@pti@ns}{Spaces in \ExecuteOptions}%
+%<latexrelease>\def\ExecuteOptions#1{%
+%<latexrelease>  \def\reserved@a##1\@nil{%
+%<latexrelease>    \@for\CurrentOption:=#1\do
+%<latexrelease>             {\csname ds@\CurrentOption\endcsname}%
+%<latexrelease>    \edef\CurrentOption{##1}}%
+%<latexrelease>  \expandafter\reserved@a\CurrentOption\@nil}
+%<*2ekernel>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \@onlypreamble\ExecuteOptions
 %    \end{macrocode}
 % \end{macro}
@@ -1212,7 +1269,13 @@
 %          ASAJ.}
 % \changes{v1.1h}{2007/08/05}
 %         {Prevent loss of brackets PR/3965}
+% \changes{v2.1b}{2016/11/09}
+%         {Improve \cs{ifx} tests PR/4497}
 %    \begin{macrocode}
+%</2ekernel>
+%<latexrelease>\IncludeInRelease{2017/01/01}%
+%<latexrelease>        {\@fileswith@pti@ns}{ifx tests in \@fileswith@pti@ns}%
+%<*2ekernel|latexrelease>
 \def\@fileswith@pti@ns#1[#2]#3[#4]{%
   \ifx#1\@clsextension
     \ifx\@classoptionslist\relax
@@ -1230,17 +1293,66 @@
 % (one for each package) without thrashing the parameter stack.
 %    \begin{macrocode}
     \def\reserved@b##1,{%
-      \ifx\@nil##1\relax\else
-        \ifx\relax##1\relax\else
+%    \end{macrocode}
+% If |#1| is |\@nnil| we have reached the end of the list 
+% (older version used |\@nil| here but |\@nil| is undefined so |\ifx| 
+% equal to all undefined commands)
+%    \begin{macrocode}
+      \ifx\@nnil##1\relax\else
+%    \end{macrocode}
+%  If |\ifx\@nnil##1\n@nil| is true then |#1| is (presumably) empty
+% (Older code used |\relax| which is slighly easier to get into |#1|
+% by mistake, which would spoil this test.)
+%    \begin{macrocode}
+        \ifx\@nnil##1\@nnil\else
+%    \end{macrocode}
+%
+%    \begin{macrocode}
          \noexpand\@onefilewithoptions##1[{#2}][{#4}]%
          \noexpand\@pkgextension
         \fi
         \expandafter\reserved@b
       \fi}%
       \edef\reserved@a{\zap@space#3 \@empty}%
-      \edef\reserved@a{\expandafter\reserved@b\reserved@a,\@nil,}%
+      \edef\reserved@a{\expandafter\reserved@b\reserved@a,\@nnil,}%
   \fi
   \reserved@a}
+%</2ekernel|latexrelease>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>        {\@fileswith@pti@ns}{ifx tests in \@fileswith@pti@ns}%
+%<latexrelease>\def\@fileswith@pti@ns#1[#2]#3[#4]{%
+%<latexrelease>  \ifx#1\@clsextension
+%<latexrelease>    \ifx\@classoptionslist\relax
+%<latexrelease>      \xdef\@classoptionslist{\zap@space#2 \@empty}%
+%<latexrelease>      \def\reserved@a{%
+%<latexrelease>        \@onefilewithoptions#3[{#2}][{#4}]#1%
+%<latexrelease>        \@documentclasshook}%
+%<latexrelease>    \else
+%<latexrelease>      \def\reserved@a{%
+%<latexrelease>        \@onefilewithoptions#3[{#2}][{#4}]#1}%
+%<latexrelease>    \fi
+%<latexrelease>  \else
+%<latexrelease>    \def\reserved@b##1,{%
+%<latexrelease>      \ifx\@nil##1\relax\else
+%<latexrelease>        \ifx\relax##1\relax\else
+%<latexrelease>         \noexpand\@onefilewithoptions##1[{#2}][{#4}]%
+%<latexrelease>         \noexpand\@pkgextension
+%<latexrelease>        \fi
+%<latexrelease>        \expandafter\reserved@b
+%<latexrelease>      \fi}%
+%<latexrelease>      \edef\reserved@a{\zap@space#3 \@empty}%
+%<latexrelease>      \edef\reserved@a{%
+%<latexrelease>        \expandafter\reserved@b\reserved@a,\@nil,}%
+%<latexrelease>  \fi
+%<latexrelease>  \reserved@a}
+%<*2ekernel>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \@onlypreamble\@fileswith@pti@ns
 %    \end{macrocode}
 %

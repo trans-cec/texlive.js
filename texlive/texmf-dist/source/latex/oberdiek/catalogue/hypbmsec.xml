@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1998-2000,2006,2007'/>
   <license type='lppl1.3'/>
-  <version number='2.4'/>
+  <version number='2.5'/>
   <description>
     Bookmark entries can be given as another argument to the LaTeX
     sectioning commands. The <xref refid='hyperref'>hyperref</xref>

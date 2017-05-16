@@ -7,7 +7,7 @@
 %% babel.dtx  (with options: `package')
 %% This is a generated file.
 %% 
-%% Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 %% Copyright 1989-2008 Johannes L. Braams and any individual authors
 %% listed elsewhere in this file.  All rights reserved.
 %% 
@@ -38,23 +38,28 @@
 %% and covered by LPPL is defined by the unpacking scripts (with
 %% extension .ins) which are part of the distribution.
 %% File 'babel.dtx'
-%%\ProvidesFile{babel.dtx}[2015/08/03 v3.9m The Babel package]
+%%\ProvidesFile{babel.dtx}[2016/04/23 v3.9r The Babel package]
 %% Babel package for LaTeX2e.
 %% Copyright (C) 1989-2008 by Johannes Braams,
 %%                            TeXniek
 %%                            all rights reserved.
-%% Copyright (C) 2013-2014 by Johannes Braams
+%% Copyright (C) 2013-2016 by Johannes Braams
 %%                            TeXniek
 %%                            by Javier Bezos
 %%                            all rights reserved.
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesPackage{babel}[2015/08/03 3.9m The Babel package]
+\ProvidesPackage{babel}[2016/04/23 3.9r The Babel package]
 \@ifpackagewith{babel}{debug}
  {\input switch.def\relax}
- {\def\bbl@tempa{3.9m}%
+ {\def\bbl@tempa{3.9r}%
 \ifx\bbl@version\bbl@tempa\else
   \input switch.def\relax
 \fi}
+\ifx\directlua\@undefined\else
+  \ifx\bbl@luapatterns\@undefined
+    \input luababel.def
+  \fi
+\fi
 \def\bbl@add#1#2{%
   \@ifundefined{\expandafter\@gobble\string#1}%
     {\def#1{#2}}%
@@ -71,9 +76,32 @@
 \def\bbl@for#1#2#3{\bbl@loopx#1{#2}{\ifx#1\@empty\else#3\fi}}
 \def\AfterBabelLanguage#1{%
   \global\expandafter\bbl@add\csname#1.ldf-h@@k\endcsname}%
+\ifx\bbl@languages\@undefined\else
+  \begingroup
+    \catcode`\^^I=12
+    \@ifpackagewith{babel}{showlanguages}{%
+      \begingroup
+        \def\bbl@elt#1#2#3#4{\wlog{#2^^I#1^^I#3^^I#4}}%
+        \wlog{<*languages>}%
+        \bbl@languages
+        \wlog{</languages>}%
+      \endgroup}{}
+  \endgroup
+  \def\bbl@elt#1#2#3#4{%
+    \ifnum#2=\z@
+      \gdef\bbl@nulllanguage{#1}%
+      \def\bbl@elt##1##2##3##4{}%
+    \fi}%
+  \bbl@languages
+\fi
 \@ifpackagewith{babel}{base}{%
-  \DeclareOption*{\bbl@patterns{\CurrentOption}}%
+  \ifx\directlua\@undefined
+    \DeclareOption*{\bbl@patterns{\CurrentOption}}%
+  \else
+    \DeclareOption*{\bbl@patterns@lua{\CurrentOption}}%
+  \fi
   \DeclareOption{base}{}%
+  \DeclareOption{showlanguages}{}%
   \ProcessOptions
   \global\expandafter\let\csname opt@babel.sty\endcsname\relax
   \global\expandafter\let\csname ver@babel.sty\endcsname\relax
@@ -185,24 +213,6 @@
     \ifx\bbl@language@opts\@empty\else\bbl@language@opts,\fi
       \bbl@opt@main}
 \fi
-\ifx\bbl@languages\@undefined\else
-  \begingroup
-    \catcode`\^^I=12
-    \@ifpackagewith{babel}{showlanguages}{%
-      \begingroup
-        \def\bbl@elt#1#2#3#4{\wlog{#2^^I#1^^I#3^^I#4}}%
-        \wlog{<*languages>}%
-        \bbl@languages
-        \wlog{</languages>}%
-      \endgroup}{}
-  \endgroup
-  \def\bbl@elt#1#2#3#4{%
-    \ifnum#2=\z@
-      \gdef\bbl@nulllanguage{#1}%
-      \def\bbl@elt##1##2##3##4{}%
-    \fi}%
-  \bbl@languages
-\fi
 \let\bbl@afterlang\relax
 \let\BabelModifiers\relax
 \let\bbl@loaded\@empty
@@ -308,7 +318,7 @@
   \expandafter\bbl@tempa\bbl@loaded,\@nnil
   \ifx\bbl@tempb\bbl@tempc\else
     \bbl@warning{%
-      Last declared language option is `\bbl@tempc,\\%
+      Last declared language option is `\bbl@tempc',\\%
       but the last processed one was `\bbl@tempb'.\\%
       The main language cannot be set as both a global\\%
       and a package option. Use `main=\bbl@tempc' as\\%

@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2011'/>
   <license type='lppl1.3'/>
-  <version number='1.0'/>
+  <version number='1.1'/>
   <description>
     The package defines a command <tt>\ProtectedDef</tt> that will
     create LaTeX &#x2018;robust&#x2019; command or an e-TeX

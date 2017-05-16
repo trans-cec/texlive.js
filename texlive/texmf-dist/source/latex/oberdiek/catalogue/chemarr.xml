@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2001,2006'/>
   <license type='lppl1.3'/>
-  <version number='1.2'/>
+  <version number='1.3'/>
   <description>
     Very often chemists need a longer version of reaction arrows
     (<tt>\rightleftharpoons</tt>) with the possibility to put text

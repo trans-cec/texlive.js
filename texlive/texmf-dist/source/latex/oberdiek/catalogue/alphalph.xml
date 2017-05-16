@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='1999,2006-2008,2010,2011'/>
   <license type='lppl1.3'/>
-  <version number='2.4'/>
+  <version number='2.5'/>
   <description>
     Provides commands <tt>\alphalph</tt> and <tt>\AlphAlph.</tt> They
     are like <tt>\number</tt> but the expansion consists of lowercase

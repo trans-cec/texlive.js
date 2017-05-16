@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2002,2006,2007,2009-2011'/>
   <license type='lppl1.3'/>
-  <version number='1.11'/>
+  <version number='1.13'/>
   <description>
     This package adds hypertext features to the package
     <xref refid='doc'>doc</xref> that is used in the documentation

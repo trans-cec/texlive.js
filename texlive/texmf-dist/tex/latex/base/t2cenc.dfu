@@ -13,7 +13,7 @@
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
 %% 
-%% Copyright 1993-2015
+%% Copyright 1993-2016
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
@@ -42,7 +42,7 @@
 %% and covered by LPPL is defined by the unpacking scripts (with
 %% extension .ins) which are part of the distribution.
  \ProvidesFile{t2cenc.dfu}
-   [2015/09/07 v1.1p UTF-8 support for inputenc]
+   [2017/01/28 v1.1t UTF-8 support for inputenc]
 \DeclareUnicodeCharacter{00A4}{\textcurrency}
 \DeclareUnicodeCharacter{00A7}{\textsection}
 \DeclareUnicodeCharacter{00AB}{\guillemotleft}
@@ -185,8 +185,8 @@
 \DeclareUnicodeCharacter{04DF}{\"\cyrz}
 \DeclareUnicodeCharacter{04E0}{\CYRABHDZE}
 \DeclareUnicodeCharacter{04E1}{\cyrabhdze}
-\DeclareUnicodeCharacter{04E2}{\=\CYRI}
-\DeclareUnicodeCharacter{04E3}{\=\cyri}
+\DeclareUnicodeCharacter{04E2}{\@tabacckludge=\CYRI}
+\DeclareUnicodeCharacter{04E3}{\@tabacckludge=\cyri}
 \DeclareUnicodeCharacter{04E4}{\"\CYRI}
 \DeclareUnicodeCharacter{04E5}{\"\cyri}
 \DeclareUnicodeCharacter{04E6}{\"\CYRO}
@@ -195,8 +195,8 @@
 \DeclareUnicodeCharacter{04E9}{\cyrotld}
 \DeclareUnicodeCharacter{04EC}{\"\CYREREV}
 \DeclareUnicodeCharacter{04ED}{\"\cyrerev}
-\DeclareUnicodeCharacter{04EE}{\=\CYRU}
-\DeclareUnicodeCharacter{04EF}{\=\cyru}
+\DeclareUnicodeCharacter{04EE}{\@tabacckludge=\CYRU}
+\DeclareUnicodeCharacter{04EF}{\@tabacckludge=\cyru}
 \DeclareUnicodeCharacter{04F0}{\"\CYRU}
 \DeclareUnicodeCharacter{04F1}{\"\cyru}
 \DeclareUnicodeCharacter{04F2}{\H\CYRU}
@@ -219,7 +219,6 @@
 \DeclareUnicodeCharacter{2329}{\textlangle}
 \DeclareUnicodeCharacter{232A}{\textrangle}
 \DeclareUnicodeCharacter{2423}{\textvisiblespace}
-
 \endinput
 %%
 %% End of file `t2cenc.dfu'.

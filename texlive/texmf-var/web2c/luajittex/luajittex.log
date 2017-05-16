@@ -1,20 +1,20 @@
-This is LuajitTeX, Version beta-0.80.0 (TeX Live 2015) (rev 5238)  (INITEX)  30 OCT 2015 17:24
- restricted \write18 enabled.
+This is LuajitTeX, Version 0.95.0 (TeX Live 2016)  (INITEX)  16 MAY 2017 14:24
+ restricted system commands enabled.
 **luatex.ini
-
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/luatex.in
-i
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/config/luatexi
-niconfig.tex)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/config/luatex-
-unicode-letters.tex loading Unicode properties)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/pdfetex.i
-ni
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/config/pdftexc
-onfig.tex)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.
-src
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/base/plain.tex
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/luatex.ini
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/luatexconfig.
+tex
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/pdftexconfig.
+tex))
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/config/luatexiniconfig.tex)
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/unicode-data/load-unicode-d
+ata.tex 
+load-unicode-data.tex v1.5 (2016-06-22)
+Reading Unicode data
+# UnicodeData-9.0.0.txt
+# Downloaded 2016-06-22 17:00:00 GMT [JAW]
+) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
 Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
@@ -54,21 +54,20 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex [skipping from \patterns to end-of-file...]))
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
+[skipping from \patterns to end-of-file...]))
 \et@xinput=\read0
 \et@xtoks=\toks12
 
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/etex/etexdefs.li
-b Skipping module "grouptypes"; Loading module "interactionmodes";
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
+Skipping module "grouptypes"; Loading module "interactionmodes";
 Skipping module "nodetypes"; Skipping module "iftypes";)
-(/home/thunder/emsdk_portable/new/texlive/texmf-var/tex/generic/config/language
-.def
+(/tmp/tex/texlive.js/texlive/texmf-var/tex/generic/config/language.def
 \lang@USenglish=\language0
-luatex-hyphen: using data file: /home/thunder/emsdk_portable/new/texlive/texmf-v
-ar/tex/generic/config/language.dat.lua
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex)) Augmenting the Plain TeX definitions: \tracingall;
+luatex-hyphen: using data file: /tmp/tex/texlive.js/texlive/texmf-var/tex/generi
+c/config/language.dat.lua
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex))
+Augmenting the Plain TeX definitions: \tracingall;
 Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
 register allocation;
 \et@xins=\count26
@@ -80,14 +79,12 @@ Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
 \forcer@cycle, \usef@llback, \usef@llbacktrue, \usef@llbackfalse, 
 Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
 \et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
-\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,)
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/pdftexmag
-fix.tex)))
+\etexstatus, \module, \uselanguage, \r@tain, \r@cycle,))
 Beginning to dump on file luajittex.fmt
- (format=luajittex 2015.10.30)
-3114 strings using 9616 bytes
-68807 memory locations dumped; current usage is 103&7731
-1712 multiletter control sequences
+ (format=luajittex 2017.5.16)
+3127 strings using 10186 bytes
+68833 memory locations dumped; current usage is 155&7713
+1758 multiletter control sequences
 \font\nullfont=nullfont
 \font\tenrm=cmr10
 \font\preloaded=cmr9
@@ -140,9 +137,7 @@ Beginning to dump on file luajittex.fmt
 \font\preloaded=cmssbx10 at 14.4pt
 \font\preloaded=manfnt
 50 preloaded fonts
-0 words of pdf memory
-0 indirect objects
-No pages of output.
+warning  (pdf backend): no pages of output.
 
 PDF statistics: 0 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)

@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2015
+% Copyright 1993-2017
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -32,7 +32,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltplain.dtx}
-             [2015/10/27 v2.1b LaTeX Kernel (Plain TeX)]
+             [2017/01/06 v2.3b LaTeX Kernel (Plain TeX)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltplain.dtx}
@@ -50,7 +50,6 @@
 %</driver>
 % \fi
 %
-% \CheckSum{1345}
 %
 % \changes{v1.0a}{1994/03/08}
 %         {Remove need for a driver file.}
@@ -74,6 +73,8 @@
 % \changes{v1.1r}{1995/10/10}{Autoload tracing code}
 % \changes{v1.1u}{1996/10/28}{(CAR) More doc changes}
 % \changes{v2.0e}{2015/02/21}{Removed autoload code}
+% \changes{v2.2d}{2016/10/15}{Require e\TeX{}}
+% \changes{v2.3b}{2016/11/06}{Drop \cs{outer} entirely}
 %
 % \section{Plain \TeX}
 %
@@ -115,7 +116,7 @@
 \catcode`\_=8 % underline and downarrow are for subscripts
 \catcode`\^^I=10 % ascii tab is a blank space
 \chardef\active=13 \catcode`\~=\active % tilde is active
-\catcode`\^^L=\active \outer\def^^L{\par}% ascii form-feed is \outer\par
+\catcode`\^^L=\active \def^^L{\par}% ascii form-feed is \par
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -361,12 +362,40 @@
                    \fi}
                                         {\count14}\insc@unt\float@count}
 \def\newtoks  {\e@alloc\toks \toksdef{\count15}\m@ne\e@alloc@top}
-\def\newread      {\e@alloc\read     \chardef{\count16}\m@ne\sixt@@n}
-\def\newwrite     {\e@alloc\write    \chardef{\count17}\m@ne\sixt@@n}
+\def\newread  {\e@alloc\read \chardef{\count16}\m@ne\sixt@@n}
+%    \end{macrocode}
+%
+% \changes{v2.2a}{2015/11/18}
+%         {Extended stream allocation in luatex (0.85)}
+% \changes{v2.2b}{2015/11/19}
+%         {Only extend allocation of write streams (see luatex list)}
+% Skip |\write18| due to its traditional use as a shell-escape.
+%    \begin{macrocode}
+\ifx\directlua\@undefined
+  \def\newwrite   {\e@alloc\write \chardef{\count17}\m@ne\sixt@@n}
+\else
+  \def\newwrite   {\e@alloc\write    
+                   {\ifnum\allocationnumber=18 \allocationnumber19\fi
+                     \global\chardef}%
+                   {\count17}%
+                   \m@ne
+                   {128}}
+\fi
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \def\new@mathgroup
   {\e@alloc\mathgroup\chardef{\count18}\m@ne\e@mathgroup@top}
-\def\newlanguage  {\e@alloc\language \chardef{\count19}\m@ne\@cclvi}
 \let\newfam\new@mathgroup
+%    \end{macrocode}
+%
+% \changes{v2.3a}{2016/10/16}{Allow languages up to 16383 in luatex}
+%    \begin{macrocode}
+\ifx\directlua\@undefined
+  \def\newlanguage  {\e@alloc\language \chardef{\count19}\m@ne\@cclvi}
+\else
+  \def\newlanguage  {\e@alloc\language \chardef{\count19}\m@ne{16384}}
+\fi
 %</2ekernel|latexrelease>
 %    \end{macrocode}
 %
@@ -594,6 +623,7 @@
 %    \end{macrocode}
 %
 % \begin{macro}{\extrafloats}
+% \changes{v2.2c}{2016/07/29}{use \cs{global} \cs{chardef}}
 %    \begin{macrocode}
 \ifx\numexpr\@undefined
 %    \end{macrocode}
@@ -603,7 +633,7 @@
 \count@#1\relax
 \ifnum\count@>\z@
 \newinsert\reserved@a
-\expandafter\chardef
+\global\expandafter\chardef
             \csname bx@\the\allocationnumber\endcsname\allocationnumber
 \@cons\@freelist{\csname bx@\the\allocationnumber\endcsname}%
 \advance\count@\m@ne
@@ -625,8 +655,8 @@
   \ch@ck1\count@\dimen
   \ch@ck2\count@\skip
   \ch@ck4\count@\box
-\e@alloc@chardef\float@count\count@
-\expandafter\e@alloc@chardef
+\global\e@alloc@chardef\float@count\count@
+\global\expandafter\e@alloc@chardef
             \csname bx@\the\float@count\endcsname\float@count
 \@cons\@freelist{\csname bx@\the\float@count\endcsname}%
 \expandafter
@@ -697,9 +727,11 @@
 %    \end{macrocode}
 % If the classic registers are exausted, take an insert from the free float list
 % and use |\extrafloats| to add a new float to that list.
+% \changes{v2.2c}{2016/07/29}{fix for tlb-newinsert-001}
 %    \begin{macrocode}
 \def\newinsert#1{%
 \@tempswafalse
+\global\advance\insc@unt\m@ne
 \ifnum\count10<\insc@unt
 \ifnum\count11<\insc@unt
 \ifnum\count12<\insc@unt
@@ -707,9 +739,9 @@
   \@tempswatrue
 \fi\fi\fi\fi
 \if@tempswa
-\global\advance\insc@unt\m@ne
 \allocationnumber\insc@unt
 \else
+\global\advance\insc@unt\@ne
   \extrafloats\@ne
   \@next\@currbox\@freelist
     {\ifnum\@currbox<\e@insert@top
@@ -786,41 +818,6 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
-%
-%  \changes{v1.1p}{1995/10/02}{Move \cs{newif} to ltdefns}
-%
-%    \begin{macrocode}
-\message{compatibility for TeX 2, }
-%    \end{macrocode}
-%
-% If this file is used in an old \TeX\ we define the new features
-% of \TeX\ 3.0 as simple macros or counters so that files that uses
-% these features can be processed in such an environment
-% (They will however produce some other results).
-%
-%    \begin{macrocode}
-\ifx\@undefined\inputlineno
-  \newcount\inputlineno
-%    \end{macrocode}
-% This could be used to detect that an old \TeX\ is in force
-%    \begin{macrocode}
-  \inputlineno-1
-%    \end{macrocode}
-% Extra test for MLTeX 2, RmS 91/11/07.
-%    \begin{macrocode}
-  \ifx\@undefined\language
-    \newcount\language
-  \fi
-  \newcount\lefthyphenmin
-  \newcount\righthyphenmin
-  \newcount\errorcontextlines
-  \newcount\holdinginserts
-  \newdimen\emergencystretch
-  \newcount\badness
-  \let\noboundary\relax
-  \newcount\setlanguage
-\fi
-%    \end{macrocode}
 %
 % Assign initial values to \TeX's parameters
 %
@@ -1164,8 +1161,10 @@
 % \LaTeX\ defines |~| in |ltdefns.dtx|.
 %
 % \begin{macro}{\slash}
+%    This generates a |/| acting a bit like |-| but still allows hyphenation
+%    in the word part preceding it (but not after).
 %    \begin{macrocode}
-\def\slash{/\penalty\exhyphenpenalty} % a `/' that acts like a `-'
+\def\slash{/\penalty\exhyphenpenalty}
 %    \end{macrocode}
 %  \end{macro}
 %

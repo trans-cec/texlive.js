@@ -13,7 +13,7 @@
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
 %% 
-%% Copyright 1993-2015
+%% Copyright 1993-2016
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
@@ -43,7 +43,7 @@
 %% extension .ins) which are part of the distribution.
 %%% From File: ltoutput.dtx
 \ProvidesPackage{fltrace}
-       [2015/09/05 v1.3a
+       [2016/10/04 v1.3b
                   Tracing LaTeX floats algorithm (FMi)]
 \def\onecolumn{%
   \clearpage
@@ -1087,9 +1087,11 @@
                    (flcheckspace \string#1 \string#2)}%
    \fi
 }
+\IncludeInRelease{2017/01/01}%
+  {\@makefcolumn}{negative height floats}%
 \def\@makefcolumn #1{%
   \begingroup
-    \@fpmin \z@
+    \@fpmin -\maxdimen
     \let \@testfp \@gobble
     \@tryfcolumn #1%
   \endgroup
@@ -1099,6 +1101,23 @@
     \fl@trace{----- float column/page completed from \string#1}%
   \fi
 }
+\EndIncludeInRelease
+\IncludeInRelease{0000/00/00}%
+  {\@makefcolumn}{negative height floats}%
+\def\@makefcolumn #1{%
+  \begingroup
+    \@fpmin \z@
+    \let \@testfp \@gobble
+    \@tryfcolumn #1%
+  \endgroup
+  \if@fcolmade
+    \fl@trace{PAGE: in \string\clearpage
+                    \if@twocolumn ---twocolumn\fi---}%
+    \fl@trace{----- float column/page completed
+                    from \string#1}%
+  \fi
+}
+\EndIncludeInRelease
 \IncludeInRelease{2015/01/01}%
   {\@outputdblcol}{2 column marks}%
 \def\@outputdblcol{%

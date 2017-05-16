@@ -7,7 +7,7 @@
 %% bbunicode.dtx  (with options: `xetex')
 %% This is a generated file.
 %% 
-%% Copyright 2012-2014 Javier Bezos and Johannes L. Braams.
+%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
 %% Copyright 1989-2008 Johannes L. Braams and any individual authors
 %% listed elsewhere in this file.  All rights reserved.
 %% 
@@ -39,7 +39,7 @@
 %% extension .ins) which are part of the distribution.
 %% File `bbunicode.dtx'
 %% Babel package for LaTeX version 2e
-%% Copyright (C) 2103-2014
+%% Copyright (C) 2103-2016
 %%           by Javier Bezos
 \def\BabelStringsDefault{unicode}
 \let\xebbl@stop\relax
@@ -48,7 +48,7 @@
   \ifx\bbl@tempa\@empty
     \XeTeXinputencoding"bytes"%
   \else
-      \XeTeXinputencoding"#1"%
+    \XeTeXinputencoding"#1"%
   \fi
   \def\xebbl@stop{\XeTeXinputencoding"utf8"}}
 \AddBabelHook{xetex}{stopcommands}{%

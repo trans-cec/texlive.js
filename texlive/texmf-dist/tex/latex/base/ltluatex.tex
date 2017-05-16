@@ -13,7 +13,7 @@
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
 %% 
-%% Copyright 1993-2015
+%% Copyright 1993-2016
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
@@ -47,7 +47,7 @@
   #1#2[#3]{\endgroup\immediate\write-1{File: #1 #3}}
 \fi
 \ProvidesFile{ltluatex.tex}
-[2015/10/03 v1.0f
+[2017/02/18 v1.1c
   LuaTeX support for plain TeX (core)
 ]
 \edef\etatcatcode{\the\catcode`\@}
@@ -167,13 +167,49 @@
 \newcatcodetable\catcodetable@latex
 \newcatcodetable\catcodetable@atletter
 \begingroup
-  \let\ENDGROUP\endgroup
-  \let\begingroup\relax
-  \let\endgroup\relax
-  \let\global\relax
-  \let\gdef\def
-  \input{unicode-letters.def}%
-  \let\endgroup\ENDGROUP
+  \def\parseunicodedataI#1;#2;#3;#4\relax{%
+    \parseunicodedataII#1;#3;#2 First>\relax
+  }%
+  \def\parseunicodedataII#1;#2;#3 First>#4\relax{%
+    \ifx\relax#4\relax
+      \expandafter\parseunicodedataIII
+    \else
+      \expandafter\parseunicodedataIV
+    \fi
+      {#1}#2\relax%
+  }%
+  \def\parseunicodedataIII#1#2#3\relax{%
+    \ifnum 0%
+      \if L#21\fi
+      \if M#21\fi
+      >0 %
+      \catcode"#1=11 %
+    \fi
+  }%
+  \def\parseunicodedataIV#1#2#3\relax{%
+    \read\unicoderead to \unicodedataline
+    \if L#2%
+      \count0="#1 %
+      \expandafter\parseunicodedataV\unicodedataline\relax
+    \fi
+  }%
+  \def\parseunicodedataV#1;#2\relax{%
+    \loop
+      \unless\ifnum\count0>"#1 %
+        \catcode\count0=11 %
+        \advance\count0 by 1 %
+    \repeat
+  }%
+  \def\storedpar{\par}%
+  \chardef\unicoderead=\numexpr\count16 + 1\relax
+  \openin\unicoderead=UnicodeData.txt %
+  \loop\unless\ifeof\unicoderead %
+    \read\unicoderead to \unicodedataline
+    \unless\ifx\unicodedataline\storedpar
+      \expandafter\parseunicodedataI\unicodedataline\relax
+    \fi
+  \repeat
+  \closein\unicoderead
   \@firstofone{%
     \catcode64=12 %
     \savecatcodetable\catcodetable@latex

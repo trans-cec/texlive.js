@@ -1,7 +1,7 @@
-This is TeX, Version 3.14159265 (TeX Live 2015) (INITEX)  30 OCT 2015 17:24
+This is TeX, Version 3.14159265 (TeX Live 2016) (INITEX)  16 MAY 2017 14:24
 **tex.ini
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/config/tex.ini
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/plain/base/plain.tex
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/config/tex.ini
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
 Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
@@ -41,11 +41,10 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/home/thunder/emsdk_portable/new/texlive/texmf-dist/tex/generic/hyphen/hyphen.
-tex)) )
+(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)) )
 Beginning to dump on file tex.fmt
- (preloaded format=tex 2015.10.30)
-2027 strings of total length 29495
+ (preloaded format=tex 2017.5.16)
+2027 strings of total length 29377
 4990 memory locations dumped; current usage is 110&4877
 926 multiletter control sequences
 \font\nullfont=nullfont

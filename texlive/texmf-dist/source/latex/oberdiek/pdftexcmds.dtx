@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %
 % File: pdftexcmds.dtx
-% Version: 2011/11/29 v0.20
+% Version: 2017/03/19 v0.25
 % Info: Utility functions of pdfTeX for LuaTeX
 %
 % Copyright (C) 2007, 2009-2011 by
@@ -88,7 +88,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)}
+\Msg{* Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -100,7 +100,7 @@
 This is a generated file.
 
 Project: pdftexcmds
-Version: 2011/11/29 v0.20
+Version: 2017/03/19 v0.25
 
 Copyright (C) 2007, 2009-2011 by
    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -189,7 +189,7 @@ and the derived files
 %<*bib>
 @online{AndyThomas:Analog,
   author={Thomas, Andy},
-  title={Analog of {\texttt{\textbackslash}pdfelapsedtime} for
+  title={Analog of {\texttt{\csname textbackslash\endcsname}pdfelapsedtime} for
       {\hologo{LuaTeX}} and {\hologo{XeTeX}}},
   url={http://tex.stackexchange.com/a/32531},
   urldate={2011-11-29},
@@ -201,12 +201,13 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{pdftexcmds.drv}%
-  [2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)]%
+  [2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \usepackage{paralist}
 \usepackage{csquotes}
 \usepackage[
+  backend=bibtex,
   bibencoding=ascii,
   alldates=iso8601,
 ]{biblatex}[2011/11/13]
@@ -218,7 +219,6 @@ and the derived files
 %</driver>
 % \fi
 %
-% \CheckSum{1756}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -239,8 +239,10 @@ and the derived files
 % \GetFileInfo{pdftexcmds.drv}
 %
 % \title{The \xpackage{pdftexcmds} package}
-% \date{2011/11/29 v0.20}
-% \author{Heiko Oberdiek\\\xemail{heiko.oberdiek at googlemail.com}}
+% \date{2017/03/19 v0.25}
+% \author{Heiko Oberdiek\thanks
+% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
+% \xemail{heiko.oberdiek at googlemail.com}}
 %
 % \maketitle
 %
@@ -404,13 +406,14 @@ and the derived files
 %
 % \begin{declcs}{pdf@draftmode}
 % \end{declcs}
-% If the \TeX\ compiler knows \cs{pdfdraftmode} (\hologo{pdfTeX},
+% If the \TeX\ compiler knows \cs{pdfdraftmode} or \cs{draftmode}
+% (\hologo{pdfTeX},
 % \hologo{LuaTeX}), then \cs{pdf@draftmode} returns, whether
-% this mode is enabled. The result is an implicite number:
+% this mode is enabled. The result is an implicit number:
 % one means the draft mode is available and enabled.
 % If the value is zero, then the mode is not active or
 % \cs{pdfdraftmode} is not available.
-% An explicite number is yielded by \cs{number}\cs{pdf@draftmode}.
+% An explicit number is yielded by \cs{number}\cs{pdf@draftmode}.
 % The macro cannot
 % be used to change the mode, see \cs{pdf@setdraftmode}.
 %
@@ -615,7 +618,7 @@ and the derived files
   \fi
 \expandafter\x\csname ver@pdftexcmds.sty\endcsname
 \ProvidesPackage{pdftexcmds}%
-  [2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)]%
+  [2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO)]%
 %    \end{macrocode}
 %
 % \subsection{Catcodes}
@@ -828,7 +831,7 @@ and the derived files
       if tex.enableprimitives then
         tex.enableprimitives(
           'pdf@',
-          {'primitive', 'ifprimitive', 'pdfdraftmode'}
+          {'primitive', 'ifprimitive', 'pdfdraftmode','draftmode'}
         )
         tex.enableprimitives('', {'luaescapestring'})
       end
@@ -867,23 +870,24 @@ and the derived files
 %
 %    \begin{macro}{\pdf@primitive}
 %    \begin{macrocode}
-\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX
-\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% LuaTeX
-\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% LuaTeX
+\pdftexcmds@temp{primitive}{pdfprimitive}{pdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{primitive}{primitive}{primitive}% XeTeX, luatex
+\pdftexcmds@temp{primitive}{luatexprimitive}{pdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{primitive}{luatexpdfprimitive}{pdfprimitive}% oldLuaTeX
 %    \end{macrocode}
 %    \end{macro}
 %    \begin{macro}{\pdf@ifprimitive}
 %    \begin{macrocode}
-\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, LuaTeX
-\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX
-\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% LuaTeX
-\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% LuaTeX
+\pdftexcmds@temp{ifprimitive}{ifpdfprimitive}{ifpdfprimitive}% pdfTeX, oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{ifprimitive}{ifprimitive}% XeTeX, luatex
+\pdftexcmds@temp{ifprimitive}{luatexifprimitive}{ifpdfprimitive}% oldLuaTeX
+\pdftexcmds@temp{ifprimitive}{luatexifpdfprimitive}{ifpdfprimitive}% oldLuaTeX
 %    \end{macrocode}
 %    \end{macro}
 %
 %    Disable broken \cs{pdfprimitive}.
 %    \begin{macrocode}
+\ifluatex\else
 \begingroup
   \expandafter\ifx\csname pdf@primitive\endcsname\relax
   \else
@@ -907,6 +911,7 @@ and the derived files
     \fi
   \fi
 \endgroup
+\fi
 %    \end{macrocode}
 %
 % \subsubsection{Result}
@@ -1004,6 +1009,9 @@ and the derived files
   \fi
 }
 \ifluatex
+\ifx\pdfdraftmode\@undefined
+  \let\pdfdraftmode\draftmode
+\fi
 \else
   \pdf@isprimitive
 \fi
@@ -1122,20 +1130,22 @@ and the derived files
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname RequirePackage\endcsname\relax
-  \def\TMP@RequirePackage#1[#2]{%
-    \begingroup\expandafter\expandafter\expandafter\endgroup
-    \expandafter\ifx\csname ver@#1.sty\endcsname\relax
-      \input #1.sty\relax
-    \fi
-  }%
-  \TMP@RequirePackage{luatex-loader}[2009/04/10]%
-\else
-  \RequirePackage{luatex-loader}[2009/04/10]%
+\ifnum\luatexversion<80
+  \begingroup\expandafter\expandafter\expandafter\endgroup
+  \expandafter\ifx\csname RequirePackage\endcsname\relax
+    \def\TMP@RequirePackage#1[#2]{%
+      \begingroup\expandafter\expandafter\expandafter\endgroup
+      \expandafter\ifx\csname ver@#1.sty\endcsname\relax
+        \input #1.sty\relax
+      \fi
+    }%
+    \TMP@RequirePackage{luatex-loader}[2009/04/10]%
+  \else
+    \RequirePackage{luatex-loader}[2009/04/10]%
+  \fi
 \fi
 \pdftexcmds@directlua{%
-  require("oberdiek.pdftexcmds")%
+  require("pdftexcmds")%
 }
 \ifnum\luatexversion>37 %
   \ifnum0%
@@ -1147,13 +1157,13 @@ and the derived files
     \everyjob\expandafter{%
       \the\everyjob
       \pdftexcmds@directlua{%
-        require("oberdiek.pdftexcmds")%
+        require("pdftexcmds")%
       }%
     }%
   \fi
 \fi
 \begingroup
-  \def\x{2011/11/29 v0.20}%
+  \def\x{2017/03/19 v0.25}%
   \ltx@onelevel@sanitize\x
   \edef\y{%
     \pdftexcmds@directlua{%
@@ -1476,15 +1486,12 @@ and the derived files
 % \subsubsection{Shell escape}
 %
 %    \begin{macro}{\pdf@shellescape}
-%    Caution: Catcode of digit zero might be `ignore'.
+%
 %    \begin{macrocode}
 \ifnum\luatexversion<68 %
 \else
-  \def\pdf@shellescape{%
-    \directlua0{%
-      oberdiek.pdftexcmds.shellescape()%
-    }%
-  }%
+  \protected\edef\pdf@shellescape{%
+   \numexpr\directlua{tex.sprint(status.shell_escape)}\relax}
 \fi
 %    \end{macrocode}
 %    \end{macro}
@@ -1560,7 +1567,7 @@ and the derived files
 module("oberdiek.pdftexcmds", package.seeall)
 local systemexitstatus
 function getversion()
-  tex.write("2011/11/29 v0.20")
+  tex.write("2017/03/19 v0.25")
 end
 %    \end{macrocode}
 %
@@ -1678,6 +1685,11 @@ function unescapehex(str, mode, patch)
     end
     result = utf8
   end
+%    \end{macrocode}
+%    this next line added for current luatex; this is the only
+%    change in the file.  eroux, 28apr13. (v 0.21)
+%    \begin{macrocode}
+  local unpack = _G["unpack"] or table.unpack
   tex.settoks(toks, string.char(unpack(result)))
 end
 %    \end{macrocode}
@@ -1805,6 +1817,7 @@ function filedump(offset, length, filename)
         end
         local dump = filehandle:read(length)
         escapehex(dump)
+        filehandle:close()
       end
     end
   end
@@ -1822,6 +1835,7 @@ function filemdfivesum(filename)
     if filehandle then
       local contents = filehandle:read("*a")
       escapehex(md5.sum(contents))
+      filehandle:close()
     end
   end
 end
@@ -2329,7 +2343,7 @@ end
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{ftp://ftp.ctan.org/tex-archive/}}:
+% CTAN\footnote{\url{http://ctan.org/pkg/pdftexcmds}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdftexcmds.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdftexcmds.pdf}] Documentation.
@@ -2652,6 +2666,29 @@ end
 %   \item
 %     \cs{pdf@resettimer} and \cs{pdf@elapsedtime} added
 %     (thanks Andy Thomas).
+%   \end{Version}
+%   \begin{Version}{2016/05/10 v0.21}
+%   \item
+%      local unpack added
+%     (thanks \'{E}lie Roux).
+%   \end{Version}
+%   \begin{Version}{2016/05/21 v0.22}
+%   \item
+%     adjust \cs{textbackslas}h usage in bib file for biber bug.
+%   \end{Version}
+%   \begin{Version}{2016/10/02 v0.23}
+%   \item
+%     add file.close to lua filehandles (github pull request).
+%   \end{Version}
+%   \begin{Version}{2017/01/29 v0.24}
+%   \item
+%     Avoid loading luatex-loader for current luatex. (Use
+%     pdftexcmds.lua not oberdiek.pdftexcmds.lua to simplify file
+%     search with standard require)
+%   \end{Version}
+%   \begin{Version}{2017/03/19 v0.25}
+%   \item
+%     New \cs{pdf@shellescape} for Lua\TeX, see github issue 20.
 %   \end{Version}
 % \end{History}
 %

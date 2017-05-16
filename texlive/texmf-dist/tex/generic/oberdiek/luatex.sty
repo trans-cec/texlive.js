@@ -9,7 +9,7 @@
 %% This is a generated file.
 %% 
 %% Project: luatex
-%% Version: 2010/03/09 v0.4
+%% Version: 2016/05/16 v0.6
 %% 
 %% Copyright (C) 2007, 2009, 2010 by
 %%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
@@ -103,7 +103,7 @@
   \fi
 \expandafter\x\csname ver@luatex.sty\endcsname
 \ProvidesPackage{luatex}%
-  [2010/03/09 v0.4 LuaTeX basic definition package (HO)]%
+  [2016/05/16 v0.6 LuaTeX basic definition package (HO)]%
 \begingroup\catcode61\catcode48\catcode32=10\relax%
   \catcode13=5 % ^^M
   \endlinechar=13 %
@@ -360,6 +360,7 @@
 \fi
 \newcount\LuT@AllocAttribute
 \LuT@AllocAttribute=\m@ne
+\ifx\newattribute\@undefined
 \LuT@newcommand\newattribute[1]{%
   \ifnum\LuT@AllocAttribute<65535 %
     \global\advance\LuT@AllocAttribute\@ne
@@ -371,9 +372,13 @@
     \errmessage{No room for a new \string\attribute}%
   \fi
 }
+\fi
+\ifx\setattribute\@undefined
 \LuT@newcommand\setattribute[2]{%
   #1=\numexpr#2\relax
 }
+\fi
+\ifx\unsetattribute\@undefined
 \ifnum\luatexversion<37
   \LuT@newcommand\LuT@UnsetAttributeValue[0]{}%
   \let\LuT@UnsetAttributeValue\m@ne
@@ -383,10 +388,12 @@
 \LuT@newcommand\unsetattribute[1]{%
   #1=\LuT@UnsetAttributeValue
 }
+\fi
 \newcount\LuT@AllocCatcodeTable
 \LuT@AllocCatcodeTable=\m@ne
 \newcount\CatcodeTableStack
 \CatcodeTableStack=\z@
+\ifx\newcatcodetable\@undefined
 \LuT@newcommand\newcatcodetable[1]{%
   \ifnum\LuT@AllocCatcodeTable<1114110 % 0x10FFFF is maximal \chardef
     % or < 268435455 % 2^28 - 1
@@ -400,6 +407,7 @@
     \errmessage{No room for a new \string\catcodetable}%
   \fi
 }%
+\fi
 \LuT@newcommand\IncCatcodeTableStack[0]{%
   \ifnum\CatcodeTableStack<268435454 %
     \global\advance\CatcodeTableStack by\tw@

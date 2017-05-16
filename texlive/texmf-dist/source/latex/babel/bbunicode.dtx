@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 2013-2014 Javier Bezos and any individual authors
+% Copyright 2013-2016 Javier Bezos and any individual authors
 % listed elsewhere in this file.  All rights reserved.
 % 
 % This file is part of the Babel system.
@@ -31,12 +31,12 @@
 % \iffalse
 %<*dtx>
 \ProvidesFile{bbunicode.dtx}
-       [2015/05/10 v1.0e Babel hooks for Unicode engines]
+       [2016/04/23 v3.9r Babel hooks for Unicode engines]
 %</dtx>
 %
 %% File `bbunicode.dtx'
 %% Babel package for LaTeX version 2e
-%% Copyright (C) 2103-2014
+%% Copyright (C) 2103-2016
 %%           by Javier Bezos
 %
 %<*filedriver>
@@ -120,9 +120,10 @@
 %    resets the catcodes. 
 % \changes{bbunicode~1.0c}{2014/03/10}{Reset ``codes'' set by \cs{LaTeX}
 %    to what xetex expects. Used also in luatex.}
+% \changes{bbunicode~1.0f}{2015/12/06}{This block was assigned to
+%    xetex, even in luatex. Fixed here and below.}
 %    \begin{macrocode}
 %<<*Restore Unicode catcodes before loading patterns>>
-\AddBabelHook{xetex}{loadkernel}{%
   \begingroup
       % Reset chars "80-"C0 to category "other", no case mapping:
     \catcode`\@=11 \count@=128
@@ -150,7 +151,7 @@
     \O 00F7
     \L 00FF 0178 00FF
   \endgroup
-  \input #1\relax}
+  \input #1\relax
 %<</Restore Unicode catcodes before loading patterns>>
 %    \end{macrocode}
 %
@@ -165,42 +166,234 @@
   \ifx\bbl@tempa\@empty
     \XeTeXinputencoding"bytes"%
   \else
-      \XeTeXinputencoding"#1"%
+    \XeTeXinputencoding"#1"%
   \fi
   \def\xebbl@stop{\XeTeXinputencoding"utf8"}}
 \AddBabelHook{xetex}{stopcommands}{%
   \xebbl@stop
   \let\xebbl@stop\relax}
-<@Restore Unicode catcodes before loading patterns@>
+\AddBabelHook{xetex}{loadkernel}{%
+<@Restore Unicode catcodes before loading patterns@>}
 <@Font selection@>
 %</xetex>
 %    \end{macrocode}
-%    \subsection{LuaTeX}
 %
-%    This part relies on the |lua| stripts in \pkg{luatex-hyphen} by Khaled
-%    Hosny, \'{E}lie Roux, and Manuel
-%    P\'{e}gouri\'{e}-Gonnard. \'{E}lie also improved the code below.
-% \changes{bbunicode~1.0b}{2013/04/22}{luatex-hyphen is loaded
-%    with require. Changes supplied by \'{E}lie Roux.}
+% \subsection{LuaTeX}
+%
+% The new loader for luatex is based solely on |language.dat|, which
+% is read on the fly. The code shouldn't be executed when the format
+% is build, so we check if |\AddBabelHook| is defined. Then comes a
+% modified version of the loader in |hyphen.cfg| (without the
+% hyphenmins stuff, which is under the direct control of \babel).
+%
+% The names |\l@<language>| are defined and take some value from the
+% beginning because all \texttt{ldf} files assume this for the
+% corresponding language to be considered valid, but patterns are not
+% loaded (except the first one). This is done later, when the language
+% is first selected (which usually means when the \texttt{ldf}
+% finishes). If a language has been loaded, |\bbl@hyphendata@<num>|
+% exists (with the names of the files read).
+%
+% The default setup preloads the first language into the format. This
+% is intended mainly for `english', so that it's available without
+% further intervention from the user.  To avoid duplicating it, the
+% following rule applies: if the ``0th'' language and the first
+% language in |language.dat| have the same name then just ignore the
+% latter. If there are new synonymous, the are added, but note if the
+% language patterns have not been preloaded they won't at run time.
+%
+% Other preloaded languages could be read twice, if they has been
+% preloaded into the format. This is not optimal, but it shouldn't
+% happen very often -- with \luatex{} patterns are best loaded when
+% the document is typeset, and the ``0th'' language is preloaded just
+% for backwards compatibility.
+%
+% As of 1.1b, lua(e)tex is taken into account. Formerly, loading of
+% patterns on the fly didn't work in this format, but with the new
+% loader it does.  Unfortunately, the format is not based on \babel,
+% and data could be duplicated, because languages are reassigned above
+% those in the format (nothing serious, anyway). Note even with this
+% format |language.dat| is used (under the principle of a single
+% source), instead of |language.def|.
+%
+% Of course, there is room for improvements, like tools to read and
+% reassign languages, which would require modifying the language list,
+% and better error handling.
+%
+% We need catcode tables, but no format (targeted by \babel) provide a
+% command to allocate them (although there are packages like
+% \textsf{ctablestack}). For the moment, a dangerous approach is used
+% -- just allocate a high random number and cross the fingers. To
+% complicate things, \textsf{etex.sty} changes the way languages are
+% allocated.
+%
+% \changes{bbunicode~1.0b}{2013/04/22}{luatex-hyphen is loaded with
+%   require. Changes supplied by \'{E}lie Roux.}
 % \changes{bbunicode~1.0c}{2014/03/10}{Defined hook for
 %   `initiateactive', to fetch the next token and continue only if
-%   letter or other}
+%   letter or other.}
 % \changes{bbunicode~1.0d}{2014/03/21}{Removed the `misfeature' for
-%   `initiateactive'}
+%   `initiateactive'.}
 % \changes{bbunicode~1.0e}{2015/05/10}{Use brackets instead of
-%   \cs{luaescapestring}}
-% \changes{bbunicode~1.0e}{2015/07/26}{Added function addpatterns and
-%   modified the patterns hook.}
+%   \cs{luaescapestring}.}
+% \changes{bbunicode~1.0e}{2015/07/26}{Added function addpattern
+%   and modified the patterns hook.}
+% \changes{bbunicode~1.1a}{2016/01/26}{New hyphenation loader for
+%   luatex.}
+% \changes{bbunicode~1.1b}{2016/02/05}{Also lua(e)tex.}
+% \changes{bbunicode~1.1c}{2016/02/08}{Base reading of patterns on
+%   number, not in name.}
+% \changes{bbunicode~1.1c}{2016/02/08}{Some hacks for polyglossia. To
+%   be improved.}
+% \changes{bbunicode~1.1c}{2016/02/23}{Thoroughly revised.}
+% \changes{bbunicode~1.1d}{2016/4/22}{Lua: Fixed a line break at
+%   \cs{foreignlanguage} with unloaded patterns. Added
+%   \cs{babelcatcodetablenum}, just in case.}
 %
 %    \begin{macrocode}
 %<*luatex>
+\ifx\AddBabelHook\@undefined
+\begingroup
+  \toks@{}
+  \count@\z@ % 0=start, 1=0th, 2=normal
+  \def\bbl@process@line#1#2 #3 #4 {%
+    \ifx=#1%
+      \bbl@process@synonym{#2}%
+    \else
+      \bbl@process@language{#1#2}{#3}{#4}%
+    \fi
+    \ignorespaces}
+  \def\bbl@manylang{%
+    \ifnum\bbl@last>\@ne
+      \bbl@info{Non-standard hyphenation setup}%
+    \fi
+    \let\bbl@manylang\relax}
+  \def\bbl@process@language#1#2#3{%
+    \ifcase\count@
+      \@ifundefined{zth@#1}{\count@\tw@}{\count@\@ne}%
+    \or
+      \count@\tw@
+    \fi
+    \ifnum\count@=\tw@
+      \expandafter\addlanguage\csname l@#1\endcsname
+      \language\allocationnumber
+      \chardef\bbl@last\allocationnumber
+      \bbl@manylang
+      \let\bbl@elt\relax
+      \xdef\bbl@languages{%
+        \bbl@languages\bbl@elt{#1}{\the\language}{#2}{#3}}%
+    \fi
+    \the\toks@
+    \toks@{}}
+  \def\bbl@process@synonym@aux#1#2{%
+    \global\expandafter\chardef\csname l@#1\endcsname#2\relax
+    \let\bbl@elt\relax
+    \xdef\bbl@languages{%
+      \bbl@languages\bbl@elt{#1}{#2}{}{}}}%
+  \def\bbl@process@synonym#1{%
+    \ifcase\count@
+      \toks@\expandafter{\the\toks@\relax\bbl@process@synonym{#1}}%
+    \or
+      \@ifundefined{zth@#1}{\bbl@process@synonym@aux{#1}{0}}{}%
+    \else
+      \bbl@process@synonym@aux{#1}{\the\bbl@last}%
+    \fi}
+  \ifx\bbl@languages\@undefined % Just a (sensible?) guess
+    \chardef\l@english\z@
+    \chardef\l@USenglish\z@
+    \chardef\bbl@last\z@
+    \global\@namedef{bbl@hyphendata@0}{{hyphen.tex}{}}
+    \gdef\bbl@languages{%
+      \bbl@elt{english}{0}{hyphen.tex}{}%
+      \bbl@elt{USenglish}{0}{}{}}
+  \else
+    \global\let\bbl@languages@format\bbl@languages
+    \def\bbl@elt#1#2#3#4{% Remove all except language 0
+      \ifnum#2>\z@\else
+        \noexpand\bbl@elt{#1}{#2}{#3}{#4}%
+      \fi}%
+    \xdef\bbl@languages{\bbl@languages}%
+  \fi
+  \def\bbl@elt#1#2#3#4{\@namedef{zth@#1}{}} % Define flags
+  \bbl@languages
+  \openin1=language.dat
+  \ifeof1
+    \bbl@warning{I couldn't find language.dat. No additional\\%
+                 patterns loaded. Reported}%
+  \else
+    \loop
+      \endlinechar\m@ne
+      \read1 to \bbl@line
+      \endlinechar`\^^M
+      \if T\ifeof1F\fi T\relax
+        \ifx\bbl@line\@empty\else
+          \edef\bbl@line{\bbl@line\space\space\space}%
+          \expandafter\bbl@process@line\bbl@line\relax
+        \fi
+    \repeat
+  \fi
+\endgroup
+\def\bbl@get@enc#1:#2:#3\@@@{\def\bbl@hyph@enc{#2}}
+\ifx\babelcatcodetablenum\@undefined
+  \def\babelcatcodetablenum{5211}
+\fi
+\def\bbl@luapatterns#1#2{%
+  \bbl@get@enc#1::\@@@
+  \setbox\z@\hbox\bgroup
+    \begingroup
+      \ifx\catcodetable\@undefined
+        \let\savecatcodetable\luatexsavecatcodetable
+        \let\initcatcodetable\luatexinitcatcodetable
+        \let\catcodetable\luatexcatcodetable
+      \fi
+      \savecatcodetable\babelcatcodetablenum\relax
+      \initcatcodetable\numexpr\babelcatcodetablenum+1\relax
+      \catcodetable\numexpr\babelcatcodetablenum+1\relax
+      \catcode`\#=6  \catcode`\$=3 \catcode`\&=4 \catcode`\^=7
+      \catcode`\_=8  \catcode`\{=1 \catcode`\}=2 \catcode`\~=13
+      \catcode`\@=11 \catcode`\^^I=10 \catcode`\^^J=12
+      \catcode`\<=12 \catcode`\>=12 \catcode`\*=12 \catcode`\.=12
+      \catcode`\-=12 \catcode`\/=12 \catcode`\[=12 \catcode`\]=12
+      \catcode`\`=12 \catcode`\'=12 \catcode`\"=12
+      \input #1\relax
+      \catcodetable\babelcatcodetablenum\relax
+    \endgroup
+    \def\bbl@tempa{#2}%
+    \ifx\bbl@tempa\@empty\else
+      \input #2\relax
+    \fi
+  \egroup}%
+\def\bbl@patterns@lua#1{%
+  \language=\expandafter\ifx\csname l@#1:\f@encoding\endcsname\relax
+    \csname l@#1\endcsname
+    \edef\bbl@tempa{#1}%
+  \else
+    \csname l@#1:\f@encoding\endcsname
+    \edef\bbl@tempa{#1:\f@encoding}%
+  \fi\relax
+  \@namedef{lu@texhyphen@loaded@\the\language}{}% Temp
+  \@ifundefined{bbl@hyphendata@\the\language}%
+    {\def\bbl@elt##1##2##3##4{%
+       \ifnum##2=\csname l@\bbl@tempa\endcsname % #2=spanish, dutch:OT1...
+         \def\bbl@tempb{##3}%
+         \ifx\bbl@tempb\@empty\else % if not a synonymous
+           \def\bbl@tempc{{##3}{##4}}%
+         \fi
+         \bbl@csarg\xdef{hyphendata@##2}{\bbl@tempc}%
+       \fi}%
+     \bbl@languages
+     \@ifundefined{bbl@hyphendata@\the\language}%
+       {\bbl@info{No hyphenation patterns were set for\\%
+                  language ‘\bbl@tempa’. Reported}}%
+       {\expandafter\expandafter\expandafter\bbl@luapatterns
+          \csname bbl@hyphendata@\the\language\endcsname}}{}}
+\endinput\fi
 \begingroup
 \catcode`\%=12
 \catcode`\'=12
 \catcode`\"=12
 \catcode`\:=12
 \directlua{
-  require("luatex-hyphen")
   Babel = {}
   function Babel.bytes(line)
     return line:gsub("(.)",
@@ -262,12 +455,21 @@
   \luabbl@stop
   \let\luabbl@stop\relax}
 \AddBabelHook{luatex}{patterns}{%
-  \ifcsname lu@texhyphen@loaded@\the\language\endcsname \else
-    \global\@namedef{lu@texhyphen@loaded@\the\language}{}%
-    \directlua{
-      luatexhyphen.loadlanguage([[\string#1]],
-        '\the\language')}%
-  \fi
+  \@ifundefined{bbl@hyphendata@\the\language}%
+    {\def\bbl@elt##1##2##3##4{%
+       \ifnum##2=\csname l@#2\endcsname % #2=spanish, dutch:OT1...
+         \def\bbl@tempb{##3}%
+         \ifx\bbl@tempb\@empty\else % if not a synonymous
+           \def\bbl@tempc{{##3}{##4}}%
+         \fi
+         \bbl@csarg\xdef{hyphendata@##2}{\bbl@tempc}%
+       \fi}%
+     \bbl@languages
+     \@ifundefined{bbl@hyphendata@\the\language}%
+       {\bbl@info{No hyphenation patterns were set for\\%
+                  language ‘#2’. Reported}}%
+       {\expandafter\expandafter\expandafter\bbl@luapatterns
+          \csname bbl@hyphendata@\the\language\endcsname}}{}%
   \@ifundefined{bbl@patterns@}{}{%
     \begingroup
       \@expandtwoargs\in@{,\number\language,}{,\bbl@pttnlist}%
@@ -284,35 +486,25 @@
         \xdef\bbl@pttnlist{\bbl@pttnlist\number\language,}%
       \fi
     \endgroup}}
-\AddBabelHook{luatex}{adddialect}{%
-  \ifx\directlua\relax\else
-    \directlua{
-      luatexhyphen.adddialect([[\string#1]], 
-        [[\string#2]])
-    }%
-  \fi}
 \AddBabelHook{luatex}{everylanguage}{%
-  \directlua{
-    processnow = (tex.language == 0) or
-      (luatexhyphen.lookupname([[\string#1]]) == nil)}%
-  \ifnum0=\directlua{tex.sprint(processnow and "0" or "1")}\relax
-    \global\@namedef{lu@texhyphen@loaded@\the\language}{}%
-  \fi}
+  \def\process@language##1##2##3{%
+    \def\process@line####1####2 ####3 ####4 {}}}
 \AddBabelHook{luatex}{loadpatterns}{%
-  \ifnum0=\directlua{tex.sprint(processnow and "0" or "1")}\relax
-    \input #1\relax
-  \fi}
+   \input #1\relax
+   \expandafter\gdef\csname bbl@hyphendata@\the\language\endcsname
+     {{#1}{}}}
 \AddBabelHook{luatex}{loadexceptions}{%
-  \ifnum0=\directlua{tex.sprint(processnow and "0" or "1")}\relax
-    \input #1\relax
-  \fi
-  \directlua{processnow = nil}}
+   \input #1\relax
+   \def\bbl@tempb##1##2{{##1}{#1}}%
+   \expandafter\xdef\csname bbl@hyphendata@\the\language\endcsname
+     {\expandafter\expandafter\expandafter\bbl@tempb
+      \csname bbl@hyphendata@\the\language\endcsname}}
 %    \end{macrocode}
 %
 %  \begin{macro}{\babelpatterns}
 %
 %    This macro adds patterns. Two macros are used to store them:
-%    |\bbl@patterns@| for the global ones and |\bbl@patterns<lang>|
+%    |\bbl@patterns@| for the global ones and |\bbl@patterns@<lang>|
 %    for language ones. We make sure there is a space between words
 %    when multiple commands are used.
 % \changes{bbunicode~1.0e}{2015/07/26}{Macro \cs{babelpatterns} added}
@@ -349,7 +541,8 @@
 % Common stuff.
 %
 %    \begin{macrocode}
-<@Restore Unicode catcodes before loading patterns@>
+\AddBabelHook{luatex}{loadkernel}{%
+<@Restore Unicode catcodes before loading patterns@>}
 <@Font selection@>
 %</luatex>
 %    \end{macrocode}

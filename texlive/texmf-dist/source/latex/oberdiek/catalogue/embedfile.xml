@@ -6,7 +6,7 @@
   <authorref id='auth:oberdiek'/>
   <copyright owner='Heiko Oberdiek' year='2006-2011'/>
   <license type='lppl1.3'/>
-  <version number='2.6'/>
+  <version number='2.7'/>
   <description>
     This package embeds files in a PDF document, using the PDF
     format's embedding operation (note the contrast with the attach

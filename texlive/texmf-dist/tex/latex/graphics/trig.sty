@@ -21,7 +21,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{trig}
-                 [1999/03/16 v1.09 sin cos tan (DPC)]
+                 [2016/01/03 v1.10 sin cos tan (DPC)]
 \chardef\nin@ty=90
 \chardef\@clxx=180
 \chardef\@lxxi=71
@@ -73,15 +73,27 @@
   \else\TG@series\fi\fi}%
 \def\UseSin#1{\csname sin(\number#1)\endcsname}
 \def\UseCos#1{\csname cos(\number#1)\endcsname}
-\chardef\z@num\z@
+\def\z@num{0 }
+\def\@tempa{1 }
+\def\@tempb{-1 }
 \expandafter\let\csname sin(0)\endcsname\z@num
-\expandafter\let\csname cos(0)\endcsname\@ne
-\expandafter\let\csname sin(90)\endcsname\@ne
+\expandafter\let\csname cos(0)\endcsname\@tempa
+\expandafter\let\csname sin(90)\endcsname\@tempa
 \expandafter\let\csname cos(90)\endcsname\z@num
-\expandafter\let\csname sin(-90)\endcsname\m@ne
+\expandafter\let\csname sin(-90)\endcsname\@tempb
 \expandafter\let\csname cos(-90)\endcsname\z@num
 \expandafter\let\csname sin(180)\endcsname\z@num
-\expandafter\let\csname cos(180)\endcsname\m@ne
+\expandafter\let\csname cos(180)\endcsname\@tempb
+\expandafter\let\csname sin(270)\endcsname\@tempb
+\expandafter\let\csname cos(270)\endcsname\z@num
+\expandafter\let\csname sin(360)\endcsname\z@num
+\expandafter\let\csname cos(360)\endcsname\@tempa
+\expandafter\let\csname sin(-180)\endcsname\z@num
+\expandafter\let\csname cos(-180)\endcsname\@tempb
+\expandafter\let\csname sin(-270)\endcsname\@tempa
+\expandafter\let\csname cos(-270)\endcsname\z@num
+\expandafter\let\csname sin(-360)\endcsname\z@num
+\expandafter\let\csname cos(-360)\endcsname\@tempa
 \def\CalculateTan#1{{%
   \expandafter\ifx\csname tan(\number#1)\endcsname\relax
     \CalculateSin{#1}%
