@@ -130,7 +130,7 @@ clean:
 	rm -rf tmp
 	rm -rf binary
 	rm -rf build
-	rm -rf texlive-????????-source*
+	rm -rf texlive-*-source*
 	rm -f install-tl-unx.tar.gz
 	rm -f texlive.lst
 	rm -f pdftex-worker.js
@@ -143,7 +143,7 @@ dist:
 	rm -rf tmp
 	rm -rf binary
 	rm -rf build
-	rm -rf texlive-????????-source*
+	rm -rf texlive-*-source*
 	rm -f install-tl-unx.tar.gz
 	rm -f pdftex.bc
 	rm -f bibtex.bc
