@@ -46,8 +46,8 @@ $(TLDIR): $(TLFILE)
 	rm -rf tmp&&mkdir tmp
 	rm -rf binary&&mkdir binary
 	cd tmp&&../${TLDIR}/configure -C $(CFG_OPTS_COMMON) --disable-ptex --enable-pdftex &>configure.log
-	cd tmp&&make &>make.log
-	cd tmp/texk/web2c&&make pdftex &>make.log
+	cd tmp&&make -j &>make.log
+	cd tmp/texk/web2c&&make -j pdftex &>make.log
 	cp -rp tmp/texk/web2c/{tangle,tie,web2c} binary/
 	#rm -rf tmp
 
@@ -65,7 +65,7 @@ build/Makefile: $(TLDIR) | build
 	cd build&& \
 		CONFIG_SHELL=/bin/bash \
 	   	EMCONFIGURE_JS=0 \
-		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex --enable-bibtex CFLAGS="-DELIDE_CODE -Wno-implicit"\
+		emconfigure ../$(TLDIR)/configure -C $(CFG_OPTS_COMMON) --enable-pdftex --enable-bibtex CFLAGS="-DELIDE_CODE -Wno-implicit" \
 		&>configure.log
 
 %texk/web2c/Makefile %texk/kpathsea/Makefile: build/Makefile
@@ -82,25 +82,25 @@ kpathsea: build/texk/kpathsea/rebuild.stamp
 pdftex.bc: binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile kpathsea
 	@echo "make pdftex"
 	cp -rfp binary/{tangle,tie,web2c} build/texk/web2c/
-	cd build/texk/web2c && emmake make pdftex  -o tangle -o tie -o web2c -o web2c/makecpool &>pdftex.log
-	opt -strip-debug build/texk/web2c/pdftex >pdftex.bc
+	cd build/texk/web2c && emmake make -j pdftex  -o tangle -o tie -o web2c -o web2c/makecpool &>pdftex.log
+	cp build/texk/web2c/pdftex ./pdftex.bc # emcc will call wasm-opt now, no need to call ourselves
 
 pdftex-worker.js: pdftex-pre.js pdftex-post.js pdftex.bc
 	@echo "create pdftex worker"
 	#OBJFILES=$$(for i in `find build/texk/web2c/lib build/texk/kpathsea -name '*.o'` ; do llvm-nm $$i | grep main >/dev/null || echo $$i ; done) && \
-		emcc  --memory-init-file 0 -v --closure 1 -s TOTAL_MEMORY=$$((128*1024*1024)) -O3  pdftex.bc -s INVOKE_RUN=0 --pre-js pdftex-pre.js --post-js pdftex-post.js -o pdftex-worker.js
+		emcc  --memory-init-file 0 -v --closure 1 -s TOTAL_MEMORY=$$((128*1024*1024)) -O3  pdftex.bc -s INVOKE_RUN=0 --pre-js pdftex-pre.js --post-js pdftex-post.js -o pdftex-worker.js -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s SINGLE_FILE=1 -g1
 .PHONY: pdftex
 pdftex: pdftex-worker.js
 
 bibtex.bc:  binary/tangle binary/tie binary/web2c  build/texk/web2c/Makefile kpathsea
 	@echo "make bibtex"
 	cp -rfp binary/{tangle,tie,web2c} build/texk/web2c/
-	cd build/texk/web2c && emmake make bibtex  -o tangle &> bibtex.log
-	opt -strip-debug build/texk/web2c/bibtex >bibtex.bc
+	cd build/texk/web2c && emmake make -j bibtex  -o tangle &> bibtex.log
+	cp build/texk/web2c/bibtex ./bibtex.bc # emcc will call wasm-opt now, no need to call ourselves
 
 
 bibtex-worker.js: bibtex-pre.js bibtex-post.js bibtex.bc
-	emcc  --memory-init-file 0 --closure 1 -v -O3 --pre-js bibtex-pre.js --post-js bibtex-post.js -s INVOKE_RUN=0 bibtex.bc -o bibtex-worker.js
+	emcc  --memory-init-file 0 --closure 1 -v -O3 --pre-js bibtex-pre.js --post-js bibtex-post.js -s INVOKE_RUN=0 bibtex.bc -o bibtex-worker.js -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s SINGLE_FILE=1 -g1
 
 .PHONY: bibtex
 bibtex: bibtex-worker.js
@@ -136,7 +136,9 @@ clean:
 	rm -f install-tl-unx.tar.gz
 	rm -f texlive.lst
 	rm -f pdftex-worker.js
+	rm -f pdftex-worker.wasm
 	rm -f bibtex-worker.js
+	rm -f bibtex-worker.wasm
 	rm -f pdftex.bc
 	rm -f bibtex.bc
 	rm -rf texlive

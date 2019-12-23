@@ -1,4 +1,4 @@
-var Module = {};
+//var Module = {};
 var is_browser = (typeof(self) !== "undefined" || typeof(window) !== "undefined");
 
 if(is_browser) {
@@ -6,6 +6,9 @@ if(is_browser) {
   Module['printErr'] = function(a) { self['postMessage'](JSON.stringify({'command': 'stderr', 'contents': a})); }
 }
 
+Module['thisProgram']='bibtex';
+Module['arguments'] = [];
+Module['noInitialRun'] = true;
 
 Module['preInit'] = function() {
   Module['FS_root'] = function() {
@@ -27,10 +30,10 @@ var FS_createLazyFilesFromList = function(msg_id, parent, list, parent_url, canR
       path = lines[i].slice(0, pos);
 
       if(filename === '.')
-        Module['FS_createPath']('/', parent+path, canRead, canWrite);
+        FS.createPath('/', parent+path, canRead, canWrite);
       else
         if(filename.length > 0)
-          Module['FS_createLazyFile'](parent+path, filename, parent_url+path+'/'+filename, canRead, canWrite);
+          FS.createLazyFile(parent+path, filename, parent_url+path+'/'+filename, canRead, canWrite);
     }
 
     self['postMessage'](JSON.stringify({
@@ -63,17 +66,24 @@ self['onmessage'] = function(ev) {
   var cmd = data['command'];
   switch(cmd) {
     case 'run':
+      Module['arguments'].splice(0, Module['arguments'].length); // Clear
+      Array.prototype.push.apply(Module['arguments'], args);
+      shouldRunNow = true;
+      FS.createDataFile("/", "bibtex", "Dummy file for kpathsea.", true, true, true);
       shouldRunNow = true;
       preparePRNG();
+      
+      Module["postRun"] = function() {
+        self['postMessage'](JSON.stringify({'msg_id': data['msg_id'], 'command': 'success', 'result': null}));
+      };
 
       try {
-        res = Module['run'](args);
+        res = Module['run']();
       }
       catch(e) {
         self['postMessage'](JSON.stringify({'msg_id': data['msg_id'], 'command': 'error', 'message': e.toString()}));
         return;
       }
-      self['postMessage'](JSON.stringify({'msg_id': data['msg_id'], 'command': 'success', 'result': res}));
       res = undefined;
     break;
 
