@@ -18,7 +18,7 @@
 %%   harald.harders@gmx.de
 %% 
 \ProvidesFile{danish.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsdanish[1][danish]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{et~al##1{}}}%

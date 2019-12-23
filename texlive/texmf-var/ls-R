@@ -2,77 +2,42 @@
 
 ./:
 .:
-web2c
-xdvi
+tex
 ls-R
 fonts
-tex
+web2c
+xdvi
 
-./web2c:
-luatex
-tex
-updmap.log
-pdftex
-luajittex
-metafont
+./tex:
+generic
+context
 
-./web2c/luatex:
-luatex.fmt
-dvilualatex.log
-luatex.log
-dviluatex.log
-dvilualatex.fmt
-dviluatex.fmt
-lualatex.log
-lualatex.fmt
+./tex/generic:
+config
 
-./web2c/tex:
-tex.log
-tex.fmt
+./tex/generic/config:
+language.dat
+language.def
+language.dat.lua
 
-./web2c/pdftex:
-pdftex.fmt
-mptopdf.fmt
-pdflatex.log
-etex.log
-pdflatex.fmt
-latex.fmt
-pdftex.log
-etex.fmt
-pdfetex.log
-pdfetex.fmt
-latex.log
-mptopdf.log
+./tex/context:
+config
 
-./web2c/luajittex:
-luajittex.fmt
-luajittex.log
-
-./web2c/metafont:
-mf.base
-mf.log
-
-./xdvi:
+./tex/context/config:
 
 ./fonts:
+pk
 tfm
 map
-pk
+
+./fonts/pk:
 
 ./fonts/tfm:
 
 ./fonts/map:
-pdftex
 dvipdfmx
 dvips
-
-./fonts/map/pdftex:
-updmap
-
-./fonts/map/pdftex/updmap:
-pdftex.map
-pdftex_dl14.map
-pdftex_ndl14.map
+pdftex
 
 ./fonts/map/dvipdfmx:
 updmap
@@ -84,29 +49,61 @@ kanjix.map
 updmap
 
 ./fonts/map/dvips/updmap:
-psfonts_pk.map
-ps2pk.map
-psfonts.map
-builtin35.map
-psfonts_t1.map
 download35.map
+psfonts_t1.map
+psfonts.map
+ps2pk.map
+builtin35.map
+psfonts_pk.map
 
-./fonts/pk:
+./fonts/map/pdftex:
+updmap
 
-./tex:
-generic
-context
+./fonts/map/pdftex/updmap:
+pdftex.map
+pdftex_dl14.map
+pdftex_ndl14.map
 
-./tex/generic:
-config
+./web2c:
+metafont
+luatex
+tex
+pdftex
+updmap.log
 
-./tex/generic/config:
-language.dat.lua
-language.def
-language.dat
+./web2c/metafont:
+mf.log
+mf.base
 
-./tex/context:
-config
+./web2c/luatex:
+dviluatex.log
+dvilualatex.fmt
+luatex.fmt
+lualatex.fmt
+dviluatex.fmt
+dvilualatex.log
+lualatex.log
+luatex.log
 
-./tex/context/config:
+./web2c/tex:
+tex.log
+tex.fmt
+
+./web2c/pdftex:
+etex.log
+pdflatex.fmt
+amstex.fmt
+pdftex.log
+etex.fmt
+pdftex.fmt
+amstex.log
+pdfetex.fmt
+latex.log
+mptopdf.log
+pdflatex.log
+latex.fmt
+pdfetex.log
+mptopdf.fmt
+
+./xdvi:
 

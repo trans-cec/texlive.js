@@ -9,8 +9,9 @@
 %% File: hyperref.dtx Copyright 1995-2001 Sebastian Rahtz,
 %% with portions written by David Carlisle and Heiko Oberdiek,
 %% 2001-2012 Heiko Oberdiek.
-%% 2016-2017 Oberdiek Package Suport Group
-%%      https://github.com/ho-tex/hyperref/issues
+%% 2016-2019 Oberdiek Package Suport Group
+%% 2019 LaTeX3 Project
+%%      https://github.com/latex3/hyperref/issues
 %%
 %% This file is part of the `Hyperref Bundle'.
 %% -------------------------------------------
@@ -25,13 +26,13 @@
 %%
 %% This work has the LPPL maintenance status `maintained'.
 %%
-%% The Current Maintainer of this work is Heiko Oberdiek.
+%% The Current Maintainer of this work is the LaTeX3 Project.
 %%
 %% The list of all files belonging to the `Hyperref Bundle' is
 %% given in the file `manifest.txt'.
 %%
 \ProvidesFile{psdextra.def}
-  [2017/03/14 v6.85a %
+  [2019/11/10 v7.00c %
   Hyperref: Additions to PDF string support]
 \Hy@VersionCheck{psdextra.def}
 \newcommand*{\psdmapshortnames}{%
@@ -118,6 +119,7 @@
   \let\iota\textiota
   \let\kappa\textkappa
   \let\lambda\textlambda
+  \let\mu\textmu
   \let\mugreek\textmugreek
   \let\nu\textnu
   \let\xi\textxi

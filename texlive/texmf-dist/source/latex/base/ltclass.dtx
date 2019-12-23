@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2016
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -33,7 +33,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltclass.dtx}
-             [2016/11/09 v1.2b LaTeX Kernel (Class & Package Interface)]
+             [2019/10/07 v1.3c LaTeX Kernel (Class & Package Interface)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltclass.dtx}
@@ -56,10 +56,15 @@
 % \fi
 %
 %
+% \changes{v0.2f}{1993/11/22}
+%         {\cs{@unknownversion} removed}
+% \changes{v1.0j}{1994/10/18}
+%         {Move \cs{listfiles} to ltfiles.dtx}
 % \changes{v1.0f}{1994/05/22}{Use new warning and error commands}
 % \changes{v1.0l}{1994/11/17}{\cs{@tempa} to \cs{reserved@a}}
 % \changes{v1.0z}{1998/03/21}{Added to documentation of filecontents}
 % \changes{v1.1c}{1998/08/17}{(RmS) Minor documentation fixes.}
+%
 %
 % \section{Introduction}
 %
@@ -150,11 +155,27 @@
 % verbatim to the file name given as the first argument, together with
 % some comments about how it was produced.
 %
-% The environment is allowed only before |\documentclass| to ensure
-% that all packages or options necessary for this particular run are
-% present when needed.  The begin and end tags should each be on a
-% line by itself.  There is also a star-form; this does not write
-% extra comments into the file.
+% The environment can also be called with an optional argument which is
+% used to alter some of its behavior: option \texttt{force} or 
+% \texttt{overwrite} will allow for overwriting existing files,
+% option \texttt{nosearch} will only check the current directory
+% when looking if the file exists. This can be useful if you want to
+% generate a local (modified) copy of some file that is already in the
+% search tree of \TeX{}. Finally, you can use \texttt{nopremable} to
+% prevent it from writing the standard blurb at the top of the file
+% (this is actually the same as using the star form of the environment).
+%
+% The environment is now allowed anywhere in the document, but to ensure
+% that all packages or options necessary are available when the
+% document is run, it is normally best to place it at the top of your
+% file (before \cs{documentclass}).
+% A possible use case for using it inside the document body is if you
+% want to reuse some text several times in the document you could then
+% write it and later use \cs{input} to retrieve it where needed.
+% 
+%
+% The begin and end tags should each be on a
+% line by itself. 
 %
 % \subsection{Option processing}
 %
@@ -613,26 +634,66 @@
   \expandafter\@ifl@t@r
     \csname ver@#2.#1\endcsname}
 \@onlypreamble\@ifl@ter
+%</2ekernel>
 %    \end{macrocode}
 %
 % This internal macro is also used in |\NeedsTeXFormat|.
 % \changes{v0.2f}{1993/11/22}
 %         {Added //00 so parsing never produces a runaway argument.}
+% \changes{v1.2d}{2018/02/18}
+%         {Added 0 up front to make bad data come out as 0.}
+% \changes{v1.2g}{2018/04/08}
+%         {Strip leading spaces from dates.}
 %    \begin{macrocode}
+%<latexrelease>\IncludeInRelease{2018/04/01}%
+%<latexrelease>                 {\@ifl@t@r}{Guard against bad input}%
+%<*2ekernel|latexrelease>
 \def\@ifl@t@r#1#2{%
-  \ifnum\expandafter\@parse@version#1//00\@nil<%
-        \expandafter\@parse@version#2//00\@nil
+  \ifnum\expandafter\@parse@version@#1//00\@nil<%
+        \expandafter\@parse@version@#2//00\@nil
     \expandafter\@secondoftwo
   \else
     \expandafter\@firstoftwo
   \fi}
+\def\@parse@version@#1{\@parse@version0#1}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\@ifl@t@r}{Guard against bad input}%
+%<latexrelease>\def\@ifl@t@r#1#2{%
+%<latexrelease>  \ifnum\expandafter\@parse@version#1//00\@nil<%
+%<latexrelease>        \expandafter\@parse@version#2//00\@nil
+%<latexrelease>    \expandafter\@secondoftwo
+%<latexrelease>  \else
+%<latexrelease>    \expandafter\@firstoftwo
+%<latexrelease>  \fi}
+%<latexrelease>\let\@parse@version@\@undefined
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
 \@onlypreamble\@ifl@t@r
 %    \end{macrocode}
 %
 % \changes{v1.1j}{2016/06/20}
 %         {don't declare as \cs{@onlypreamble}}
+% \changes{v1.2c}{2017/03/08}
+%         {add \cs{@parse@version@dash} to support yyyy-mm-dd as well as yyyy/mm/dd }
 %    \begin{macrocode}
-\def\@parse@version#1/#2/#3#4#5\@nil{#1#2#3#4 }
+%</2ekernel>
+%<*2ekernel|latexreleasefirst>
+\def\@parse@version#1/#2/#3#4#5\@nil{%
+\@parse@version@dash#1-#2-#3#4\@nil
+}
+%    \end{macrocode}
+%
+% The |\if| test here ensures that an argument with no |/|  or |-| produces 0 (actually 00).
+%    \begin{macrocode}
+\def\@parse@version@dash#1-#2-#3#4#5\@nil{%
+  \if\relax#2\relax\else#1\fi#2#3#4 }
+%</2ekernel|latexreleasefirst>
+%<*2ekernel>
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -702,6 +763,7 @@
 %<latexrelease>  \fi
 %<latexrelease> }%
 %<latexrelease> \reserved@a}
+%<latexrelease>\EndIncludeInRelease
 %<*2ekernel>
 %    \end{macrocode}
 %
@@ -794,7 +856,6 @@
 %    \wlog{File: #1 #2}%
 %    \expandafter\xdef\csname ver@#1\endcsname{#2}%
 %  \endgroup}
-%    \end{macrocode}
 %\end{verbatim}
 % \end{macro}
 % \end{macro}
@@ -1005,7 +1066,7 @@
 %    \begin{macrocode}
 %</2ekernel>
 %<latexrelease>\IncludeInRelease{2017/01/01}%
-%<latexrelease>                 {\@if@pti@ns}{Spaces in \ExecuteOptions}%
+%<latexrelease>                 {\ExecuteOptions}{Spaces in \ExecuteOptions}%
 %<*2ekernel|latexrelease>
 \def\ExecuteOptions#1{%
 %    \end{macrocode}
@@ -1023,13 +1084,14 @@
 %</2ekernel|latexrelease>
 %<latexrelease>\EndIncludeInRelease
 %<latexrelease>\IncludeInRelease{0000/00/00}%
-%<latexrelease>                 {\@if@pti@ns}{Spaces in \ExecuteOptions}%
+%<latexrelease>                 {\ExecuteOptions}{Spaces in \ExecuteOptions}%
 %<latexrelease>\def\ExecuteOptions#1{%
 %<latexrelease>  \def\reserved@a##1\@nil{%
 %<latexrelease>    \@for\CurrentOption:=#1\do
 %<latexrelease>             {\csname ds@\CurrentOption\endcsname}%
 %<latexrelease>    \edef\CurrentOption{##1}}%
 %<latexrelease>  \expandafter\reserved@a\CurrentOption\@nil}
+%<latexrelease>\EndIncludeInRelease
 %<*2ekernel>
 %    \end{macrocode}
 %
@@ -1349,6 +1411,7 @@
 %<latexrelease>        \expandafter\reserved@b\reserved@a,\@nil,}%
 %<latexrelease>  \fi
 %<latexrelease>  \reserved@a}
+%<latexrelease>\EndIncludeInRelease
 %<*2ekernel>
 %    \end{macrocode}
 %
@@ -1424,7 +1487,7 @@
     \csname\@currname.\@currext-h@@k\endcsname
     \expandafter\let\csname\@currname.\@currext-h@@k\endcsname
               \@undefined
-    \@unprocessedoptions}
+    \@unprocessedoptions}%
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -1533,8 +1596,8 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\def\AtBeginDocument{\g@addto@macro\@begindocumenthook}
-\def\AtEndDocument{\g@addto@macro\@enddocumenthook}
+\DeclareRobustCommand\AtBeginDocument{\g@addto@macro\@begindocumenthook}
+\DeclareRobustCommand\AtEndDocument{\g@addto@macro\@enddocumenthook}
 \@onlypreamble\AtBeginDocument
 %    \end{macrocode}
 % \end{macro}
@@ -1658,7 +1721,76 @@
 %         {Close input check stream: latex/1487}
 % \changes{v1.0p}{1995/05/25}{Delete \cs{filec@ntents} after preamble}
 %    \begin{macrocode}
+% \changes{v1.3a}{2019/07/01}{Support UTF8 and spaces in
+%                             filecontents environment file name}
+% \changes{v1.3b}{2019/08/27}{Make various commands robust}
+% \changes{v1.3c}{2019/09/11}{Support optional argument for filecontents}
+%
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2019/10/01}%
+%<latexrelease>                 {\filec@ntents}{Spaces in file names + optional arg}%
+%
+
+
+%    \end{macrocode}
+%    We use |@tempswa| to mean no preamble writing and reuse |@filesw|
+%    to indicate no overwriting:
+%    \begin{macrocode}
+\def\filecontents{\@tempswatrue\@fileswtrue
+  \@ifnextchar[\filec@ntents@opt\filec@ntents
+}
+\@namedef{filecontents*}{\@tempswafalse\@fileswtrue
+  \@ifnextchar[\filec@ntents@opt\filec@ntents
+}
+%    \end{macrocode}
+%    To handle the optional argument we execute for each option the
+%    command \cs{filec@ntents@OPTION} if it exist or complain about
+%    unknown option.
+%    \begin{macrocode}
+\def\filec@ntents@opt[#1]{%
+  \@for\@tempa:=#1\do{%
+    \ifcsname filec@ntents@\@tempa\endcsname
+      \csname filec@ntents@\@tempa\endcsname
+    \else
+    \@latex@error{Unknown filecontents option #1}%
+       {Valid options are force (or overwrite), nosearch, noheader}%
+    \fi}%
+  \filec@ntents
+}
+%    \end{macrocode}
+%    Option \texttt{force}) (or \texttt{overwrite}) changes the
+%    overwriting switch
+%    \begin{macrocode}
+\let\filec@ntents@force\@fileswfalse
+\let\filec@ntents@overwrite\@fileswfalse  % alternative name
+%    \end{macrocode}
+%    and option \texttt{noheader} the preamble switch (which is
+%    equivalent to using the star form of the environment).
+%    \begin{macrocode}
+\let\filec@ntents@noheader\@tempswafalse
+%    \end{macrocode}
+%    Option \texttt{nosearch} only checks the current directory not
+%    the how \TeX{} tree for the existence of the file to write.
+%    \begin{macrocode}
+\def\filec@ntents@nosearch{%
+  \let\filec@ntents@checkdir\@currdir
+  \def\filec@ntents@where{in current directory}}
+%    \end{macrocode}
+%    By default we search the whole tree:
+%    \begin{macrocode}
+\let\filec@ntents@checkdir\@empty
+\def\filec@ntents@where{exists on the system}
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
 \begingroup%
+\@tempcnta=1
+\loop
+  \catcode\@tempcnta=12  %
+  \advance\@tempcnta\@ne %
+\ifnum\@tempcnta<32      %
+\repeat                  %
 \catcode`\*=11 %
 \catcode`\^^M\active%
 \catcode`\^^L\active\let^^L\relax%
@@ -1666,16 +1798,13 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\gdef\filecontents{\@tempswatrue\filec@ntents}%
-\gdef\filecontents*{\@tempswafalse\filec@ntents}%
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \gdef\filec@ntents#1{%
-  \openin\@inputcheck#1 %
+  \set@curr@file{\filec@ntents@checkdir#1}%
+  \edef\q@curr@file{\expandafter\quote@name\expandafter{\@curr@file}}%
+  \openin\@inputcheck\q@curr@file \space %
   \ifeof\@inputcheck%
     \@latex@warning@no@line%
-        {Writing file `\@currdir#1'}%
+        {Writing file `\@currdir\@curr@file'}%
 %    \end{macrocode}
 %
 % \changes{v1.0y}{1997/10/10}
@@ -1683,20 +1812,61 @@
 %    \begin{macrocode}
     \chardef\reserved@c15 %
     \ch@ck7\reserved@c\write%
-    \immediate\openout\reserved@c#1\relax%
+    \immediate\openout\reserved@c\q@curr@file\relax%
   \else%
 %    \end{macrocode}
 %
 % \changes{v1.0y}{1997/10/10}
 %         {Use \cs{@gobbletwo}}
 %    \begin{macrocode}
-    \closein\@inputcheck%
-    \@latex@warning@no@line%
-            {File `#1' already exists on the system.\MessageBreak%
+    \if@filesw%
+      \@latex@warning@no@line%
+          {File `\@curr@file' already \filec@ntents@where.\MessageBreak%
              Not generating it from this source}%
-    \let\write\@gobbletwo%
-    \let\closeout\@gobble%
+      \let\write\@gobbletwo%
+      \let\closeout\@gobble%
+    \else%
+%    \end{macrocode}
+%    If we are overwriting, we try to make sure that the user is not
+%    by mistake overwriting the input file (\cs{jobname}). Of course,
+%    this only works for input files ending in \texttt{.tex}. If a
+%    different extension is used there is no way to see that we are
+%    overwriting outselves!
+%    \begin{macrocode}
+      \edef\reserved@a{#1}%
+      \edef\reserved@a{\detokenize\expandafter{\reserved@a}}%
+      \edef\reserved@b{\detokenize\expandafter{\jobname}}%
+      \ifx\reserved@a\reserved@b%
+        \@fileswtrue%
+      \else%
+        \edef\reserved@b{\reserved@b\detokenize{.tex}}%
+        \ifx\reserved@a\reserved@b
+          \@fileswtrue%
+        \fi%
+      \fi%
+%    \end{macrocode}
+%    We allocate a write channel but we open it only if it is
+%    (hopefully) safe. If not opened that means we are going to write
+%    on the terminal.      
+%    \begin{macrocode}
+      \chardef\reserved@c15 %
+      \ch@ck7\reserved@c\write%
+      \if@filesw%  % Foul ... trying to overwrite \jobname!
+      \@latex@error{Trying to overwrite `\jobname.tex'}{You can't %
+        write to the file you a reading from!\MessageBreak%
+        Data is written to screen instead.}%
+      \else%
+        \@latex@warning@no@line%
+           {Writing or overwriting file `\@currdir\@curr@file'}%
+        \immediate\openout\reserved@c#1\relax%
+      \fi%
+    \fi%
   \fi%
+%    \end{macrocode}
+%    Closing the \cs{@inputcheck} is done here ot avoid having to do
+%    this in each branch.
+%    \begin{macrocode}
+  \closein\@inputcheck%
   \if@tempswa%
 %    \end{macrocode}
 %
@@ -1705,7 +1875,7 @@
 %    \begin{macrocode}
     \immediate\write\reserved@c{%
       \@percentchar\@percentchar\space%
-          \expandafter\@gobble\string\LaTeX2e file `#1'^^J%
+          \expandafter\@gobble\string\LaTeX2e file `\@curr@file'^^J%
       \@percentchar\@percentchar\space  generated by the %
         `\@currenvir' \expandafter\@gobblefour\string\newenvironment^^J%
       \@percentchar\@percentchar\space from source `\jobname' on %
@@ -1713,6 +1883,19 @@
       \@percentchar\@percentchar}%
   \fi%
   \let\do\@makeother\dospecials%
+%    \end{macrocode}
+%    If there are active characters in the upper half (e.g., from
+%    \texttt{inputenc} there would be confusion so we render everything
+%    harmless.
+% \changes{v1.2f}{2018/03/27}
+%         {Use full file name for old release}
+%    \begin{macrocode}
+  \count@ 128\relax%
+  \loop%
+    \catcode\count@ 11\relax%
+    \advance\count@ \@ne%
+    \ifnum\count@<\@cclvi%
+  \repeat%
 %    \end{macrocode}
 %
 % \changes{v1.0y}{1997/10/10}
@@ -1739,7 +1922,7 @@
 % Text before the |\end|, write it with a warning.
 %    \begin{macrocode}
           \@latex@warning{Writing text `##1' before %
-             \string\end{\@currenvir}\MessageBreak as last line of #1}%
+             \string\end{\@currenvir}\MessageBreak as last line of \@curr@file}%
         \immediate\write\reserved@c{##1}%
       \fi%
       \ifx\relax##2\relax%
@@ -1754,18 +1937,118 @@
     ^^M}%
 %    \end{macrocode}
 %
+%
+% \changes{v1.2j}{2018/05/29}{use \cs{csname} not \cs{@undefined}}
 %    \begin{macrocode}
   \catcode`\^^L\active%
   \let\L\@undefined%
-  \def^^L{\@ifundefined L^^J^^J^^J}%
+  \def^^L{\expandafter\ifx\csname L\endcsname\relax\fi ^^J^^J}%
   \catcode`\^^I\active%
   \let\I\@undefined%
-  \def^^I{\@ifundefined I\space\space}%
+  \def^^I{\expandafter\ifx\csname I\endcsname\relax\fi\space}%
   \catcode`\^^M\active%
   \edef^^M##1^^M{%
     \noexpand\reserved@b##1\E\E\relax}}%
 \endgroup%
 %    \end{macrocode}
+%
+%
+%    \begin{macrocode}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\filec@ntents}{Spaces in file names + optional arg}%
+%<latexrelease>
+%<latexrelease>\let\filec@ntents@opt        \@undefined
+%<latexrelease>\let\filec@ntents@force      \@undefined
+%<latexrelease>\let\filec@ntents@overwrite  \@undefined
+%<latexrelease>\let\filec@ntents@noheader   \@undefined
+%<latexrelease>\let\filec@ntents@nosearch   \@undefined
+%<latexrelease>\let\filec@ntents@checkdir   \@undefined
+%<latexrelease>\let\filec@ntents@where      \@undefined
+%<latexrelease>
+%<latexrelease>\begingroup%
+%<latexrelease>\@tempcnta=1
+%<latexrelease>\loop
+%<latexrelease>  \catcode\@tempcnta=12  %
+%<latexrelease>  \advance\@tempcnta\@ne %
+%<latexrelease>\ifnum\@tempcnta<32      %
+%<latexrelease>\repeat                  %
+%<latexrelease>\catcode`\*=11 %
+%<latexrelease>\catcode`\^^M\active%
+%<latexrelease>\catcode`\^^L\active\let^^L\relax%
+%<latexrelease>\catcode`\^^I\active%
+%<latexrelease>
+%<latexrelease>\gdef\filec@ntents#1{%
+%<latexrelease>  \openin\@inputcheck#1 %
+%<latexrelease>  \ifeof\@inputcheck%
+%<latexrelease>    \@latex@warning@no@line%
+%<latexrelease>        {Writing file `\@currdir#1'}%
+%<latexrelease>    \chardef\reserved@c15 %
+%<latexrelease>    \ch@ck7\reserved@c\write%
+%<latexrelease>    \immediate\openout\reserved@c#1\relax%
+%<latexrelease>  \else%
+%<latexrelease>    \closein\@inputcheck%
+%<latexrelease>    \@latex@warning@no@line%
+%<latexrelease>            {File `#1' already exists on the system.\MessageBreak%
+%<latexrelease>             Not generating it from this source}%
+%<latexrelease>    \let\write\@gobbletwo%
+%<latexrelease>    \let\closeout\@gobble%
+%<latexrelease>  \fi%
+%<latexrelease>  \if@tempswa%
+%<latexrelease>    \immediate\write\reserved@c{%
+%<latexrelease>      \@percentchar\@percentchar\space%
+%<latexrelease>          \expandafter\@gobble\string\LaTeX2e file `#1'^^J%
+%<latexrelease>      \@percentchar\@percentchar\space  generated by the %
+%<latexrelease>        `\@currenvir' \expandafter\@gobblefour\string\newenvironment^^J%
+%<latexrelease>      \@percentchar\@percentchar\space from source `\jobname' on %
+%<latexrelease>         \number\year/\two@digits\month/\two@digits\day.^^J%
+%<latexrelease>      \@percentchar\@percentchar}%
+%<latexrelease>  \fi%
+%<latexrelease>  \let\do\@makeother\dospecials%
+%<latexrelease>  \count@ 128\relax%
+%<latexrelease>  \loop%
+%<latexrelease>    \catcode\count@ 11\relax%
+%<latexrelease>    \advance\count@ \@ne%
+%<latexrelease>    \ifnum\count@<\@cclvi%
+%<latexrelease>  \repeat%
+%<latexrelease>  \edef\E{\@backslashchar end\string{\@currenvir\string}}%
+%<latexrelease>  \edef\reserved@b{%
+%<latexrelease>    \def\noexpand\reserved@b%
+%<latexrelease>         ####1\E####2\E####3\relax}%
+%<latexrelease>  \reserved@b{%
+%<latexrelease>    \ifx\relax##3\relax%
+%<latexrelease>      \immediate\write\reserved@c{##1}%
+%<latexrelease>    \else%
+%<latexrelease>      \edef^^M{\noexpand\end{\@currenvir}}%
+%<latexrelease>      \ifx\relax##1\relax%
+%<latexrelease>      \else%
+%<latexrelease>          \@latex@warning{Writing text `##1' before %
+%<latexrelease>             \string\end{\@currenvir}\MessageBreak as last line of #1}%
+%<latexrelease>        \immediate\write\reserved@c{##1}%
+%<latexrelease>      \fi%
+%<latexrelease>      \ifx\relax##2\relax%
+%<latexrelease>      \else%
+%<latexrelease>         \@latex@warning{%
+%<latexrelease>           Ignoring text `##2' after \string\end{\@currenvir}}%
+%<latexrelease>      \fi%
+%<latexrelease>    \fi%
+%<latexrelease>    ^^M}%
+%<latexrelease>
+%<latexrelease>  \catcode`\^^L\active%
+%<latexrelease>  \let\L\@undefined%
+%<latexrelease>  \def^^L{\expandafter\ifx\csname L\endcsname\relax\fi ^^J^^J}%
+%<latexrelease>  \catcode`\^^I\active%
+%<latexrelease>  \let\I\@undefined%
+%<latexrelease>  \def^^I{\expandafter\ifx\csname I\endcsname\relax\fi\space}%
+%<latexrelease>  \catcode`\^^M\active%
+%<latexrelease>  \edef^^M##1^^M{%
+%<latexrelease>    \noexpand\reserved@b##1\E\E\relax}}%
+%<latexrelease>\endgroup%
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
+%    \end{macrocode}
+%
 %
 %    \begin{macrocode}
 \begingroup
@@ -1783,25 +2066,638 @@
   \T\I{Tab}{Spac}|
   \immediate\write\@unused{}}
 \global\let\endfilecontents*\endfilecontents
-\@onlypreamble\filecontents
-\@onlypreamble\endfilecontents
-\@onlypreamble\filecontents*
-\@onlypreamble\endfilecontents*
+%    \end{macrocode}
+%    We no longer prevent the code to be used after begin document (no
+%    rollback needed for this change).
+%    \begin{macrocode}
+%\@onlypreamble\filecontents
+%\@onlypreamble\endfilecontents
+%\@onlypreamble\filecontents*
+%\@onlypreamble\endfilecontents*
 \endgroup
-\@onlypreamble\filec@ntents
+%\@onlypreamble\filec@ntents
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
 %
 %
-% \changes{v0.2f}{1993/11/22}
-%         {\cs{@unknownversion} removed}
-% \changes{v1.0j}{1994/10/18}
-%         {Move \cs{listfiles} to ltfiles.dtx}
 %
+%
+%
+% \section{Package/class rollback mechanism}
+%
+%
+%    
 %    \begin{macrocode}
 %</2ekernel>
+%<*2ekernel|latexreleasefirst>
 %    \end{macrocode}
+%
+% \changes{v1.2d}{2018/02/18}{Introduce rollback concept}
+%
+%  \begin{macro}{\pkgcls@debug}
+%    For testing we have a few extra lines of code that by default do
+%    nothing but one can set |\pkgcls@debug| to  |\typeout| to get
+%    extra info. Sometime in the future this will be dropped.
+%    \begin{macrocode}
+%<*tracerollback>
+%\let\pkgcls@debug\typeout
+\let\pkgcls@debug\@gobble
+%</tracerollback>
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \begin{macro}{\requestedLaTeXdate}
+%    The macro (!) |\requestedLaTeXdate| holds the globally requested
+%    rollback date (via \texttt{latexrelease}) or zero if no such
+%    request was made. 
+%    \begin{macrocode}
+\def\requestedLaTeXdate{0}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \begin{macro}{\pkgcls@targetdate}
+%  \begin{macro}{\pkgcls@targetlabel}
+%  \begin{macro}{\pkgcls@innerdate}
+%
+%    If a rollback for a package or class is requested then
+%    |\pkgcls@targetdate| holds the requested date as a number
+%    YYYYMMDD (if there was one, otherwise the value of
+%    |\requestedLaTeXdate|) and |\pkgcls@targetlabel| will be
+%    empty. If there was a request for a named version then
+%    |\pkgcls@targetlabel| holds the verion name and
+%    |\pkgcls@targetdate| is set to \texttt{1}.
+%
+%    |\pkgcls@targetdate=0| is used to indicate that there was no
+%    rollback request.
+%    While loading an old release |\pkgcls@targetdate| is also reset to
+%    zero so that |\DeclareRelease| declarations are bypassed.
+%
+%    In contrast |\pkgcls@innerdate| will always hold the requested
+%    date (in a macro not a counter) if there was one, otherwise,
+%    e.g., if there was no request or a request to a version name it
+%    will contain \TeX{} largest legal number. While loading a file
+%    this can be used to provide conditionals that select code based
+%    on the request.
+%
+%
+%    \begin{macrocode}
+\ifx\pkgcls@targetdate\@undefined
+  \newcount\pkgcls@targetdate
+\fi
+\let\pkgcls@targetlabel\@empty
+\def\pkgcls@innerdate{\maxdimen}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+
+%  \begin{macro}{\pkgcls@candidate}
+%  \begin{macro}{\pkgcls@releasedate}
+%    When looping through the |\DeclareRelease| declarations we
+%    record if the release is the best candidate we have seen so far.
+%    This is recorded in |\pkgcls@candidate| and we update it whenever
+%    we see a better one.
+%
+%    In |\pkgcls@releasedate| we keep track of the release date of
+%    that candidate.
+%    \begin{macrocode}
+\let\pkgcls@candidate\@empty
+\let\pkgcls@releasedate\@empty
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\load@onefilewithoptions}
+%  \begin{macro}{\@onefilewithoptions}
+%    the best place to add the rollback code is at the point where
+%    |\@onefilewithoptions| is called to load a single class or
+%    package.
+%
+%    To make things easy we save the old definition as
+%    |\load@onefilewithoptions| and then provide a new interface.
+%
+%    Important: as this code is also unconditionally placed into
+%    latexrelease we can only do this name change once otherwise both
+%    macros will contain the same code.
+%    \begin{macrocode}
+\ifx\load@onefilewithoptions\@undefined
+ \let\load@onefilewithoptions\@onefilewithoptions
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
+ \def\@onefilewithoptions#1[#2][#3]#4{%
+%    \end{macrocode}
+%    First a bit of tracing normally disabled.
+%    \begin{macrocode}
+%<*tracerollback>
+  \pkgcls@debug{--- File loaded request (\noexpand\usepackage or ...)}%
+  \pkgcls@debug{\@spaces 1: #1}%
+  \pkgcls@debug{\@spaces 2: #2}%
+  \pkgcls@debug{\@spaces 3: #3}%
+  \pkgcls@debug{\@spaces 4: #4}%
+%</tracerollback>
+%    \end{macrocode}
+%    Two of the arguments are needed later on in error/warning
+%    messages so we save them.
+%    \begin{macrocode}
+  \def\pkgcls@name{#1}%                  % for info message
+  \def\pkgcls@arg {#3}%                  % for info message
+%    \end{macrocode}
+%    then we parse the final optional argument to determine if there
+%    is a specific rollback request for the current file. This will
+%    set |\pkgcls@targetdate|, |\pkgcls@targetlabel| and
+%    |\pkgcls@mindate|.
+%    \begin{macrocode}
+  \pkgcls@parse@date@arg{#3}%
+%    \end{macrocode}
+%    When determining the correct release to load we keep track of
+%    candiates in |\pkgcls@candidate| and initially we don't have any:
+%    \begin{macrocode}
+  \let\pkgcls@candidate\@empty
+%    \end{macrocode}
+%    If we had a rollback request then |#3| may contain data but not
+%    necessarily a ``minimal date'' so instead of passing it on we
+%    pass on the content of |\pkgcls@mindate|. We need to pass the
+%    value not the command, otherwise nested packages may pick up the
+%    wrong information.
+%   \changes{v1.2h}{2018-04-08}{Pass expanded date}
+%    \begin{macrocode}
+  \begingroup
+  \edef\reserved@a{%
+    \endgroup
+    \unexpanded{\load@onefilewithoptions#1[#2]}%
+    [\pkgcls@mindate]%
+    \unexpanded{#4}}%
+   \reserved@a
+ }
+\fi
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%    
+%
+%  \begin{macro}{\pkgcls@parse@date@arg}
+%    The |\pkgcls@parse@date@arg| command parses the second optional
+%   argument of |\usepackage|, |\RequirePackage| or |\documentclass|
+%   for a rollback request setting the values of |\pkgcls@targetdate|
+%   and |\pkgcls@targetlabel|.
+%
+%   This optional argument has a dual purpose: If it just contains a
+%   date string then this means that the package should have at least
+%   that date (to ensure that a certain feature is actually available,
+%   or a certain bug has been fixed). When the package gets loaded the
+%   information in |\Provides...| will then be checked against this
+%   request.
+%
+%   But if it starts with an equal sign followed by a date string or
+%   followed by a version name then this means that we should roll
+%   back to the state of the package at tht date or to the version
+%   with the requested name.
+%
+%   If there was no optional argument or the optional argument
+%   does not start with ``\texttt{=}'' then the |\pkgcls@targetdate|
+%   is set to the date of the overall rollback request (via
+%   \texttt{latexrelease}) or if that was not given it is set to
+%   \texttt{0}.
+%   In either case |\pkgcls@targetlabel| will be made empty.
+%
+%   If the argument doesn't start with  ``\texttt{=}'' then it is
+%    supposed to be a ``minimal date'' and we therefore save the value
+%    in |\pkgcls@mindate|, otherwise this macro is made empty.
+%
+%   So in summary we have:
+%   \begin{flushleft}
+%     \hspace*{-1in}\begin{tabular}{ccccc@{}}
+%   Input        &  & \cs{pkgcls@targetdate} 
+%                   & \cs{pkgcls@targetlabel} 
+%                   & \cs{pkgcls@mindate}\\[3pt]
+% \meta{empty}   & $\to$ & \meta{global-rollbackdate-as-number}
+%                        & \meta{empty} & \meta{empty}
+% \\
+% \meta{date}    & $\to$ & \meta{global-rollbackdate-as-number}
+%                        & \meta{empty} & \meta{date}
+% \\
+% \texttt{=}\meta{date} & $\to$ & \meta{date-as-number}
+%                        & \meta{empty} & \meta{empty}
+% \\
+% \texttt{=}\meta{version}& $\to$ & \texttt{1}  
+%                                 & \meta{version}  & \meta{empty}
+% \\
+% \meta{other}   & $\to$ & \meta{global-rollbackdate-as-number}
+%                        & \meta{empty} & \meta{other}
+% \\
+%     \end{tabular}
+%   \end{flushleft}
+%    where \meta{global-rollbackdate-as-number} is a date request given
+%    via \texttt{latexrelease} or if there wasn't one \texttt{0}.
+% 
+%    \begin{macrocode}
+\def\pkgcls@parse@date@arg #1{%
+%    \end{macrocode}
+%    If the argument is empty we use the rollback date from
+%    \texttt{latexrelease} which has the value of zero if there was no
+%    rollback request. The label and the minimal date is made empty in that case.
+%    \begin{macrocode}
+   \ifx\@nil#1\@nil
+     \pkgcls@targetdate\requestedLaTeXdate\relax
+     \let\pkgcls@targetlabel\@empty
+     \let\pkgcls@mindate\@empty
+%    \end{macrocode}
+%    Otherwise we parse the argument further, checking for a \texttt{=}
+%    as the first character. We append a \texttt{=} at the end so that
+%    there is at least one such character in the argument.
+%    \begin{macrocode}
+   \else
+     \pkgcls@parse@date@arg@#1=\@nil\relax
+   \fi
+ }
+%    \end{macrocode}
+%    The actual parsing work then happens in |\pkgcls@parse@date@arg@|: 
+%    \begin{macrocode}
+\def\pkgcls@parse@date@arg@#1=#2\@nil{%
+%    \end{macrocode}
+%    We set |\pkgcls@targetdate| depending on the parsing result; the
+%    code is expandable so we can do the parsing as part of the assignment.
+%    \begin{macrocode}
+  \pkgcls@targetdate
+%    \end{macrocode}
+%    If a \texttt{=} was in first position then |#1| will be empty. In
+%    that case |#2| will be the original argument with a \texttt{=}
+%    appended.
+%
+%    This can be parsed with |\@parse@version|, the trailing character
+%    is simply ignored. This macro returns the parsed date as a number
+%    (or zero if it wasn't a date) and accepts both YYYY/MM/DD and YYYY-MM-DD
+%    formats.
+%    \begin{macrocode}
+    \ifx\@nil#1\@nil
+      \@parse@version0#2//00\@nil\relax
+%    \end{macrocode}
+%     Whatever is returned is thus assigned to |\pkgcls@targetdate|
+%    and therefore we can now test its value. If the value is zero we
+%    assume that the remaining argument string represents a version
+%    and change |\pkgcls@targetdate| and set |\pkgcls@targetlabel| to
+%    the version name (after stripping off the trailing \texttt{=}.
+%    \begin{macrocode}
+      \ifnum \pkgcls@targetdate=\z@
+        \pkgcls@targetdate\@ne
+        \def\pkgcls@innerdate{\maxdimen}%
+        \pkgcls@parse@date@arg@version#2%
+      \else
+        \edef\pkgcls@innerdate{\the\pkgcls@targetdate}%
+      \fi
+      \let\pkgcls@mindate\@empty
+    \else
+%    \end{macrocode}
+%    If |#1| was not empty then there wasn't a \texttt{=} character in
+%    first position so we we are dealing either with a ``minimum
+%    date'' or with some incorrect data. We assume the former and make
+%    the following assignments (the first one finishing the assignment
+%    of |\pkgcls@targetdate|):
+%    \begin{macrocode}
+      \requestedLaTeXdate\relax
+      \let\pkgcls@targetlabel\@empty
+      \def\pkgcls@innerdate{\maxdimen}%
+      \def\pkgcls@mindate{#1}%
+%    \end{macrocode}
+%    If the min-date is after the requested rollback date (if there is
+%    any, i.e., if it is not zero) then we have a conflict and
+%    therefore issue a warning.
+% \changes{v1.2i}{2018/05/08}
+%         {Make suspicious rollback a warning not error: github issue 43}
+%    \begin{macrocode}
+      \ifnum \pkgcls@targetdate > \z@
+        \ifnum \@parse@version0#1//00\@nil > \pkgcls@targetdate
+          \@latex@warning@no@line{Suspicious rollback/min-date date given\MessageBreak  
+            A minimal date of #1 has been specified for
+             \@cls@pkg\MessageBreak '\pkgcls@name'.\MessageBreak  
+             But this is in conflict
+             with a rollback request to \requestedpatchdate}
+        \fi
+      \fi
+    \fi
+}
+%    \end{macrocode}
+%    Strip off te trailing \texttt{=} and assign the version name to
+%    |\pkgcls@targetlabel|.
+%    \begin{macrocode}
+\def\pkgcls@parse@date@arg@version#1={%
+  \def\pkgcls@targetlabel{#1}}
+%    \end{macrocode}
+%  \end{macro}
+
+
+
+
+%  \begin{macro}{\DeclareRelease}
+%    First argument is the ``name'' of the release and it can be left empty
+%    if one doesn't like to give a name to the release.
+%    The second argument is that from which on this release was
+%    available (or should be used in case of minor updates).
+%    The final argument is the external file name of this release, by
+%    convention this should be
+%    \meta{pkg/cls-name}\texttt{-}\meta{date}\texttt{.}\meta{extension}
+%    but this is not enforced and through this argument one can
+%    overwrite it.
+%    \begin{macrocode}
+\def\DeclareRelease#1#2#3{%
+  \ifnum\pkgcls@targetdate>\z@  % some sort of rollback request
+%<*tracerollback>
+    \pkgcls@debug{---\string\DeclareRelease:}%
+    \pkgcls@debug{\@spaces 1: #1}%
+    \pkgcls@debug{\@spaces 2: #2}%
+    \pkgcls@debug{\@spaces 3: #3}%
+%</tracerollback>
+%    \end{macrocode}
+%    If the date argument |#2| is empty we are dealing with a special
+%    release that should be only accessible via its name; a typical
+%    use case would be a ``beta'' release. So if we are
+%    currently processing a date request we ignore it and otherwise we
+%    check if we can match the name and if  so load the corresponding
+%    release file.
+%    \begin{macrocode}
+    \ifx\@nil#2\@nil
+      \ifnum\pkgcls@targetdate=\@ne  % named request
+        \def\reserved@a{#1}%
+        \ifx\pkgcls@targetlabel\reserved@a
+          \pkgcls@use@this@release{#3}{}%
+%<*tracerollback>
+        \else
+          \pkgcls@debug{Label doesn't match}%
+%</tracerollback>
+        \fi
+%<*tracerollback>
+      \else
+        \pkgcls@debug{Date request: ignored}%
+%</tracerollback>
+      \fi
+    \else
+%    \end{macrocode}
+%    If the value of |\pkgcls@targetdate| is greater than 1 (or in
+%    reality greater than something like 19930101) we are dealing with a
+%    rollback request to a specific date.
+%    \begin{macrocode}
+      \ifnum\pkgcls@targetdate>\@ne  % a real request
+%    \end{macrocode}
+%    So we parse the date of this release to check if it is before or
+%    after the request date.
+%    \begin{macrocode}
+        \ifnum\@parse@version#2//00\@nil
+             >\pkgcls@targetdate
+%    \end{macrocode}
+%    If it is after we have to distinguish between two cases: If there
+%    was an earlier candidate we use that one because the other is too
+%    late, but if there wasn't one (i.e., if current release is the
+%    oldest that exists) we use it as the best choice. However in
+%    that case something is wrong (as there shouldn't be a rollback to
+%    a date where a package used doesn't yet exists. So we make a
+%    complained to the user.
+%    \begin{macrocode}
+          \ifx\pkgcls@candidate\@empty
+            \pkgcls@rollbackdate@error{#2}%
+            \pkgcls@use@this@release{#3}{#2}%
+          \else
+            \pkgcls@use@this@release\pkgcls@candidate
+                                    \pkgcls@releasedate
+          \fi
+        \else
+%    \end{macrocode}
+%    Otherwise, if the release date of this version is before the
+%    target rollback and we record it as a candidate. But we don't use
+%    it yet as there may be another release which is still before the
+%    target rollback.
+%    \begin{macrocode}
+          \def\pkgcls@candidate{#3}%
+          \def\pkgcls@releasedate{#2}%
+%<*tracerollback>
+          \pkgcls@debug{New candidate: #3}%
+%</tracerollback>
+        \fi
+      \else 
+%    \end{macrocode}
+%    If we end up in this branch we have a named version request. So
+%    we check if |\pkgcls@targetlabel| matches the current name and if
+%    yes we use this release immediately, otherwise we do nothing as a
+%    later declaration may match it.
+%    \begin{macrocode}
+        \def\reserved@a{#1}%
+        \ifx\pkgcls@targetlabel\reserved@a
+          \pkgcls@use@this@release{#3}{#2}%
+%<*tracerollback>
+        \else
+          \pkgcls@debug{Label doesn't match}%
+%</tracerollback>
+        \fi
+      \fi
+    \fi
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+
+
+
+
+%  \begin{macro}{\pkgcls@use@this@release}
+%    If a certain release has been selected (stored in the external
+%    file given in \verb=#1=) we need to input it and afterwards stop
+%    reading the current file.
+%    \begin{macrocode}
+\def\pkgcls@use@this@release#1#2{%
+%    \end{macrocode}
+%    Before that we record the selection made inside the transcript.
+%    \begin{macrocode}
+   \pkgcls@show@selection{#1}{#2}%
+%    \end{macrocode}
+%    We then set the |\pkgcls@targetdate| to zero so that any
+%    |\DeclareRelease| or |\DeclareCurrentRelease| in the file we
+%    now load are bypassed\footnote{The older release may also have
+%    such declarations inside if it was a simply copy of the
+%    \texttt{.sty} or \texttt{.cls} file current at that
+%    date. Removing these declarations would make the file load a tiny
+%    bit faster, but this way it works in any case.} and then we
+%    finally load the correct release.
+%
+%    After loading that file we need to stop reading the current file
+%    so we issue |\endinput|. Note that the |\relax| before that is
+%    essential to ensure that the |\endinput| is only happening after
+%    the file has been fully processed, otherwise it would act after the
+%    first line of the |\@@input|!
+% \changes{v1.2e}{2018/03/24}
+%         {Use full file name for old release}
+%    \begin{macrocode}
+   \pkgcls@targetdate\z@
+   \@@input #1\relax
+   \endinput
+}
+%    \end{macrocode}
+%  \end{macro}
+
+
+%  \begin{macro}{\pkgcls@show@selection}
+%    This command records what selection was made. As that is needed
+%    in two places (and it is rather lengthly) it was placed in a
+%    separate command. The first argument is the name of the external
+%    file that is being loaded and is only needed for debugging.  The
+%    second argument is the date that corresponds to this file and it
+%    is used as part of the message.
+%    \begin{macrocode}
+\def\pkgcls@show@selection#1#2{%
+%<*tracerollback>
+  \pkgcls@debug{Result: use  #1}%
+%</tracerollback>
+  \GenericInfo
+   {\@spaces\@spaces\space}{Rollback for
+    \@cls@pkg\space'\@currname' requested ->
+    \ifnum\pkgcls@targetdate>\@ne
+       date
+       \ifnum\requestedLaTeXdate=\pkgcls@targetdate
+          \requestedpatchdate
+       \else 
+          \expandafter\@gobble\pkgcls@arg
+       \fi.\MessageBreak
+%    \end{macrocode}
+%    Instead of ``best approximation'' we could say that we have been
+%    able to exactly match the date (if it is exact), but that would
+%    mean extra tests without much gain, so not done.
+%    \begin{macrocode}
+       Best approximation is
+    \else
+       version '\pkgcls@targetlabel'.\MessageBreak 
+       This corresponds to
+    \fi
+    \ifx\@nil#2\@nil
+       a special release%
+    \else
+       the release introduced on #2%
+    \fi
+    \@gobble}%
+}
+%    \end{macrocode}
+%  \end{macro}
+ 
+
+%  \begin{macro}{\pkgcls@rollbackdate@error}
+%    This is called if the requested rollback date is earlier than the
+%    earliest known release of a package or class.
+%
+%    A similar error is given if global rollback date and min-date on
+%    a specific package conflict with each other, but that case is
+%    happens only once so it is is inlined.
+%    \begin{macrocode}
+\def\pkgcls@rollbackdate@error#1{%
+  \@latex@error{Suspicious rollback date given}%
+     {The \@cls@pkg\space'\@currname'  claims that it 
+      came into existence on #1 which\MessageBreak
+      is after your requested rollback date --- so
+      something is wrong here.\MessageBreak
+      Continue and we use the earliest known release.}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%
+%  \begin{macro}{\DeclareCurrentRelease}
+%    This declares the date (and possible name) of the current version
+%    of a package or class.
+%    \begin{macrocode}
+\def\DeclareCurrentRelease#1#2{%
+%    \end{macrocode}
+%    First we test if |\pkgcls@targetdate| is greater than zero,
+%    otherwise this code is bypassed (as there is no rollback
+%    request).
+%    \begin{macrocode}
+  \ifnum\pkgcls@targetdate>\z@  % some sort of rollback request
+%<*tracerollback>
+    \pkgcls@debug{---DeclareCurrentRelease}%
+    \pkgcls@debug{   1: #1}%
+    \pkgcls@debug{   2: #2}%
+%</tracerollback>
+%    \end{macrocode}
+%    If the value is greater than 1 we have to deal with a date
+%    request, so we parse |#2| as a date and compare it with
+%    |\pkgcls@targetdate|.
+%    \begin{macrocode}
+    \ifnum\pkgcls@targetdate>\@ne  % a date request
+      \ifnum\@parse@version#2//00\@nil
+           >\pkgcls@targetdate
+%    \end{macrocode}
+%    If it is greater that means the release date if this file is
+%    later than the requested rollback date. Again we have two cases:
+%    If there was a previous candidate release we use that one as the
+%    current release is too young, but if there wasn't we have to use
+%    this release nevertheless as there isn't any alternative.
+%
+%    However this case can only happen if there is a
+%    |\DeclareCurrentRelease| but no declared older releases (so
+%    basically the use of the declaration is a bit dubious).
+%    \begin{macrocode}
+
+        \ifx\pkgcls@candidate\@empty
+          \pkgcls@rollbackdate@error{#2}%
+        \else
+          \pkgcls@use@this@release\pkgcls@candidate
+                                  \pkgcls@releasedate
+        \fi
+%    \end{macrocode}
+%    Otherwise the curent file is the right release, so we record that
+%    in the transcript and then carry on.
+%    \begin{macrocode}
+      \else
+        \pkgcls@show@selection{current version}{#2}%
+      \fi
+    \else % a label request
+%    \end{macrocode}
+%    Otherwise we have a rollback request to a named version so we
+%    check if that fits the current name and if not give an error as
+%    this was the last possible opportunity.
+%    \begin{macrocode}
+      \def\reserved@a{#1}%
+      \ifx\pkgcls@targetlabel\reserved@a
+        \pkgcls@show@selection{current version}{#2}%
+      \else
+        \@latex@error{Requested version '\pkgcls@targetlabel' for
+          \@cls@pkg\space'\@currname' is unknown}\@ehc
+      \fi
+    \fi
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+
+%  \begin{macro}{\IfTargetDateBefore}
+%    This enables a simple form of conditional code inside a class or
+%    package file. If there is a date request and the request date is
+%    earlier than the first argument the code in the second argument
+%    is processed otherwise the code in the third argument is
+%    processed. If there was no date request then we also execute the
+%    third argument, i.e., we will get the ``latest'' version of the
+%    file.
+%
+%    Most often the second argument (before-date-code) will be empty.
+%    \begin{macrocode}
+\DeclareRobustCommand\IfTargetDateBefore[1]{%
+  \ifnum\pkgcls@innerdate <%
+        \expandafter\@parse@version\expandafter0#1//00\@nil
+    \typeout{Exclude code introduced on #1}%
+    \expandafter\@firstoftwo
+  \else
+    \typeout{Include code introduced on #1}%
+    \expandafter\@secondoftwo
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%    \begin{macrocode}
+%</2ekernel|latexreleasefirst>
+%    \end{macrocode}
+%
 %
 % \section{After Preamble}
 % Finally we declare a package that allows all the commands declared

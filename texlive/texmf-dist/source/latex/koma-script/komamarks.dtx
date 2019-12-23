@@ -1,0 +1,588 @@
+% \iffalse^^A meta-comment
+% ======================================================================
+% komamarks.dtx
+% Copyright (c) Markus Kohm, 2019
+%
+% This file is part of the LaTeX2e KOMA-Script bundle.
+%
+% This work may be distributed and/or modified under the conditions of
+% the LaTeX Project Public License, version 1.3c of the license.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2005/12/01 and of this work.
+%
+% This work has the LPPL maintenance status "author-maintained".
+%
+% The Current Maintainer and author of this work is Markus Kohm.
+%
+% This work consists of all files listed in manifest.txt.
+% ----------------------------------------------------------------------
+% komamarks.dtx
+% Copyright (c) Markus Kohm, 2019
+%
+% Diese Datei ist Teil der LaTeX2e KOMA-Script-Sammlung.
+%
+% Dieses Werk darf nach den Bedingungen der LaTeX Project Public Lizenz,
+% Version 1.3c.
+% Die neuste Version dieser Lizenz ist
+%   http://www.latex-project.org/lppl.txt
+% und Version 1.3c ist Teil aller Verteilungen von LaTeX
+% Version 2005/12/01 und dieses Werks.
+%
+% Dieses Werk hat den LPPL-Verwaltungs-Status "author-maintained"
+% (allein durch den Autor verwaltet).
+%
+% Der Aktuelle Verwalter und Autor dieses Werkes ist Markus Kohm.
+%
+% Dieses Werk besteht aus den in manifest.txt aufgefuehrten Dateien.
+% ======================================================================
+% \fi^^A meta-comment
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \iffalse^^A meta-comment
+%%% From File: $Id: komamarks.dtx 3199 2019-08-26 10:04:56Z kohm $
+%<identify>%%%            (run: identify)
+%<init>%%%            (run: init)
+%<options>%%%            (run: options)
+%<processoptions>%%%            (run: processoptions)
+%<body>%%%            (run: body)
+%<final>%%%            (run: final)
+%<*dtx>
+\ifx\ProvidesFile\undefined\def\ProvidesFile#1[#2]{}\fi
+\begingroup
+  \def\filedate$#1: #2-#3-#4 #5${\gdef\filedate{#2/#3/#4}}
+  \filedate$Date: 2019-08-26 12:04:56 +0200 (Mon, 26 Aug 2019) $
+  \def\filerevision$#1: #2 ${\gdef\filerevision{#2}}
+  \filerevision$Revision: 3199 $
+  \edef\reserved@a{%
+    \noexpand\endgroup
+    \noexpand\ProvidesFile{komamarks.dtx}%
+                          [\filedate\space\filerevision\space
+                           KOMA-Script package source
+  }%
+\reserved@a
+%</dtx>
+%<*identify|doc>
+%<package>\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+%<package>\ProvidesPackage{komamarks}[%
+%<doc>\ProvidesFile{komamarks.tex}[%
+% In a future time following will be replaced by !KOMASCRIPTVERSION:
+%!KOMAMARKSVERSION
+%<package>  package
+%</identify|doc>
+%<*dtx|identify|doc>
+  (providing extra marks)]
+%</dtx|identify|doc>
+%<*dtx>
+\ifx\documentclass\undefined
+  \input scrdocstrip.tex
+  \@@input scrkernel-version.dtx
+  \@@input scrstrip.inc
+  \KOMAdefVariable{COPYRIGHTFROM}{2012}
+  \KOMAdefVariable{KOMAMARKSVERSION}{%
+    \space\space\filedate\space v0.\filerevision\space KOMA-Script
+  }
+  \generate{\usepreamble\defaultpreamble
+    \file{komamarks.sty}{%
+      \from{komamarks.dtx}{package,trace,identify}%
+      \from{komamarks.dtx}{package,trace,init}%
+      \from{komamarks.dtx}{package,trace,options}%
+      \from{komamarks.dtx}{package,trace,processoptions}%
+      \from{komamarks.dtx}{package,trace,body}%
+      \from{komamarks.dtx}{package,trace,final}%
+      \from{scrlogo.dtx}{logo}%
+    }%
+  }
+
+  \@@input scrstrop.inc
+\else
+  \let\endbatchfile\relax
+\fi
+\endbatchfile
+  \documentclass{scrdoc}
+  \addtolength{\textwidth}{-1em}
+  \addtolength{\marginparwidth}{2em}
+  \addtolength{\oddsidemargin}{2em}
+  \usepackage[ngerman,english]{babel}
+  \usepackage{url,babelbib}\bibliographystyle{babalpha-fl}
+  \usepackage{listings}
+  \usepackage{scrhack}
+  \usepackage{xpatch}
+  \xpretocmd\DescribeMacro{\ifhmode\else\bigskip\noindent\fi}{}{}
+  \xpretocmd\DescribeEnv{\ifhmode\else\bigskip\noindent\fi}{}{}
+  \xpretocmd\DescribeOption{\ifhmode\else\bigskip\noindent\fi}{}{}
+
+  \CodelineIndex
+  \RecordChanges
+  \GetFileInfo{komamarks.dtx}
+  \title{The \KOMAScript{} package \texttt{komamarks}%
+    \footnote{This is revision \fileversion\ of file \texttt{\filename}.}}
+  \date{\filedate}
+  \author{Markus Kohm}
+  
+  \newenvironment{Explain}{\par}{\par}
+  \newcommand*{\length}{}
+  \let\length\Length
+  \let\endlength\endLength
+  \let\Macro\cs
+  \let\Length\Macro
+  \let\Package\textsf
+  \let\Class\Package
+  \let\File\texttt
+  \let\Option\texttt
+  \newcommand*{\KOption}[1]{\Option{#1}\texttt{=}}
+  \newcommand*{\OptionValue}[2]{\Option{#1}\texttt{=}\PValue{#2}}
+  \let\Counter\texttt
+  \let\Environment\texttt
+  \let\ShowOutput\quote
+  \let\endShowOutput\endquote
+  \let\Pagestyle\texttt
+  \newcommand*{\Parameter}[1]{\texttt{\marg{#1}}\linebreak[1]}
+  \newcommand*{\OParameter}[1]{\texttt{\oarg{#1}}\linebreak[1]}
+  \newcommand*{\MParameter}[2]{\texttt{(\meta{#1},\meta{#2})}\linebreak[1]}
+  \providecommand\PParameter[1]{\mbox{\texttt{\{#1\}}}\linebreak[1]}
+  \let\PName\meta
+  \let\PValue\texttt
+  \providecommand*{\autoref}[1]{\expandafter\AUTOREF#1:}
+  \providecommand*{\AUTOREF}{}
+  \makeatletter
+  \def\AUTOREF#1:#2:{%
+    \edef\@tempa{#1}%
+    \edef\@tempb{tab}\ifx\@tempa\@tempb table~\fi
+    \edef\@tempb{sec}\ifx\@tempa\@tempb section~\fi
+    \ref{#1:#2}%
+  }
+  \providecommand*{\IndexCmd}[2][]{}
+  \providecommand*{\textnote}[2][]{}
+  \providecommand*\eTeX{\leavevmode\hbox{$\varepsilon$}-\TeX}
+  \providecommand*\NTS{%
+    \leavevmode\hbox{$\cal N\kern-0.35em\lower0.5ex\hbox{$\cal T$}%
+      \kern-0.2emS$}}
+
+  \lstnewenvironment{lstcode}{\lstset{language=[LaTeX]TeX}}{}
+  \makeatother
+  \sloppy% YOU SHOULD NOT DO THIS!!!
+
+  \begin{document}
+  \maketitle
+  \DocInput{\filename}
+  \bibliography{guide}
+  \PrintChanges
+  \PrintIndex
+  \end{document}
+%</dtx>
+% \fi^^A meta-comment
+%
+% \selectlanguage{english}
+%
+% \changes{v0.0}{2019/08/08}{Start of new package}%^^A
+%
+% \tableofcontents
+% \section{User Manual}
+% This is an experimental beta version without user manual.
+%
+% \StopEventually{}
+%
+%
+% \section{Implementation of \Package{komamarks}}
+%
+% This section is for developers only.
+%
+%\iffalse%^^A meta-comment
+%<*package>
+%\fi%^^A meta-comment
+%
+%
+% \subsection{Options}
+% \label{sec:kommarks.options}
+%
+% This package currently does not provide any options. Nevertheless
+% processing the options is recommended:
+%    \begin{macrocode}
+%<*processoptions>
+\ProcessOptions\relax
+%</processoptions>
+%    \end{macrocode}
+%
+%
+% \subsection{Handling for new marks similar to \LaTeX}
+% \label{sec:komamarks.newmarks}
+%
+% \LaTeX{} provides \cs{markright}, \cs{markboth}, \cs{leftmark} and
+% \cs{rightmark} using \TeX's \cs{mark}, \cs{firstmark} and
+% \cs{botmark}. Let's do the same for \eTeX's \cs{marks}, \cs{firstmarks},
+% \cs{botmarks} and add some new features like \Package{scrlayer} does.
+%
+% \begin{macro}{\marksboth}
+% \begin{macro}{\marksright}
+% \begin{macro}{\@marksright}
+% These are similar to \cs{markboth} and \cs{markright} but uses \cs{marks}
+% instead of \cs{mark} and therefore has one new mandator argument: the marks
+% register. We can not use \LaTeX's \cs{@markright}, but a local version of
+% it.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\marksboth}[3]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \unrestored@protected@edef\@themark{{#2}{#3}}%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+\def\unrestored@protected@edef{%
+   \let\protect\@unexpandable@protect
+   \edef
+}
+\newcommand*{\marksright}[2]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \@ifundefined{@themarks\the#1}{%
+      \def\@themark{{}{}}%
+    }{%
+      \expandafter\let\expandafter\@themark\csname @themarks\the#1\endcsname
+    }%
+    \expandafter\@marksright\@themark {#2}%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+\newcommand*{\@marksright}[3]{%
+  \@temptokena {#1}%
+  \unrestored@protected@edef\@themark{{\the\@temptokena}{#3}}%
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% Note, we can use \cs{ExecuteDoHook} to make it easy to extend relaxing some
+% commands only, if we habe \Package{scrbase} loaded. So do it while
+% initialization:
+%    \begin{macrocode}
+%<*init>
+\RequirePackage{scrbase}
+%</init>
+%    \end{macrocode}
+% 
+% \begin{macro}{\leftfirstmarks}
+% \begin{macro}{\lefttopmarks}
+% \begin{macro}{\leftbotmarks}
+% \begin{macro}{\leftmarks}
+% \begin{macro}{\leftfirstmarks}
+% \begin{macro}{\lefttopmarks}
+% \begin{macro}{\leftbotmarks}
+% \begin{macro}{\leftmarks}
+% These are similar to \cs{leftmark} resp. \cs{rightmark} but using
+% \cs{firstmarks}, \cs{topmarks} or \cs{botmarks} and therefore need one
+% argument.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\leftfirstmarks}[1]{%
+  \expandafter\@leftmark\firstmarks#1\@empty\@empty
+}
+\newcommand*{\lefttopmarks}[1]{%
+  \expandafter\@leftmark\topmarks#1\@empty\@empty
+}
+\newcommand*{\leftbotmarks}[1]{%
+  \expandafter\@leftmark\botmarks#1\@empty\@empty
+}
+\newcommand*{\leftmarks}{\leftbotmarks}
+\newcommand*{\rightfirstmarks}[1]{%
+  \expandafter\@rightmark\firstmarks#1\@empty\@empty
+}
+\newcommand*{\righttopmarks}[1]{%
+  \expandafter\@rightmark\topmarks#1\@empty\@empty
+}
+\newcommand*{\rightbotmarks}[1]{%
+  \expandafter\@rightmark\botmarks#1\@empty\@empty
+}
+\newcommand*{\rightmarks}{\rightfirstmarks}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Handling Marks inside \Package{multicol}'s \texttt{multicols}
+% Environment}
+% \label{sec:komamarks.multicols}
+%
+% Package \Package{multicol} needs special treatment for marks and we have to
+% patch it to do the same for the \eTeX{} marks.
+%
+% Not yet implemented.
+%
+%    \begin{macrocode}
+%<*init>
+\RequirePackage{scrlfile}
+%</init>
+%<*body>
+\AfterPackage*{multicol}{%
+  \PackageWarning{komamarks}{%
+    komamarks does not yet support multicols
+  }%
+}
+%</body>
+%    \end{macrocode}
+%
+%
+% \subsection{Multimarks}
+% \label{sec:komamarks.multimarks}
+%
+% Usually \LaTeX's marks consist of a left and a right mark. But what about
+% having marks als sequence of items? In this case we need to setup the
+% n-th mark item in such a sequence and to get the n-th mark item in such a
+% sequence. Here it would be nice to have \Package{expl3}, i.\,e.,
+% \File{l3seq} instead of only \LaTeXe's \cs{@tfor}.
+%
+% Not yet implemented completely and therefore currently not usable.
+%
+% \begin{macro}{\marksall}
+% Like \cs{marksboth} but instead of two mark argument (for the left and the
+% right mark) it has only one mark argument, which is a token list with a
+% token for each mark.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\marksall}[2]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \unrestored@protected@edef\@themark{#2}%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\marksnth}
+% Like \cs{marksright} but instead of changing the right (second) mark it
+% changes the n-th mark.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\marksnth}[3]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \@tempcnta=\z@
+    \let\@themark\@empty
+    \@ifundefined{@themarks\the#1}{}{%
+      \expandafter\expandafter\expandafter\@tfor
+      \expandafter\expandafter\expandafter\reserved@a
+      \expandafter\expandafter\expandafter:%
+      \expandafter\expandafter\expandafter=%
+      \csname @themarks\the#1\endcsname\do {%
+        \advance\@tempcnta \@ne
+        \ifnum \number #2=\@tempcnta
+          \unrestored@protected@edef\@themark{\@themark{#3}}%
+        \else
+          \unrestored@protected@edef\@themark{\@themark{\reserved@a}}%
+        \fi
+      }%
+    }%
+    \@whilenum \number #2>\@tempcnta\do {%
+      \advance\@tempcnta \@ne
+      \ifnum \number #2=\@tempcnta
+        \unrestored@protected@edef\@themark{\@themark{#3}}%
+      \else
+        \unrestored@protected@edef\@themark{\@themark{}}%
+      \fi
+    }%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\marksnthplus}
+% Like \cs{marksnth} but with one more argument, that is used till the end of
+% the mark sequence.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\marksnthplus}[4]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \@tempcnta=\z@
+    \let\@themark\@empty
+    \@ifundefined{@themarks\the#1}{}{%
+      \expandafter\expandafter\expandafter\@tfor
+      \expandafter\expandafter\expandafter\reserved@a
+      \expandafter\expandafter\expandafter:%
+      \expandafter\expandafter\expandafter=%
+      \csname @themarks\the#1\endcsname\do {%
+        \advance\@tempcnta \@ne
+        \ifnum \number #2=\@tempcnta
+          \unrestored@protected@edef\@themark{\@themark{#3}}%
+        \else
+          \ifnum \number #2>\@tempcnta
+            \unrestored@protected@edef\@themark{\@themark{\reserved@a}}%
+          \else
+            \unrestored@protected@edef\@themark{\@themark{#4}}%
+          \fi
+        \fi
+      }%
+    }%
+    \@whilenum \number #2>\@tempcnta\do {%
+      \advance\@tempcnta \@ne
+      \ifnum \number #2=\@tempcnta
+        \unrestored@protected@edef\@themark{\@themark{#3}}%
+      \else
+        \unrestored@protected@edef\@themark{\@themark{}}%
+      \fi
+    }%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\marksnthcleartail}
+% Like \cs{marksnth} but removes all items above the n-th.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\marksnthcleartail}[3]{%
+  \begingroup
+    \let\label\relax \let\index\relax \let\glossary\relax
+    \ExecuteDoHook{marks/relax}%
+    \@tempcnta=\z@
+    \let\@themark\@empty
+    \@ifundefined{@themarks\the#1}{}{%
+      \expandafter\expandafter\expandafter\@tfor
+      \expandafter\expandafter\expandafter\reserved@a
+      \expandafter\expandafter\expandafter:%
+      \expandafter\expandafter\expandafter=%
+      \csname @themarks\the#1\endcsname\do {%
+        \advance\@tempcnta \@ne
+        \ifnum \number #2=\@tempcnta
+          \unrestored@protected@edef\@themark{\@themark{#3}}%
+        \else
+          \ifnum \number #2>\@tempcnta
+            \unrestored@protected@edef\@themark{\@themark{\reserved@a}}%
+          \fi
+        \fi
+      }%
+    }%
+    \@whilenum \number #2>\@tempcnta\do {%
+      \advance\@tempcnta \@ne
+      \ifnum \number #2=\@tempcnta
+        \unrestored@protected@edef\@themark{\@themark{#3}}%
+      \else
+        \unrestored@protected@edef\@themark{\@themark{}}%
+      \fi
+    }%
+    \global\expandafter\let\csname @themarks\the#1\endcsname\@themark
+    \@temptokena \expandafter{\@themark}%
+    \marks#1{\the\@temptokena}%
+  \endgroup
+  \if@nobreak\ifvmode\nobreak\fi\fi
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\nthmarknotdefined}
+% This macro usually expands to nothing, if the n-th mark is not yet
+% defined.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\nthmarknotdefined}{}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\nthtopmarks}
+% \begin{macro}{\nthfirstmarks}
+% \begin{macro}{\nthbotmarks}
+% \begin{macro}{\@nthofm}
+% Like \cs{leftfirstmarks} or \cs{rightfirstmarks} etc. but not using
+% \cs{@leftmark} or \cs{@rightmark} that is \cs{@firstoftwo} or
+% \cs{@secondoftwo} but \cs{@nthofm}.
+%    \begin{macrocode}
+%<*body>
+\newcommand*{\nthtopmarks}[2]{%
+  \expandafter\@nthofm\expandafter{\topmarks#1}{#2}%
+}
+\newcommand*{\nthfirstmarks}[2]{%
+  \expandafter\@nthofm\expandafter{\firstmarks#1}{#2}%
+}
+\newcommand*{\nthbotmarks}[2]{%
+  \expandafter\@nthofm\expandafter{\botmarks#1}{#2}%
+}
+\newcommand{\@nthofm}[2]{%
+  \begingroup
+    \@tempcnta=\z@
+    \let\reserved@a\nthmarknotdefined
+    \@tfor\reserved@b:=#1\do{%
+      \advance\@tempcnta\@ne
+      \ifnum \number #2=\@tempcnta
+        \let\reserved@a\reserved@b
+      \fi
+    }%
+  \expandafter\def\expandafter\reserved@a\expandafter{\expandafter\endgroup
+    \reserved@a}%
+  \reserved@a
+}
+%</body>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% 
+%
+%\iffalse%^^A meta-comment
+%</package>
+%\fi%^^A meta-comment
+% \Finale
+%
+\endinput
+%
+% end of file `komamarks.dtx'
+
+%%% Local Variables:
+%%% mode: doctex
+%%% ispell-local-dictionary: "en_GB"
+%%% flyspell-mode: t
+%%% TeX-master: t
+%%% End:

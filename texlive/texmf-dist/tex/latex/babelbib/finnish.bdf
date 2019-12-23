@@ -20,7 +20,7 @@
 %% Language definitions for Finnish by
 %%   Taneli Huuskonen <huuskone@cc.helsinki.fi>
 \ProvidesFile{finnish.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsfinnish[1][finnish]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{et~al##1{}}}%

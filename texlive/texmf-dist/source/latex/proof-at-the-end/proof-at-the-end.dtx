@@ -1,0 +1,1209 @@
+%\iffalse
+% proof-at-the-end.dtx generated using makedtx version 1.2 (c) Nicola Talbot
+% Command line args:
+%   -doc "../doc/proof-at-the-end_doc.tex"
+%   -author "Léo Colisson"
+%   -dir "/tmp/pat/proof-at-the-end/"
+%   -src "proof-at-the-end\.sty=>proof-at-the-end.sty"
+%   proof-at-the-end
+% Created on 2019/5/22 12:52
+%\fi
+%\iffalse
+%<*package>
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%</package>
+%\fi
+% \iffalse
+% Doc-Source file to use with LaTeX2e
+% Copyright (C) 2019 Léo Colisson, all rights reserved.
+% \fi
+% \iffalse
+%<*driver>
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Proof-at-the-end, or how to move proofs in appendix in LaTeX},
+  pdfauthor={Léo Colisson},
+  pdfborder={0 0 0},
+  breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Proof-at-the-end, or how to move proofs in appendix in LaTeX}
+\author{Léo Colisson}
+\date{}
+
+\begin{document}
+\DocInput{proof-at-the-end.dtx}
+\end{document}
+%</driver>
+%\fi
+%\maketitle
+%
+%{
+%\setcounter{tocdepth}{3}
+%\tableofcontents
+%}
+%\hypertarget{introduction}{%
+%\section{Introduction}\label{introduction}}
+%
+%This package aims to provide a way to easily move proofs in the
+%appendix. You can:
+%
+%\begin{itemize}
+%\tightlist
+%\item
+%  Move proofs in different places/sections by giving different
+%  ``categories'' to the theorems
+%\item
+%  Create links from theorem to proof, and from proof to theorem
+%\item
+%  Restate the theorem in appendix (or before)
+%\item
+%  Keep the proof in the main body like normal theorems by just adding
+%  with just one keyword
+%\item
+%  Duplicate the proof in appendix and in the current section, practical
+%  to use synctex during the proof writting
+%\item
+%  Add comments that would appear only in the appendix (or in both body
+%  and appendix)
+%\item
+%  Move both the theorem and the proof completely in appendix
+%\item
+%  Easily change the defaults, and create your own styles/environments
+%\item
+%  Include sketch of proof in the main text, and full proof in appendix
+%\item
+%  Change the text of the link, for example to translate into another
+%  language
+%\item
+%  Have a nice environment-based commands in order to mimic the usual
+%  theorem/proof structure.
+%\end{itemize}
+%
+%NB: This project is hosted on github at
+%\url{https://github.com/leo-colisson/proof-at-the-end} . Feel free to
+%contribute, report bugs, or read/copy-paste the documentation/examples
+%from there.
+%
+%Disclaimer: This package is still in beta and not considered as stable.
+%
+%This package is licensed under LPPL v1.3, and the last version of this
+%package on CTAN is 2019/05/21.
+%
+%\hypertarget{demo}{%
+%\section{Demo}\label{demo}}
+%
+%If you just want to see an example of what you can do, you can directly
+%open the file \texttt{demo.pdf} (also available online at
+%\url{https://github.com/leo-colisson/proof-at-the-end/raw/master/demo.pdf})
+%to see what is possible, or generate it with
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{git}\NormalTok{ clone https://github.com/leo-colisson/proof-at-the-end.git}
+%\ExtensionTok{pdflatex}\NormalTok{ demo.tex }\KeywordTok{&&} \ExtensionTok{pdflatex}\NormalTok{ demo.tex}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{quickstart}{%
+%\section{Quickstart}\label{quickstart}}
+%
+%\hypertarget{install}{%
+%\subsection{Install}\label{install}}
+%
+%If your CTAN distribution is recent enough, you have nothing to do.
+%Otherwise if it's not yet in your CTAN distribution, first download the
+%\texttt{proof-at-the-end.sty} file and insert it in the root of your
+%project with the following commands on unix (you can also clone this
+%repository if you prefer, or just manually download or copy/paste the
+%files on Windows). It also requires a recent version of xparse, so for
+%simplicity we included the sty file of xparse in this repository as
+%well:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\BuiltInTok{cd} \OperatorTok{<}\NormalTok{your project}\OperatorTok{>}
+%\VariableTok{repopratend=}\StringTok{"https://raw.githubusercontent.com/leo-colisson/proof-at-the-end"}
+%\FunctionTok{wget} \VariableTok{$\{repopratend\}}\NormalTok{/master/proof-at-the-end.sty}
+%\FunctionTok{wget} \VariableTok{$\{repopratend\}}\NormalTok{/master/xparse.sty}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%If you have an old distribution of LaTeX (before 2018 basically, which
+%is the case of Overleaf), you may also need a
+%\href{https://tex.stackexchange.com/questions/489646/expl3-and-recent-xparse-on-overleaf-no-expl3-loader-detected/489649?noredirect=1\#comment1236409_489649}{more
+%recent expl3}. It is also very easy to install, just download the zip
+%file
+%\url{http://mirrors.ctan.org/install/macros/latex/contrib/l3kernel.tds.zip},
+%unzip, and copy the content of the directory
+%\texttt{tex/latex/l3kernel/} into your project. On linux it's a matter
+%of two commands in your project:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{wget}\NormalTok{ http://mirrors.ctan.org/install/macros/latex/contrib/l3kernel.tds.zip}
+%\FunctionTok{unzip}\NormalTok{ -d . -j l3kernel.tds.zip }\StringTok{'tex/latex/l3kernel/*'}
+%\FunctionTok{rm}\NormalTok{ l3kernel.tds.zip}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%If you don't want to pollute your main project with all these files, you
+%may be interested to put them in a subfolder and update the environment
+%variable \texttt{TEXINPUTS} or, if you use latexmk or overleaf, you can
+%write instead a \texttt{latexmkrc} file as explained
+%\href{https://www.overleaf.com/learn/latex/Questions/I_have_a_lot_of_.cls,_.sty,_.bst_files,_and_I_want_to_put_them_in_a_folder_to_keep_my_project_uncluttered._But_my_project_is_not_finding_them_to_compile_correctly}{here}.
+%
+%That's all!
+%
+%\hypertarget{use-in-your-project}{%
+%\subsection{Use in your project}\label{use-in-your-project}}
+%
+%Now, you can load the library in your project by simply using:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\BuiltInTok{\textbackslash{}usepackage}\NormalTok{\{}\ExtensionTok{proof-at-the-end}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%Then, you can configure your theorem/lemma/\ldots{} environments as
+%usual, by using any counter you like\ldots{}:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\BuiltInTok{\textbackslash{}usepackage}\NormalTok{\{}\ExtensionTok{amssymb, amsthm, amsmath}\NormalTok{\}}
+%\CommentTok{% Theorems}
+%\FunctionTok{\textbackslash{}newtheorem}\NormalTok{\{thm\}\{Theorem\}[section]}
+%\FunctionTok{\textbackslash{}newtheorem}\NormalTok{*\{thm*\}\{Theorem\}}
+%\FunctionTok{\textbackslash{}providecommand}\NormalTok{*}\FunctionTok{\textbackslash{}thmautorefname}\NormalTok{\{Theorem\}}
+%\CommentTok{% Lemmata}
+%\FunctionTok{\textbackslash{}newtheorem}\NormalTok{\{lemma\}[thm]\{Lemma\}}
+%\FunctionTok{\textbackslash{}newtheorem}\NormalTok{*\{lemma*\}\{Lemma\}}
+%\FunctionTok{\textbackslash{}providecommand}\NormalTok{*}\FunctionTok{\textbackslash{}lemmaautorefname}\NormalTok{\{Lemma\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%And inside your document, you can use the following syntax to create a
+%new theorem:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[OPTIONS]\{THEOREM ENVIRONMENT\}[OPTIONAL TITLE]}
+%\NormalTok{    YOUR THEOREM, with eventually labels like }\KeywordTok{\textbackslash{}label}\NormalTok{\{}\ExtensionTok{thm:OPTIONAL LABEL}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\} }\CommentTok{%% Optional environment}
+%\NormalTok{    YOUR (OPTIONAL) PROOF}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%For example:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}\{thm\}[Yes I can have a title]}
+%  \KeywordTok{\textbackslash{}label}\NormalTok{\{}\ExtensionTok{thm:ilikelabels}\NormalTok{\}}
+%\NormalTok{  Creating a new theorem is easy}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  You want a proof? Here is it!}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%And put in the place where you would like to display the theorem the
+%following code:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}printProofs}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%If you would like to display a lemma instead, just change
+%\texttt{\{thm\}} into \texttt{\{lemma\}}, or into any other theorem
+%environment you defined! You can now compile safely your document ;)
+%
+%NB: if you want to make sure all the references are linked correctly,
+%make sure to compile twice the document!
+%
+%Isn't it simple ?
+%
+%\hypertarget{use-cases}{%
+%\section{Use cases}\label{use-cases}}
+%
+%\hypertarget{configuration-and-how-to-use-and-create-styles}{%
+%\subsection{Configuration and how to use and create
+%styles}\label{configuration-and-how-to-use-and-create-styles}}
+%
+%You can very easily configure this package, and choose how each
+%theorem/proof must be displayed by providing a value in
+%\texttt{OPTIONS}. For example, if you would like to keep the proof of a
+%theorem in the main text like any normal theorem, use the
+%\texttt{normal} option:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[normal]\{thm\}[A title]}
+%\NormalTok{  You can easily turn a theorem back into a normal theorem!}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  And keep the proof with you!}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%The options are in fact a set of keys/values, thanks to
+%\texttt{pgfkeys}. So you can combine them with comma separated list like
+%that (order matters, as the right-most values may overwrite
+%configuration set by left-most values):
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[proof at the end,}
+%\NormalTok{                   no link to proof,}
+%\NormalTok{                   text proof=\{Difficult proof\}}
+%\NormalTok{                  ]\{thm\}[A title]}
+%\NormalTok{  Each theorem can have a custom configuration!}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  Quite practical, isn't it?}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%You can easily create your own styles like that:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}pgfkeys}\NormalTok{\{/prAtEnd/my great style/.style=\{}
+%\NormalTok{    proot at the end,}
+%\NormalTok{    no link to proof,}
+%\NormalTok{    text proof=\{Difficult proof\},}
+%\NormalTok{  \}}
+%\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%You can also change the default configuration when you load the package
+%by nesting the configuration into a \texttt{conf} key:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\BuiltInTok{\textbackslash{}usepackage}\NormalTok{[conf=\{normal, one big link\}]\{}\ExtensionTok{proof-at-the-end}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%Note however that for now it is \emph{not} possible to use macros
+%directly inside the options when you load the package, so if you need to
+%use more complicated configuration, you can overwrite the
+%\texttt{global\ custom\ defaults} style for global configuration, and
+%the \texttt{local\ custom\ defaults} style for local configuration
+%(useful for example if you want to define a category for a single
+%section):
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}pgfkeys}\NormalTok{\{/prAtEnd/global custom defaults/.style=\{}
+%\NormalTok{    one big link=\{Go to proof on page~}\KeywordTok{\textbackslash{}pageref}\ErrorTok{*}\NormalTok{\{}\ExtensionTok{proof:prAtEnd\textbackslash{}pratendcountercurrent}\NormalTok{\}\}}
+%\NormalTok{  \}}
+%\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%and for local configuration:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}pgfkeys}\NormalTok{\{/prAtEnd/local custom defaults/.style=\{}
+%\NormalTok{    category=greattheorem}
+%\NormalTok{  \}}
+%\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%Finally, it can be practical to define custom environments to avoid
+%typing always \texttt{theoremEnd}:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}NewDocumentEnvironment}\NormalTok{\{thmE\}\{O\{\}O\{\}+b\}\{}\CommentTok{%}
+%  \KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[normal,#2]\{thm\}[#1]}\CommentTok{%}
+%\NormalTok{    #3}\CommentTok{%}
+%  \KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}\CommentTok{%}
+%\NormalTok{\}\{\}}
+%\CommentTok{% Do not forget the second parameter or you might get Missing \textbackslash{}begin\{document\} error}
+%\FunctionTok{\textbackslash{}NewDocumentEnvironment}\NormalTok{\{proofE\}\{O\{\}+b\}\{}\CommentTok{%}
+%  \KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}[#1]}\CommentTok{%}
+%\NormalTok{    #2}\CommentTok{%}
+%  \KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}\CommentTok{%}
+%\NormalTok{\}\{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%That you could use like that:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}[Title]}
+%\NormalTok{  Here is a normal theorem with the proof in the main text.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%\NormalTok{  The (optional) proof}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%  
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}[Title][end]}
+%\NormalTok{  Here is a theorem whose proof goes to the end.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%\NormalTok{  The proof}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}[Title][all end]}
+%\NormalTok{  Here is a theorem that goes with the proof at the end.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{thmE}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%\NormalTok{  The proof}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofE}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%Note also that it is also possible to give options to the
+%\texttt{proofEnd} environment, but it is usually useless, as it will
+%automatically pick the parameters from the last \texttt{theoremEnd}
+%environment. However, if for some reasons you want to change the options
+%of the proof only, you can do it, but do it as your own risks ;)
+%
+%\hypertarget{usual-styles}{%
+%\subsection{Usual styles}\label{usual-styles}}
+%
+%We predefined some pretty common styles/options. The full list is at the
+%end of this document, but here is a list of the most practical ones:
+%
+%\begin{itemize}
+%\tightlist
+%\item
+%  \texttt{normal}: turn the theorem into a ``normal'' theorem, with the
+%  proof in the main text and nothing in appendix
+%\item
+%  \texttt{category=yourowncategory}: change the category of the theorem
+%  (see next sub-section)
+%\item
+%  \texttt{end}: put the proof in appendix
+%\item
+%  \texttt{all\ end}: put both the theorem and the proof in appendix
+%\item
+%  \texttt{debug}: make sure the proof is written in the main text as
+%  well. Practical when you write the proof to be able to use synctex (if
+%  you use synctex with the proof in appendix, your will be unfortunately
+%  moved to a temporary file that this library is using\ldots{} so
+%  \textbf{make sure you don't modify the files named like
+%  \texttt{prattheenddefaultcategory.tex} or all your changes will be
+%  lost at the next compilation}!).
+%\item
+%  \texttt{one\ big\ link}: if you prefer to have a single big link
+%  instead of two links (one for the proof, one for the page)
+%\item
+%  \texttt{one\ big\ link\ translated=Your\ translation}: to
+%  change/translate the text of the link easily
+%\item
+%  \texttt{text\ link\ section}: put a link looking like ``See proof in
+%  section XX.''
+%\item
+%  \texttt{text\ link\ section\ full\ proof}: put a link looking like
+%  ``See full proof in section XX.''
+%\item
+%  \texttt{text\ proof\ translated=Your\ translation}: to
+%  change/translate the text of the proof at the end easily
+%\item
+%  \texttt{global\ custom\ defaults}: empty style that you can modify to
+%  change the configuration (globally)
+%\item
+%  \texttt{local\ custom\ defaults}: empty style that you can modify to
+%  change the configuration (locally). Practical to set a category for a
+%  single section.
+%\end{itemize}
+%
+%\hypertarget{categories-or-how-to-move-proofs-in-different-sections}{%
+%\subsection{Categories, or how to move proofs in different
+%sections}\label{categories-or-how-to-move-proofs-in-different-sections}}
+%
+%Let's imagine that you have some proofs that are easy to do, and some
+%proofs that are long but interesting. You may want to put the easy
+%proofs in a different place that the long proofs. It is super easy to
+%do, you just need to give a category name to the option
+%\texttt{category} like here:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[category=mylongproofs]\{thm\}[A title]}
+%\NormalTok{  You can easily change the place of the proofs}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  Just use a different category name!}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%and give this category name to \texttt{\textbackslash{}printProofs} in
+%the section where you would like to display the proofs:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}printProofs}\NormalTok{[mylongproofs]}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{comments}{%
+%\subsection{Comments}\label{comments}}
+%
+%You can also move some text in the appendix by using:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}textEnd}\NormalTok{\{Your text that should go in appendix\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%You can also give it a category as explained above, or configure it to
+%be displayed in both the main text and at the end of the file with:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}textEnd}\NormalTok{[both]\{I am a comment that is written in both the main text}
+%\NormalTok{and the appendix\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%You can also use the environment notation like that:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{textAtEnd}\NormalTok{\}[options]}
+%\NormalTok{  You can also use the environment syntax.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{textAtEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{restate-a-theorem}{%
+%\subsection{Restate a theorem}\label{restate-a-theorem}}
+%
+%It is easy to restate a theorem in the appendix, to have both the
+%theorem in the main text and in the appendix: just use the option
+%\texttt{restate}:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[end, restate]\{thm\}[A title]}
+%\NormalTok{  This theorem will be displayed both in main text and appendix.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  Just use restate option.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%You can also use the option \texttt{restate\ command=yourcustomcommand}
+%in order to create a macro \texttt{\textbackslash{}yourcustomcommand}
+%that will restate the theorem wherever you want (but after the
+%definition).
+%
+%If you want to (re)state a theorem \emph{before} its definition (say in
+%the introduction), there is also a special environment
+%\texttt{theoremEndRestateBefore} that requires a (unique) custom name
+%that you need to provide also later on in place of the real theorem with
+%the option \texttt{restated\ before}:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}section}\NormalTok{\{Introduction\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEndRestateBefore}\NormalTok{\}\{thm\}[Title]\{anamethatisusedtorestate\}}
+%\NormalTok{  It is possible to state the theorem before}
+%\NormalTok{  in the introduction, and restate it later}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEndRestateBefore}\NormalTok{\}}
+%
+%\KeywordTok{\textbackslash{}section}\NormalTok{\{Real definition\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[restated before]\{thm\}}
+%\NormalTok{  anamethatisusedtorestate}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  Proof of the theorem, put in place of the theorem the unique name}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{translate-the-links}{%
+%\subsection{Translate the links}\label{translate-the-links}}
+%
+%The more powerful way to change the text of the links is to redefine
+%\texttt{text\ link} and \texttt{text\ proof} (see section List of
+%options for more details). However we defined also some easy way to
+%redefine the text using \texttt{one\ big\ link\ translated} and
+%\texttt{text\ proof\ translated}. For example, to create your
+%\texttt{french} style you can do:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\FunctionTok{\textbackslash{}pgfkeys}\NormalTok{\{/prAtEnd/french/.style=\{}
+%\NormalTok{    one big link translated=\{Voir preuve page\},}
+%\NormalTok{    text proof translated=\{Preuve du\}}
+%\NormalTok{  \}}
+%\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{write-a-sketch-of-proof-in-the-main-text}{%
+%\subsection{Write a sketch of proof in the main
+%text}\label{write-a-sketch-of-proof-in-the-main-text}}
+%
+%You can include a sketch of proof in the main text by simply adding a
+%proof in between \texttt{theoremEnd} and \texttt{proofEnd}. An alias
+%option \texttt{see\ full\ proof} can also be used to change the link
+%into ``See full proof on page X.'':
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}[see full proof]\{thm\}}
+%\NormalTok{  I can also write a sketch of proof, and put the full proof in appendix.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{theoremEnd}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proof}\NormalTok{\}}
+%\NormalTok{  Hint: look at the alias options.}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proof}\NormalTok{\}}
+%\KeywordTok{\textbackslash{}begin}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\NormalTok{  You just use ``see full proof'' as an option}
+%\KeywordTok{\textbackslash{}end}\NormalTok{\{}\ExtensionTok{proofEnd}\NormalTok{\}}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%\hypertarget{list-of-options}{%
+%\section{List of options}\label{list-of-options}}
+%
+%Here is the list of fundamental options supported. Most options have a
+%\texttt{no} version, with \texttt{no} written before. Note that you may
+%prefer to use directly the alias/styles (see next paragraph) as the
+%options listed here are quite fundamental and atomic.
+%
+%\begin{itemize}
+%\item
+%  \texttt{category}: category of the proof (if you want to put proofs at
+%  several places), can be anything
+%\item
+%  \texttt{proof\ here}/\texttt{no\ proof\ here}: put (or not) the proof
+%  in the main text
+%\item
+%  \texttt{proof\ end}/\texttt{no\ proof\ end}: display the proof in
+%  appendix
+%\item
+%  \texttt{restate}/\texttt{no\ restate}: restate the theorem in appendix
+%\item
+%  \texttt{link\ to\ proof}/\texttt{no\ link\ to\ proof}: Display a link
+%  to the proof in the main text
+%\item
+%  \texttt{opt\ all\ end}/\texttt{no\ opt\ all\ end}: put the theorem and
+%  proof only in appendix. You may prefer the alias \texttt{all\ end},
+%  that also makes sure that the proof is indeed displayed in appendix.
+%\item
+%  \texttt{text\ link}: text of the link to the proof, defaults to
+%
+%  \texttt{\{See\ \textbackslash{}hyperref{[}proof:prAtEnd\textbackslash{}pratendcountercurrent{]}\{proof\}\ on\ page\textasciitilde{}\textbackslash{}pageref\{proof:prAtEnd\textbackslash{}pratendcountercurrent\}.\}}
+%\item
+%  \texttt{text\ proof}: text displayed in place of ``Proof'' in the
+%  appendix. Defaults to
+%  \texttt{\{Proof\ of\ \textbackslash{}string\textbackslash{}autoref\{thm:prAtEnd\textbackslash{}pratendcountercurrent\}\}}
+%\item
+%  \texttt{restate\ command}: name of a unique macro (without backslash)
+%  that will be defined as an alias to restate the theorem wherever you
+%  want
+%\item
+%  \texttt{restated\ before}: if the theorems has been stated before
+%  (with \texttt{\textbackslash{}theoremProofEndRestateBefore}), then we
+%  just need to put the restate command in place of the theorem, and
+%  enable this option
+%\item
+%  \texttt{both}/\texttt{no\ both}: only for
+%  \texttt{\textbackslash{}textInAppendix}, specifies that the text must
+%  be present in both the main text and the appendix.
+%\end{itemize}
+%
+%Here are all the alias/styles (you can create you own as well), they are
+%practical to quickly define a behaviours, but are made of the basic
+%options listed above:
+%
+%\begin{itemize}
+%\tightlist
+%\item
+%  \texttt{normal}: like a `normal' theorem, without any proof in the
+%  appendix, and with a proof displayed in the main text. Shortcut for
+%  \texttt{proof\ here,\ no\ all\ end,\ no\ proof\ end,\ no\ link\ to\ proof,\ no\ restate,\ no\ both}.
+%\item
+%  \texttt{end}: theorems whose proof need to go in the appendix. Shorcut
+%  for \texttt{proof\ at\ the\ end,\ link\ to\ proof}.
+%\item
+%  \texttt{all\ end}: makes sure both the theorem and the proof are in
+%  appendix. Alias of \texttt{end,\ opt\ all\ end}.
+%\item
+%  \texttt{proof\ at\ the\ end}: theorems whose proof need to go in the
+%  appendix contrary to \texttt{end} it does not make sure that there is
+%  a link to the proof. Shorcut for
+%  \texttt{no\ proof\ here,\ no\ all\ end,\ proof\ end,\ no\ both}.
+%\item
+%  \texttt{debug}: make sure the proof is written in the main text as
+%  well (alias of \texttt{proof\ here,\ no\ opt\ all\ end}), it is quite
+%  practical to use when you write a proof to be able to use synctex
+%  features to move between the pdf and the file.
+%\item
+%  \texttt{no\ link\ to\ theorem}: Remove the link from the proof to the
+%  theorem, alias of \texttt{text\ proof=\{\textbackslash{}proofname\}}
+%\item
+%  \texttt{stared} (or \texttt{no\ number}): when you use the stared
+%  version of a theorem you don't have any number, so autoref fails to
+%  write a nice link to the theorem. This option changes the text of
+%  ``Proof'', by keeping the link but writting only \texttt{Proof}.
+%  Equivalent to
+%  \texttt{text\ proof=\{\textbackslash{}string\textbackslash{}mbox\{\textbackslash{}string\textbackslash{}hyperref{[}thm:prAtEnd\textbackslash{}pratendcountercurrent{]}\{\textbackslash{}proofname\}\}\}}
+%\item
+%  \texttt{see\ full\ proof}: useful when you want to write in the main
+%  text only a sketch of proof, this alias writes a link
+%  \texttt{See\ full\ proof\ on\ page\ X.}. Equivalent to
+%  \texttt{text\ link=\{See\ \textbackslash{}hyperref{[}proof:prAtEnd\textbackslash{}pratendcountercurrent{]}\{full\ proof\}\ on\ page\textasciitilde{}\textbackslash{}pageref\{proof:prAtEnd\textbackslash{}pratendcountercurrent\}.\}}
+%\item
+%  \texttt{one\ big\ link}: instead of two links, one for page, one for
+%  proof, put just one link around everything. It can also accept an
+%  optional argument which will be the text of the link, like
+%  \texttt{one\ big\ link=Go\ to\ the\ proof}. The default value is
+%  \texttt{See\ proof\ on\ page\textasciitilde{}\textbackslash{}pageref*\{proof:prAtEnd\textbackslash{}pratendcountercurrent.\}}.
+%\item
+%  \texttt{one\ big\ link\ translated}: This is like
+%  \texttt{one\ big\ link}, but automatically add the page at the end
+%  (and a big link around). Practical to quickly define a translation
+%  like \texttt{one\ big\ link\ translated=Voir\ preuve\ page}. See also
+%  \texttt{text\ proof\ translated}.
+%\item
+%  \texttt{text\ link\ section}: Put a link to the proof looking like
+%  ``See proof in section X''. Defaults to
+%  \texttt{text\ link=\{See\ \textbackslash{}hyperref{[}proof:prAtEnd\textbackslash{}pratendcountercurrent{]}\{proof\}\ in\ \textbackslash{}autoref\{proofsection:prAtEnd\textbackslash{}pratendcountercurrent\}.\}}
+%\item
+%  \texttt{text\ link\ section\ full\ proof}: Put a link to the proof
+%  looking like ``See full proof in section X''. Defaults to
+%  \texttt{text\ link=\{See\ \textbackslash{}hyperref{[}proof:prAtEnd\textbackslash{}pratendcountercurrent{]}\{full\ proof\}\ in\ \textbackslash{}autoref\{proofsection:prAtEnd\textbackslash{}pratendcountercurrent\}.\}}
+%\item
+%  \texttt{default\ text\ link}: default text for the link to the proof,
+%  equivalent of
+%  \texttt{text\ link=\{See\ \textbackslash{}hyperref{[}proof:prAtEnd\textbackslash{}pratendcountercurrent{]}\{proof\}\ on\ page\textasciitilde{}\textbackslash{}pageref\{proof:prAtEnd\textbackslash{}pratendcountercurrent\}.\}}
+%\item
+%  \texttt{default\ text\ proof}: default text for the proof in appendix,
+%  equivalent of
+%  \texttt{text\ proof=\{Proof\ of\ \textbackslash{}string\textbackslash{}autoref\{thm:prAtEnd\textbackslash{}pratendcountercurrent\}\}}
+%\item
+%  \texttt{text\ proof\ translated}: like \texttt{default\ text\ proof},
+%  but takes one argument and use it instead of \texttt{Proof\ of}.
+%  Example: \texttt{text\ proof\ translated=\{Preuve\ du\}}
+%\item
+%  \texttt{bare\ defaults}: default style that is loaded before anything
+%  else that configure by default a link to the proof, put the proof in
+%  appendix, use the category \texttt{defaultcategory}. It is an alias of
+%  \texttt{end,\ link\ to\ proof,\ no\ restate,category=defaultcategory,\ default\ text\ link,default\ text\ proof,restate\ command=pratenddummymacro}.
+%\item
+%  \texttt{configuration\ options}: style that contains the options used
+%  to load the package. It is called right after \texttt{bare\ defaults}.
+%  Note that you cannot insert macro in the options, overwrite
+%  \texttt{global\ custom\ defaults} instead
+%\item
+%  \texttt{global\ custom\ defaults}: empty style that you can overwrite
+%  to change the global defaults
+%\item
+%  \texttt{local\ custom\ defaults}: empty style that you can overwrite
+%  to change the ``local'' defaults, like category
+%\item
+%  \texttt{all\ defaults}: all the defaults, equivalent of
+%  \texttt{bare\ defaults,\ configuration\ options,\ global\ custom\ defaults,\ local\ custom\ defaults}
+%\end{itemize}
+%
+%\hypertarget{contributions}{%
+%\section{Contributions}\label{contributions}}
+%
+%Feel free to contribute, report bugs, and send pull requests on the
+%github repository \url{https://github.com/leo-colisson/proof-at-the-end}
+%!
+%
+%NB: the documentation is generated from the Markdown file
+%\texttt{README.md} thanks to pandoc. These commands may help you:
+%
+%\begin{Shaded}
+%\begin{Highlighting}[]
+%\ExtensionTok{%%}\NormalTok{ Compile the demo}
+%\FunctionTok{make}\NormalTok{ demo}
+%\ExtensionTok{%%}\NormalTok{ Clean the project}
+%\FunctionTok{make}\NormalTok{ clean}
+%\ExtensionTok{%%}\NormalTok{ Generate the documentation}
+%\FunctionTok{make}\NormalTok{ doc}
+%\ExtensionTok{%%}\NormalTok{ Generate a package for CTAN}
+%\FunctionTok{make}\NormalTok{ package}
+%\end{Highlighting}
+%\end{Shaded}
+%
+%
+%
+%\StopEventually{}
+%\section{The Code}
+%\iffalse
+%    \begin{macrocode}
+%<*proof-at-the-end.sty>
+%    \end{macrocode}
+%\fi
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{proof-at-the-end}[2019/05/21 A package to move proofs in appendix]
+ 
+\RequirePackage{etoolbox}
+\RequirePackage{hyperref}
+\RequirePackage{thmtools}
+\RequirePackage{thm-restate}
+\RequirePackage{catchfile}
+\RequirePackage{pgfkeys}
+\RequirePackage{xparse}
+
+\RequirePackage{kvoptions}
+
+%% https://tex.stackexchange.com/questions/109747/put-all-package-options-into-one-command
+%% Forward the options list to the command \pratendOptdefconf
+%% in order to use:
+%% \usepackage[conf={normal}]{proof-at-the-end}
+\SetupKeyvalOptions{
+  family=pratendOpt,
+  prefix=pratendOpt,
+}
+\DeclareStringOption{conf}
+\DeclareLocalOptions{conf}% \pratendOptdefconf contains the proof
+\ProcessKeyvalOptions*
+
+% \DeclareOption*{\PackageWarning{proof-at-the-end}{Unknown}}
+% \ProcessOptions\relax
+
+\newwrite\appendwrite
+
+% The first argument is the file name
+% The second argument is the text to write
+\NewDocumentCommand\appendtofile{m+m}{%
+  \begingroup
+  \IfFileExists{#1}%
+  {\CatchFileDef{\filecontent}{#1}{\catcode`\\=12 \endlinechar=`^^J\catcode\endlinechar=12\relax}}% keep existing end-of-lines
+  {\let\filecontent\empty}%
+  \immediate\openout\appendwrite=#1\relax
+  \immediate\write\appendwrite{\detokenize\expandafter{\filecontent}#2}%
+  \immediate\closeout\appendwrite
+  \endgroup
+}
+
+%% This functions takes one input: the category (without .tex),
+%% If it's the first time we write in this
+%% category file, it "blanks" it.
+\def\prefixPrAtEndFiles{pratend}
+\newcommand*\eraseIfNeeded[1]{%
+  % A macro 'pratendmacrocat{category}' is created to check
+  % if it's the first time we write in this category file.
+  \protected@edef\macroname{pratendmacrocat#1}%
+  \ifcsdef{\macroname}{% The macro exists, nothing to do
+  }{ % The macro does not exists, create it, and empty the file
+    \global\expandafter\def\csname \macroname\endcsname{true}%
+    \immediate\openout\appendwrite=\prefixPrAtEndFiles#1.tex%
+    \immediate\write\appendwrite{}%
+    \immediate\closeout\appendwrite%
+  }%
+}
+
+\newif\ifproofhere
+\newif\ifproofend
+\newif\ifrestatethm
+\newif\iflinktoproof
+\newif\ifboth
+\newif\ifallattheend
+\newif\ifrestatedbefore
+\pgfkeys{
+  /prAtEnd/.cd, %% Proof at end will be the main path
+  %% Category of the proof (if you want to put proofs
+  %% at several places), can be anything
+  category/.initial=defaultcategory,
+  category/.store in=\category,
+  category/.get=\category,
+  %% Display the proof in the main part
+  proof here/.is if=proofhere,
+  no proof here/.style={proof here=false}, % alias
+  %% Display the proof when using \printProofs
+  proof end/.is if=proofend,
+  no proof end/.style={proof end=false},
+  %% Restate the theorem when using \printProofs
+  restate/.is if=restatethm,
+  no restate/.style={restate=false},
+  %% Put a link to the proof after the theorem
+  link to proof/.is if=linktoproof,
+  no link to proof/.style={link to proof=false},
+  %% Put the theorem and proof only in appendix
+  opt all end/.is if=allattheend,
+  no opt all end/.style={opt all end=false},
+  %% Text of link
+  text link/.code={\def\pratendtextlink{#1}},
+  %% Text of proof. Make sure also to "\renewcommand*{\proofname}{Name of the proof}"
+  %% to make sure the proof for normal theorems are changed
+  text proof/.code={\def\pratendtextproof{#1}},
+  %% Custom restate command
+  restate command/.code={\protected@edef\pratendcustomrestate{#1}},
+  %% (Re)stated before
+  %% If the theorems has been stated before, then we just need to put the restate command in
+  %% place of the argument, and we set this value to true:
+  restated before/.is if=restatedbefore,
+  no restated before/.style={restated before=false},
+  %% In star version, we don't want 
+  %% Put the text (defined only for \textInAppendix) in both the
+  %% current location and in appendix
+  both/.is if=both,
+  no both/.style={both=false},
+  %%%% Alias and styles
+  normal/.style={
+    proof here,
+    no opt all end,
+    no proof end,
+    no link to proof,
+    no restate,
+    no both,
+  },
+  proof at the end/.style={
+    no proof here,
+    no opt all end,
+    proof end,
+    no both,
+  },
+  end/.style={
+    proof at the end,
+    link to proof,
+  },
+  all end/.style={
+    end,
+    opt all end,
+  },
+  debug/.style={
+    no opt all end,
+    proof here
+  },
+  no link to theorem/.style={ % Remove the link to the theorem
+    text proof={\proofname},
+  },
+  stared/.style={ % Remove 
+    text proof={\string\mbox{\string\hyperref[thm:prAtEnd\pratendcountercurrent]{\proofname}}},
+  },
+  no number/.style={
+    stared
+  },
+  see full proof/.style={
+    text link={See \hyperref[proof:prAtEnd\pratendcountercurrent]{full proof} on page~\pageref{proof:prAtEnd\pratendcountercurrent}.}
+  },
+  one big link/.style={
+    text link={\hyperref[proof:prAtEnd\pratendcountercurrent] {#1}}
+  },
+  one big link/.default={%
+    See proof on page~\pageref*{proof:prAtEnd\pratendcountercurrent}.
+  },
+  one big link translated/.style={
+    one big link={#1~\pageref*{proof:prAtEnd\pratendcountercurrent}.}
+  },
+  text link section/.style={%
+      text link={See \hyperref[proof:prAtEnd\pratendcountercurrent]{proof} in \autoref{proofsection:prAtEnd\pratendcountercurrent}.}
+  },
+  text link section full proof/.style={%
+      text link={See \hyperref[proof:prAtEnd\pratendcountercurrent]{full proof} in \autoref{proofsection:prAtEnd\pratendcountercurrent}.}
+  },
+  default text link/.style={
+    text link={See \hyperref[proof:prAtEnd\pratendcountercurrent]{proof} on page~\pageref{proof:prAtEnd\pratendcountercurrent}.},
+  },
+  text proof translated/.style={
+    text proof={#1 \string\autoref{thm:prAtEnd\pratendcountercurrent}},
+  },
+  default text proof/.style={
+    text proof={Proof of \string\autoref{thm:prAtEnd\pratendcountercurrent}},
+  },
+  %%%% Defaults
+  bare defaults/.style={
+    end,
+    link to proof,
+    no restate,
+    category=defaultcategory,
+    default text link,
+    default text proof,
+    restate command=pratenddummymacro,
+  },
+  configuration options/.style/.expand once={
+    % This styles will contain the configuration
+    % given as options of the package like:
+    % \usepackage[conf={normal, no link to proof}]{proof-at-the-end}
+    % The package options does not accept macros and valued keys
+    % due to some fundamental issues:
+    % https://tex.stackexchange.com/questions/489564/use-unexpanded-macro-in-package-options/489570#489570
+    % so if you need to write macro/valued key, edit instead the
+    % style "/prAtEnd/global custom defaults" or
+    % "local /prAtEnd/custom defaults" for local changes instead.
+    \pratendOptconf%
+  },
+  global custom defaults/.style={
+    %% you can put in this style any global defaults
+    %% that should overwrite the usual defaults.
+  },
+  local custom defaults/.style={
+    %% you can put in this style any overwrite of the defaults
+    %% that should be "local" and changed over the file, like
+    % the category for a given section.
+  },
+  all defaults/.style={
+    %% Load all the style that sets the default values
+    bare defaults,
+    configuration options,
+    global custom defaults,
+    local custom defaults,
+  },
+}
+
+\newcounter{counterAllProofEnd}
+\stepcounter{counterAllProofEnd}
+
+\NewDocumentEnvironment{theoremEndRestateBefore}{mO{}m+b}{
+  \stepcounter{counterAllProofEnd}%
+  \protected@edef\currcounterval{\roman{counterAllProofEnd}}
+  \protected@edef\temprest{\noexpand\begin{restatable*}[#2]{#1}{prAtEndRestate\currcounterval}\noexpand\label{thm:prAtEnd\currcounterval}}%
+  \expandafter\protected@xdef\csname #3\endcsname{\currcounterval}%
+  \temprest%
+    #4%
+  \end{restatable*}%
+}{}
+
+\NewDocumentEnvironment{theoremEnd}{O{}mO{}+b}{
+  % The first facultative argument will be the options: type of proof you want, the file to which you want to write...
+  % The first mandatory option is the type of the theorem (thm,lemma,...)
+  % The second facultative argument will be the title
+  % the second mandatory option is the theorem (will \label inside eventually)
+  % the last mandatory option is the proof
+  \global\def\pratendlastoptions{#1}%
+  \pgfkeys{%
+    /prAtEnd/.cd,
+    all defaults,
+    #1
+  }%
+  \stepcounter{counterAllProofEnd}%
+  %% Pre-expand the restatable environment. Need protected
+  %% otherwise can't have $\mathtt{G}$ in the title 
+  \protected@edef\temprest{\noexpand\begin{restatable}[#3]{#2}{prAtEndRestate\roman{counterAllProofEnd}}}%
+  %% Create the file if it's the first time
+  \eraseIfNeeded{\category}%
+  %% If the theorem must be written here:
+  \unless\ifallattheend%
+    %% Restate the theorem if it was stated before:
+    \ifrestatedbefore%
+      \protected@xdef\pratendcountercurrent{\csname #4\endcsname} % Store the current (alpha value of the) counter
+      \csname prAtEndRestate\pratendcountercurrent\endcsname % Restate the theorem
+    \fi%
+    %%  Otherwise just state the theorem in a restatable environment
+    \unless\ifrestatedbefore%
+      \temprest%
+        \label{thm:prAtEnd\roman{counterAllProofEnd}}%
+        #4%
+      \end{restatable}%
+      %% Store the current (alpha value of the) counter
+      %% in \pratendcountercurrent
+      \protected@xdef\pratendcountercurrent{\roman{counterAllProofEnd}} %
+    \fi%
+    %% Create a custom alias to restate the theorem
+    \expandafter\protected@xdef\csname \pratendcustomrestate\endcsname{\noexpand\csname prAtEndRestate\pratendcountercurrent\endcsname}%
+    %% Restate the theorem if needed in appendix
+    \ifrestatethm
+      \appendtofile{\prefixPrAtEndFiles\category.tex}{\string\prAtEndRestate\pratendcountercurrent*}
+    \fi%
+  \fi%  
+  %% If the theorem is not stated in the main text,
+  %% write it at the end 
+  \ifallattheend%
+    %% Store the current (alpha value of the) counter
+    %% in \pratendcountercurrent
+    \protected@xdef\pratendcountercurrent{\roman{counterAllProofEnd}}
+    %% Create a custom alias to restate the theorem
+    \expandafter\protected@xdef\csname \pratendcustomrestate\endcsname{\noexpand\csname prAtEndRestate\pratendcountercurrent\endcsname}%
+    \appendtofile{\prefixPrAtEndFiles\category.tex}{\string\begin{restatable}[#3]{#2}{prAtEndRestate\pratendcountercurrent}\string\label{thm:prAtEnd\pratendcountercurrent}\detokenize{#4}\string\end{restatable}}%
+  \fi%
+}{}
+
+\NewDocumentEnvironment{proofEnd}{O{}+b}{
+  \pgfkeys{%
+    /prAtEnd/.cd,
+    all defaults,
+    prAtEndTmpStyle/.style/.expand once={\pratendlastoptions},
+    prAtEndTmpStyle,
+    #1
+  }%
+  \unless\ifallattheend
+    %% Write eventually a link to the proof
+    \iflinktoproof%
+      \pratendtextlink{}%
+    \fi%
+    %% And eventually the proof
+    \ifproofhere%
+      \begin{proof}%
+        #2%
+      \end{proof}%
+    \fi%
+  \fi%
+  %% Write the proof at the end
+  \ifproofend%
+    \appendtofile{\prefixPrAtEndFiles\category.tex}{\string\label{proofsection:prAtEnd\pratendcountercurrent}\string\begin{proof}[\pratendtextproof]\string\phantomsection\string\label{proof:prAtEnd\pratendcountercurrent}\detokenize{#2}\string\end{proof}}%
+  \fi%
+}{}
+
+
+%%%%% Text in appendix
+
+\NewDocumentEnvironment{textAtEnd}{O{}+b}{
+  % Use it to put normal text in Appendix.
+  \pgfkeys{
+    /prAtEnd/.cd,
+    all defaults,
+    #1
+  }%
+  \ifboth%
+  #2%
+  \fi%
+  \eraseIfNeeded{\category}%
+  \appendtofile{\prefixPrAtEndFiles\category.tex}{\detokenize{#2}}%
+}{}
+
+\NewDocumentCommand\textEnd{O{}+m}{%
+  \begin{textAtEnd}[#1]%
+    #2%
+  \end{textAtEnd}%
+}
+
+\NewDocumentCommand\printProofs{O{defaultcategory}}{
+  \input{\prefixPrAtEndFiles#1.tex}
+}
+
+
+%%% You can easily modify the defaults:
+% \pgfkeys{/prAtEnd/custom defaults/.style={
+%     category=greattheorem
+%   }
+% }
+%%% Or create new styles to apply:
+% \pgfkeys{/prAtEnd/great category/.style={
+%     category=greattheorem
+%   }
+% }
+
+
+\endinput
+%\iffalse
+%    \begin{macrocode}
+%</proof-at-the-end.sty>
+%    \end{macrocode}
+%\fi
+%\Finale
+\endinput

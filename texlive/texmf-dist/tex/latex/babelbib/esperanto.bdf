@@ -20,7 +20,7 @@
 %% Language definitions for Esperanto by
 %%   Taneli Huuskonen <huuskone@cc.helsinki.fi>
 \ProvidesFile{esperanto.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsesperanto[1][esperanto]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{k~al##1{}}}%

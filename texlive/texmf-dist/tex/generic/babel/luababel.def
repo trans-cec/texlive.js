@@ -4,16 +4,17 @@
 %%
 %% The original source files were:
 %%
-%% bbunicode.dtx  (with options: `luatex')
-%% This is a generated file.
+%% babel.dtx  (with options: `luatex')
 %% 
-%% Copyright 2012-2016 Javier Bezos and Johannes L. Braams.
-%% Copyright 1989-2008 Johannes L. Braams and any individual authors
-%% listed elsewhere in this file.  All rights reserved.
-%% 
-%% This file was generated from file(s) of the Babel system.
-%% ---------------------------------------------------------
-%% 
+%%
+%% Copyright (C) 2012-2019 Javier Bezos and Johannes L. Braams.
+%% Copyright (C) 1989-2012 Johannes L. Braams and
+%%           any individual authors listed elsewhere in this file.
+%% All rights reserved.
+%%
+%% This file is part of the Babel system.
+%% --------------------------------------
+%%
 %% It may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
 %% of this license or (at your option) any later version.
@@ -21,27 +22,18 @@
 %%   http://www.latex-project.org/lppl.txt
 %% and version 1.3 or later is part of all distributions of LaTeX
 %% version 2003/12/01 or later.
-%% 
+%%
 %% This work has the LPPL maintenance status "maintained".
-%% 
+%%
 %% The Current Maintainer of this work is Javier Bezos.
-%% 
-%% This file may only be distributed together with a copy of the Babel
-%% system. You may however distribute the Babel system without
-%% such generated files.
-%% 
-%% The list of all files belonging to the Babel distribution is
-%% given in the file `manifest.bbl'. See also `legal.bbl for additional
-%% information.
-%% 
+%%
 %% The list of derived (unpacked) files belonging to the distribution
 %% and covered by LPPL is defined by the unpacking scripts (with
-%% extension .ins) which are part of the distribution.
-%% File `bbunicode.dtx'
-%% Babel package for LaTeX version 2e
-%% Copyright (C) 2103-2016
-%%           by Javier Bezos
+%% extension |.ins|) which are part of the distribution.
+%%
+
 \ifx\AddBabelHook\@undefined
+\bbl@trace{Read language.dat}
 \begingroup
   \toks@{}
   \count@\z@ % 0=start, 1=0th, 2=normal
@@ -122,6 +114,7 @@
     \repeat
   \fi
 \endgroup
+\bbl@trace{Macros for reading patterns files}
 \def\bbl@get@enc#1:#2:#3\@@@{\def\bbl@hyph@enc{#2}}
 \ifx\babelcatcodetablenum\@undefined
   \def\babelcatcodetablenum{5211}
@@ -173,7 +166,7 @@
      \bbl@languages
      \@ifundefined{bbl@hyphendata@\the\language}%
        {\bbl@info{No hyphenation patterns were set for\\%
-                  language ‘\bbl@tempa’. Reported}}%
+                  language '\bbl@tempa'. Reported}}%
        {\expandafter\expandafter\expandafter\bbl@luapatterns
           \csname bbl@hyphendata@\the\language\endcsname}}{}}
 \endinput\fi
@@ -183,7 +176,7 @@
 \catcode`\"=12
 \catcode`\:=12
 \directlua{
-  Babel = {}
+  Babel = Babel or {}
   function Babel.bytes(line)
     return line:gsub("(.)",
       function (chr) return unicode.utf8.char(string.byte(chr)) end)
@@ -231,6 +224,11 @@
   end
 }
 \endgroup
+\ifx\newattribute\@undefined\else
+  \newattribute\bbl@attr@locale
+  \AddBabelHook{luatex}{beforeextras}{%
+    \setattribute\bbl@attr@locale\localeid}
+\fi
 \def\BabelStringsDefault{unicode}
 \let\luabbl@stop\relax
 \AddBabelHook{luatex}{encodedcommands}{%
@@ -256,12 +254,12 @@
      \bbl@languages
      \@ifundefined{bbl@hyphendata@\the\language}%
        {\bbl@info{No hyphenation patterns were set for\\%
-                  language ‘#2’. Reported}}%
+                  language '#2'. Reported}}%
        {\expandafter\expandafter\expandafter\bbl@luapatterns
           \csname bbl@hyphendata@\the\language\endcsname}}{}%
   \@ifundefined{bbl@patterns@}{}{%
     \begingroup
-      \@expandtwoargs\in@{,\number\language,}{,\bbl@pttnlist}%
+      \bbl@xin@{,\number\language,}{,\bbl@pttnlist}%
       \ifin@\else
         \ifx\bbl@patterns@\@empty\else
            \directlua{ Babel.addpatterns(
@@ -313,6 +311,211 @@
               {\csname bbl@patterns@\bbl@tempa\endcsname\space}%
             #2}}}%
     \fi}}
+\directlua{
+  Babel = Babel or {}
+  Babel.linebreaking = Babel.linebreaking or {}
+  Babel.linebreaking.before = {}
+  Babel.linebreaking.after = {}
+  Babel.locale = {} % Free to use, indexed with \localeid
+  function Babel.linebreaking.add_before(func)
+    tex.print([[\noexpand\csname bbl@luahyphenate\endcsname]])
+    table.insert(Babel.linebreaking.before , func)
+  end
+  function Babel.linebreaking.add_after(func)
+    tex.print([[\noexpand\csname bbl@luahyphenate\endcsname]])
+    table.insert(Babel.linebreaking.after, func)
+  end
+}
+\def\bbl@intraspace#1 #2 #3\@@{%
+  \directlua{
+    Babel = Babel or {}
+    Babel.intraspaces = Babel.intraspaces or {}
+    Babel.intraspaces['\csname bbl@sbcp@\languagename\endcsname'] = %
+       {b = #1, p = #2, m = #3}
+    Babel.locale_props[\the\localeid].intraspace = %
+       {b = #1, p = #2, m = #3}
+  }}
+\def\bbl@intrapenalty#1\@@{%
+  \directlua{
+    Babel = Babel or {}
+    Babel.intrapenalties = Babel.intrapenalties or {}
+    Babel.intrapenalties['\csname bbl@sbcp@\languagename\endcsname'] = #1
+    Babel.locale_props[\the\localeid].intrapenalty = #1
+  }}
+\begingroup
+\catcode`\%=12
+\catcode`\^=14
+\catcode`\'=12
+\catcode`\~=12
+\gdef\bbl@seaintraspace{^
+  \let\bbl@seaintraspace\relax
+  \directlua{
+    Babel = Babel or {}
+    Babel.sea_enabled = true
+    Babel.sea_ranges = Babel.sea_ranges or {}
+    function Babel.set_chranges (script, chrng)
+      local c = 0
+      for s, e in string.gmatch(chrng..' ', '(.-)%.%.(.-)%s') do
+        Babel.sea_ranges[script..c]={tonumber(s,16), tonumber(e,16)}
+        c = c + 1
+      end
+    end
+    function Babel.sea_disc_to_space (head)
+      local sea_ranges = Babel.sea_ranges
+      local last_char = nil
+      local quad = 655360      ^^ 10 pt = 655360 = 10 * 65536
+      for item in node.traverse(head) do
+        local i = item.id
+        if i == node.id'glyph' then
+          last_char = item
+        elseif i == 7 and item.subtype == 3 and last_char
+            and last_char.char > 0x0C99 then
+          quad = font.getfont(last_char.font).size
+          for lg, rg in pairs(sea_ranges) do
+            if last_char.char > rg[1] and last_char.char < rg[2] then
+              lg = lg:sub(1, 4)
+              local intraspace = Babel.intraspaces[lg]
+              local intrapenalty = Babel.intrapenalties[lg]
+              local n
+              if intrapenalty ~= 0 then
+                n = node.new(14, 0)     ^^ penalty
+                n.penalty = intrapenalty
+                node.insert_before(head, item, n)
+              end
+              n = node.new(12, 13)      ^^ (glue, spaceskip)
+              node.setglue(n, intraspace.b * quad,
+                              intraspace.p * quad,
+                              intraspace.m * quad)
+              node.insert_before(head, item, n)
+              node.remove(head, item)
+            end
+          end
+        end
+      end
+    end
+  }^^
+  \bbl@luahyphenate}
+\catcode`\%=14
+\gdef\bbl@cjkintraspace{%
+  \let\bbl@cjkintraspace\relax
+  \directlua{
+    Babel = Babel or {}
+    require'babel-data-cjk.lua'
+    Babel.cjk_enabled = true
+    function Babel.cjk_linebreak(head)
+      local GLYPH = node.id'glyph'
+      local last_char = nil
+      local quad = 655360      % 10 pt = 655360 = 10 * 65536
+      local last_class = nil
+      local last_lang = nil
+
+      for item in node.traverse(head) do
+        if item.id == GLYPH then
+
+          local lang = item.lang
+
+          local LOCALE = node.get_attribute(item,
+                luatexbase.registernumber'bbl@attr@locale')
+          local props = Babel.locale_props[LOCALE]
+
+          class = Babel.cjk_class[item.char].c
+
+          if class == 'cp' then class = 'cl' end % )] as CL
+          if class == 'id' then class = 'I' end
+
+          if class and last_class and Babel.cjk_breaks[last_class][class] then
+            br = Babel.cjk_breaks[last_class][class]
+          else
+            br = 0
+          end
+
+          if br == 1 and props.linebreak == 'c' and
+              lang ~= \the\l@nohyphenation\space and
+              last_lang ~= \the\l@nohyphenation then
+            local intrapenalty = props.intrapenalty
+            if intrapenalty ~= 0 then
+              local n = node.new(14, 0)     % penalty
+              n.penalty = intrapenalty
+              node.insert_before(head, item, n)
+            end
+            local intraspace = props.intraspace
+            local n = node.new(12, 13)      % (glue, spaceskip)
+            node.setglue(n, intraspace.b * quad,
+                            intraspace.p * quad,
+                            intraspace.m * quad)
+            node.insert_before(head, item, n)
+          end
+
+          quad = font.getfont(item.font).size
+          last_class = class
+          last_lang = lang
+        else % if penalty, glue or anything else
+          last_class = nil
+        end
+      end
+      lang.hyphenate(head)
+    end
+  }%
+  \bbl@luahyphenate}
+\gdef\bbl@luahyphenate{%
+  \let\bbl@luahyphenate\relax
+  \directlua{
+    luatexbase.add_to_callback('hyphenate',
+    function (head, tail)
+      if Babel.cjk_enabled then
+        Babel.cjk_linebreak(head)
+      end
+      if Babel.linebreaking.before then
+        for k, func in ipairs(Babel.linebreaking.before)  do
+          func(head)
+        end
+      end
+      lang.hyphenate(head)
+      if Babel.linebreaking.after then
+        for k, func in ipairs(Babel.linebreaking.after)  do
+          func(head)
+        end
+      end
+      if Babel.sea_enabled then
+        Babel.sea_disc_to_space(head)
+      end
+    end,
+    'Babel.hyphenate')
+  }
+}
+\endgroup
+\def\bbl@provide@intraspace{%
+  \bbl@ifunset{bbl@intsp@\languagename}{}%
+    {\expandafter\ifx\csname bbl@intsp@\languagename\endcsname\@empty\else
+       \bbl@xin@{\bbl@cs{sbcp@\languagename}}{Hant,Hans,Jpan,Kore,Kana}%
+       \ifin@           % cjk
+         \bbl@cjkintraspace
+         \directlua{
+             Babel = Babel or {}
+             Babel.locale_props = Babel.locale_props or {}
+             Babel.locale_props[\the\localeid].linebreak = 'c'
+         }%
+         \bbl@exp{\\\bbl@intraspace\bbl@cs{intsp@\languagename}\\\@@}%
+         \ifx\bbl@KVP@intrapenalty\@nil
+           \bbl@intrapenalty0\@@
+         \fi
+       \else            % sea
+         \bbl@seaintraspace
+         \bbl@exp{\\\bbl@intraspace\bbl@cs{intsp@\languagename}\\\@@}%
+         \directlua{
+            Babel = Babel or {}
+            Babel.sea_ranges = Babel.sea_ranges or {}
+            Babel.set_chranges('\bbl@cs{sbcp@\languagename}',
+                               '\bbl@cs{chrng@\languagename}')
+         }%
+         \ifx\bbl@KVP@intrapenalty\@nil
+           \bbl@intrapenalty0\@@
+         \fi
+       \fi
+     \fi
+     \ifx\bbl@KVP@intrapenalty\@nil\else
+       \expandafter\bbl@intrapenalty\bbl@KVP@intrapenalty\@@
+     \fi}}
 \AddBabelHook{luatex}{loadkernel}{%
   \begingroup
       % Reset chars "80-"C0 to category "other", no case mapping:
@@ -342,12 +545,162 @@
     \L 00FF 0178 00FF
   \endgroup
   \input #1\relax}
-\def\babelFSstore#1{%
-  \bbl@for\bbl@tempa{#1}{%
-    \edef\bbl@tempb{\noexpand\bbl@FSstore{\bbl@tempa}}
-    \bbl@tempb{rm}\rmdefault\bbl@save@rmdefault
-    \bbl@tempb{sf}\sfdefault\bbl@save@sfdefault
-    \bbl@tempb{tt}\ttdefault\bbl@save@ttdefault}}
+\ifx\DisableBabelHook\@undefined\endinput\fi
+\AddBabelHook{babel-fontspec}{afterextras}{\bbl@switchfont}
+\AddBabelHook{babel-fontspec}{beforestart}{\bbl@ckeckstdfonts}
+\DisableBabelHook{babel-fontspec}
+\bbl@trace{Font handling with fontspec}
+\@onlypreamble\babelfont
+\newcommand\babelfont[2][]{%  1=langs/scripts 2=fam
+  \edef\bbl@tempa{#1}%
+  \def\bbl@tempb{#2}%  Used by \bbl@bblfont
+  \ifx\fontspec\@undefined
+    \usepackage{fontspec}%
+  \fi
+  \EnableBabelHook{babel-fontspec}% Just calls \bbl@switchfont
+  \bbl@bblfont}
+\newcommand\bbl@bblfont[2][]{% 1=features 2=fontname, @font=rm|sf|tt
+  \bbl@ifunset{\bbl@tempb family}%
+    {\bbl@providefam{\bbl@tempb}}%
+    {\bbl@exp{%
+      \\\bbl@sreplace\<\bbl@tempb family >%
+        {\@nameuse{\bbl@tempb default}}{\<\bbl@tempb default>}}}%
+  % For the default font, just in case:
+  \bbl@ifunset{bbl@lsys@\languagename}{\bbl@provide@lsys{\languagename}}{}%
+  \expandafter\bbl@ifblank\expandafter{\bbl@tempa}%
+    {\bbl@csarg\edef{\bbl@tempb dflt@}{<>{#1}{#2}}% save bbl@rmdflt@
+     \bbl@exp{%
+       \let\<bbl@\bbl@tempb dflt@\languagename>\<bbl@\bbl@tempb dflt@>%
+       \\\bbl@font@set\<bbl@\bbl@tempb dflt@\languagename>%
+                      \<\bbl@tempb default>\<\bbl@tempb family>}}%
+    {\bbl@foreach\bbl@tempa{% ie bbl@rmdflt@lang / *scrt
+       \bbl@csarg\def{\bbl@tempb dflt@##1}{<>{#1}{#2}}}}}%
+\def\bbl@providefam#1{%
+  \bbl@exp{%
+    \\\newcommand\<#1default>{}% Just define it
+    \\\bbl@add@list\\\bbl@font@fams{#1}%
+    \\\DeclareRobustCommand\<#1family>{%
+      \\\not@math@alphabet\<#1family>\relax
+      \\\fontfamily\<#1default>\\\selectfont}%
+    \\\DeclareTextFontCommand{\<text#1>}{\<#1family>}}}
+\def\bbl@nostdfont#1{%
+  \bbl@ifunset{bbl@WFF@\f@family}%
+    {\bbl@csarg\gdef{WFF@\f@family}{}%  Flag, to avoid dupl warns
+     \bbl@infowarn{The current font is not a babel standard family:\\%
+       #1%
+       \fontname\font\\%
+       There is nothing intrinsically wrong with this warning, and\\%
+       you can ignore it altogether if you do not need these\\%
+       families. But if they are used in the document, you should be\\%
+       aware 'babel' will no set Script and Language for them, so\\%
+       you may consider defining a new family with \string\babelfont.\\%
+       See the manual for further details about \string\babelfont.\\%
+       Reported}}
+   {}}%
+\gdef\bbl@switchfont{%
+  \bbl@ifunset{bbl@lsys@\languagename}{\bbl@provide@lsys{\languagename}}{}%
+  \bbl@exp{%  eg Arabic -> arabic
+    \lowercase{\edef\\\bbl@tempa{\bbl@cs{sname@\languagename}}}}%
+  \bbl@foreach\bbl@font@fams{%
+    \bbl@ifunset{bbl@##1dflt@\languagename}%    (1) language?
+      {\bbl@ifunset{bbl@##1dflt@*\bbl@tempa}%   (2) from script?
+         {\bbl@ifunset{bbl@##1dflt@}%           2=F - (3) from generic?
+           {}%                                  123=F - nothing!
+           {\bbl@exp{%                          3=T - from generic
+              \global\let\<bbl@##1dflt@\languagename>%
+                         \<bbl@##1dflt@>}}}%
+         {\bbl@exp{%                            2=T - from script
+            \global\let\<bbl@##1dflt@\languagename>%
+                       \<bbl@##1dflt@*\bbl@tempa>}}}%
+      {}}%                               1=T - language, already defined
+  \def\bbl@tempa{\bbl@nostdfont{}}%
+  \bbl@foreach\bbl@font@fams{%     don't gather with prev for
+    \bbl@ifunset{bbl@##1dflt@\languagename}%
+      {\bbl@cs{famrst@##1}%
+       \global\bbl@csarg\let{famrst@##1}\relax}%
+      {\bbl@exp{% order is relevant
+         \\\bbl@add\\\originalTeX{%
+           \\\bbl@font@rst{\bbl@cs{##1dflt@\languagename}}%
+                          \<##1default>\<##1family>{##1}}%
+         \\\bbl@font@set\<bbl@##1dflt@\languagename>% the main part!
+                        \<##1default>\<##1family>}}}%
+  \bbl@ifrestoring{}{\bbl@tempa}}%
+\ifx\f@family\@undefined\else   % if latex
+  \ifcase\bbl@engine            % if pdftex
+    \let\bbl@ckeckstdfonts\relax
+  \else
+    \def\bbl@ckeckstdfonts{%
+      \begingroup
+        \global\let\bbl@ckeckstdfonts\relax
+        \let\bbl@tempa\@empty
+        \bbl@foreach\bbl@font@fams{%
+          \bbl@ifunset{bbl@##1dflt@}%
+            {\@nameuse{##1family}%
+             \bbl@csarg\gdef{WFF@\f@family}{}% Flag
+             \bbl@exp{\\\bbl@add\\\bbl@tempa{* \<##1family>= \f@family\\\\%
+                \space\space\fontname\font\\\\}}%
+             \bbl@csarg\xdef{##1dflt@}{\f@family}%
+             \expandafter\xdef\csname ##1default\endcsname{\f@family}}%
+            {}}%
+        \ifx\bbl@tempa\@empty\else
+          \bbl@infowarn{The following fonts are not babel standard families:\\%
+            \bbl@tempa
+            There is nothing intrinsically wrong with it, but\\%
+            'babel' will no set Script and Language. Consider\\%
+            defining a new family with \string\babelfont.\\%
+            Reported}%
+        \fi
+      \endgroup}
+  \fi
+\fi
+\def\bbl@font@set#1#2#3{% eg \bbl@rmdflt@lang \rmdefault \rmfamily
+  \bbl@xin@{<>}{#1}%
+  \ifin@
+    \bbl@exp{\\\bbl@fontspec@set\\#1\expandafter\@gobbletwo#1\\#3}%
+  \fi
+  \bbl@exp{%
+    \def\\#2{#1}%         eg, \rmdefault{\bbl@rmdflt@lang}
+    \\\bbl@ifsamestring{#2}{\f@family}{\\#3\let\\\bbl@tempa\relax}{}}}
+\def\bbl@fontspec@set#1#2#3#4{% eg \bbl@rmdflt@lang fnt-opt fnt-nme \xxfamily
+  \let\bbl@tempe\bbl@mapselect
+  \let\bbl@mapselect\relax
+  \let\bbl@temp@fam#4%       eg, '\rmfamily', to be restored below
+  \let#4\relax            %  So that can be used with \newfontfamily
+  \bbl@exp{%
+    \let\\\bbl@temp@pfam\<\bbl@stripslash#4\space>% eg, '\rmfamily '
+    \<keys_if_exist:nnF>{fontspec-opentype}%
+        {Script/\bbl@cs{sname@\languagename}}%
+      {\\\newfontscript{\bbl@cs{sname@\languagename}}%
+        {\bbl@cs{sotf@\languagename}}}%
+    \<keys_if_exist:nnF>{fontspec-opentype}%
+        {Language/\bbl@cs{lname@\languagename}}%
+      {\\\newfontlanguage{\bbl@cs{lname@\languagename}}%
+        {\bbl@cs{lotf@\languagename}}}%
+    \\\newfontfamily\\#4%
+      [\bbl@cs{lsys@\languagename},#2]}{#3}% ie \bbl@exp{..}{#3}
+  \begingroup
+     #4%
+     \xdef#1{\f@family}%     eg, \bbl@rmdflt@lang{FreeSerif(0)}
+  \endgroup
+  \let#4\bbl@temp@fam
+  \bbl@exp{\let\<\bbl@stripslash#4\space>}\bbl@temp@pfam
+  \let\bbl@mapselect\bbl@tempe}%
+\def\bbl@font@rst#1#2#3#4{%
+  \bbl@csarg\def{famrst@#4}{\bbl@font@set{#1}#2#3}}
+\def\bbl@font@fams{rm,sf,tt}
+\newcommand\babelFSstore[2][]{%
+  \bbl@ifblank{#1}%
+    {\bbl@csarg\def{sname@#2}{Latin}}%
+    {\bbl@csarg\def{sname@#2}{#1}}%
+  \bbl@provide@dirs{#2}%
+  \bbl@csarg\ifnum{wdir@#2}>\z@
+    \let\bbl@beforeforeign\leavevmode
+    \EnableBabelHook{babel-bidi}%
+  \fi
+  \bbl@foreach{#2}{%
+    \bbl@FSstore{##1}{rm}\rmdefault\bbl@save@rmdefault
+    \bbl@FSstore{##1}{sf}\sfdefault\bbl@save@sfdefault
+    \bbl@FSstore{##1}{tt}\ttdefault\bbl@save@ttdefault}}
 \def\bbl@FSstore#1#2#3#4{%
   \bbl@csarg\edef{#2default#1}{#3}%
   \expandafter\addto\csname extras#1\endcsname{%
@@ -364,7 +717,7 @@
     \fi
     \let#3#4}}
 \let\bbl@langfeatures\@empty
-\def\babelFSfeatures{%
+\def\babelFSfeatures{% make sure \fontspec is redefined once
   \let\bbl@ori@fontspec\fontspec
   \renewcommand\fontspec[1][]{%
     \bbl@ori@fontspec[\bbl@langfeatures##1]}
@@ -374,6 +727,412 @@
   \expandafter\addto\csname extras#1\endcsname{%
     \babel@save\bbl@langfeatures
     \edef\bbl@langfeatures{#2,}}}
+\newcommand\babelcharproperty[1]{%
+  \count@=#1\relax
+  \ifvmode
+    \expandafter\bbl@chprop
+  \else
+    \bbl@error{\string\babelcharproperty\space can be used only in\\%
+               vertical mode (preamble or between paragraphs)}%
+              {See the manual for futher info}%
+  \fi}
+\newcommand\bbl@chprop[3][\the\count@]{%
+  \@tempcnta=#1\relax
+  \bbl@ifunset{bbl@chprop@#2}%
+    {\bbl@error{No property named '#2'. Allowed values are\\%
+                direction (bc), mirror (bmg), and linebreak (lb)}%
+               {See the manual for futher info}}%
+    {}%
+  \loop
+    \@nameuse{bbl@chprop@#2}{#3}%
+  \ifnum\count@<\@tempcnta
+    \advance\count@\@ne
+  \repeat}
+\def\bbl@chprop@direction#1{%
+  \directlua{
+    Babel.characters[\the\count@] =  Babel.characters[\the\count@] or {}
+    Babel.characters[\the\count@]['d'] = '#1'
+  }}
+\let\bbl@chprop@bc\bbl@chprop@direction
+\def\bbl@chprop@mirror#1{%
+  \directlua{
+    Babel.characters[\the\count@] =  Babel.characters[\the\count@] or {}
+    Babel.characters[\the\count@]['m'] = '\number#1'
+  }}
+\let\bbl@chprop@bmg\bbl@chprop@mirror
+\def\bbl@chprop@linebreak#1{%
+  \directlua{
+    Babel.Babel.cjk_characters[\the\count@] = Babel.Babel.cjk_characters[\the\count@] or {}
+    Babel.Babel.cjk_characters[\the\count@]['c'] = '#1'
+  }}
+\let\bbl@chprop@lb\bbl@chprop@linebreak
+\begingroup
+\catcode`\#=12
+\catcode`\%=12
+\catcode`\&=14
+\directlua{
+  Babel.linebreaking.replacements = {}
+
+  function Babel.str_to_nodes(fn, matches, base)
+    local n, head, last
+    if fn == nil then return nil end
+    for s in string.utfvalues(fn(matches)) do
+      if base.id == 7 then
+        base = base.replace
+      end
+      n = node.copy(base)
+      n.char    = s
+      if not head then
+        head = n
+      else
+        last.next = n
+      end
+      last = n
+    end
+    return head
+  end
+
+  function Babel.fetch_word(head, funct)
+    local word_string = ''
+    local word_nodes = {}
+    local lang
+    local item = head
+
+    while item do
+
+      if item.id == 29
+          and not(item.char == 124) &% ie, not |
+          and not(item.char == 61)  &% ie, not =
+          and (item.lang == lang or lang == nil) then
+        lang = lang or item.lang
+        word_string = word_string .. unicode.utf8.char(item.char)
+        word_nodes[#word_nodes+1] = item
+
+      elseif item.id == 7 and item.subtype == 2 then
+        word_string = word_string .. '='
+        word_nodes[#word_nodes+1] = item
+
+      elseif item.id == 7 and item.subtype == 3 then
+        word_string = word_string .. '|'
+        word_nodes[#word_nodes+1] = item
+
+      elseif word_string == '' then
+        &% pass
+
+      else
+        return word_string, word_nodes, item, lang
+      end
+
+      item = item.next
+    end
+  end
+
+  function Babel.post_hyphenate_replace(head)
+    local u = unicode.utf8
+    local lbkr = Babel.linebreaking.replacements
+    local word_head = head
+
+    while true do
+      local w, wn, nw, lang = Babel.fetch_word(word_head)
+      if not lang then return head end
+
+      if not lbkr[lang] then
+        break
+      end
+
+      for k=1, #lbkr[lang] do
+        local p = lbkr[lang][k].pattern
+        local r = lbkr[lang][k].replace
+
+        while true do
+          local matches = { u.match(w, p) }
+          if #matches < 2 then break end
+
+          local first = table.remove(matches, 1)
+          local last =  table.remove(matches, #matches)
+
+          &% Fix offsets, from bytes to unicode.
+          first = u.len(w:sub(1, first-1)) + 1
+          last  = u.len(w:sub(1, last-1))
+
+          local new  &% used when inserting and removing nodes
+          local changed = 0
+
+          &% This loop traverses the replace list and takes the
+          &% corresponding actions
+          for q = first, last do
+            local crep = r[q-first+1]
+            local char_node = wn[q]
+            local char_base = char_node
+
+            if crep and crep.data then
+              char_base = wn[crep.data+first-1]
+            end
+
+            if crep == {} then
+              break
+            elseif crep == nil then
+              changed = changed + 1
+              node.remove(head, char_node)
+            elseif crep and (crep.pre or crep.no or crep.post) then
+              changed = changed + 1
+              d = node.new(7, 0)   &% (disc, discretionary)
+              d.pre = Babel.str_to_nodes(crep.pre, matches, char_base)
+              d.post = Babel.str_to_nodes(crep.post, matches, char_base)
+              d.replace = Babel.str_to_nodes(crep.no, matches, char_base)
+              d.attr = char_base.attr
+              if crep.pre == nil then  &% TeXbook p96
+                d.penalty  = crep.penalty or tex.hyphenpenalty
+              else
+                d.penalty  = crep.penalty or tex.exhyphenpenalty
+              end
+              head, new = node.insert_before(head, char_node, d)
+              node.remove(head, char_node)
+              if q == 1 then
+                word_head = new
+              end
+            elseif crep and crep.string then
+              changed = changed + 1
+              local str = crep.string(matches)
+              if str == '' then
+                if q == 1 then
+                  word_head = char_node.next
+                end
+                head, new = node.remove(head, char_node)
+              elseif char_node.id == 29 and u.len(str) == 1 then
+                char_node.char = string.utfvalue(str)
+              else
+                local n
+                for s in string.utfvalues(str) do
+                  if char_node.id == 7 then
+                    log('Automatic hyphens cannot be replaced, just removed.')
+                  else
+                    n = node.copy(char_base)
+                  end
+                  n.char = s
+                  if q == 1 then
+                    head, new = node.insert_before(head, char_node, n)
+                    word_head = new
+                  else
+                    node.insert_before(head, char_node, n)
+                  end
+                end
+
+                node.remove(head, char_node)
+              end  &% string length
+            end  &% if char and char.string
+          end  &% for char in match
+          if changed > 20 then
+            texio.write('Too many changes. Ignoring the rest.')
+          elseif changed > 0 then
+            w, wn, nw = Babel.fetch_word(word_head)
+          end
+
+        end  &% for match
+      end  &% for patterns
+      word_head = nw
+    end  &% for words
+    return head
+  end
+
+  function Babel.capture_func(key, cap)
+    local ret = "[[" .. cap:gsub('{([0-9])}', "]]..m[%1]..[[") .. "]]"
+    ret = ret:gsub("%[%[%]%]%.%.", '')
+    ret = ret:gsub("%.%.%[%[%]%]", '')
+    return key .. [[=function(m) return ]] .. ret .. [[ end]]
+  end
+}
+\catcode`\#=6
+\gdef\babelposthyphenation#1#2#3{&%
+  \begingroup
+    \def\babeltempa{\bbl@add@list\babeltempb}&%
+    \let\babeltempb\@empty
+    \bbl@foreach{#3}{&%
+      \bbl@ifsamestring{##1}{remove}&%
+        {\bbl@add@list\babeltempb{nil}}&%
+        {\directlua{
+           local rep = [[##1]]
+           rep = rep:gsub(    '(no)%s*=%s*([^%s,]*)', Babel.capture_func)
+           rep = rep:gsub(   '(pre)%s*=%s*([^%s,]*)', Babel.capture_func)
+           rep = rep:gsub(  '(post)%s*=%s*([^%s,]*)', Babel.capture_func)
+           rep = rep:gsub('(string)%s*=%s*([^%s,]*)', Babel.capture_func)
+           tex.print([[\string\babeltempa{{]] .. rep .. [[}}]])
+         }}}&%
+    \directlua{
+      local lbkr = Babel.linebreaking.replacements
+      local u = unicode.utf8
+      &% Convert pattern:
+      local patt = string.gsub([[#2]], '%s', '')
+      if not u.find(patt, '()', nil, true) then
+        patt = '()' .. patt .. '()'
+      end
+      patt = u.gsub(patt, '{(.)}',
+                function (n)
+                  return '%' .. (tonumber(n) and (tonumber(n)+1) or n)
+                end)
+      lbkr[\the\csname l@#1\endcsname] = lbkr[\the\csname l@#1\endcsname] or {}
+      table.insert(lbkr[\the\csname l@#1\endcsname],
+                   { pattern = patt, replace = { \babeltempb } })
+    }&%
+  \endgroup}
+\endgroup
+\bbl@trace{Redefinitions for bidi layout}
+\ifx\@eqnnum\@undefined\else
+  \ifx\bbl@attr@dir\@undefined\else
+    \edef\@eqnnum{{%
+      \unexpanded{\ifcase\bbl@attr@dir\else\bbl@textdir\@ne\fi}%
+      \unexpanded\expandafter{\@eqnnum}}}
+  \fi
+\fi
+\ifx\bbl@opt@layout\@nnil\endinput\fi  % if no layout
+\ifx\bbl@beforeforeign\leavevmode % A poor test for bidi=
+  \def\bbl@nextfake#1{%  non-local changes, use always inside a group!
+    \bbl@exp{%
+      \mathdir\the\bodydir
+      #1%              Once entered in math, set boxes to restore values
+      \<ifmmode>%
+        \everyvbox{%
+          \the\everyvbox
+          \bodydir\the\bodydir
+          \mathdir\the\mathdir
+          \everyhbox{\the\everyhbox}%
+          \everyvbox{\the\everyvbox}}%
+        \everyhbox{%
+          \the\everyhbox
+          \bodydir\the\bodydir
+          \mathdir\the\mathdir
+          \everyhbox{\the\everyhbox}%
+          \everyvbox{\the\everyvbox}}%
+      \<fi>}}%
+  \def\@hangfrom#1{%
+    \setbox\@tempboxa\hbox{{#1}}%
+    \hangindent\wd\@tempboxa
+    \ifnum\bbl@getluadir{page}=\bbl@getluadir{par}\else
+      \shapemode\@ne
+    \fi
+    \noindent\box\@tempboxa}
+\fi
+\IfBabelLayout{tabular}
+  {\let\bbl@OL@@tabular\@tabular
+   \bbl@replace\@tabular{$}{\bbl@nextfake$}%
+   \let\bbl@NL@@tabular\@tabular
+   \AtBeginDocument{%
+     \ifx\bbl@NL@@tabular\@tabular\else
+       \bbl@replace\@tabular{$}{\bbl@nextfake$}%
+       \let\bbl@NL@@tabular\@tabular
+     \fi}}
+   {}
+\IfBabelLayout{lists}
+  {\let\bbl@OL@list\list
+   \bbl@sreplace\list{\parshape}{\bbl@listparshape}%
+   \let\bbl@NL@list\list
+   \def\bbl@listparshape#1#2#3{%
+     \parshape #1 #2 #3 %
+     \ifnum\bbl@getluadir{page}=\bbl@getluadir{par}\else
+       \shapemode\tw@
+     \fi}}
+  {}
+\IfBabelLayout{graphics}
+  {\let\bbl@pictresetdir\relax
+   \def\bbl@pictsetdir{%
+     \ifcase\bbl@thetextdir
+       \let\bbl@pictresetdir\relax
+     \else
+       \textdir TLT\relax
+       \def\bbl@pictresetdir{\textdir TRT\relax}%
+     \fi}%
+   \let\bbl@OL@@picture\@picture
+   \let\bbl@OL@put\put
+   \bbl@sreplace\@picture{\hskip-}{\bbl@pictsetdir\hskip-}%
+   \def\put(#1,#2)#3{%  Not easy to patch. Better redefine.
+     \@killglue
+     \raise#2\unitlength
+     \hb@xt@\z@{\kern#1\unitlength{\bbl@pictresetdir#3}\hss}}%
+   \AtBeginDocument
+     {\ifx\tikz@atbegin@node\@undefined\else
+        \let\bbl@OL@pgfpicture\pgfpicture
+        \bbl@sreplace\pgfpicture{\pgfpicturetrue}{\bbl@pictsetdir\pgfpicturetrue}%
+        \bbl@add\pgfsys@beginpicture{\bbl@pictsetdir}%
+        \bbl@add\tikz@atbegin@node{\bbl@pictresetdir}%
+      \fi}}
+  {}
+\IfBabelLayout{counters}%
+  {\let\bbl@OL@@textsuperscript\@textsuperscript
+   \bbl@sreplace\@textsuperscript{\m@th}{\m@th\mathdir\pagedir}%
+   \let\bbl@latinarabic=\@arabic
+   \let\bbl@OL@@arabic\@arabic
+   \def\@arabic#1{\babelsublr{\bbl@latinarabic#1}}%
+   \@ifpackagewith{babel}{bidi=default}%
+     {\let\bbl@asciiroman=\@roman
+      \let\bbl@OL@@roman\@roman
+      \def\@roman#1{\babelsublr{\ensureascii{\bbl@asciiroman#1}}}%
+      \let\bbl@asciiRoman=\@Roman
+      \let\bbl@OL@@roman\@Roman
+      \def\@Roman#1{\babelsublr{\ensureascii{\bbl@asciiRoman#1}}}%
+      \let\bbl@OL@labelenumii\labelenumii
+      \def\labelenumii{)\theenumii(}%
+      \let\bbl@OL@p@enumiii\p@enumiii
+      \def\p@enumiii{\p@enumii)\theenumii(}}{}}{}
+\bbl@trace{Bidi footnotes}
+\ifx\bbl@beforeforeign\leavevmode
+  \def\bbl@footnote#1#2#3{%
+    \@ifnextchar[%
+      {\bbl@footnote@o{#1}{#2}{#3}}%
+      {\bbl@footnote@x{#1}{#2}{#3}}}
+  \def\bbl@footnote@x#1#2#3#4{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnote{#2#1{\ignorespaces#4}#3}%
+    \egroup}
+  \def\bbl@footnote@o#1#2#3[#4]#5{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnote[#4]{#2#1{\ignorespaces#5}#3}%
+    \egroup}
+  \def\bbl@footnotetext#1#2#3{%
+    \@ifnextchar[%
+      {\bbl@footnotetext@o{#1}{#2}{#3}}%
+      {\bbl@footnotetext@x{#1}{#2}{#3}}}
+  \def\bbl@footnotetext@x#1#2#3#4{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnotetext{#2#1{\ignorespaces#4}#3}%
+    \egroup}
+  \def\bbl@footnotetext@o#1#2#3[#4]#5{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnotetext[#4]{#2#1{\ignorespaces#5}#3}%
+    \egroup}
+  \def\BabelFootnote#1#2#3#4{%
+    \ifx\bbl@fn@footnote\@undefined
+      \let\bbl@fn@footnote\footnote
+    \fi
+    \ifx\bbl@fn@footnotetext\@undefined
+      \let\bbl@fn@footnotetext\footnotetext
+    \fi
+    \bbl@ifblank{#2}%
+      {\def#1{\bbl@footnote{\@firstofone}{#3}{#4}}
+       \@namedef{\bbl@stripslash#1text}%
+         {\bbl@footnotetext{\@firstofone}{#3}{#4}}}%
+      {\def#1{\bbl@exp{\\\bbl@footnote{\\\foreignlanguage{#2}}}{#3}{#4}}%
+       \@namedef{\bbl@stripslash#1text}%
+         {\bbl@exp{\\\bbl@footnotetext{\\\foreignlanguage{#2}}}{#3}{#4}}}}
+\fi
+\IfBabelLayout{footnotes}%
+  {\let\bbl@OL@footnote\footnote
+   \BabelFootnote\footnote\languagename{}{}%
+   \BabelFootnote\localfootnote\languagename{}{}%
+   \BabelFootnote\mainfootnote{}{}{}}
+  {}
+\IfBabelLayout{extras}%
+  {\let\bbl@OL@underline\underline
+   \bbl@sreplace\underline{$\@@underline}{\bbl@nextfake$\@@underline}%
+   \let\bbl@OL@LaTeX2e\LaTeX2e
+   \DeclareRobustCommand{\LaTeXe}{\mbox{\m@th
+     \if b\expandafter\@car\f@series\@nil\boldmath\fi
+     \babelsublr{%
+       \LaTeX\kern.15em2\bbl@nextfake$_{\textstyle\varepsilon}$}}}}
+  {}
 \endinput
 %%
 %% End of file `luababel.def'.

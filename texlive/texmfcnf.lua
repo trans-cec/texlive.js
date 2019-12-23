@@ -11,7 +11,7 @@ return {
   content = {
     variables = {
       TEXMFLOCAL = "selfautoparent:/texmf-local",
-      TEXMFVAR = "/tmp/tex/texlive.js/home/texmf-var",
+      TEXMFVAR = "/home/peter/workspace/texlive.js/home/texmf-var",
     },
   },
 }

@@ -1,0 +1,532 @@
+% \iffalse meta-comment
+%
+% File: codeanatomy.dtx Copyright (C) 2019 Hong-Phuc Bui
+%
+% It may be distributed and/or modified under the conditions of the
+% LaTeX Project Public License (LPPL), either version 1.3c of this
+% license or (at your option) any later version.  The latest version
+% of this license is in the file
+%
+%    https://www.latex-project.org/lppl.txt
+%
+%
+% -----------------------------------------------------------------------
+%
+% The development version of the bundle can be found at
+%
+%    https://github.com/hpb-htw/codeanatomy
+%
+% for those people who are interested.
+%
+% -----------------------------------------------------------------------
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
+%<package>\ProvidesPackage{codeanatomy}[2019/07/12 v0.4-Alpha draw Code Anatomy]
+% \fi
+%
+% \iffalse
+%<*driver>
+\documentclass[full]{l3doc}
+
+\usepackage{fontspec}
+\usepackage{luaotfload}
+
+
+\usepackage{biblatex}    
+\addbibresource{literatur.bib}
+\newcommand{\slsh}{\textbackslash{}}
+\newcommand{\TikZ}{Ti\textit{k}Z}
+\newcommand{\fixedBug}[1]{\tikz[baseline=(X.base)]\node[cross out,draw] (X) {#1};}
+\def\thinmargin{\list{}{\rightmargin-50pt\leftmargin-90pt}\item[]}
+\let\endthinmargin=\endlist
+
+\usepackage{listings}
+\lstset {
+    basicstyle=\small\ttfamily
+    ,escapeinside={+}{+}
+}
+
+\usepackage{codeanatomy}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \GetFileInfo{\jobname.sty}
+% \DoNotIndex{\definecolor, \colorlet}
+% \DoNotIndex{\NewDocumentCommand, \node}
+% \DoNotIndex{\phantom}
+% \DoNotIndex{\RequirePackage, \rule}
+% \DoNotIndex{\small, \sffamily}
+% \DoNotIndex{\textcolor, \tikzmarknode, \tikzset, \ttfamily}
+% \DoNotIndex{\usetikzlibrary}
+%
+% \title{^^A
+%   \pkg{codeanatomy} -- Draw Code Anatomy^^A
+%   \thanks{This file describes \fileversion, ^^A
+%     last revised \filedate.}\\[1ex]^^A
+%     \normalsize{Reference}^^A
+% }^^A
+%
+% \author{^^A
+%  Hồng-Phúc Bùi^^A
+%  \thanks{^^A
+%    E-mail:
+%    \href{mailto:Hồng-Phúc Bùi}
+%      {hong-phuc.bui (at) htwsaar dot de}^^A
+%   }^^A
+% }
+%
+% \date{Released \filedate}
+%
+% \parindent0pt
+%
+% \maketitle
+% \tableofcontents
+%
+% \section{Hints}
+% Usage of this Package can be found in \texttt{codeanatomy.usage.pdf} and \texttt{codeanatomy.lstlisting.pdf}.
+% This document show only generated reference of commands in this Package.
+%
+
+% ^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Implementation}
+%
+% \changes{v0.2-Alpha}
+%         {2019/07/10}
+%         {This package does not load \pkg{xcolor} anymore. 
+%         It relies on \pkg{tikz}, that \pkg{tikz} loads \pkg{xcolor} 
+%         in a way that \pkg{codeanatomy} can define RGB color}
+%
+%
+% \subsection{Package Dependenies}
+%
+%    \begin{macrocode}
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+%    \end{macrocode}
+%
+% Load necsessary \TikZ{} libraries.
+%    \begin{macrocode}
+\usetikzlibrary{
+   tikzmark  
+  ,fit
+  ,arrows.meta
+  ,bending
+  ,shapes
+  ,chains
+  ,backgrounds
+  ,scopes
+  ,decorations
+  ,decorations.pathmorphing
+}
+%    \end{macrocode}
+%
+% \subsection{Setup styles}
+% ^^A+++++++++++++++++++++
+% \subsubsection{Colors}
+% ^^A-------------------
+%  Define colors which are used in \pkg{codeanatomy}
+
+% \DescribeMacro{annotationcolor}
+% \tikz{\draw[fill=annotationcolor] circle(1ex); }
+%    \begin{macrocode}
+\definecolor{annotationcolor}
+            {rgb}{0,0.50002,1} % Blue
+%    \end{macrocode}
+%
+% \DescribeMacro{bgcmdcolor}
+% \tikz{\draw[fill=bgcmdcolor] circle(1ex); }
+%    \begin{macrocode}
+\colorlet{bgcmdcolor}{gray}    % Grey
+%    \end{macrocode}
+%
+% \subsubsection{\TikZ{} styles for code in a Code Anatomy}
+% ^^A------------------------------------------------------
+%
+% \DescribeMacro{anatomy}
+% \TikZ{} style for annotation labels: \\
+% |\tikz{\node(code) [anatomy] at (0,0) {code line 1\\code line 2}; }|\\
+% yields \tikz{\node(code) [anatomy] at (0,0) {code line 1\\code line 2}; }
+%    \begin{macrocode}
+\tikzset{anatomy/.style={%
+      anchor=south west,%
+      inner sep=0,%
+      align=left,%
+      font=\ttfamily
+    }
+}
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{code part}
+% \TikZ{} style to marce a piece of code in an anatomy: \\
+% |\tikz{\node(code) [code part] at (0,0) {let a = 12;};}|\\
+% yields  \tikz{\node(code) [code part] at (0,0) {let a = 12;};}
+%    \begin{macrocode}
+\tikzset{code part/.style={%
+      rectangle,%
+      draw=annotationcolor,%
+      align=left,%
+      minimum height=1.175em,%
+      inner sep=1.75pt,%
+      outer sep=0.1pt,%
+      font=\ttfamily
+    }
+}
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{fit extrem}
+% \TikZ{} style to mark a piece of multiple line code in an anatomy:\\
+% |\tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }|\\
+% yields \tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }
+%    \begin{macrocode}  
+\tikzset{fit extrem/.style={%
+      rectangle,%
+      draw=annotationcolor,%
+      align=left,%
+      minimum height=1.175em,%
+      inner sep=1.75pt,%
+      outer sep=0.1pt,%
+      font=\ttfamily
+    }
+}
+%    \end{macrocode}
+% 
+%
+%
+%
+% \DescribeMacro{annotation}
+% \TikZ{} style of arrows from annotation labels to code parts:\\
+% |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
+% yields 
+% \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
+%
+% \changes{v0.4-Alpha}
+%         {2019/07/12}
+%         {Set \texttt{fill} to \texttt{annotationcolor} explicit for arrow style}
+%
+%    \begin{macrocode}
+\tikzset{annotation/.style={%
+      preaction={
+          draw=white,%
+          line width=3.5pt,%
+          arrows={-Triangle Cap[]},%
+      },%
+      draw=annotationcolor,%
+      arrows={-Latex[%
+          round,%
+          color=annotationcolor,
+          fill=annotationcolor
+        ]
+      },
+      shorten >=0.25pt
+    }
+}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{code annotation}
+% \TikZ{} style for a annotation label \tikz{\node(a)[code annotation] at (0,0) {function name};}
+%    \begin{macrocode}  
+\tikzset{code annotation/.style={%
+      inner sep=2pt,%
+      text=annotationcolor,%
+      align=center,%
+      font=\sffamily\small
+    }
+}
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{code grid debug}
+% \TikZ{} style to draw debug grid on the background of anatomy
+%    \begin{macrocode}
+\tikzset{code grid debug/.style={%
+      step=1.0,%
+      draw=gray!20,%
+      very thin,%
+      on background layer
+    }
+}
+%    \end{macrocode}
+%
+%
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+% \subsection{Command used to set code and code anatomy}
+% ^^A---------------------------------------------------
+% 
+%
+% \DescribeMacro{\codeBlock} \marg{code}
+%
+% Complete code listing of a Code Anatomy figure is typeset by this command.
+% Whereas \marg{code} is the \emph{formatted} code listing.
+% This command can be used if there are no other packages to typeset code listing in use.
+%    \begin{macrocode}
+\NewDocumentCommand{\codeBlock}{m}%
+  {\node(code) [anatomy] at (0,0) {#1};}
+%    \end{macrocode}
+%
+%
+% 
+% \DescribeMacro{\cPart} \marg{node name}\marg{piece of code}
+%
+% Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
+% be annotated. 
+% \begin{itemize}
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
+%   \item \marg{piece of code} is a single code part to be marked.    
+% \end{itemize}
+%    \begin{macrocode}
+\NewDocumentCommand{\cPart}{mm} %
+    {\tikzmarknode[code part]{#1}{#2}}
+%    \end{macrocode} 
+% 
+%
+%
+% \DescribeMacro{\iPart} \marg{node name}\marg{piece of code}
+%
+% Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
+% be annotated. It does not plot border around the pice of code as |\cPart| does.
+% \begin{itemize}
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
+%   \item \marg{piece of code} is a single code part to be marked.
+% \end{itemize}
+%    \begin{macrocode}
+\NewDocumentCommand{\iPart}{mm} %
+    {\tikzmarknode[code part,draw=none,inner sep=0.75pt]{#1}{#2}}
+%    \end{macrocode} 
+% 
+%
+%
+%
+% \DescribeMacro{\mtPoint}\marg{node name}
+%
+% Marks a point as a \textbf{m}ost \textbf{t}op in a Code Block.
+%    \begin{macrocode}  
+\NewDocumentCommand{\mtPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[1.8ex]{0.1ex}{0.1ex}}}}
+%    \end{macrocode}
+%      
+%
+%
+% \DescribeMacro{\hmtPoint}\marg{node name}
+%
+% Marks a point as a \textbf{h}eigher \textbf{m}ost \textbf{t}op point in a Code Block.  
+%    \begin{macrocode}    
+\NewDocumentCommand{\hmtPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}    
+%    \end{macrocode}
+%      
+%
+%
+% \DescribeMacro{\mbPoint}\marg{node name}
+%
+% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.      
+%    \begin{macrocode}    
+\NewDocumentCommand{\mbPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[-0.55ex]{0.1ex}{0.1ex}}}}
+%    \end{macrocode}
+%      
+%
+%
+% \DescribeMacro{\dmbPoint}\marg{node name}
+%
+% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.    
+%    \begin{macrocode}      
+\NewDocumentCommand{\dmbPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[-2ex]{0.1ex}{0.1ex}}}}    
+%    \end{macrocode}
+%  
+%
+% \DescribeMacro{\extremPoint}\marg{node name}\oarg{yshift}\oarg{xshift}\oarg{style}
+%
+% Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
+%
+% \begin{itemize}
+%      \item \marg{node name} is the \TikZ{} node name which is used in |\fitExtrem| to reference to this point 
+%      \item \oarg{yshift} a length, default 0ex which places this markpoint on the base line, 
+%                          shift this mark point vertical, for positive value over base line, negative value under
+%                          base line.
+%      \item \oarg{xshift} same as \oarg{yshift} but for horizontal direction.
+%      \item \oarg{style} is a \TikZ{} style (may be defined by user).
+%  \end{itemize}
+%
+%  For example:
+%
+% |\begin{tikzpicture}[remember picture]|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |   \extremPoint{tl}[2ex]Line with some text\extremPoint{br}[-1ex]\\|\\
+% |   \extremPoint{tl2}other Line with some text\\|\\
+% |   some more line\extremPoint{br2}\\|\\
+% |};|\\
+% |\fitExtrem{box1}{(tl) (br)}|\\
+% |\fitExtrem{box2}{(tl2) (br2)}|\\
+% |\end{tikzpicture}|\\
+%
+% yields\\
+%
+% \begin{tikzpicture}[remember picture]
+% \node(code) [anatomy] at (0,0) {
+%    \extremPoint{tl}[2ex]Line with some text\extremPoint{br}[-1ex]\\
+%    \extremPoint{tl2}other Line with some text\\
+%    some more line\extremPoint{br2}\\
+% };
+% \fitExtrem{box1}{(tl) (br)}
+% \fitExtrem{box2}{(tl2) (br2)}
+% \end{tikzpicture}
+%    \begin{macrocode}
+\NewDocumentCommand{\extremPoint}{m O{0ex} O{0.1ex} O{} }
+    {\tikzmarknode[#4]{#1}{\phantom{\rule[#2]{#3}{0.1ex}}}}
+%    \end{macrocode}
+%  
+%
+%
+%
+% \DescribeMacro{\fitExtrem} \marg{node name}\marg{extrem points}
+%
+% Create a rectangle box over given extrem points defined by |\*Point{}|.
+%
+% \begin{itemize}
+%   \item \marg{node name} is a unique \TikZ{} node name in the current anatomy 
+%   \item \marg{extrem points} is a list of \TikZ{} node name created by |\*Point|, 
+%      each name is surrounded by |()|.
+% \end{itemize}
+% 
+% Example:
+%
+% |\begin{tikzpicture}[remember picture]|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |\mtPoint{left}Line 1\\|\\
+% |Long Line 2\extremPoint{right}\\|\\
+% |Line 3\mbPoint{bottom}|\\
+% |};|\\
+% |\fitExtrem{box} { (left) (bottom) (right) }|\\
+% |\end{tikzpicture}|\\
+%
+% yields\\
+%
+% \begin{tikzpicture}[remember picture]
+% \node(code) [anatomy] at (0,0) {
+% \mtPoint{left}Line 1\\
+% Long Line 2\extremPoint{right}\\
+% Line 3\mbPoint{bottom}
+% };
+% \fitExtrem{box} { (left) (bottom) (right) }
+% \end{tikzpicture}
+%    \begin{macrocode}
+\NewDocumentCommand{\fitExtrem}{mm}
+    {\node(#1)[fit extrem,fit={#2}]{};}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\bgcode} \marg{piece of code}
+%
+% Typeset a piece of code in color |bgcmdcolor|. 
+% For example 
+%
+% |\tikz{\codeBlock{let a := 12\bgcode{;}}}|
+%
+% yields \tikz{\codeBlock{let a := 12\bgcode{;}}} 
+%    \begin{macrocode}
+\NewDocumentCommand{\bgcode}{m}{\textcolor{bgcmdcolor}{#1}}
+%    \end{macrocode}
+%
+% 
+% \DescribeMacro{\ptab}
+% \DescribeMacro{\phspace} 
+% Produce a horizontal space of 4 small characters |h| respective 1 small character |h|\\
+% for example: |\tikz{\codeBlock{a\ptab{}b}}| yields \tikz{\codeBlock{a\ptab{}b}}
+%    \begin{macrocode}
+\NewDocumentCommand{\ptab}{}{\phantom{hhhh}}
+\NewDocumentCommand{\phspace}{}{\phantom{h}}
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{\codeAnnotation}\marg{node name}\parg{coordinate}\marg{label text}
+%
+% Typeset Annotation labels for a code part. 
+% \begin{itemize}
+%  \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|,
+%  \item \parg{coordinate} is the coordinate of the annotation label, surrounded by a |()|,
+%  \item \marg{label text} text content to be typeset.
+% \end{itemize}
+%
+% For example:
+%
+% |\begin{tikzpicture}[remember picture]|\\
+% |\codeBlock{a \cPart{a}{:=} 12 + 13}|\\
+% |\codeAnnotation{codeLabel} (1,-0.5) {assignment}|\\
+% |\draw[->,annotation] (codeLabel) -- (a);|\\
+% |\end{tikzpicture}|\\
+%
+% yields\\ \medskip
+%
+% \begin{tikzpicture}[remember picture]
+% \codeBlock{a \cPart{a}{:=} 12 + 13}
+% \codeAnnotation{codeLabel} (1,-0.5) {assignment}
+% \draw[->,annotation] (codeLabel) -- (a);
+% \end{tikzpicture}
+%    \begin{macrocode}
+\NewDocumentCommand{\codeAnnotation}{m r() m } %
+    { \node(#1)[code annotation] at (#2) {#3}; }
+%    \end{macrocode}
+%
+%
+%
+%
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Known Bugs}
+%
+% \paragraph*{\fixedBug{Arrows color}}
+% Arrows appear in some cases with mysterious color. I don't know why! 
+% For example:
+%
+% |\begin{tikzpicture}[remember picture]|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |\hmtPoint{a}Short line\\|\\
+% |code with some long text\extremPoint{b}[-0.5ex]|\\
+% |};|\\
+% |\fitExtrem{l}{(a) (b)}|\\
+% |\codeAnnotation{n} (-2,0){here is|\\
+% |                            a\extremPoint{point}[0.75ex][0.5ex]|\\
+% |                          long line}|\\
+% |\draw[->, annotation] (point) -- (l);|\\
+% |\end{tikzpicture}|
+%
+% yields
+%
+% \begin{tikzpicture}[remember picture]
+% \node(code) [anatomy] at (0,0) {
+% \hmtPoint{a}Short line\\
+% code with some long text\extremPoint{b}[-0.5ex]
+% };
+% \fitExtrem{l}{(a) (b)}
+% \codeAnnotation{n} (-2,0){here is\\
+%                             a\extremPoint{point}[0.75ex][0.5ex]\\
+%                          long line}
+% \draw[->, annotation] (point) -- (l);
+% \end{tikzpicture}
+%    
+%
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \PrintIndex
+% \PrintChanges
+%
+\endinput
+

@@ -8,7 +8,7 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
 % version 2005/12/01 or later.
 %
@@ -20,7 +20,7 @@
 % \iffalse    This is a METACOMMENT
 %
 %% Package `multicol' to use with LaTeX2e
-%% Copyright 1989-2016 Frank Mittelbach
+%% Copyright 1989-2019 Frank Mittelbach
 %%
 %%  In addition to the terms of LPPL any distributed version
 %%  (unchanged or modified) of multicol has to keep the statement
@@ -86,12 +86,19 @@
 %<*dtx>
           \ProvidesFile{multicol.dtx}
 %</dtx>
-%<package>\NeedsTeXFormat{LaTeX2e}[1997/12/01]
+%<package>\NeedsTeXFormat{LaTeX2e}[2018-04-01]
+%<package>
+%<package>\providecommand\DeclareRelease[3]{}
+%<package>\providecommand\DeclareCurrentRelease[2]{}
+%<package>
+%<package>\DeclareRelease{}{2017-04-11}{multicol-2017-04-11.sty}
+%<package>\DeclareCurrentRelease{}{2018-04-01}
+%<package>
 %<package>\ProvidesPackage{multicol}
 %<driver> \ProvidesFile{multicol.drv}
 % \fi
 %         \ProvidesFile{multicol.dtx}
-          [2016/04/07 v1.8p  multicolumn formatting (FMi)]
+          [2019/03/01 v1.8w  multicolumn formatting (FMi)]
 %
 %
 %%
@@ -138,7 +145,7 @@
 % \DoNotIndex{\z@}
 %
 % \MakeShortVerb{\|}
-% \newcommand{\mc}{{\sf multicols}}
+% \newcommand{\mc}{\textsf{multicols}}
 % \newcommand{\TUB}{{\sl TUGboat\/}}
 % \newcommand{\TB}{{\sl\TeX book\/}}
 %
@@ -184,13 +191,15 @@
 %    Also added was support for |\enlargethispage|. This means it is
 %    now possible to request a page to be artificially  enlarged or
 %    shortened. Note that if you enlarge pages by more than one line
-%    you may have to increase the {\sf collectmore} counter value to
+%    you may have to increase the \textsf{collectmore} counter value to
 %    ensure that enough material is being picked up.
 %
 %    This command was used on the second page of this manual to shorten
 %    it by one line, in order to get rid of a number of widow lines on
 %    the following pages.
 %
+%   There are also some small enhancements to the balancing algorithm
+%   including a ways to require a minimum number of rows in the result.
 %
 %    Finally, version 1.8 adds the command |\docolaction| to help with
 %   more complicated actions that depend on the current column. This
@@ -271,8 +280,8 @@
 %   \LaTeX{}, but every use of |\twocolumn| or |\onecolumn|
 %   starts a new page. Moreover, the last page of two-column output
 %   isn't balanced and this often results in an empty, or nearly
-%   empty, right column. When I started to write macros for {\sf
-%   doc.sty} (see ``The {\tt doc}--Option'', \TUB\
+%   empty, right column. When I started to write macros for
+% \textsf{doc.sty} (see ``The \texttt{doc}--Option'', \TUB\
 %   volume 10~\#2, pp.~245--273) I thought that it would be nice to
 %   place the index
 %   on the same page as the bibliography. And balancing the last page
@@ -312,7 +321,7 @@
 % \enlargethispage{-1\baselineskip}
 %
 % \DescribeMacro\premulticols
-% As its first action, the {\sf multicols} environment measures the
+% As its first action, the \textsf{multicols} environment measures the
 % current page to determine whether there is enough room for some
 % portion of multicolumn output. This is controlled by the
 % \meta{dimen} variable |\premulticols| which can be changed by
@@ -365,7 +374,7 @@
 % \DescribeMacro\columnseprule
 % Separation of columns with vertical rules is achieved by setting the
 % parameter |\columnseprule| to some positive value.  In this
-% article a value of {\sf.4pt} was used.
+% article a value of \textsf{.4pt} was used.
 %
 % \DescribeMacro\columnseprulecolor
 % The color of the rules separating the columns can be specified through
@@ -403,7 +412,7 @@
 % is 9999 which is less than infinity but `bad' enough for most
 % paragraphs in a multicolumn environment. Changing its value should
 % be done outside the \mc{} environment.  Since |\tolerance| is set
-% to |\multicoltolerance| at the beginning of every {\sf multicols}
+% to |\multicoltolerance| at the beginning of every \textsf{multicols}
 % environment one can locally overwrite this default by assigning
 % \verb*+\tolerance = +\meta{desired value}. There also exists a
 % |\multicolpretolerance| parameter holding the value for
@@ -438,7 +447,7 @@
 % actually going wrong are very slim, but if this happens you can help
 % \TeX{} by using a |\pagebreak| command in the final document.
 % Another way to influence the behavior of \TeX{} in this respect is
-% given by the counter variable `{\sf collectmore}'. If you use the
+% given by the counter variable `\textsf{collectmore}'. If you use the
 % |\setcounter| declaration to set this counter to \meta{number},
 % \TeX{} will consider \meta{number} more (or less) lines before
 % making its final decision. So a value of $-1$ may solve all your
@@ -452,16 +461,27 @@
 % make both
 % the top and bottom baselines of all columns align.
 %
-% Additionally you can set another counter, the `{\sf unbalance}'
+% If there is only a small amount of material available for balancing
+% then you may end up with very few lines per column. In an extreme
+% case there may be only one line which looks distinctly odd. In that
+% case it might be better to have more material distributed to the
+% earlier columns even if that means that later columns are empty or
+% partially empty. This is controlled through the counter
+% `\textsf{minrows}' (default 1). If set to a higher value then the
+% balancing will have at least that many rows in the first column (and
+% also all further columns until it runs outs of material).
+%          
+% Additionally you can set another counter, the `\textsf{unbalance}'
 % counter, to some positive \meta{number}. This will make all but the
 % right-most column \meta{number} of lines longer than they would
 % normally have been. `Lines' in this context refer to normal text
 % lines (i.e.\ one |\baselineskip| apart); thus, if your columns
 % contain displays,
 % for example, you may need a higher \meta{number}
-% to shift something from one column into another.
+% to shift something from one column into another. A negative value can make sense if
+% you have set \textsf{minrows} and want to locally adjust that.
 %
-% Unlike `{\sf collectmore},' the `{\sf unbalance}' counter is reset
+% Unlike `\textsf{collectmore},' the `\textsf{unbalance}' counter is reset
 % to zero at the end of the environment so it only applies to one
 % \mc{} environment.
 %
@@ -478,7 +498,7 @@
 %
 % The new release now measures every generated column and ignores
 % solutions where at least one column has a badness being larger than
-% the value of the counter {\sf columnbadness}. The default value for
+% the value of the counter \textsf{columnbadness}. The default value for
 % this counter is 10000, thus \TeX{} will accept all solutions except
 % those being overfull.
 % By setting the counter to a smaller value you can force the algorithm
@@ -498,7 +518,7 @@
 %
 % In the new release this stretching is only done if the badness of
 % the final column is not larger than the value of the counter
-% {\sf finalcolumnbadness}. The default setting is 9999, thus preventing
+% \textsf{finalcolumnbadness}. The default setting is 9999, thus preventing
 % the stretching for all columns that \TeX{} would consider infinitely
 % bad. In that case the final column is allowed to run short which gives
 % a much better result.
@@ -548,13 +568,13 @@
 %
 % Within the \mc{} environment the usual star float commands are
 % available but their function is somewhat different as in the
-% two-column mode of standard \LaTeX. Stared floats, e.g., {\tt
-% figure*}, denote page wide floats that are handled in a similar
+% two-column mode of standard \LaTeX. Stared floats, e.g.,
+% \texttt{figure*}, denote page wide floats that are handled in a similar
 % fashion as normal floats outside the \mc{} environment. However,
 % they will never show up on the page where they are encountered. In
 % other words, one can influence their placement by specifying a
-% combination of {\tt t}, {\tt b}, and/or {\tt p} in their optional
-% argument, but {\tt h} doesn't work because the first possible place
+% combination of \texttt{t}, \texttt{b}, and/or \texttt{p} in their optional
+% argument, but \texttt{h} doesn't work because the first possible place
 % is the top of the next page. One should also note, that this means
 % that their placement behavior is determined by the values of
 % |\topfraction|, etc.\ rather than by |\dbl...|.
@@ -608,7 +628,7 @@
 %  inside `multicols' environment!}
 %
 %  This message appears if you try to use the |\marginpar| command or
-%  an unstarred version of the {\sf figure} or {\sf table} environment.
+%  an unstarred version of the \textsf{figure} or \textsf{table} environment.
 %  Such floats will disappear!
 %
 % \item[] {\hspace*{-\labelsep}\tt Very deep columns!
@@ -642,7 +662,7 @@
 %    In this case you also get information from the balancing routine:
 %    the heights tried for the left and right-most columns,
 %    information about shrinking if the |\raggedcolumns|
-%    declaration is in force and the value of the `{\sf unbalance}'
+%    declaration is in force and the value of the `\textsf{unbalance}'
 %    counter if positive.
 % \item[$\meta{number}= 3$.]  Setting \meta{number}\pagebreak[2] to
 %    this value will additionally trace the mark handling
@@ -663,12 +683,12 @@
 % \begin{multicols}{3}[\section{Prefaces to older versions}
 %                      \subsection{Preface to version 1.4}]
 %   \hbadness=10000
-%   Beside fixing some bugs as mentioned in the {\sf multicol.bug} file
+%   Beside fixing some bugs as mentioned in the \textsf{multicol.bug} file
 %   this new release enhances the \mc{} environment by allowing for
 %   balancing in arbitrary contexts. It is now, for example, possible
-%   to balance text within a \mc{} or a {\sf minipage} as shown in
-%   \ref{tab:newcmds} where a {\sf multicols} environment within a
-%   {\sf quote} environment was used. It is now even possible to nest
+%   to balance text within a \mc{} or a \textsf{minipage} as shown in
+%   \ref{tab:newcmds} where a \textsf{multicols} environment within a
+%   \textsf{quote} environment was used. It is now even possible to nest
 %   \mc{} environments.
 %
 %   The only restriction to such inner \mc{} environments (nested, or
@@ -692,7 +712,7 @@
 %   |\badness| function of \TeX3, define a faster algorithm for finding
 %   the right column height, etc. If somebody thinks he/she has an
 %   enhancement I would be pleased to learn about it. But please obey
-%   the copyright notice and don't change {\sf multicol.dtx} directly!
+%   the copyright notice and don't change \textsf{multicol.dtx} directly!
 %   \begin{table*}
 %    \begin{quote}
 %    \begin{multicols}{2}
@@ -765,7 +785,7 @@
 %   forbidden floats was their ultimate removal from \LaTeX{}s
 %   |\@freelist| so that after a few |\marginpar|s inside the \mc{}
 %   environment floats where disabled forever.  (Thanks to Chris
-%   Rowley for pointing this out.) I removed this misbehaviour and at
+%   Rowley for pointing this out.) I removed this misbehavior and at
 %   the same time decided to allow at least floats spanning all
 %   columns, e.g., generated by the |figure*| environment.  You can
 %   see the new functionality in table~\ref{tab:newcmds} which was
@@ -780,7 +800,7 @@
 %      |\emergencystretch| \meta{dimen} register provided in the
 %      new \TeX{} 3.0. The first argument is the number of columns and
 %      the second one is the current |\hsize|. At the moment the
-%      default definition is $4\mbox{\tt pt} \times |#1|$, i.e.\ the
+%      default definition is $4\texttt{pt} \times |#1|$, i.e.\ the
 %      |\hsize| isn't used at all. But maybe there are better
 %      formulae.
 %
@@ -792,7 +812,7 @@
 %   \end{quote}
 %   \vspace*{-1ex}
 %   \vspace*{-0ex}
-%   \caption[]{The new commands of {\sf multicol.sty} version 1.2.
+%   \caption[]{The new commands of \textsf{multicol.sty} version 1.2.
 %            Both commands might be removed if good solutions to these
 %            open problems are found. I hope that these commands will
 %            prevent that nearly identical style files derived from
@@ -838,8 +858,7 @@
 %
 % The next bit of code contains the documentation driver file for
 % \TeX{}, i.e., the file that will produce the documentation you are
-% currently reading. It will be extracted from this file by the {\tt
-% docstrip} program.
+% currently reading. It will be extracted from this file by the \texttt{docstrip} program.
 % Since this is the first code in this file one can produce the
 % documentation
 % simply by running \LaTeX{} on the \texttt{.dtx} file.
@@ -1142,7 +1161,7 @@
 %    \end{macrocode}
 %    Now we output the first argument and produce vertical space
 %    above the columns. (Note that this argument corresponds to the
-%    first optional argument of the {\sf multicols} environment.)
+%    first optional argument of the \textsf{multicols} environment.)
 %    For many releases this argument was typeset in a group to get
 %    a similar effect as |\twocolumn[..]| where the argument is
 %    also implicitly surrounded by braces. However, this conflicts
@@ -1458,7 +1477,7 @@
 %    Finally we handle the footnote insertions. We have to multiply
 %    the magnification factor and the extra skip by the number of
 %    columns since each footnote reduces the space for every column
-%    (remember that we have pagewide footnotes).  If, on the other
+%    (remember that we have page-wide footnotes).  If, on the other
 %    hand, footnotes are typeset at the very end of the document, our
 %    scheme still works since |\count\footins| is zero then, so it
 %    will not change.
@@ -1468,7 +1487,7 @@
 %    \begin{macrocode}
     \init@mult@footins
 %    \end{macrocode}
-%    For the same reason (pagewide footnotes), the \meta{dimen}
+%    For the same reason (page-wide footnotes), the \meta{dimen}
 %    register controlling the maximum space used for footnotes isn't
 %    changed.  Having done this, we must reinsert all the footnotes
 %    which are already present (i.e.\ those encountered when the
@@ -1478,6 +1497,25 @@
 %    factor, etc.\ above.
 %    \begin{macrocode}
     \reinsert@footnotes
+%    \end{macrocode}
+%    Inside \mc{} a |\clearpage| is fairly useless as we aren't supporting
+%    floats. In fact, it can cause harm as it doesn't know about the
+%    |\partial@page| and may therefore result in making columns too long.
+%    So we change that to behave like |\newpage| but also check if there
+%    are any deferred floats. If so, perhaps the user tried to place them through
+%    that |\clearpage| (but that needs to be done before starting the \mc{}
+%    environment.
+% \changes{v1.8q}{2017/04/11}{Make \cs{clearpage} behave like \cs{newpage} (pr/4511)}
+%    \begin{macrocode}
+   \def\clearpage{%
+     \ifx\@deferlist\@empty\else
+       \PackageError{multicol}%
+          {Deferred floats not cleared}%
+          {A \string\clearpage\space inside multicols acts like
+           \string\newpage\space and doesn't clear floats.\MessageBreak
+           Move it before the multicols environment if you need it.}%
+     \fi
+    \newpage}%
 %    \end{macrocode}
 %    All the code above was only necessary for the unrestricted \mc{}
 %    version, i.e.\ the one that allows page breaks. If we are within
@@ -1556,8 +1594,8 @@
 %    |\columnwidth| was left unchanged. This is inconsistent,
 %    but |\columnwidth| is used only by floats (which
 %    aren't allowed in their current implementation) and by the
-%    |\footnote| macro. Since we want pagewide
-% footnotes\footnote{I'm not sure that I really want pagewide
+%    |\footnote| macro. Since we want page-wide
+% footnotes\footnote{I'm not sure that I really want page-wide
 %                       footnotes. But balancing of the last page can
 %                       only be achieved with this approach or with a
 %                       multi-path algorithm which is complicated and
@@ -1647,6 +1685,24 @@
 \newdimen\multicol@leftmargin
 %    \end{macrocode}
 %  \end{macro}
+%
+%
+%  \begin{macro}{\@Mvi}
+%    In versions prior to 1.8r the balancing at the end of the
+%   environment was done by changing the output routine from
+%   |\multi@column@out| to |\balance@column@out|. As it turned out
+%   that this has a couple of issues when the last columns should not
+%   be balanced after all (for example because they contained several
+%   |\columnbreak| commands we now stay with one output routine for
+%   the environment and only signal that we reached the end of the
+%   environment by marking it with a special penalty that we can check
+%   for later.
+% \changes{v1.8r}{2018/01/28}{Macro added}
+%    \begin{macrocode}
+\mathchardef\@Mvi=10006  % 10005 is \columnbreak
+%    \end{macrocode}
+%  \end{macro}
+%
 %
 % \begin{macro}{\endmulticols}
 %    When the end of the \mc{} environment is sensed we have to
@@ -1744,13 +1800,13 @@
 %    the very last item on the main vertical list is a valid break
 %    point so that \TeX{} breaks the page in case it is overfull.
 %    \begin{macrocode}
-   \penalty\z@
+    \penalty\z@
 %    \end{macrocode}
-%    Now it's safe to change the output routine in order to balance
-%    the columns.
+%    Now it's safe to call the output routine in order to balance
+%    the columns. We do this by calling it with a special penalty.
+% \changes{v1.8r}{2018/01/28}{Use special penalty to signal end of environment}
 %    \begin{macrocode}
-   \output{\balance@columns@out}%
-   \eject
+    \penalty-\@Mvi
 %    \end{macrocode}
 %    If the \mc{} environment body was completely empty or if a
 %    multi-page \mc{} just ends at a page boundary we have the unusual
@@ -1792,7 +1848,7 @@
   \@checkend{multicols}%
   \endgroup
 %    \end{macrocode}
-%    We also set the `{\sf unbalance}' counter to its default. This is
+%    We also set the `\textsf{unbalance}' counter to its default. This is
 %    done globally since \LaTeX{} counters are always changed this
 %    way.\footnote{Actually, we are still in a group started by the
 %    \cs{begin} macro, so \cs{global} must be used
@@ -1801,9 +1857,15 @@
   \global\c@unbalance\z@
 %    \end{macrocode}
 %    Now it's time to return any footnotes if we are in unrestricted
-%    mode:
+%    mode. In boxed mode footnotes are kept inside, but in that case
+%    we have to write another column status into the \texttt{.aux}
+%    file to support \cs{docolaction} in case we have nested
+%    environments.
+% \changes{v1.8s}{2018/04/20}{Support for \cs{docolaction} (issue/39)}
 %    \begin{macrocode}
-  \if@boxedmulticols\else
+  \if@boxedmulticols
+    \mc@col@status@write
+  \else
     \reinsert@footnotes
 %    \end{macrocode}
 %    We also take a look at the amount of free space on the current
@@ -2063,7 +2125,7 @@
 %    that this value is likely to be wrong. We therefore normalize the
 %    situation by pretending that the depth is zero. However, if |\page@sofar|
 %   is being called inside the OR then setting |\prevdepth| here has
-%   no longlasting effect, we therefore have to repeat this once we
+%   no long-lasting effect, we therefore have to repeat this once we
 %   return to the main vertical list. Here we set it only for those
 %   cases where the command is used within a list and then followed by
 %   something else.
@@ -2126,7 +2188,7 @@
 %
 % \begin{macro}{\vfilmaxdepth}
 %    This curious definition is used as the space at the bottom of a
-%   column if we implement |\raggedcolumns|. Normlly one only appends
+%   column if we implement |\raggedcolumns|. Normally one only appends
 %   |\vfill| in that case but this is actually wrong for columns that
 %   are more or less full: by adding a glue at the bottom such a
 %   column doesn't have any depth any more but without it the material
@@ -2215,13 +2277,18 @@
 %    user has issue a |\enlargethispage| command then the height the
 %    |\@kludgeins| box will be the negation of the size by which the
 %    page should be enlarged. If the star form of this command has
-%    been used then we also need to shrink the resulting column. As we
-%    don't know whether or not shrinking is already generally
-%    requested with save the current value of |\ifshr@king| and
-%    restore it afterwards.
+%    been used then we also need to shrink the resulting column.
+
+%    That local change will be reverted at the end of the output
+%   routine So for the next page the original state will be
+%   reestablished. However, in theory there is a possibility to sneak
+%   in a whole multicols environment into the running header
+%   definition. If that happens then it will also be affected by this
+%   change---too bad I think.   
 % \changes{v1.8a}{2011/12/20}{Support for \cs{enlargethispage}}
+% \changes{v1.8v}{2018/12/27}{Removed dead code, the case where this
+%   can go wrong is too obscure to worry about it (gh/101)}
 %    \begin{macrocode}
-   \let\ifshr@kingsaved\ifshr@king
    \ifvbox \@kludgeins
      \advance \dimen@ -\ht\@kludgeins
 %    \end{macrocode}
@@ -2251,7 +2318,7 @@
 %    But we need to unbox anyway to ensure that at the end of the box
 %    we do not have unwanted space. This can sneak in in certain
 %    situations, for example, if two lists follow each other and we
-%    break between them. While sich space is usually zero it still has
+%    break between them. While such space is usually zero it still has
 %    an effect because it hides depth of the last line in the column
 %    and that will result in incorrect placement.
 % \changes{v1.3c}{1990/03/03}{\cs{unbox}ing avoided.}
@@ -2282,11 +2349,6 @@
           {\unvbox\mult@rightbox
            \ifshr@nking\vfilmaxdepth\fi}%
 %    \end{macrocode}
-%    Now that we are done with the boxes, we restored the current
-%    setting for shrinking in case it got changed:
-%    \begin{macrocode}
-   \let\ifshr@king\ifshr@kingsaved
-%    \end{macrocode}
 %    Having done this we hope that box 255 is emptied. If not, we
 %    reinsert its contents.
 % \changes{v1.8a}{2011/12/20}{Only re-add output penalty if it was
@@ -2315,7 +2377,7 @@
            \thepage\space might be wrong}%
        \fi
 %    \end{macrocode}
-%    If the `{\sf tracingmulticols}' counter is 4 or higher we also
+%    If the `\textsf{tracingmulticols}' counter is 4 or higher we also
 %    add a rule.
 %    \begin{macrocode}
        \ifnum \c@tracingmulticols>\thr@@
@@ -2340,7 +2402,7 @@
       \let\botmark\kept@botmark
    \fi
 %    \end{macrocode}
-%    We also initalize |\topmark| with |\kept@topmark|. This will make
+%    We also initialize |\topmark| with |\kept@topmark|. This will make
 %    this mark okay for all middle pages of the \mc{} environment.
 % \changes{v1.5d}{1993/09/15}{reinit \cs{topmark}}
 %    \begin{macrocode}
@@ -2415,7 +2477,7 @@
 %    Now we reset |\@colroom| to |\@colht| which is \LaTeX's
 %    saved value of |\textheight|.
 %    We also have to reset the recorded position of the last
-%   |\marginpar| as well as the recorded size of intext floats 
+%   |\marginpar| as well as the recorded size of in-text floats 
 %    as we are now on a new page.
 % \changes{v1.8d}{2014/04/23}{Reset \cs{@mparbottom} after page finishes}
 % \changes{v1.8n}{2015/08/19}{Reset \cs{@textfloatsheight} after page finishes}
@@ -2530,7 +2592,7 @@
 %   |\colbreak@box| and then back up by this depth. This will position
 %   the bottom of the box at its natural baseline which is useful for
 %   balancing later on.
-% \changes{v1.8k}{2015/03/21}{Remove discarable items just before a
+% \changes{v1.8k}{2015/03/21}{Remove discardable items just before a
 %   forced break}
 %    \begin{macrocode}
               \boxmaxdepth\maxdepth
@@ -2543,6 +2605,26 @@
          }%
          \reinsert@footnotes
      \else
+%    \end{macrocode}
+%    Another special case is reaching the end of the \mc{}
+%    environment which is signaled by |-\@Mvi|.
+% \changes{v1.8r}{2018/01/28}{Handling end of env through special penalty}
+%    \begin{macrocode}
+       \ifnum\outputpenalty = -\@Mvi
+         \mult@info\@ne{End penalty of multicols seen}%
+%    \end{macrocode}
+%    If we are at this point then have have to run the balancing code
+%    (which was previously its own output routine). First we pretend
+%    that we had a normal forced breakpoint and then call
+%    |\balance@column@out|. The latter may be let to |\multi@column@out|
+%    if we are inside \texttt{multicols*} in which case we would get a loop
+%    if the |\outputpenalty| is not changed---this could be cleaned up
+%    in a better way; basically it is like this, because of the older
+%    code was using different ORs and I simply reused most of it.
+%    \begin{macrocode}
+         \outputpenalty\@M   % pretend we had a natural forced break
+         \balance@columns@out
+       \else
 %    \end{macrocode}
 %    If we encounter a float or a marginpar in the current
 %    implementation we simply warn the user that this is not allowed.
@@ -2561,9 +2643,10 @@
 %    this is possible with |\xdef|.)
 % \changes{v1.2a}{1990/02/05}{Float boxes freed.}
 %    \begin{macrocode}
-       \xdef\@freelist{\@freelist\@currlist}%
-       \gdef\@currlist{}%
-     \fi
+        \xdef\@freelist{\@freelist\@currlist}%
+        \gdef\@currlist{}%
+      \fi
+    \fi
   \fi
 %    \end{macrocode}
 %    If the penalty is $-10001$ it will come from a |\clearpage| and
@@ -2623,8 +2706,8 @@
 %    \begin{macrocode}
 \newif\ifshr@nking
 %    \end{macrocode}
-%    The actual definitions are simple: we just switch to {\sf true}
-%    or {\sf false} depending on the desired action. To avoid extra
+%    The actual definitions are simple: we just switch to \textsf{true}
+%    or \textsf{false} depending on the desired action. To avoid extra
 %    spaces in the output we enclose these changes in
 %    |\@bsphack|\ldots{}\allowbreak|\@esphack|.
 %    \begin{macrocode}
@@ -2652,7 +2735,7 @@
 %   support} For the next block of code see also comments in
 %   section~\ref{sec:colbreak}.  All forced breaks except the last are
 %   inside |\colbreak@box| so all we have to do is to concatenate this
-%   box with box |\@cclv| and put a penalty inbetween. Here we test if
+%   box with box |\@cclv| and put a penalty in between. Here we test if
 %   |\colbreak@box| is void so that the message is only generated if
 %   we really add forced breaks and the penalty.
 % \changes{v1.8k}{2015/03/21}{Use \cs{@Mv} and not \cs{break} in case
@@ -2693,7 +2776,14 @@
      \setbox\@cclv\vbox
          {\vskip\topskip
           \vskip-\splittopskip
-          \unvbox\mult@box}%
+          \unvbox\mult@box
+%    \end{macrocode}
+%    We also have to re-add the end of environment penalty since after
+%    this page we may want  balance the remaining material.
+% \changes{v1.8r}{2018/01/28}{Re-add the final penalty}
+%    \begin{macrocode}
+          \penalty-\@Mvi
+         }%
 %    \end{macrocode}
 %    We then call the standard multicol output routine which will
 %    produce a normal page for us (remember we are still within the
@@ -2813,7 +2903,7 @@
 %    unpredictable point depending on the height of the largest
 %    character in this line. But of course we want all columns to
 %    align properly at the baselines of their first lines. For this
-%    reason we have opened |\mult@box| with a |\penalty| {\sf -10000}.
+%    reason we have opened |\mult@box| with a |\penalty| \textsf{-10000}.
 %    This will now allow us to split off from |\mult@box| a tiny bit
 %    (in fact nothing since the first possible break-point is the
 %    first item in the box). The result is that |\splittopskip| is
@@ -2856,6 +2946,21 @@
    \advance\dimen@\topskip
    \ifdim \dimen@ >\@tempdima
      \advance\dimen@-\baselineskip
+   \fi
+%    \end{macrocode}
+%    As a further restriction we want to see a minimum number of
+%    rows in the balanced result based on the setting of the counter
+%    |minrows|. If the starting value is lower we adjust.
+% \changes{v1.8w}{2019/03/01}{Provide minrows counter for balancing}
+%    \begin{macrocode}
+   \@tempdima\dimexpr
+       \topskip +\c@minrows\baselineskip-\baselineskip\relax
+   \ifnum\dimen@<\@tempdima
+     \mult@info\@ne
+       {Start value
+          \the\dimen@  \space ->
+          \the\@tempdima \space (corrected for minrows)}%
+     \dimen@\@tempdima
    \fi
 %    \end{macrocode}
 %    At the user's request we start with a higher value (or lower, but
@@ -3530,7 +3635,7 @@
                ht \the\ht#1, dp \the\dp#1}%
 %</debug>
 %    \end{macrocode}
-%    Now we open a new group an locally copy the box to itself. As a
+%    Now we open a new group and locally copy the box to itself. As a
 %    result any operation, i.e.\ |\vsplit|, will only have a local
 %    effect. Without this trick the box content would get lost up to
 %    the level where the last assignment to the box register was done.
@@ -3641,7 +3746,7 @@
 %  \begin{macro}{\remove@discardable@items}
 %    There are situations when we may have some space at the end of a
 %    column and this macro here will attempt to get rid of it. The
-%    typical \LaTeX{} sequence is a series of selfcanceling glues so
+%    typical \LaTeX{} sequence is a series of self-canceling glues so
 %    if we remove them recursively we are usually fine.
 %
 %    Special care is needed with handling |\vspace*| as that
@@ -3682,7 +3787,7 @@
        \else
 %    \end{macrocode}
 %    Otherwise we remove this ``real'' skip. Then we look if it was
-%    preceeded by a penalty of 10000 (i.e., a |\nobreak|)
+%    preceded by a penalty of 10000 (i.e., a |\nobreak|)
 %    \begin{macrocode}
          \unskip
 %\typeout{p=\lastpenalty}%
@@ -3718,6 +3823,14 @@
 %    \begin{macrocode}
 \newif\ifforcedbreak@leftover
 %    \end{macrocode}
+%
+%  \begin{macro}{\c@minrows}
+% \changes{v1.8w}{2019/03/01}{Provide minrows counter for balancing}
+%    \begin{macrocode}
+\newcount\c@minrows
+\c@minrows=1
+%    \end{macrocode}
+%  \end{macro}
 %
 % \begin{macro}{\c@columnbadness}
 % \begin{macro}{\c@finalcolumnbadness}
@@ -3821,8 +3934,24 @@
         not make sense.\MessageBreak
         Going to balance anyway}%
    \else
-     \let\balance@columns@out
-         \multi@column@out
+%    \end{macrocode}
+%    If we aren't balancing we change the |\balance@columns@out| to
+%    work like the normal output routine that cuts normal
+%    pages. However, there is a catch: In case the last page we cut
+%    (after seeing the end of the environment) is actually larger than
+%    a page (for example, if it contains more |\columnbreak| commands
+%    than columns) we end up with some leftover material that is
+%    returned to the main galley, but now the environment end penalty
+%    is missing. So we add another one here too. Of course that
+%    shouldn't be done if there is really only a single final page,
+%    but fortunately in that case we have just finished a page and any
+%    penalty on the recent contributions will be discarded, thus the
+%    extra one is harmless---puh.
+% \changes{v1.8t}{2018/06/26}{Re-add end penalty for
+%    \texttt{multicols*} environment to guard against leftovers (git/53)}
+%    \begin{macrocode}
+     \def\balance@columns@out
+         {\multi@column@out \penalty-\@Mvi }%
    \fi
    \begin{multicols}
 }
@@ -3908,7 +4037,7 @@
 %
 %  \begin{macro}{\columnbreak}
 % \changes{v1.5u}{1999/05/25}{Macro added}
-%    |\columnbreak| is modelled after |\pagebreak| except that we
+%    |\columnbreak| is modeled after |\pagebreak| except that we
 %    generate a penalty -10005.
 %    \begin{macrocode}
 \mathchardef\@Mv=10005
@@ -4139,8 +4268,16 @@
 
 %  \begin{macro}{\docolaction}
 %
+%    The \verb=\docolaction= scans for a star and optional argument
+%    and 3 mandatory ones, but we do this in chunks (not having xparse
+%    available).
+%
+% \changes{v1.8u}{2018/11/09}{Support star with \cs{docolaction}}
 %    \begin{macrocode}
-\newcommand\docolaction[4][1]{%
+\newcommand\docolaction{%
+%    \end{macrocode}
+%    First check is the support is enabled.
+%    \begin{macrocode}
  \ifx\mc@col@status@write\relax
      \PackageError{multicol}%
       {Option 'colaction' not selected}%
@@ -4148,6 +4285,9 @@
        requires the use of the 'colaction'
        option on the package}%
  \fi
+%    \end{macrocode}
+%    Then prepare \verb=\mc@col@type=.
+%    \begin{macrocode}
  \global\advance\mc@col@check@num\@ne
  \edef\mc@col@type{\expandafter\ifx
    \csname mc@col-\the\mc@col@check@num
@@ -4155,7 +4295,36 @@
                    0\else
    \csname mc@col-\the\mc@col@check@num
    \endcsname
-                    \fi}%
+   \fi}%
+%    \end{macrocode}
+%    Finally check for a star, record this information and then call
+%    \verb=\@docolaction= to do the rest.
+%    \begin{macrocode}
+ \@ifstar
+   {\@docolactionstartrue \@docolaction}%
+   {\@docolactionstarfalse\@docolaction}%
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\newcommand\@docolaction[4][1]{%
+%    \end{macrocode}
+%    
+%   How does the column number get associated with our label? We
+%   do do this by writing another line into the aux file. Here are the
+%    preparations.
+%    \begin{macrocode}
+ \edef\@docolactioncheck{\write\@auxout
+   {\string\mc@set@col@status
+     {mc@col-\the\mc@col@check@num}%
+     {\mc@col@type}}}%
+%    \end{macrocode}
+%    Where we do the actual \verb=\write= depends on the whether or
+%    not we gave seen a \texttt{*}. If yes, we do it first and then
+%    execute the code argument, otherwise we execute that code first
+%    and check at the point after that.
+%    \begin{macrocode}
+ \if@docolactionstar \@docolactioncheck \fi
 %    \end{macrocode}
 %    We prefix with 0 so that an unknown label (that returns
 %   \verb=\relax=) will result in case 0
@@ -4178,21 +4347,20 @@
   \or
      #4%  % 3 last col
   \else
-    \ERROR
+    \ERRORwrongdefaultgiven
   \fi
 %    \end{macrocode}
-%    But how does the column number get associated with our label? We
-%   do do this by writing another line into the aux file at this point:
 %    \begin{macrocode}
-  \edef\next{\write\@auxout
-     {\string\mc@set@col@status
-      {mc@col-\the\mc@col@check@num}%
-      {\mc@col@type}}}%
-  \next
+ \if@docolactionstar \else \@docolactioncheck \fi
 }
 %    \end{macrocode}
 %  \end{macro}
 %
+%    Here is the if used above:
+%    \begin{macrocode}
+\newif\if@docolactionstar
+%    \end{macrocode}
+%    
 %   Because of extra data writing to the aux file the aux file will
 %   now contain something like the following after the document is
 %   processed the first time:

@@ -20,7 +20,7 @@
 %% Language definitions for Russian by
 %%   ... (can't find the information. If it was you please tell me!)
 \ProvidesFile{russian.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsrussian[1][russian]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{\IeC {\cyri }~\IeC

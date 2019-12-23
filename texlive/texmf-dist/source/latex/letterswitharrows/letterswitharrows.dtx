@@ -1,0 +1,452 @@
+% \iffalse meta-comment
+%
+%% File: letterswitharrows.dtx
+%% Copyright 2019 J. Maximilian Teegen
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%% http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status "maintained".
+%%
+%% The Current Maintainer of this work is J. M. Teegen.
+%%
+%% This work consists of the file letterswitharrows.dtx and its
+%% derived files letterswitharrows.sty and letterswitharrows.pdf.
+%
+%<*batch>
+%<*gobble>
+\ifx\jobname\relax\let\documentclass\undefined\fi
+\ifx\documentclass\undefined
+\csname fi\endcsname
+%</gobble>
+\input l3docstrip.tex
+\keepsilent
+\preamble
+\endpreamble
+\generate{\file{letterswitharrows.sty}{\from{letterswitharrows.dtx}{package}}}
+\endbatchfile
+%</batch>
+%<*gobble>
+\fi
+\expandafter\ifx\csname @currname\endcsname\empty
+\csname fi\endcsname
+%</gobble>
+%<*driver>
+\documentclass[full]{l3doc}
+\usepackage[presets={abc,ABC,cAcBcC,vec-cev},tweaks=false]{letterswitharrows}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\begin{document}
+\DocInput{\jobname.dtx}
+%% \PrintIndex
+\PrintChanges
+\end{document}
+%</driver>
+%<*gobble>
+\fi
+%</gobble>
+% \fi
+
+% \title{The \pkg{letterswitharrows} package}
+% \author{Max Teegen\\ \href{mailto:tex@jmteegen.eu}{tex@jmteegen.eu}}
+% \date{2019/11/21}
+
+% \maketitle
+
+% \begin{documentation}
+% This package does provides math-mode commands for setting left and right arrows over mathematical symbols, so that the arrows dynamically scale with the symbols.
+% Here is a sample: {\large\[ 
+%   \vs \le \tv \in \vec{U_{\mathrlap\vr}} \qquad \left\vert \vec{AB} \right\vert = \left\vert \cev{AB} \right\vert \qquad A \mathrel{\arrowoverset*[-2mu]{\between}} B
+% \]} % Somehow embellishments don't work in the documentation!?
+% While it is possible to set arrows over longer strings of symbols, the focus lies on single characters.
+%
+% Only \textsc{pdf} output is supported. Output to \textsc{ps} is implemented, but rarely tested.
+% For a wider range of formats there is \pkg{pgf}-based output.
+
+% \section{Usage}
+% The package provides the general-purpose \tn{arrowoverset} command, as well as some sets of predefined shorthand commands.
+
+% \subsection{Presets}
+% The presets are selected by passing them as options to the \verb|presets| package option.
+% For instance, to define the \verb|abc| and the \verb|vec-cev| sets of commands you would load the package like so:
+% \begin{verbatim}
+%   \usepackage[presets={abc,vec-cev}]{letterswitharrows}
+% \end{verbatim}
+% By default, the \verb|abc|, \verb|ABC| and \verb|cAcBcC| presets are loaded.
+
+% \DescribeOption{abc}
+%   Passing \verb|abc| to the \verb|presets| option allows you to use the \tn{v\meta{char}} and \tn{\meta{char}v} commands for all the lower-case letters \verb|a| through \verb|z| except for \verb|v|.
+% \begin{function}{\v<char>,\<char>v,\vleft,\vright}
+%   For the letter \verb|v| the commands \tn{vleft} and \tn{vright} are provided.
+%    \[ \va, \vb, \vc, \dv, \mv, F_\tv \]
+% \begin{verbatim}
+%    \[ \va, \vb, \vc, \dv, \mv, F_\tv \]
+% \end{verbatim}
+% \end{function}
+
+% \DescribeOption{ABC}
+%   Passing \verb|ABC| to the \verb|presets| option allows you to use the \tn{v\meta{CHAR}} and \tn{\meta{CHAR}v} commands for all the upper-case letters \verb|A| through \verb|Z|.
+% \begin{function}{\v<CHAR>,\<CHAR>v}
+%    \[ \vA, \vB, \vC, \Dv, \Ev, F_\Gv \]
+% \begin{verbatim}
+%   \[ \vA, \vB, \vC, \Dv, \Ev, F_\Gv \]
+% \end{verbatim}
+% \end{function}
+
+% \DescribeOption{cAcBcC}
+%   Passing \verb|cAcBcC| to the \verb|presets| option allows you to use the \tn{vc\meta{CHAR}} and \tn{c\meta{CHAR}v} commands for all the upper-case letters \verb|A| through \verb|Z| to set arrows over \tn{mathcal}-letters.
+% \begin{function}{\vc<CHAR>,\c<CHAR>v}
+%    \[ \vcA, \vcB, \vcC, \cDv, \cEv, F_\cGv \]
+% \begin{verbatim}
+%   \[ \vcA, \vcB, \vcC, \cDv, \cEv, F_\cGv \]
+% \end{verbatim}
+% \end{function}
+
+% \DescribeOption{vec-cev}
+%   Passing \verb|vec-cev| to the \verb|presets| option (re)defines the \tn{vec} and \tn{cev} commands.
+% \begin{function}{\vec,\cev}
+%   Unlike the other commands these do not automatically consume subsequent subscripts or \verb|'| tokens.
+%   \[ \vec{\mathbf{x}} := \cev{AB} \qquad \langle \vw, \vright \rangle = 42 \]
+% \begin{verbatim}
+%   \[ \vec{\mathbf{x}} := \cev{AB} \qquad \langle \vw, \vright \rangle = 42 \]
+% \end{verbatim}
+% \end{function}
+
+% \subsection{The \tn{arrowoverset} command}
+% \begin{function}{\arrowoverset,\arrowoverset*}
+% \begin{syntax}
+%   |\arrowoverset | [\meta{xoffset}] [\meta{xscale}] [\meta{yoffset}] \Arg{math}
+%   |\arrowoverset*| [\meta{xoffset}] [\meta{xscale}] [\meta{yoffset}] \Arg{math}
+% \end{syntax}
+% This command sets a right (or left if \tn{arrowoverset*} is used) arrow over \meta{math}.
+% The base length of the arrow is the width of the \meta{math} multiplied by \meta{xscale}, which must be specified as a fraction \meta{num}\verb|/|\meta{denom}.
+% The arrow is offset by \meta{xoffset} to the right, which must be a math skip expression, and by \meta{yoffset} to the top, which must be a skip expression.
+
+% This command consumes subsequent subscripts or up to two primes \verb|'|. The former does not affect the length of the arrow.
+% \end{function}
+
+% \subsection{Other package options}
+% \DescribeOption{pgf}
+% If you specify the \verb|pgf| option, every arrow is drawn as a \verb|pgfpicture|. This requires the \pkg{pgf} package, and slow in its current implementation.
+% \begin{texnote}
+%   You can set up custom arrow drawing code by redefining \cs{__jmt_lwa_arrow_draw:nnn}.
+%   The command is expected to draw an arrow with its head at the current position. Its length should be \verb|#1| and it should be drawn at a font size of \verb|#2|pt.
+%   If \verb|#3| is \verb|-| if the arrow should point rightwards and empty otherwise.
+% \end{texnote}
+
+% \DescribeOption{tweaks}
+% Specifying the \verb|tweaks| option applies per-letter scaling adjustments to some of the single-letter shorthands. This is enabled by default.
+% These are specific to Latin Modern Math and subject to be changed on a whim. If you wish a more stable behaviour specify \verb|tweaks=false|
+
+% \end{documentation}
+% \begin{implementation}
+% \section{Implementation}
+
+% \changes{2019/11/21}{2019/11/21}{Require \pkg{expl3} before \tn{ProvidesExplPackage}.}
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\RequirePackage{expl3}
+\ProvidesExplPackage {letterswitharrows} {2019-11-21} {} {Draw arrows over math letters.}
+\RequirePackage{xparse,l3keys2e,mathtools}
+% TODO: I just use mathtools for mathrlap; replace.
+
+%<@@=jmt_lwa>
+\msg_new:nnn {letterswitharrows} {pdf-only} {Only~pdf~output~is~supported.}
+\AtBeginDocument{
+  \sys_if_output_pdf:F {
+    \msg_warning:nn {letterswitharrows} {pdf-only}
+  }
+}
+%    \end{macrocode}
+% The drawing code.
+% \begin{macro}{\__@@_arrow_draw_special:nnn,\__@@_arrow_draw_pgf:nnn,\__@@_arrow_left:nn,\__@@_arrow_right:nn}
+%    \begin{macrocode}
+\cs_new:Nn \__@@_arrow_draw_special:nnn % length, font size, sign
+{
+  \sys_if_output_pdf:TF {
+    \tex_special:D {pdf:~
+      q~
+      1~J~1~j~
+      1~0~0~\dim_to_decimal:n{#3#2pt/10}~0~0~cm~
+      .3~w~
+      q~
+      \dim_to_decimal:n{#3#2pt/10}~0~0~1~0~0~cm~
+      1~0~0~1~-1~0~cm~
+      0~1~m~
+      .25~0~1~0~1~0~c~
+      1~0~.25~0~0~-1~c~
+      S~
+      Q~
+      0~0~m~
+      -1~0~0~1~0~0~cm~
+      \dim_to_decimal:n{#3#1}~0~l~S~
+      Q
+    }
+  } {
+    \tex_special:D {"~
+      1~setlinecap~1~setlinejoin~
+      1~0~0~\dim_to_decimal:n{#3#2pt/10}~0~0~6~array~astore~concat~
+      .3~setlinewidth~
+      gsave~
+      \dim_to_decimal:n{#3#2pt/10}~0~0~1~0~0~6~array~astore~concat~
+      1~0~0~1~-1~0~6~array~astore~concat~
+      0~1~moveto~
+      .25~0~1~0~1~0~curveto~
+      1~0~.25~0~0~-1~curveto~
+      stroke~
+      grestore~
+      0~0~moveto~
+      -1~0~0~1~0~0~6~array~astore~concat~
+      \dim_to_decimal:n{#3#1}~0~lineto~stroke
+    }
+  }
+}
+
+% TODO
+% \tl_new:N \g_@@_pgf_arrow_style_tl
+% \tl_set:Nn \g_@@_pgf_arrow_style_tl 
+%  {Computer~Modern~Rightarrow[width=#2pt*2/10,length=#2pt/10,sharp]}
+
+\cs_new:Nn \__@@_arrow_draw_pgf:nnn {
+  \begin{pgfpicture}
+    \pgfsetlinewidth{#2pt/30}
+    \pgfsetarrowsstart
+      {Computer~Modern~Rightarrow[width=#2pt*2/10,length=#2pt/10,sharp]}
+    % \pgfsetarrowsstart{\tl_use:N \g_@@_pgf_arrow_style_tl}
+    \pgfpathmoveto{\pgfpointorigin}
+    \pgfpathlineto{\pgfpoint{-#3#1}{0cm}}
+    \pgfusepath{stroke}
+    \pgfresetboundingbox
+  \end{pgfpicture}
+}
+
+\cs_new_eq:NN \__@@_arrow_draw:nnn \use_none:nnn
+
+\cs_new:Nn \__@@_arrow_right:nn {
+  \skip_horizontal:n {#1}
+  % \rule[\dimexpr -#2pt/6\relax]{#1}{\dimexpr #2pt/3\relax}
+  \__@@_arrow_draw:nnn {#1} {#2} {}
+}
+
+\cs_new:Nn \__@@_arrow_left:nn {
+  \__@@_arrow_draw:nnn {#1} {#2} {-}
+  \skip_horizontal:n {#1}
+  % \rule[\dimexpr -#2pt/6\relax]{#1}{\dimexpr #2pt/3\relax}
+}
+%    \end{macrocode}
+% \end{macro}
+
+% The core functions.
+% \begin{macro}{\__@@_arrow_overset_style:Nnncnnn,\__@@_arrow_overset:nnnnn}
+%    \begin{macrocode}
+\cs_new:Npn \__@@_arrow_overset_style:Nnncnnn #1#2#3#4#5#6#7 {
+  \hbox_set:Nn \l_tmpa_box {$\m@th#1#3$}
+  \dim_set:Nn \l_tmpa_dim {#2 pt/10}
+  \vbox:n {
+    \tex_lineskiplimit:D = \maxdimen
+    \tex_baselineskip:D = 0pt
+    \tex_lineskip:D = \dim_eval:n {\l_tmpa_dim * 3/2 + #7}
+    \tex_halign:D { ## \tex_cr:D
+      \skip_horizontal:n {\l_tmpa_dim / 2}
+      $
+        \m@th
+        #1
+        \tex_mskip:D \muskip_eval:n {#5}
+        \use:c {#4} {\dim_eval:n{\box_wd:N \l_tmpa_box * #6}} {#2}
+      $
+      \tex_cr:D
+      \box_use_drop:N \l_tmpa_box
+      \tex_cr:D
+    }
+  }
+}
+
+\cs_new:Nn \__@@_arrow_overset:nnnnn { % content, direction, xoffset, scale, yoffset
+  \mathchoice {
+    \__@@_arrow_overset_style:Nnncnnn 
+      \displaystyle {\tf@size} {#1} {__@@_arrow_#2:nn} {#3} {#4} {#5}
+  } {
+    \__@@_arrow_overset_style:Nnncnnn 
+      \textstyle {\tf@size} {#1} {__@@_arrow_#2:nn} {#3} {#4} {#5}
+  } {
+    \__@@_arrow_overset_style:Nnncnnn 
+      \scriptstyle {\sf@size} {#1} {__@@_arrow_#2:nn} {#3} {#4} {#5}
+  } {
+    \__@@_arrow_overset_style:Nnncnnn 
+      \scriptscriptstyle {\ssf@size} {#1} {__@@_arrow_#2:nn} {#3} {#4} {#5}
+  }
+}
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\@@_arrow_overset:w,\arrowoverset}
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_arrow_overset:w {
+  \c_group_begin_token
+  \__@@_arrow_overset_aux:w
+}
+
+% This exp_args is necessary because _ generates the wrong token in expl3 syntax
+\exp_args:NNx \NewDocumentCommand \__@@_arrow_overset_aux:w
+  {s O{0mu} O{1} O{0ex} m t' e{\char_generate:nn {95}{8}} t'} {
+  \__@@_arrow_overset:nnnnn 
+    {
+      #5
+      \c_math_superscript_token {
+        \scriptscriptstyle\IfBooleanT{#6}{\prime}\IfBooleanT{#8}{\prime}
+      } % TODO: Better positioning etc?
+      \exp_args:Nf\IfValueT{\use:n#7} {
+        \c_math_subscript_token {
+          \mathrlap{#7}
+        }
+      }
+    }
+    {\IfBooleanTF{#1}{left}{right}}
+    {#2} {#3} {#4}
+
+  \exp_args:Nf\IfValueTF{\use:n#7}{ 
+    % TODO: Better way to do this? This is all kinds of wrong.
+    \hphantom{\!\c_math_subscript_token{#7}}
+  } {}
+  \c_group_end_token
+}
+\cs_set_eq:NN \arrowoverset \@@_arrow_overset:w
+%    \end{macrocode}
+% Replacements for \pkg{hyperref} bookmarks.
+%    \begin{macrocode}
+\AtBeginDocument{
+  \@ifpackageloaded{hyperref}{
+    \pdfstringdefDisableCommands{
+      % Why does this only work with Expandable?
+      \DeclareExpandableDocumentCommand \@@_arrow_overset:w {s o o o m} {
+      \ifpdfstringunicode
+        {#5 \IfBooleanTF{#1}{\unichar{"20D6}}{\unichar{"20D7}}}
+        {#5}
+      }
+    }
+  }{}
+}
+%    \end{macrocode}
+% \end{macro}
+
+% Package option handling.
+% \begin{variable}{\g_@@_tweak_shortcuts_bool,\g_@@_selected_presets_prop}
+% \begin{macro}{\__@@_arrow_draw:nnn}
+%    \begin{macrocode}
+\bool_new:N \g_@@_tweak_shortcuts_bool
+\prop_new:N \g_@@_selected_presets_prop
+\keys_define:nn {letterswitharrows} {
+  mode .choice:,
+  mode / special .code:n = {
+    \cs_set_eq:NN \__@@_arrow_draw:nnn \__@@_arrow_draw_special:nnn
+  },
+  mode / pgf .code:n = {
+    \RequirePackage{pgf}
+    \ExplSyntaxOff\usepgflibrary{arrows.meta}\ExplSyntaxOn
+    \cs_set_eq:NN \__@@_arrow_draw:nnn \__@@_arrow_draw_pgf:nnn
+  },
+  mode .initial:n = {special},
+  pgf .meta:n = {mode = pgf},
+  presets .multichoices:nn = {abc, ABC, cAcBcC, vec-cev} {
+    \int_compare:nNnTF \l_keys_choice_int = 1 {
+      \prop_gclear:N \g_@@_selected_presets_prop
+    } {}
+    \prop_gput:NVn \g_@@_selected_presets_prop \l_keys_choice_tl {}
+  },
+  presets .initial:n = {abc, ABC, cAcBcC},
+  tweaks .bool_set:N = \g_@@_tweak_shortcuts_bool,
+  tweaks .initial:n = {true},
+}
+\ProcessKeysPackageOptions{letterswitharrows}
+%    \end{macrocode}
+% \end{macro}
+% \end{variable}
+
+% \begin{macro}{\v<char>,\<char>v,\vleft,\vright}
+%    \begin{macrocode}
+\prop_if_in:NnTF \g_@@_selected_presets_prop {abc} {
+  \int_step_inline:nnn {1} {26} {
+    \int_compare:nNnTF {#1} = {22} {
+      \cs_new:cpx {vright} {
+        \exp_not:N\@@_arrow_overset:w{v}
+      }
+      \cs_new:cpx {vleft} {
+        \exp_not:N\@@_arrow_overset:w*{v}
+      }
+    } {
+      \cs_new:cpx {v\int_to_alph:n{#1}} {
+        \exp_not:N\@@_arrow_overset:w{\int_to_alph:n{#1}}
+      }
+      \cs_new:cpx {\int_to_alph:n{#1}v} {
+        \exp_not:N\@@_arrow_overset:w*{\int_to_alph:n{#1}}
+      }
+    }
+  }
+} {}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\v<CHAR>,\<CHAR>v}
+%    \begin{macrocode}
+\prop_if_in:NnTF \g_@@_selected_presets_prop {ABC} {
+  \int_step_inline:nnn {1} {26} {
+    \cs_new:cpx {v\int_to_Alph:n{#1}} {
+      \exp_not:N\@@_arrow_overset:w{\int_to_Alph:n{#1}}
+    }
+    \cs_new:cpx {\int_to_Alph:n{#1}v} {
+      \exp_not:N\@@_arrow_overset:w*{\int_to_Alph:n{#1}}
+    }
+  }
+} {}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\vc<CHAR>,\c<CHAR>v}
+%    \begin{macrocode}
+\prop_if_in:NnTF \g_@@_selected_presets_prop {cAcBcC} {
+  \int_step_inline:nnn {1} {26} {
+    \cs_new:cpx {vc\int_to_Alph:n{#1}} {
+      \exp_not:N\@@_arrow_overset:w{\exp_not:N\mathcal{\int_to_Alph:n{#1}}}
+    }
+    \cs_new:cpx {c\int_to_Alph:n{#1}v} {
+      \exp_not:N\@@_arrow_overset:w*{\exp_not:N\mathcal{\int_to_Alph:n{#1}}}
+    }
+  }
+} {}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\vec,\cev}
+%    \begin{macrocode}
+\prop_if_in:NnTF \g_@@_selected_presets_prop {vec-cev} {
+  \RenewDocumentCommand \vec {m} {
+    \@@_arrow_overset:w {#1} \scan_stop:
+  }
+  \DeclareDocumentCommand \cev {m} {
+    \@@_arrow_overset:w* {#1} \scan_stop:
+  }
+} {}
+%    \end{macrocode}
+% \end{macro}
+% Some personal-preference tweaks.
+%    \begin{macrocode}
+\bool_if:NTF \g_@@_tweak_shortcuts_bool {
+  \prop_if_in:NnTF \g_@@_selected_presets_prop {ABC} {
+    \cs_set:cpn {vS} {
+      \@@_arrow_overset:w[2mu][8/10]{S}
+    }
+  } {}
+  \prop_if_in:NnTF \g_@@_selected_presets_prop {abc} {
+    \cs_new:cpn {vell} {
+      \@@_arrow_overset:w{\ell}
+    }
+    \cs_new:cpn {ellv} {
+      \@@_arrow_overset:w{\ell}
+    }
+  } {}
+} {}
+%    \end{macrocode}
+% \end{implementation}
+

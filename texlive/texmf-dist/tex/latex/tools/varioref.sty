@@ -9,10 +9,10 @@
 %% This is a generated file.
 %% 
 %% The source is maintained by the LaTeX Project team and bug
-%% reports for it can be opened at http://latex-project.org/bugs.html
+%% reports for it can be opened at https://latex-project.org/bugs/
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
-%% Copyright 1993-2016
+%% Copyright (C) 1993-2019
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
@@ -23,7 +23,7 @@
 %% conditions of the LaTeX Project Public License, either version 1.3c
 %% of this license or (at your option) any later version.
 %% The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
+%%    https://www.latex-project.org/lppl.txt
 %% and version 1.3c or later is part of all distributions of LaTeX
 %% version 2005/12/01 or later.
 %% 
@@ -35,18 +35,24 @@
 %% given in the file `manifest.txt'.
 %% 
 %% Package varioref to use with LaTeX2e
-%% Copyright (C) 1992-2016  Frank Mittelbach, all rights reserved.
+%% Copyright (C) 1992-2019  Frank Mittelbach, all rights reserved.
 %%
 %% For additions or updates to the language options please contact
 %% the author at
 %%
 %%   frank.mittelbach@latex-project.org
 %%
-%% In case of bugs, please use "latexbug.tex" (category tools) to report them.
+%% or open an issue at https://github.com/latex3/latex2e.
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/05/16]
+\providecommand\DeclareRelease[3]{}
+\providecommand\DeclareCurrentRelease[2]{}
+
+\DeclareRelease{}{2016-02-16}{varioref-2016-02-16.sty}
+\DeclareCurrentRelease{}{2019-10-01}
+
 \ProvidesPackage{varioref}
-    [2016/02/16 v1.5c package for extended references (FMi)]
+    [2019/11/05 v1.6c package for extended references (FMi)]
 %%
 
 
@@ -114,6 +120,17 @@
     \def\reftextfaraway#1{on page~\pageref{#1}}%
     \def\reftextpagerange#1#2{on pages~\pageref{#1}--\pageref{#2}}%
     \def\reftextlabelrange#1#2{\ref{#1} to~\ref{#2}}%
+  }}
+\DeclareOption{arabic}
+  {\vref@addto\extrasarabic{%
+    \def\reftextfaceafter {بالصفحة \reftextvario{المقابلة}{اللاحقة}}%
+    \def\reftextfacebefore{بالصفحة \reftextvario{المقابلة}{المُنْصَرِمَةٌ}}%
+    \def\reftextafter     {بالصفحة \reftextvario{اللاحقة}{التالية}}%
+    \def\reftextbefore    {بالصفحة \reftextvario{السابقة}{المُنْصَرِمَةٌ}}%
+    \def\reftextcurrent   {ب\reftextvario{الصفحة الحالية}{هذه الصفحة}}%
+    \def\reftextfaraway#1{بالصفحة رقم~\pageref{#1}}%
+    \def\reftextpagerange#1#2{بالصفحات~\pageref{#1}--\pageref{#2}}%
+    \def\reftextlabelrange#1#2{\ref{#1} حتى~\ref{#2}}%
   }}
 \DeclareOption{austrian}
   {\vref@addto\extrasaustrian{%
@@ -618,24 +635,36 @@
    \ExecuteOptions{german}}
 \DeclareOption{draft}{\AtEndOfPackage\vrefwarning}
 \DeclareOption{final}{\AtEndOfPackage\vrefshowerrors} % the default
-\ExecuteOptions{english,final}
+\newif\if@vrefhandlespace
+\DeclareOption{space}  {\@vrefhandlespacetrue}
+\DeclareOption{nospace}{\@vrefhandlespacefalse}
+\ExecuteOptions{english,final,space}
 \ProcessOptions*
 \newcounter{vrcnt}
 \DeclareRobustCommand\vpageref{\@ifstar
-     {\let\vref@space\relax\vp@geref}%
-     {\let\vref@space\space\vp@geref}}
+     {\let\vref@maybe@space\@empty\vp@gerefstar}%
+     {\let\vref@maybe@space\space \vp@geref}}
 \def\vp@geref{\@ifnextchar[%
   \@vpageref{\@vpageref[\reftextcurrent]}%
 }
 \let\vref@space\space
+\let\vref@maybe@space\space
 \def\@vpageref[#1]{\@ifnextchar[%
-  {\@@vpageref{#1}}{\@@vpageref{#1}[\unskip\vref@space]}}
+  {\@@vpageref{#1}}{\@@vpageref{#1}[]}}
 \def\@@vpageref#1[#2]#3{%
-  \leavevmode\unskip
+  \leavevmode
+  \@tempskipa\lastskip \unskip
   \global\advance\c@vrcnt\@ne
   \vref@pagenum\@tempa{\the\c@vrcnt @vr}%
   \vref@pagenum\@tempb{\the\c@vrcnt @xvr}%
   \vref@label{\the\c@vrcnt @xvr}%
+  \if@vrefhandlespace
+    \vref@maybe@space
+  \else
+    \ifdim\@tempskipa=\z@ \else
+      \hskip\@tempskipa
+    \fi
+  \fi
   \ifx\@tempa\@tempb
     \let\vref@may@loop\relax
   \else
@@ -647,7 +676,6 @@
       }%
    \fi
   \vrefpagenum\thevpagerefnum{#3}%
-  \vref@space
   \ifx\@tempa\thevpagerefnum
     \def\@tempc{#1}%
     \ifx\@tempc\@empty
@@ -656,7 +684,10 @@
        #1%
     \fi
   \else
-    #2%
+    \def\@tempc{#2}%
+    \ifx\@tempc\@empty \else
+      #2\vref@space
+    \fi
     \is@pos@number\thevpagerefnum
        {%
         \is@pos@number\@tempa
@@ -699,6 +730,8 @@
    \vref@label{\the\c@vrcnt @vr}%
    \vref@may@loop
 }
+\let\vp@gerefstar\vp@geref
+
 \def\vref@label#1{\@bsphack
   \protected@write\@auxout{}%
          {\string\newlabel{#1}{{}{\thepage}}}%
@@ -711,12 +744,19 @@
      or \noexpand\vpageref by a normal \noexpand\(page)ref to
      stop LaTeX running forever.}}}
 \DeclareRobustCommand\vref{\@ifstar
-   {\let\vref@space\relax\vr@f}%
-   {\let\vref@space\nobreakspace\vr@f}}
-\def\vr@f#1{%
-  \leavevmode\unskip\vref@space
-  \ref{#1}%
-  \vpageref[\unskip]{#1}}
+   {\vref@star}{\vr@f}}
+
+\newcommand\vref@star[2][]{%
+  \ref{#2}
+  \vpageref[#1]{#2}}
+
+\def\vr@f{%
+  \leavevmode
+  \if@vrefhandlespace
+    \unskip \nobreakspace
+  \fi
+  \vref@star                    % in hyperref this needs to be explicit
+}
 \def\is@pos@number#1{\is@pos@num0#1\space\@nil}
 \def\is@pos@num{\afterassignment\is@pos@num@ \count@}
 \def\is@pos@num@#1\@nil{%
@@ -760,20 +800,75 @@
 \newcommand\vpagerefrange{\@ifstar\@svpagerefrange\@vpagerefrange}
 \newcommand\vrefrange[3][\reftextcurrent]
   {\reftextlabelrange{#2}{#3} \vpagerefrange[{#1}]{#2}{#3}}
-\def\refstepcounter#1{\stepcounter{#1}%
-    \protected@edef\@currentlabel
-       {\csname p@#1\expandafter\endcsname\csname the#1\endcsname}%
-}
-\def\labelformat#1{\expandafter\def\csname p@#1\endcsname##1}
-\DeclareRobustCommand\Ref[1]{\protected@edef\@tempa{\ref{#1}}%
-   \expandafter\MakeUppercase\@tempa}
 \DeclareRobustCommand\Vref{\@ifstar
-   {\let\vref@space\relax\Vr@f}%
-   {\let\vref@space\nobreakspace\Vr@f}}
-\def\Vr@f#1{%
-  \leavevmode\unskip\vref@space
-  \Ref{#1}%
-  \vpageref[\unskip]{#1}}
+   {\Vref@star}%
+   {\Vr@f}}
+\newcommand\Vref@star[2][]{%
+  \Ref{#2}
+  \vpageref[#1]{#2}}
+\def\Vr@f{%
+  \if@vrefhandlespace
+    \unskip \vref@space
+  \fi
+  \Vref@star                  % in hyperref this needs to be explicit
+}
+
+\DeclareRobustCommand\vpagerefcompare[2]{%  label1, label2, TRUE, FALSE
+  \vrefpagenum\@tempa{#1}%
+  \vrefpagenum\@tempb{#2}%
+  \ifx\@tempa\@tempb
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+}
+\DeclareRobustCommand\vpagerefnearby[1]{%  label, TRUE, FALSE
+  \leavevmode
+  \@tempskipa\lastskip \unskip
+  \global\advance\c@vrcnt\tw@    % keep oddness to not disturb \vrefvario
+  \vref@label{\the\c@vrcnt @vn}%
+  \ifdim\@tempskipa=\z@ \else
+    \hskip\@tempskipa
+  \fi
+  \vref@pagenum\@tempa{\the\c@vrcnt @vn}%
+  \is@pos@number\@tempa
+      {%
+        \vrefpagenum\@tempb{#1}%
+        \is@pos@number\@tempb
+            {%
+              \ifcase\numexpr \@tempa -\@tempb+1\relax
+              \or \or \else \expandafter \@thirdofthree \fi
+              \@firstoftwo
+            }%
+            {\@secondoftwo}%
+      }%
+      {\@secondoftwo}%
+}
+
+\DeclareRobustCommand\vpagerefcomparenearby[2]{%  label1, label2, TRUE, FALSE
+  \vrefpagenum\@tempa{#1}%
+  \is@pos@number\@tempa
+      {%
+        \vrefpagenum\@tempb{#2}%
+        \is@pos@number\@tempb
+            {%
+              \ifcase\numexpr \@tempa -\@tempb+1\relax
+              \or \or \else \expandafter \@thirdofthree \fi
+              \@firstoftwo
+            }%
+            {\@secondoftwo}%
+      }%
+      {\@secondoftwo}%
+}
+
+\ifx\labelformat\@undefined  % assume we are in an older kernel
+  \def\labelformat#1{\expandafter\def\csname p@#1\endcsname##1}
+  \DeclareRobustCommand\Ref[1]{\protected@edef\@tempa{\ref{#1}}%
+     \expandafter\MakeUppercase\@tempa}
+  \def\refstepcounter#1{\stepcounter{#1}%
+      \protected@edef\@currentlabel
+         {\csname p@#1\expandafter\endcsname\csname the#1\endcsname}}
+\fi
 \endinput
 %%
 %% End of file `varioref.sty'.

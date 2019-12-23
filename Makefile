@@ -112,6 +112,8 @@ texlive: install-tl-unx.tar.gz
 	rm -rf texlive&&mkdir texlive
 	cd texlive && tar xzvf ../install-tl-unx.tar.gz
 	echo selected_scheme scheme-basic > texlive/profile.input
+	echo collection-latexrecommended 1 >> texlive/profile.input
+	echo collection-mathscience 1 >> texlive/profile.input
 	echo TEXDIR `pwd`/texlive >> texlive/profile.input
 	echo TEXMFLOCAL `pwd`/texlive/texmf-local >> texlive/profile.input
 	echo TEXMFSYSVAR `pwd`/texlive/texmf-var >> texlive/profile.input

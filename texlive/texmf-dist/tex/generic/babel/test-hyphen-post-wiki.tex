@@ -1,0 +1,31 @@
+\documentclass{article}
+
+\usepackage[ngerman]{babel}
+
+\directlua{
+
+Babel.linebreaking.add_after(Babel.post_hyphenate_replace)
+
+Babel.linebreaking.add_replacement(
+  'ngerman',
+  '([fmtrp])|{1}',
+   {
+     nil,
+     { no = '{1}', pre = '{1}{1}-', post = '', penalty = 150, data = 1 },
+     {}
+    })
+
+}
+
+\begin{document}
+
+\rightskip5cm
+
+Auffrisierende Auffrisierendem Auffrisierenden Auffrisierender
+Auffrisierendes Auffrisierst Auffrisiert Auffrisierte Auffrisiertem
+Auffrisierten Auffrisierter Auffrisiertes Auffrisiertest Auffrisiertet
+Auffrisst Auffuhr Aufführbar Aufführbare Aufführbarem Aufführbaren
+Aufführbarer Aufführbares Aufführe Auffuhren Aufführen Aufführend
+Aufführende Aufführendem Aufführenden Aufführender Aufführendes
+
+\end{document}

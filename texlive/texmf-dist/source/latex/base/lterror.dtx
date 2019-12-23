@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2016
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -32,7 +32,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{lterror.dtx}
-             [2016/10/15 v1.2p LaTeX Kernel (errors)]
+             [2019/08/30 v1.2q LaTeX Kernel (errors)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{lterror.dtx}
@@ -87,7 +87,7 @@
 % \changes{v1.2p}{2016/10/15}
 %         {Require e\TeX{}}
 %
-% \section{Error handling}
+% \section{Error handling and tracing}
 %
 % This section defines \LaTeX's error commands.
 %
@@ -738,19 +738,18 @@ Type  H <return>  for immediate help.}%
 %    out, since we decided to use catcode 15 instead.
 %    \begin{macrocode}
 %\def\@invalidchar{\@latex@error{Invalid character in input}\@ehc}
-%</2ekernel>
 %    \end{macrocode}
 % \end{macro}
 %
 % As well as the above error commands some error messages are directly
-% coded to save space. The Messages already present in \LaTeX2.09
-% inlcuded:
+% coded to save space. The messages already present in \LaTeX2.09
+% include:
 %
 % |Environment --- undefined|\\
 %  Issued by |\begin| for undefined environment.
 %
-% |tab overflow|\\
-%  Occurs in |\= when| maximum number of tabs exceeded.
+% |Tab overflow|\\
+%  Occurs in |\=| when maximum number of tabs exceeded.
 %
 % |\< in mid line|\\
 % Occurs in |\<| when it appears in middle of line.
@@ -758,6 +757,45 @@ Type  H <return>  for immediate help.}%
 % |Float(s) lost|\\
 % In output routine, caused by a float environment or
 % |\marginpar| occurring in inner vertical mode.
+%
+%
+% \subsection{Tracing}
+%
+%    The \texttt{trace} package implements the commands \cs{traceon}
+%    and \cs{traceoff} that work similar to \cs{tracingall} but skip
+%    certain code blocks that produce a lot of tracing output being of no
+%    interest during debugging (for example loading a font).
+%    Code blocks that should be hidden during tracing need
+%    to be surrounded by the macros \cs{conditionally@traceoff}
+%    and \cs{contionally@traceon}.
+%
+%    For the kernel code the \texttt{trace} package then redefines a
+%    number of macros to  include this tracing support.
+%
+%    However, in order to allow any macro package to react to
+%    \cs{traceon} we also provide dummy definitions for the two
+%    commands in the kernel so that they can be used by external
+%    packages without the
+%    need to distinguish between \texttt{trace} being loaded or not.
+%
+
+%  \begin{macro}{\conditionally@traceon}
+% \changes{v1.2q}{2019/08/30}{Macro added}
+%  \begin{macro}{\conditionally@traceoff}
+% \changes{v1.2q}{2019/08/30}{Macro added}
+%    These are only dummy definitions. For  details see the
+%    \texttt{trace} package.
+%    \begin{macrocode}
+\let\conditionally@traceon\@empty
+\let\conditionally@traceoff\@empty
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%    
+%    \begin{macrocode}
+%</2ekernel>
+%    \end{macrocode}
 %
 %\Finale
 \endinput

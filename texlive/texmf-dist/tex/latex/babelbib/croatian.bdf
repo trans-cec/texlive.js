@@ -22,7 +22,7 @@
 %%   Ivan Kokan <ivan.kokan@gmail.com>,
 %%   Ivica Naki\'c <nakic@math.hr>
 \ProvidesFile{croatian.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibscroatian[1][croatian]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{i~ost##1{}}}%

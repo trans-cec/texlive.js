@@ -4,24 +4,26 @@
 % Version: 2016/05/16 v0.3
 % Info: Substitute hyphenation patterns
 %
-% Copyright (C) 2008 by
-%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
-%    2016
+% Copyright (C)
+%    2008 Heiko Oberdiek
+%    2016-2019 Oberdiek Package Support Group
 %    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3c of this license or (at your option) any later
 % version. This version of this license is in
-%    http://www.latex-project.org/lppl/lppl-1-3c.txt
+%    https://www.latex-project.org/lppl/lppl-1-3c.txt
 % and the latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status "maintained".
 %
-% This Current Maintainer of this work is Heiko Oberdiek.
+% The Current Maintainers of this work are
+% Heiko Oberdiek and the Oberdiek Package Support Group
+% https://github.com/ho-tex/oberdiek/issues
 %
 % The Base Interpreter refers to any `TeX-Format',
 % because some files are installed in TDS:tex/generic//.
@@ -64,8 +66,6 @@
 % Installation:
 %    TDS:tex/generic/oberdiek/hyphsubst.sty
 %    TDS:doc/latex/oberdiek/hyphsubst.pdf
-%    TDS:doc/latex/oberdiek/test/hyphsubst-test1.tex
-%    TDS:doc/latex/oberdiek/test/hyphsubst-test2.tex
 %    TDS:source/latex/oberdiek/hyphsubst.dtx
 %
 %<*ignore>
@@ -97,22 +97,26 @@ This is a generated file.
 Project: hyphsubst
 Version: 2016/05/16 v0.3
 
-Copyright (C) 2008 by
-   Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+Copyright (C)
+   2008 Heiko Oberdiek
+   2016-2019 Oberdiek Package Support Group
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
 version 1.3c of this license or (at your option) any later
 version. This version of this license is in
-   http://www.latex-project.org/lppl/lppl-1-3c.txt
+   https://www.latex-project.org/lppl/lppl-1-3c.txt
 and the latest version of this license is in
-   http://www.latex-project.org/lppl.txt
+   https://www.latex-project.org/lppl.txt
 and version 1.3 or later is part of all distributions of
 LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is Heiko Oberdiek.
+The Current Maintainers of this work are
+Heiko Oberdiek and the Oberdiek Package Support Group
+https://github.com/ho-tex/oberdiek/issues
+
 
 The Base Interpreter refers to any `TeX-Format',
 because some files are installed in TDS:tex/generic//.
@@ -130,13 +134,9 @@ and the derived files
   \file{hyphsubst.drv}{\from{hyphsubst.dtx}{driver}}%
   \usedir{tex/generic/oberdiek}%
   \file{hyphsubst.sty}{\from{hyphsubst.dtx}{package}}%
-  \usedir{doc/latex/oberdiek/test}%
-  \file{hyphsubst-test1.tex}{\from{hyphsubst.dtx}{test1}}%
-  \file{hyphsubst-test2.tex}{\from{hyphsubst.dtx}{test2}}%
-  \nopreamble
-  \nopostamble
-  \usedir{source/latex/oberdiek/catalogue}%
-  \file{hyphsubst.xml}{\from{hyphsubst.dtx}{catalogue}}%
+%  \usedir{doc/latex/oberdiek/test}%
+%  \file{hyphsubst-test1.tex}{\from{hyphsubst.dtx}{test1}}%
+%  \file{hyphsubst-test2.tex}{\from{hyphsubst.dtx}{test2}}%
 }
 
 \catcode32=13\relax% active space
@@ -173,29 +173,13 @@ and the derived files
 % \fi
 %
 %
-% \CharacterTable
-%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%   Digits        \0\1\2\3\4\5\6\7\8\9
-%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%   Dollar        \$     Percent       \%     Ampersand     \&
-%   Acute accent  \'     Left paren    \(     Right paren   \)
-%   Asterisk      \*     Plus          \+     Comma         \,
-%   Minus         \-     Point         \.     Solidus       \/
-%   Colon         \:     Semicolon     \;     Less than     \<
-%   Equals        \=     Greater than  \>     Question mark \?
-%   Commercial at \@     Left bracket  \[     Backslash     \\
-%   Right bracket \]     Circumflex    \^     Underscore    \_
-%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%   Right brace   \}     Tilde         \~}
 %
 % \GetFileInfo{hyphsubst.drv}
 %
 % \title{The \xpackage{hyphsubst} package}
 % \date{2016/05/16 v0.3}
 % \author{Heiko Oberdiek\thanks
-% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
-% \xemail{heiko.oberdiek at googlemail.com}}
+% {Please report any issues at \url{https://github.com/ho-tex/oberdiek/issues}}}
 %
 % \maketitle
 %
@@ -576,160 +560,12 @@ and the derived files
 \HyphSubst@AtEnd%
 %</package>
 %    \end{macrocode}
-%
-% \section{Test}
-%
-% \subsection{Catcode checks for loading}
-%
-%    \begin{macrocode}
-%<*test1>
-%    \end{macrocode}
-%    \begin{macrocode}
-\catcode`\{=1 %
-\catcode`\}=2 %
-\catcode`\#=6 %
-\catcode`\@=11 %
-\expandafter\ifx\csname count@\endcsname\relax
-  \countdef\count@=255 %
-\fi
-\expandafter\ifx\csname @gobble\endcsname\relax
-  \long\def\@gobble#1{}%
-\fi
-\expandafter\ifx\csname @firstofone\endcsname\relax
-  \long\def\@firstofone#1{#1}%
-\fi
-\expandafter\ifx\csname loop\endcsname\relax
-  \expandafter\@firstofone
-\else
-  \expandafter\@gobble
-\fi
-{%
-  \def\loop#1\repeat{%
-    \def\body{#1}%
-    \iterate
-  }%
-  \def\iterate{%
-    \body
-      \let\next\iterate
-    \else
-      \let\next\relax
-    \fi
-    \next
-  }%
-  \let\repeat=\fi
-}%
-\def\RestoreCatcodes{}
-\count@=0 %
-\loop
-  \edef\RestoreCatcodes{%
-    \RestoreCatcodes
-    \catcode\the\count@=\the\catcode\count@\relax
-  }%
-\ifnum\count@<255 %
-  \advance\count@ 1 %
-\repeat
-
-\def\RangeCatcodeInvalid#1#2{%
-  \count@=#1\relax
-  \loop
-    \catcode\count@=15 %
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\RangeCatcodeCheck#1#2#3{%
-  \count@=#1\relax
-  \loop
-    \ifnum#3=\catcode\count@
-    \else
-      \errmessage{%
-        Character \the\count@\space
-        with wrong catcode \the\catcode\count@\space
-        instead of \number#3%
-      }%
-    \fi
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\space{ }
-\expandafter\ifx\csname LoadCommand\endcsname\relax
-  \def\LoadCommand{\input hyphsubst.sty\relax}%
-\fi
-\def\Test{%
-  \RangeCatcodeInvalid{0}{47}%
-  \RangeCatcodeInvalid{58}{64}%
-  \RangeCatcodeInvalid{91}{96}%
-  \RangeCatcodeInvalid{123}{255}%
-  \catcode`\@=12 %
-  \catcode`\\=0 %
-  \catcode`\%=14 %
-  \LoadCommand
-  \RangeCatcodeCheck{0}{36}{15}%
-  \RangeCatcodeCheck{37}{37}{14}%
-  \RangeCatcodeCheck{38}{47}{15}%
-  \RangeCatcodeCheck{48}{57}{12}%
-  \RangeCatcodeCheck{58}{63}{15}%
-  \RangeCatcodeCheck{64}{64}{12}%
-  \RangeCatcodeCheck{65}{90}{11}%
-  \RangeCatcodeCheck{91}{91}{15}%
-  \RangeCatcodeCheck{92}{92}{0}%
-  \RangeCatcodeCheck{93}{96}{15}%
-  \RangeCatcodeCheck{97}{122}{11}%
-  \RangeCatcodeCheck{123}{255}{15}%
-  \RestoreCatcodes
-}
-\Test
-\csname @@end\endcsname
-\end
-%    \end{macrocode}
-%    \begin{macrocode}
-%</test1>
-%    \end{macrocode}
-%
-%
-% \subsection{Main tests}
-%
-%    \begin{macrocode}
-%<*test2>
-\input hyphsubst.sty\relax
-
-\catcode`\@=11\relax
-\ifx\et@xlang\@undefined
-  \def\l#1{\csname l@#1\endcsname}%
-\else
-  \def\l#1{\csname lang@#1\endcsname}%
-\fi
-\def\Check#1#2{%
-  \ifnum#1=#2\relax
-  \else
-    \@PackageError{test}{Wrong number: #1 <> #2}\@ehc
-  \fi
-}
-
-\language=0\relax
-\HyphSubstLet{ZeroSaved}{ngerman}
-\Check{\l{USenglish}}{0}%
-\HyphSubstLet{USenglish}{ngerman}
-\Check{\l{USenglish}}{\l{ngerman}}
-\ifnum\l{USenglish}>0 %
-\else
-  \@PackageError{test}{\string\language\space is not updated}\@ehc
-\fi
-\HyphSubstLet{german}{ngerman}
-\Check{\l{german}}{\l{ngerman}}
-\Check{\l{USenglish}}{\l{ngerman}}
-\csname @@end\endcsname\end
-%</test2>
-%    \end{macrocode}
-%
-%
-% \section{Installation}
+%% \section{Installation}
 %
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{http://ctan.org/pkg/hyphsubst}}:
+% CTAN\footnote{\CTANpkg{hyphsubst}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/hyphsubst.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/hyphsubst.pdf}] Documentation.
@@ -741,10 +577,10 @@ and the derived files
 % the packages are already unpacked and the documentation files
 % are generated. The files and directories obey the TDS standard.
 % \begin{description}
-% \item[\CTAN{install/macros/latex/contrib/oberdiek.tds.zip}]
+% \item[\CTANinstall{install/macros/latex/contrib/oberdiek.tds.zip}]
 % \end{description}
 % \emph{TDS} refers to the standard ``A Directory Structure
-% for \TeX\ Files'' (\CTAN{tds/tds.pdf}). Directories
+% for \TeX\ Files'' (\CTANpkg{tds}). Directories
 % with \xfile{texmf} in their name are usually organized this way.
 %
 % \subsection{Bundle installation}
@@ -754,18 +590,6 @@ and the derived files
 % Example (linux):
 % \begin{quote}
 %   |unzip oberdiek.tds.zip -d ~/texmf|
-% \end{quote}
-%
-% \paragraph{Script installation.}
-% Check the directory \xfile{TDS:scripts/oberdiek/} for
-% scripts that need further installation steps.
-% Package \xpackage{attachfile2} comes with the Perl script
-% \xfile{pdfatfi.pl} that should be installed in such a way
-% that it can be called as \texttt{pdfatfi}.
-% Example (linux):
-% \begin{quote}
-%   |chmod +x scripts/oberdiek/pdfatfi.pl|\\
-%   |cp scripts/oberdiek/pdfatfi.pl /usr/local/bin/|
 % \end{quote}
 %
 % \subsection{Package installation}
@@ -785,8 +609,6 @@ and the derived files
 % \begin{tabular}{@{}>{\ttfamily}l@{ $\rightarrow$ }>{\ttfamily}l@{}}
 %   hyphsubst.sty & tex/generic/oberdiek/hyphsubst.sty\\
 %   hyphsubst.pdf & doc/latex/oberdiek/hyphsubst.pdf\\
-%   test/hyphsubst-test1.tex & doc/latex/oberdiek/test/hyphsubst-test1.tex\\
-%   test/hyphsubst-test2.tex & doc/latex/oberdiek/test/hyphsubst-test2.tex\\
 %   hyphsubst.dtx & source/latex/oberdiek/hyphsubst.dtx\\
 % \end{tabular}^^A
 % }^^A
@@ -856,21 +678,11 @@ and the derived files
 % \subsection{Refresh file name databases}
 %
 % If your \TeX~distribution
-% (\teTeX, \mikTeX, \dots) relies on file name databases, you must refresh
-% these. For example, \teTeX\ users run \verb|texhash| or
+% (\TeX\,Live, \mikTeX, \dots) relies on file name databases, you must refresh
+% these. For example, \TeX\,Live\ users run \verb|texhash| or
 % \verb|mktexlsr|.
 %
 % \subsection{Some details for the interested}
-%
-% \paragraph{Attached source.}
-%
-% The PDF documentation on CTAN also includes the
-% \xfile{.dtx} source file. It can be extracted by
-% AcrobatReader 6 or higher. Another option is \textsf{pdftk},
-% e.g. unpack the file into the current directory:
-% \begin{quote}
-%   \verb|pdftk hyphsubst.pdf unpack_files output .|
-% \end{quote}
 %
 % \paragraph{Unpacking with \LaTeX.}
 % The \xfile{.dtx} chooses its action depending on the format:
@@ -906,45 +718,6 @@ and the derived files
 %pdflatex hyphsubst.dtx
 %\end{verbatim}
 % \end{quote}
-%
-% \section{Catalogue}
-%
-% The following XML file can be used as source for the
-% \href{http://mirror.ctan.org/help/Catalogue/catalogue.html}{\TeX\ Catalogue}.
-% The elements \texttt{caption} and \texttt{description} are imported
-% from the original XML file from the Catalogue.
-% The name of the XML file in the Catalogue is \xfile{hyphsubst.xml}.
-%    \begin{macrocode}
-%<*catalogue>
-<?xml version='1.0' encoding='us-ascii'?>
-<!DOCTYPE entry SYSTEM 'catalogue.dtd'>
-<entry datestamp='$Date$' modifier='$Author$' id='hyphsubst'>
-  <name>hyphsubst</name>
-  <caption>Substitute hyphenation patterns.</caption>
-  <authorref id='auth:oberdiek'/>
-  <copyright owner='Heiko Oberdiek' year='2008'/>
-  <license type='lppl1.3'/>
-  <version number='0.3'/>
-  <description>
-    A TeX format file may include alternative hyphenation patterns
-    for a language with a different name. If the naming convention
-    follows <xref refid='babel'>babel&#x2019;s</xref> rules, then the
-    hyphenation patterns
-    for a language can be replaced by the alternative hyphenation patterns,
-    provided in the format file.
-    <p/>
-    The package is part of the <xref refid='oberdiek'>oberdiek</xref>
-    bundle.
-  </description>
-  <documentation details='Package documentation'
-      href='ctan:/macros/latex/contrib/oberdiek/hyphsubst.pdf'/>
-  <ctan file='true' path='/macros/latex/contrib/oberdiek/hyphsubst.dtx'/>
-  <miktex location='oberdiek'/>
-  <texlive location='oberdiek'/>
-  <install path='/macros/latex/contrib/oberdiek/oberdiek.tds.zip'/>
-</entry>
-%</catalogue>
-%    \end{macrocode}
 %
 % \begin{History}
 %   \begin{Version}{2008/06/07 v0.1}

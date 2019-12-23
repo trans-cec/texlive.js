@@ -21,7 +21,7 @@
 %%   Hans Fredrik Nordhaug <hansfn@mi.uib.no> and
 %%   Erik \"Osthols <erik.osthols@gmail.com>
 \ProvidesFile{swedish.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsswedish[1][swedish]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{et~al##1{}}}%

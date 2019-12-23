@@ -1,13 +1,16 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (INITEX)  16 MAY 2017 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (INITEX)  23 DEC 2019 17:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
- (/tmp/tex/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
+ (/home/peter/workspace/texlive.js/texlive/texmf-dist/web2c/cp227.tcx)
 ***pdfetex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/config/pdfetex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/pdftexconfig.
-tex) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/etex/etex.src
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/config/pdfetex.i
+ni
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+pdftexconfig.tex)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/etex/etex.src
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
 Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
@@ -47,19 +50,20 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
-[skipping from \patterns to end-of-file...]))
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.
+tex [skipping from \patterns to end-of-file...]))
 \et@xinput=\read0
 \et@xtoks=\toks12
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
-Skipping module "grouptypes"; Loading module "interactionmodes";
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/etex/etexdefs.li
+b Skipping module "grouptypes"; Loading module "interactionmodes";
 Skipping module "nodetypes"; Skipping module "iftypes";)
-(/tmp/tex/texlive.js/texlive/texmf-var/tex/generic/config/language.def
+(/home/peter/workspace/texlive.js/texlive/texmf-var/tex/generic/config/language
+.def
 \lang@USenglish=\language0
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex))
-Augmenting the Plain TeX definitions: \tracingall;
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.
+tex)) Augmenting the Plain TeX definitions: \tracingall;
 Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
 register allocation;
 \et@xins=\count26
@@ -72,12 +76,13 @@ Recycling: \addlanguage, \@nswer (not defined), \@sk, \b@dresponsetrue,
 Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
 \et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
 \etexstatus, \module, \uselanguage, \r@tain, \r@cycle,)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/config/pdftexmagfix.tex) )
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/config/pdftexmag
+fix.tex) )
 Beginning to dump on file pdfetex.fmt
- (preloaded format=pdfetex 2017.5.16)
-2895 strings of total length 43419
+ (preloaded format=pdfetex 2019.12.23)
+2902 strings of total length 43729
 7960 memory locations dumped; current usage is 203&7321
-1263 multiletter control sequences
+1265 multiletter control sequences
 \font\nullfont=nullfont
 \font\tenrm=cmr10
 \font\preloaded=cmr9

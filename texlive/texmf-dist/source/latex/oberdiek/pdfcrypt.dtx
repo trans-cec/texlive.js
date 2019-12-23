@@ -4,24 +4,26 @@
 % Version: 2016/05/16 v1.1
 % Info: Allows the setting of PDF encryption
 %
-% Copyright (C) 2001, 2006, 2007 by
-%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
-%    2016
+% Copyright (C)
+%    2001, 2006, 2007 Heiko Oberdiek
+%    2016-2019 Oberdiek Package Support Group
 %    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3c of this license or (at your option) any later
 % version. This version of this license is in
-%    http://www.latex-project.org/lppl/lppl-1-3c.txt
+%    https://www.latex-project.org/lppl/lppl-1-3c.txt
 % and the latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status "maintained".
 %
-% This Current Maintainer of this work is Heiko Oberdiek.
+% The Current Maintainers of this work are
+% Heiko Oberdiek and the Oberdiek Package Support Group
+% https://github.com/ho-tex/oberdiek/issues
 %
 % The Base Interpreter refers to any `TeX-Format',
 % because some files are installed in TDS:tex/generic//.
@@ -94,22 +96,26 @@ This is a generated file.
 Project: pdfcrypt
 Version: 2016/05/16 v1.1
 
-Copyright (C) 2001, 2006, 2007 by
-   Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+Copyright (C)
+   2001, 2006, 2007 Heiko Oberdiek
+   2016-2019 Oberdiek Package Support Group
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
 version 1.3c of this license or (at your option) any later
 version. This version of this license is in
-   http://www.latex-project.org/lppl/lppl-1-3c.txt
+   https://www.latex-project.org/lppl/lppl-1-3c.txt
 and the latest version of this license is in
-   http://www.latex-project.org/lppl.txt
+   https://www.latex-project.org/lppl.txt
 and version 1.3 or later is part of all distributions of
 LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is Heiko Oberdiek.
+The Current Maintainers of this work are
+Heiko Oberdiek and the Oberdiek Package Support Group
+https://github.com/ho-tex/oberdiek/issues
+
 
 The Base Interpreter refers to any `TeX-Format',
 because some files are installed in TDS:tex/generic//.
@@ -126,10 +132,6 @@ and the derived files
   \file{pdfcrypt.drv}{\from{pdfcrypt.dtx}{driver}}%
   \usedir{tex/generic/oberdiek}%
   \file{pdfcrypt.sty}{\from{pdfcrypt.dtx}{package}}%
-  \nopreamble
-  \nopostamble
-  \usedir{source/latex/oberdiek/catalogue}%
-  \file{pdfcrypt.xml}{\from{pdfcrypt.dtx}{catalogue}}%
 }
 
 \catcode32=13\relax% active space
@@ -166,29 +168,13 @@ and the derived files
 % \fi
 %
 %
-% \CharacterTable
-%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%   Digits        \0\1\2\3\4\5\6\7\8\9
-%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%   Dollar        \$     Percent       \%     Ampersand     \&
-%   Acute accent  \'     Left paren    \(     Right paren   \)
-%   Asterisk      \*     Plus          \+     Comma         \,
-%   Minus         \-     Point         \.     Solidus       \/
-%   Colon         \:     Semicolon     \;     Less than     \<
-%   Equals        \=     Greater than  \>     Question mark \?
-%   Commercial at \@     Left bracket  \[     Backslash     \\
-%   Right bracket \]     Circumflex    \^     Underscore    \_
-%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%   Right brace   \}     Tilde         \~}
 %
 % \GetFileInfo{pdfcrypt.drv}
 %
 % \title{The \xpackage{pdfcrypt} package}
 % \date{2016/05/16 v1.1}
 % \author{Heiko Oberdiek\thanks
-% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
-% \xemail{heiko.oberdiek at googlemail.com}}
+% {Please report any issues at \url{https://github.com/ho-tex/oberdiek/issues}}}
 %
 % \maketitle
 %
@@ -872,7 +858,7 @@ and the derived files
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{http://ctan.org/pkg/pdfcrypt}}:
+% CTAN\footnote{\CTANpkg{pdfcrypt}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfcrypt.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfcrypt.pdf}] Documentation.
@@ -884,10 +870,10 @@ and the derived files
 % the packages are already unpacked and the documentation files
 % are generated. The files and directories obey the TDS standard.
 % \begin{description}
-% \item[\CTAN{install/macros/latex/contrib/oberdiek.tds.zip}]
+% \item[\CTANinstall{install/macros/latex/contrib/oberdiek.tds.zip}]
 % \end{description}
 % \emph{TDS} refers to the standard ``A Directory Structure
-% for \TeX\ Files'' (\CTAN{tds/tds.pdf}). Directories
+% for \TeX\ Files'' (\CTANpkg{tds}). Directories
 % with \xfile{texmf} in their name are usually organized this way.
 %
 % \subsection{Bundle installation}
@@ -897,18 +883,6 @@ and the derived files
 % Example (linux):
 % \begin{quote}
 %   |unzip oberdiek.tds.zip -d ~/texmf|
-% \end{quote}
-%
-% \paragraph{Script installation.}
-% Check the directory \xfile{TDS:scripts/oberdiek/} for
-% scripts that need further installation steps.
-% Package \xpackage{attachfile2} comes with the Perl script
-% \xfile{pdfatfi.pl} that should be installed in such a way
-% that it can be called as \texttt{pdfatfi}.
-% Example (linux):
-% \begin{quote}
-%   |chmod +x scripts/oberdiek/pdfatfi.pl|\\
-%   |cp scripts/oberdiek/pdfatfi.pl /usr/local/bin/|
 % \end{quote}
 %
 % \subsection{Package installation}
@@ -997,21 +971,11 @@ and the derived files
 % \subsection{Refresh file name databases}
 %
 % If your \TeX~distribution
-% (\teTeX, \mikTeX, \dots) relies on file name databases, you must refresh
-% these. For example, \teTeX\ users run \verb|texhash| or
+% (\TeX\,Live, \mikTeX, \dots) relies on file name databases, you must refresh
+% these. For example, \TeX\,Live\ users run \verb|texhash| or
 % \verb|mktexlsr|.
 %
 % \subsection{Some details for the interested}
-%
-% \paragraph{Attached source.}
-%
-% The PDF documentation on CTAN also includes the
-% \xfile{.dtx} source file. It can be extracted by
-% AcrobatReader 6 or higher. Another option is \textsf{pdftk},
-% e.g. unpack the file into the current directory:
-% \begin{quote}
-%   \verb|pdftk pdfcrypt.pdf unpack_files output .|
-% \end{quote}
 %
 % \paragraph{Unpacking with \LaTeX.}
 % The \xfile{.dtx} chooses its action depending on the format:
@@ -1047,49 +1011,6 @@ and the derived files
 %pdflatex pdfcrypt.dtx
 %\end{verbatim}
 % \end{quote}
-%
-% \section{Catalogue}
-%
-% The following XML file can be used as source for the
-% \href{http://mirror.ctan.org/help/Catalogue/catalogue.html}{\TeX\ Catalogue}.
-% The elements \texttt{caption} and \texttt{description} are imported
-% from the original XML file from the Catalogue.
-% The name of the XML file in the Catalogue is \xfile{pdfcrypt.xml}.
-%    \begin{macrocode}
-%<*catalogue>
-<?xml version='1.0' encoding='us-ascii'?>
-<!DOCTYPE entry SYSTEM 'catalogue.dtd'>
-<entry datestamp='$Date$' modifier='$Author$' id='pdfcrypt'>
-  <name>pdfcrypt</name>
-  <caption>Allows the setting of pdf encryption.</caption>
-  <authorref id='auth:oberdiek'/>
-  <copyright owner='Heiko Oberdiek' year='2001,2006,2007'/>
-  <license type='lppl1.3'/>
-  <version number='1.1'/>
-  <description>
-    Allows the setting of pdf encryption options for VTeX and some
-    older versions of pdfTeX.  The options can be set as package
-    options or in the command <tt>\pdfcryptsetup</tt>. Options
-    include <tt>owner=OwnerPassword</tt>, <tt>user=UserPassword,
-    print</tt>, <tt>copy</tt>, <tt>edit</tt>, <tt>annotate=true,
-    false all, none</tt>. The encryption is set at
-    <tt>\begin{document}</tt> by default, but this can be forced for
-    an earlier time by option &#x2018;set&#x2019;.
-    <p/>
-    Example:
-    <tt>\usepackage[owner=Donald,user=Knuth,print=false]{pdfcrypt}</tt>
-    <p/>
-    The package is part of the <xref refid='oberdiek'>oberdiek</xref> bundle.
-  </description>
-  <documentation details='Package documentation'
-      href='ctan:/macros/latex/contrib/oberdiek/pdfcrypt.pdf'/>
-  <ctan file='true' path='/macros/latex/contrib/oberdiek/pdfcrypt.dtx'/>
-  <miktex location='oberdiek'/>
-  <texlive location='oberdiek'/>
-  <install path='/macros/latex/contrib/oberdiek/oberdiek.tds.zip'/>
-</entry>
-%</catalogue>
-%    \end{macrocode}
 %
 % \begin{History}
 %   \begin{Version}{2001/04/02 v0.1}

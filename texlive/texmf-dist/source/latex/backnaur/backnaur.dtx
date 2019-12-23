@@ -1,0 +1,680 @@
+% \iffalse meta-comment
+%
+% backnaur.dtx
+% 7 June 2019
+%
+%    Documented LaTeX file for the backnaur package.
+%
+%    Run LaTeX on backnaur.ins to make the package's
+%    backnaur.sty file.
+%
+%    Run LaTeX on this file to produce the package 
+%    documentation.
+%
+% Copyright (C) 2019 by Adrian P Robson
+%     adrian.robson@nepsweb.co.uk
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either 
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Adrian Robson.
+%
+% This work consists of the files backnaur.dtx and 
+%                                 backnaur.ins
+% and the derived files           backnaur.sty and 
+%                                 backnaur.pdf
+% -----------------------------------------------------------
+% \fi
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[2011/06/27]
+%<package>\ProvidesPackage{backnaur}
+%<package>[2019/06/18 3.1 Typesetting for Backus-Naur Form (BNF) definitions]
+%<*driver>
+\documentclass[10pt,a4paper]{ltxdoc}
+\usepackage{backnaur}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{bigstrut}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\OnlyDescription       % comment out for code implementation
+\begin{document}
+\DocInput{backnaur.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+%^^A-------------------------------------------------------------------
+%^^A Change log...
+%^^A--------------
+%^^A
+%^^A 15 November 2012
+%^^A The original was based on a non-packaged version that was used 
+%^^A in 2008 for the LaTeX editions of the author's foggy times 
+%^^A reports.
+%    \changes{v1.0}{2012/11/15}
+%            {Initial version of the package.}
+%^^A
+%^^A 3 December 2012
+%^^A Add tstt option and generally rewrite documentation.
+%    \changes{v1.1}{2012/12/12}
+%            {Updated and improved documentation.}
+%
+%^^A
+%^^A 7 June 2019
+%^^A Remove tstt option, add line number management, add altpo option 
+%^^A and updated and improve documentation.
+%    \changes{v3.0}{2019/06/07}
+%            {Updated and improved documentation.}
+%
+%^^A-------------------------------------------------------------------
+% 
+% \CheckSum{0} %^^A no checksum for development
+%^^A \CheckSum{80}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \GetFileInfo{backnaur.sty}
+%
+% \title{The \texttt{backnaur} package}
+% \author{Adrian P. Robson\thanks{\texttt{adrian.robson@nepsweb.co.uk}}}
+% \date{Version 3.1\\[0.5ex]18 June 2019}
+%
+% \maketitle
+%
+%^^A-------------------------------------------------------------------
+%^^A Start report body
+%^^A-------------------------------------------------------------------
+%
+% \section{Introduction}
+%
+% The \texttt{backnaur} package typesets Backus-Naur Form (BNF) definitions. 
+% It creates aligned lists of productions, with numbers if required.
+% It can also print  in line BNF expressions using math mode. 
+%
+% Backus-Naur Form is a notation for defining context free grammars.
+% It is used to describe such things as programming languages, communication protocols 
+% and command syntaxes, but it can be useful whenever a rigorous definition of language is needed.
+%
+% \section{BNF Definitions}
+%
+% The following is a BNF definition of a semicolon separated list:
+% \begin{bnf*}
+% \bnfprod{list}
+%         {\bnfpn{listitems}  \bnfor \bnfes}\\
+% \bnfprod{listitems}
+%         {\bnfpn{item}  \bnfor \bnfpn{item}  
+%          \bnfsp  \bnfts{;}  \bnfsp \bnfpn{listitems}}\\
+% \bnfprod{item}
+%         { \bnftd{description of item}}
+% \end{bnf*}
+%
+% \noindent
+% Here, $\bnfpo$ signifies \emph{produces}, $\mid$ is an \emph{or} operator, $\langle$...$\rangle$
+% are \emph{production names}, 
+% and $\bnfes$ represents the \emph{empty string}.
+% However, some BNF users prefer alternative terminologies, 
+% where $\bnfpo$  stands for \emph{is defined as}, 
+% $\langle$...$\rangle$ is a \emph{category name} or \emph{nonterminal}, 
+% and $\bnfes$ is refered to as \emph{null} or \emph{empty}.
+%
+% The above definition was created with the following code:
+%
+%\begin{verbatim}
+%\usepackage{backnaur}
+%...
+%\begin{bnf*}
+%   \bnfprod{list}
+%           {\bnfpn{listitems} \bnfor \bnfes}\\
+%   \bnfprod{listitems}
+%           {\bnfpn{item} \bnfor \bnfpn{item}  
+%            \bnfsp \bnfts{;} \bnfsp \bnfpn{listitems}}\\
+%   \bnfprod{item}
+%           {\bnftd{description of item}}
+%\end{bnf*}
+%
+%\end{verbatim}
+%
+% \noindent
+% Each BNF production is defined by a |\bnfprod| command, which has two arguments 
+% giving its left and right sides.
+% The right hand side of each production is specified with the commands described in
+% \S\ref{prodef} below.
+% Terminal (|\bnfts{;}|) and nonterminal (|\bnfpn{item}|), elements are separated 
+% by spaces (|\bnfsp|) and OR symbols (|\bnfor|).
+% The |\bnfes| command gives the symbol for the empty string.
+%
+% \section{Package Commands}\label{commandDesc}
+%
+% \subsection{Loading and options}\label{packopts}
+%
+% The package is loaded with
+%
+% \medskip\noindent
+% \hspace{2.5em}|\usepackage{backnaur}| \\
+% or\\
+% \hspace*{2.5em}|\usepackage[|<options>|]{backnaur}|
+% \medskip
+%
+% \noindent
+% Possible options are
+%
+% \vspace{-1.5ex}
+% \begin{tabbing}
+% xxxxxxxxx \=\kill
+% |perp|   \>The empty string symbol is $\perp$\\
+% |epsilon| \>  The empty string symbol is $\epsilon$\\
+% |tsrm| \>  Terminal string typeface is roman\\
+% |altpo| \> Production operator is $::=$
+%^^A |tstt| \>  Terminal string typeface is typewriter (default)
+% \end{tabbing}
+% \vspace{-1ex}
+%
+% \noindent
+% The defaults are: the empty string symbol is $\lambda$, 
+% the production operator is $\models$,
+% and the terminal string typeface is typewriter.
+% 
+% \subsection{Environments}
+%
+% \DescribeEnv{bnf} 
+% BNF productions are defined in a |bnf| or |bnf*| environment, 
+% which respectively  give numbered or unnumbered lists of productions.
+% \DescribeEnv{bnf*}
+% \begin{quote}
+% \begin{minipage}{0.5\linewidth}
+%   |\begin{bnf}|\\
+%   \hspace*{1em}<list of productions>\\
+%   |\end{bnf}|
+% \end{minipage}
+%   \begin{minipage}{0.45\linewidth}
+%   |\begin{bnf*}|\\
+%   \hspace*{1em}<list of productions>\\
+%   |\end{bnf*}|
+% \end{minipage}
+% \end{quote}
+%
+% \subsection{Productions}
+%
+% \DescribeMacro{\bnfprod}
+% \DescribeMacro{\bnfprod*}
+% A production is defined by |\bnfprod| or |\bnfprod*|, 
+% which respectively give a numbered or unnumbered line in the {\tt bnf} environment.
+% They have identical unnumbered behaviour in the {\tt bnf*} enviromment.
+% They take two arguments:
+% \begin{quote}
+%   |\bnfprod{|<production name>|}{|<production definition>|}|\\
+%   |\bnfprod*{|<production name>|}{|<production definition>|}|
+% \end{quote}	
+%
+% \DescribeMacro{\bnfmore}
+% \DescribeMacro{\bnfmore*}
+% A production can be continued on addition lines by |\bnfmore| or |\bnfmore*|, 
+% which respectively give a numbered or unnumbered line in the {\tt bnf} environment.
+% They are treated the same in the {\tt bnf*} environment.
+% They take one arguments:
+% \begin{quote}
+%   |\bnfmore{|<production definition>|}|\\
+%   |\bnfmore*{|<production definition>|}|
+% \end{quote}	
+%
+% \subsection{Production definitions}\label{prodef}
+%
+% The following commands are used to compose the right hand side of a production.
+% They are deployed in the second argument of the |\bnfprod| command.
+%
+% \DescribeMacro{\bnfpn}
+% The |\bnfpn| command generates a production name.
+% It takes a single argument that is the name. 
+% It is used as follows:
+% \begin{quote}
+% \begin{minipage}{0.6\linewidth}
+%   |\bnfpn{list item}|
+% \end{minipage}
+% \begin{minipage}{0.3\linewidth}
+%   $\bnfpn{list item}$
+% \end{minipage}
+% \end{quote}
+%
+% There are three types of terminal item: a literal string, a descriptive phrase and an empty string.
+% \DescribeMacro{\bnftm}
+% A literal terminal string is specified by the |\bnftm| command, which takes a single argument.
+% By default literal terminal strings are printed in typewriter font, but this can be changed as a package option  (see \S\ref{packopts}).
+% \DescribeMacro{\bnftd}
+% The |\bnftd| command generates a descriptive phrase, as an alternative to a literal string.  
+% \DescribeMacro{\bnfes}
+% The |\bnfes| command generates a token that represents the empty string. 
+% This is normally $\bnfes$, but it can be changed to $\epsilon$ or $\perp$ as a package option 
+% (see \S\ref{packopts}).
+% \begin{quote}
+% \begin{minipage}{0.6\linewidth}
+%   |\bnfts{terminal}|\\
+%   |\bnftd{description}|\\
+%   |\bnfes|
+% \end{minipage}
+% \begin{minipage}{0.3\linewidth}
+%   $\bnfts{terminal}$\\
+%   $\bnftd{description}$\\
+%   $\bnfes$
+% \end{minipage}
+% \end{quote}
+%
+% \DescribeMacro{\bnfsk}
+% Some literal terminal strings can be abbreviated with the `skip' token,
+% which is generated by the |\bnfsk| command.
+% This substitutes for a sequence of terminal characters.
+% It is used like this:
+% \begin{quote}
+%   \begin{minipage}{0.6\linewidth}
+%   |\bnfts{A} \bnfsk \bnfts{Z}|
+%   \end{minipage}
+% \begin{minipage}{0.3\linewidth}
+%   $\bnfts{A} \bnfsk \bnfts{Z}$
+% \end{minipage}
+% \end{quote}
+%
+% \DescribeMacro{\bnfor}
+% All items should be separated by an OR or a space. 
+% The |\bnfor| command generates the OR symbol, and the |\bnfsp| command introduces a space.
+% \DescribeMacro{\bnfsp} 
+% A space can be considered equivalent to an AND operator.
+% \begin{quote}
+% \begin{minipage}{0.6\linewidth}
+%   |\bnfpn{abc} \bnfor \bnfts{xzy}|\\
+%   |\bnfpn{abc} \bnfsp \bnfts{xzy}|
+% \end{minipage}
+% \begin{minipage}{0.3\linewidth}
+%   $\bnfpn{abc} \bnfor \bnfts{xzy}$\\
+%   $\bnfpn{abc} \bnfsp \bnfts{xzy}$
+% \end{minipage}
+% \end{quote}
+%
+% \subsection{Inline expressions}
+% The |\bnfprod| and |\bnfmore| macros cannot be used inline, so the |\bnfpn| and |\bnfpo| macros
+%   are provided to support typeseting productions  inline using maths mode.
+% \DescribeMacro{\bnfpn}
+% \DescribeMacro{\bnfpo}
+% The production's name can be typeset with |\bnfpn{name}| and the production operator with
+% |\bnfpo|.
+% By default the production operator is $\bnfpo$, but it can be changed to $::=$ with 
+% a package option (see \S\ref{packopts}).
+% The right side of the production can be defined with the usual macros (see \S\ref{prodef}). 
+% So |$\bnfpn{name} \bnfpo \bnftd{description}$| gives $\bnfpn{name} \bnfpo \bnftd{description}$.
+%
+% \subsection{Command summary}
+%
+% The commands that can be used to define a BNF production in a |bnf| or |bnf*| environment 
+% are as follows:
+%
+% \begin{center}
+% \begin{tabular}{lll}
+% \hline
+% Command         & Operator             & Outcome               \bigstrut \\
+% \hline
+% |\bnprod|   & production line       & <name> $\bnfpo$ {\it def}           \bigstrut[t]  \\
+% |\bnmore|   & extra  line &  \hspace{38.8pt} $\bnfpo$ {\it def}              \\[1ex]
+% |\bnfor|   & OR operator          & $\bnfor$              \\
+% |\bnfsk|   & skip                 & $\bnfsk$              \\
+% |\bnfsp|   & space/AND operator   & $\bnfsp$              \\
+% |\bnfes|   & empty string         & $\bnfes$              \\
+% |\bnfts{}| & terminal string      & $\bnfts{terminal}$    \\
+% |\bnftd{}| & terminal description & $\bnftd{description}$ \\[1ex]
+% |\bnfpn{}| & production name      & $\bnfpn{name}$        \\
+% |\bnfpo|   & production operator  & $\bnfpo$              \bigstrut[b] \\
+% \hline
+% \end{tabular}
+% \end{center}
+%
+% \section{Example}\label{example}
+%
+% A more significant example is the following definition of a $\bnfpn{sentence}$, 
+% where $\bnfpn{cchar}$ are countable characters, and $\bnfpn{ichar}$ are characters 
+% that should be ignored:
+%
+% \begin{samepage}
+% \small
+%\begin{verbatim}
+%\begin{bnf*}
+%   \bnfprod{sentence}
+%      {\bnfpn{start} \bnfsp \bnfpn{rest} \bnfsp \bnfts{.}}\\
+%   \bnfprod{start}  
+%      {\bnfpn{space} \bnfor \bnfes}\\
+%   \bnfprod{rest}   
+%      {\bnfpn{word} \bnfsp \bnfpn{space} \bnfsp \bnfpn{rest} 
+%       \bnfor \bnfpn{word} \bnfor \bnfes}\\
+%   \bnfprod{word}  
+%      {\bnfpn{wchar} \bnfsp \bnfpn{word} \bnfor \bnfpn{wchar}}\\
+%   \bnfprod{space}  
+%      {\bnfpn{schar} \bnfsp \bnfpn{space} \bnfor \bnfpn{schar}}\\
+%   \bnfprod{wchar}
+%      {\bnfpn{cchar}  \bnfor \bnfpn{ichar} }\\
+%   \bnfprod{cchar}
+%      {\bnfts{A} \bnfsk \bnfts{Z} \bnfor \bnfts{a} \bnfsk 
+%       \bnfts{z} \bnfor \bnfts{0} \bnfsk \bnfts{9} \bnfor 
+%       \bnfts{\textquotesingle}}\\
+%   \bnfprod{ichar}  
+%      {\bnfts{-}}
+%   \bnfprod{schar}
+%      {\bnfts{`\hspace{1em}'} \bnfor \bnfts{!} \bnfor \bnfts{"} 
+%       \bnfor \bnfts{(}  \bnfor \bnfts{)} \bnfor \bnfts{\{} 
+%       \bnfor \bnfts{\}} \bnfor }\\
+%   \bnfmore{\bnfts{:} \bnfor \bnfts{;} \bnfor \bnfts{?} \bnfor
+%            \bnfts{,} }
+%\end{bnf*}
+%\end{verbatim}
+% \end{samepage}
+%
+% \noindent
+% This creates the following BNF definition:
+%\begin{bnf}
+%   \bnfprod{sentence}
+%      {\bnfpn{start} \bnfsp \bnfpn{rest} \bnfsp \bnfts{.}}\\
+%   \bnfprod{start}  
+%      {\bnfpn{space} \bnfor \bnfes}\\
+%   \bnfprod{rest}   
+%      {\bnfpn{word} \bnfsp \bnfpn{space} \bnfsp \bnfpn{rest} 
+%       \bnfor \bnfpn{word} \bnfor \bnfes }\\
+%   \bnfprod{word}  
+%      {\bnfpn{wchar} \bnfsp \bnfpn{word} \bnfor \bnfpn{wchar}}\\
+%   \bnfprod{space}  
+%      {\bnfpn{schar} \bnfsp \bnfpn{space} \bnfor \bnfpn{schar}}\\
+%   \bnfprod{wchar}
+%      {\bnfpn{cchar}  \bnfor \bnfpn{ichar} }\\
+%   \bnfprod{cchar}
+%      {\bnfts{A} \bnfsk \bnfts{Z} \bnfor \bnfts{a} \bnfsk 
+%       \bnfts{z} \bnfor \bnfts{0} \bnfsk \bnfts{9} \bnfor 
+%      \bnfts{\textquotesingle} }\\
+%   \bnfprod{ichar}  
+%      {\bnfts{-}}\\
+%   \bnfprod*{schar}
+%      {\textrm{`\hspace{1em}'} \bnfor \bnfts{!} \bnfor \bnfts{"} 
+%       \bnfor \bnfts{(}  \bnfor \bnfts{)} \bnfor \bnfts{\{} 
+%       \bnfor \bnfts{\}} \bnfor }\\
+%   \bnfmore{\bnfts{:} \bnfor \bnfts{;} \bnfor \bnfts{?} \bnfor
+%            \bnfts{,} }
+%\end{bnf}
+%
+% \noindent
+%^^A Notice the kludge in production 9: \verb|\textrm{`\hspace{1em}'}|.
+% Notice the kludge in production 9. 
+% We use \verb|\textrm{`\hspace{1em}'}| to typeset a representation for a space 
+% character.
+% This is needed because we do not want to print in typewriter font, 
+% which would imply the quotes were part of an actual terminal string.
+% The \verb|\textrm| is needed because are in maths mode.
+%
+%^^AT \appendix
+% \section{Terminal string characters}
+%
+% The characters used with \verb|\bnfts{}| (terminal string) are just standard
+% LaTeX that is typeset in either a roman or typewriter font. 
+% This means we might have to use some escape pairs and a few special characters.
+% Apostrophes and speech marks can be confusing. There are some of the possibilities:
+%
+% \begin{tabbing}
+% xxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxx  \= xxxxxxxxxxxxxxxxx\=  \kill
+% alpha \> \verb|\bnfts{abcdABCD}| \> $\texttt{abcdABCD}$ \> $\textrm{abcdABCD}$\\
+% numeric \> \verb|\bnfts{01234}| \> $\texttt{01234}$ \> $\textrm{01234}$\\
+%
+% simple \> \verb|\bnfts{<>[]()*+-=}| \> $\texttt{<>[]()*+-=}$ \> $\textrm{<>[]()*+-=}$\\
+% simple \> \verb|\bnfts{@!?/,.;:}| \> $\texttt{@!?/,.;:}$ \> $\textrm{@!?/,.;:}$\\
+%
+% escaped \> \verb|\bnfts{\{\}\$\%\&\_\#}| \> $\texttt{\{\}\$\%\&\_\#}$ 
+%                                          \> $\textrm{\{\}\$\%\&\_\#}$\\
+%
+% quotes \> \verb|\bnfts{' ` " `` ''}| \> $\texttt{' ` " `` ''}$ 
+%                                      \> $\textrm{' ` " `` ''}$\\
+% quotes \> \verb|\bnfts{\textquotesingle}| \> $\texttt{\textquotesingle}$ 
+%                                           \> $\textrm{\textquotesingle}$\\
+%
+% pound \> \verb|\bnfts{\pounds}| \> $\texttt{\pounds}$ \> $\textrm{\pounds}$\\
+% hat \> \verb|\bnfts{\textasciicircum}| \> $\texttt{\textasciicircum}$ 
+%                                        \> $\textrm{\textasciicircum}$\\
+% backslash \> \verb|\bnfts{\textbackslash}| \> $\texttt{\textbackslash}$  
+%                                            \> $\textrm{\textbackslash}$\\
+% tilde \> \verb|\bnfts{\textasciitilde}| \> $\texttt{\textasciitilde}$ \> 
+%             $\textrm{\textasciitilde}$
+% \end{tabbing}
+%
+%
+% \noindent
+% The \verb|\textquotesingle| symbol needs the {\tt textcomp} package, which provides 
+% lots of other interesting symbols. Consult the excellent \emph{The Comprehensive LATEX Symbol List} by Scott Pakin for more information.
+%
+%^^A-------------------------------------------------------------------
+%^^A Start code implementation
+%^^A-------------------------------------------------------------------
+%
+%^^A \StopEventually{}
+% \StopEventually{\PrintChanges}
+%^^A    -> Run pdfLaTeX backnaur.dtx
+%^^A           makeindex -s gglo.ist -o backnaur.gls backnaur.glo
+%^^A           pdfLaTeX backnaur.dtx
+%^^A \StopEventually{\PrintIndex}
+%^^A    -> Run pdfLaTeX backnaur.dtx
+%^^A           makeindex -s gind.ist -o backnaur.ind backnaur.idx
+%^^A           pdfLaTeX backnaur.dtx
+%
+% \newpage
+% \section{Implementation}
+%
+% The implementation of |backnaur.sty| uses only \LaTeX{} commands. 
+%
+% \subsection{Environments}\label{environ}
+%
+% There are two environments defined:
+%
+% \begin{environment}{bnf}
+%    A production list with numbers. It is simply implemented as an |eqnarray|.
+%    Surplus space is removed with an |\ignorespacesafterend| and |%| characters.
+%    \begin{macrocode}
+\newenvironment{bnf}%
+{\begin{eqnarray}}%
+{\end{eqnarray}\ignorespacesafterend}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{bnf*}
+%    A lists without numbers. It is implemented with an |eqnarray*|, 
+%    and extra space is removed as in the |bnf| environment above. 
+%    \begin{macrocode}
+\newenvironment{bnf*}%
+{\begin{eqnarray*}}%
+{\end{eqnarray*}\ignorespacesafterend}
+%    \end{macrocode}
+% \end{environment}
+%
+% \subsection{Definition Commands}
+%
+% All of these commands run in the math mode supplied by the 
+% |bnf| and |bnf*| environments (see \S\ref{environ}). 
+%
+% \begin{macro}{\bnfpn}
+%    Production name / nonterminal.
+%    \changes{v3.1}{2019/06/18}{Fix font handling}
+%    \begin{macrocode}
+\newcommand{\bnfpn}[1]{\langle \textrm{#1} \rangle}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfor}
+%    OR operator.
+%    \begin{macrocode}
+\newcommand{\bnfor}{\; \mid \;}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfsp}
+%    Space or AND operator.
+%    \begin{macrocode}
+\newcommand{\bnfsp}{\;}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfes}
+%    Empty string symbol. This is the default if no package options are given.
+%    \begin{macrocode}
+\newcommand{\bnfes}{\lambda}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfts}\label{codebnfts}
+%    \changes{v1.1}{2012/12/12}{Support for {\tt tstt} option added}
+%    \changes{v3.1}{2019/06/18}{Fix font handling}
+% \begin{macro}{\bnf@tsfont}
+%    Terminal string. The font is controlled by the |\bnf@tsfont| macro,
+%    and this macro can be redefined by the |tsrm| option (see \S\ref{codeoptions}).
+%    The default is typewriter font.
+%    \begin{macrocode}
+\newcommand{\bnf@tsfont}[1]{\texttt{#1}}
+\newcommand{\bnfts}[1]{\bnf@tsfont{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bnfpo}
+%    Terminal description.
+%    \changes{v3.1}{2019/06/18}{Fix font handling}
+%    \begin{macrocode}
+\newcommand{\bnftd}[1]{\textit{#1}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfsk}
+%    Skip symbol.
+%    \begin{macrocode}
+\newcommand{\bnfsk}{\dots}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bnfpo}
+%    Production operator.
+%    \begin{macrocode}
+\newcommand{\bnfpo}{\models}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Production Commands}
+%
+%^^A \newcommand{\bnfprod}{\@ifstar{\bnf@prodnn}{\bnf@prodyn}}
+%^^A \newcommand{\bnf@prodyn}[2]{\bnfpn{#1} & \bnfpo & #2}
+%^^A \newcommand{\bnf@prodnn}[2]{\nonumber \bnfpn{#1} & \bnfpo & #2}
+%^^A \newcommand{\bnfmore}{\@ifstar{\bnf@morenn}{\bnf@moreyn}}
+%^^A \newcommand{\bnf@moreyn}[1]{ &  & #1}
+%^^A \newcommand{\bnf@morenn}[1]{\nonumber &  & #1}
+%
+% \begin{macro}{\bnfprod}
+% \begin{macro}{\bnfprod*}
+%    \changes{v3.0}{2019/06/07}{Added {\tt *} version of the macro.}
+% \begin{macro}{\bnf@prodyn}
+% \begin{macro}{\bnf@prodnn}
+%    A Backus-Naur Form production. 
+%    This command is designed to exploit the behaviour the |equarray| used in 
+%    the |bnf| and |bnf*| environments. 
+%    In particular, the |\bnfpo| character will be vertically aligned. 
+%    The {\tt *} version suppresses the line number%    \begin{macrocode}
+\newcommand{\bnfprod}{\@ifstar{\bnf@prodnn}{\bnf@prodyn}}
+\newcommand{\bnf@prodyn}[2]{\bnfpn{#1} & \bnfpo & #2}
+\newcommand{\bnf@prodnn}[2]{\nonumber \bnfpn{#1} & \bnfpo & #2}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bnfmore}
+%    \changes{v2.0}{2019/04/07}{Added macro.}
+% \begin{macro}{\bnfmore*}
+%    \changes{v3.0}{2019/06/07}{Added {\tt *} version of the macro.}
+% \begin{macro}{\bnf@moreyn}
+% \begin{macro}{\bnf@morenn}
+%    A continuation of a Backus-Naur Form production. 
+%    This command is designed to exploit the behaviour the |equarray| used in 
+%    the |bnf| and |bnf*| environments to correctly align with preceding 
+%    |\bnfprod| and |\bnfmore| macros. 
+%    The {\tt *} version suppresses the line number.
+%    \begin{macrocode}
+\newcommand{\bnfmore}{\@ifstar{\bnf@morenn}{\bnf@moreyn}}
+\newcommand{\bnf@moreyn}[1]{ &  & #1}
+\newcommand{\bnf@morenn}[1]{\nonumber &  & #1}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Options}\label{codeoptions}
+%
+%\begin{macro}{tstt}
+%    \changes{v1.1}{2012/12/12}{New option}
+%    \changes{v2.0}{2019/04/14}{Changed to be default}
+%    \changes{v3.0}{2019/06/07}{Option removed but still default}
+%    The |tstt| option is depreciated and can no longer be used.
+%    Nevertheless, typewriter font for terminal stings, which it selected,
+%    is still the package's default.
+%\end{macro}
+%
+% \begin{macro}{tsrm}
+%    \changes{v2.0}{2019/04/14}{New option}
+% \begin{macro}{\bnf@tsfont}
+%    The |tsrm| option redefines |\bnf@tsfont| to change the 
+%    terminal string font used in the |\bnfts| command (see \S\ref{codebnfts}) to roman font.
+%    \begin{macrocode}
+\DeclareOption{tsrm}{\renewcommand{\bnf@tsfont}[1]{\textrm{#1}}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{perp}
+% \begin{macro}{epsilon}
+% \begin{macro}{\bnfes}
+%    The |perp| and |epsilon| options redefine |\bnfes|, 
+%    which is the empty string command:
+%    \begin{macrocode}
+\DeclareOption{perp}{\renewcommand{\bnfes}{\perp}}
+\DeclareOption{epsilon}{\renewcommand{\bnfes}{\epsilon}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{altpo}
+%    \changes{v3.0}{2019/06/07}{New option}
+% \begin{macro}{\bnfpo}
+%    The |altpo| option redefines |\bnfpo|  
+%    which prints the production operator:
+%    \begin{macrocode}
+\DeclareOption{altpo}{\renewcommand{\bnfpo}{::=}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%\noindent
+% Finally, the options that have been selected are executed:
+%    \begin{macrocode}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+% \Finale
+\endinput

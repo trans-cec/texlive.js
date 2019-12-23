@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2016
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -26,13 +26,13 @@
 % extension .ins) which are part of the distribution.
 %
 % \fi
-\def\nfssfontfileversion{v2.2d}
-\def\nfssfontfiledate{2015/02/01}
+\def\nfssfontfileversion{v2.2e}
+\def\nfssfontfiledate{2019/10/12}
 
 %
 % \iffalse
 % Copyright (C) 1994 Donald E. Knuth
-% Copyright (C) 1994-94, 2003, 2006 Frank Mittelbach,
+% Copyright (C) 1994-2019 Frank Mittelbach,
 % all rights reserved.
 % \fi
 %
@@ -242,12 +242,26 @@
     \fontsize\size\size
   \fi
 %    \end{macrocode}
-%    Finally select the font and assign it to |\currfontname|.
+%    Then select the font and assign it to |\currfontname|.
 %    \begin{macrocode}
   \selectfont\edef\currfontname{\fontname\font}%
  \fi
  \startfont
- \message{Now type a test command (\string\help\space for help):}}
+%    \end{macrocode}
+%    Finally we ask for some ``action'' and offer |\table\bye| as
+%    default---basically I got tired of having to type that in each
+%    time.
+%    If some other action is given you end with a |*| prompt and have
+%    to finish the run with |\bye| yourself eventually.
+%    \begin{macrocode}
+ \typein[\action]{Now type a test command or
+   \string\help\space for help [ \string\table\space\string\bye\space]:}%
+ \ifx\action\empty
+   \expandafter\table\expandafter\bye
+ \else
+   \expandafter\action
+ \fi
+}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -474,7 +488,7 @@ official r\^ole in fluffy souffl\'es? }
 \begin{document}
 \let\typeout\oldtypeout
 
-\ifx\noinit!\else\init\fi
+\ifx\noinit!\else\expandafter\init\fi
 %</code>
 %    \end{macrocode}
 %

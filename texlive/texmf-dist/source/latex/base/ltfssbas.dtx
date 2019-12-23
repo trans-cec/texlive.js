@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2016
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -35,7 +35,7 @@
 %
 %
 \ProvidesFile{ltfssbas.dtx}
-             [2017/01/10 v3.2a LaTeX Kernel (NFSS Basic Macros)]
+             [2019/08/27 v3.2d LaTeX Kernel (NFSS Basic Macros)]
 % \iffalse
 \documentclass{ltxdoc}
 \begin{document}
@@ -145,21 +145,11 @@
 %                            substitution font/shape macro.}
 % \changes{v1.0a}{1989/04/10}{Starting with version numbers!!
 %                           \cs{ifmmode} added in \cs{math@group}}
-% \changes{v2.1w}{1994/11/17}
-%         {\cs{@tempa} to \cs{reserved@a}}
-% \changes{v3.0z}{2015/02/21}
-%         {Removed autoload code}
+% \changes{v2.1w}{1994/11/17}{\cs{@tempa} to \cs{reserved@a}}
+% \changes{v3.0z}{2015/02/21}{Removed autoload code}
+% \changes{v3.2d}{2019/08/27}{Make various commands robust}
 %
 %
-% The `2ekernel' code ensures that a |\usepackage{autofss1}| is
-% essentially ignored if a `full' format is being used that has
-% picture mode already in the format.
-%
-% Note the |autofss2| loading is currently disabled.
-%
-%    \begin{macrocode}
-%<2ekernel>\expandafter\let\csname ver@autofss1.sty\endcsname\fmtversion
-%    \end{macrocode}
 %
 %
 % \section{Preliminary macros}
@@ -817,7 +807,7 @@
 %    in the current size. If also the size should change one has to
 %    issue a |\fontsize| command first.
 %    \begin{macrocode}
-\def\usefont#1#2#3#4{\fontencoding{#1}\fontfamily{#2}%
+\DeclareRobustCommand\usefont[4]{\fontencoding{#1}\fontfamily{#2}%
              \fontseries{#3}\fontshape{#4}\selectfont
              \ignorespaces}
 %    \end{macrocode}
@@ -1167,11 +1157,12 @@
 %    \end{macrocode}
 %
 %
+% \changes{v3.2b}{2019/02/07}{Changed wording of warning (github/107)}
 %    \begin{macrocode}
 \def\try@load@fontshape{%
    \expandafter
    \ifx\csname \f@encoding+\f@family\endcsname\relax
-     \@font@info{Try loading font information for
+     \@font@info{Trying to load font information for
                    \f@encoding+\f@family}%
 %    \end{macrocode}
 %    We predefine this combination to be |\@empty| which means that
@@ -1284,6 +1275,10 @@
 %    one macro name if the assumption is false. But at least the font
 %    should be there!
 %    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2019/10/01}%
+%<latexrelease>                 {\DeclareErrorFont}{No side effects please}%
 \def\DeclareErrorFont#1#2#3#4#5{%
       \xdef\error@fontshape{%
           \noexpand\expandafter\noexpand\split@name\noexpand\string
@@ -1297,19 +1292,39 @@
 %    We definitely don't want to set |\f@encoding|; we can set all the
 %    others since if they are left ``blank'' any selection would grap
 %    ``error default values'' as well. However, this probably should
-%    go also.
+%    go also---and now it did.
 % \changes{v2.1n}{1994/05/14}{Don't set \cs{f@encoding}}
+% \changes{v3.2c}{2019/07/09}{Don't set any \cs{f@...} macros}
 %    \begin{macrocode}
 %      \gdef\f@encoding{#1}%
       \gdef\default@family{#2}%
       \gdef\default@series{#3}%
       \gdef\default@shape{#4}%
-      \global\let\f@family\default@family
-      \global\let\f@series\default@series
-      \global\let\f@shape\default@shape
-      \gdef\f@size{#5}%
-      \gdef\f@baselineskip{#5pt}%
 }
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\DeclareErrorFont}{No side effects please}%
+%<latexrelease>
+%<latexrelease>\def\DeclareErrorFont#1#2#3#4#5{%
+%<latexrelease>      \xdef\error@fontshape{%
+%<latexrelease>          \noexpand\expandafter\noexpand\split@name\noexpand\string
+%<latexrelease>          \expandafter\noexpand\csname#1/#2/#3/#4/#5\endcsname
+%<latexrelease>          \noexpand\@nil}%
+%<latexrelease>      \gdef\default@family{#2}%
+%<latexrelease>      \gdef\default@series{#3}%
+%<latexrelease>      \gdef\default@shape{#4}%
+%<latexrelease>      \global\let\f@family\default@family
+%<latexrelease>      \global\let\f@series\default@series
+%<latexrelease>      \global\let\f@shape\default@shape
+%<latexrelease>      \gdef\f@size{#5}%
+%<latexrelease>      \gdef\f@baselineskip{#5pt}%
+%<latexrelease>}
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
 \@onlypreamble\DeclareErrorFont
 %    \end{macrocode}
 %  \end{macro}
@@ -1813,7 +1828,7 @@
 %    \end{macrocode}
 % Version for engines other than Xe\TeX.
 %    \begin{macrocode}
-\gdef\showhyphens#1{%
+\DeclareRobustCommand\showhyphens[1]{%
   \setbox0\vbox{%
     \color@begingroup
     \everypar{}%
@@ -1837,7 +1852,7 @@
 % suppressed from the terminal output by ensuring that
 % |\tracingonline| is locally zero.
 %    \begin{macrocode}
-\long\def\showhyphens#1{%
+\DeclareRobustCommand\showhyphens[1]{%
   \setbox0\vbox{%
     \usefont{TU}{lmr}{m}{n}%
     \hsize 1sp %

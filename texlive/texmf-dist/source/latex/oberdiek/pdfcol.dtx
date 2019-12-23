@@ -1,27 +1,29 @@
 % \iffalse meta-comment
 %
 % File: pdfcol.dtx
-% Version: 2016/05/17 v1.4
+% Version: 2018/11/01 v1.5
 % Info: Handle new color stacks for pdfTeX
 %
-% Copyright (C) 2007 by
-%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
-%    2016
+% Copyright (C)
+%    2007 Heiko Oberdiek
+%    2016-2019 Oberdiek Package Support Group
 %    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3c of this license or (at your option) any later
 % version. This version of this license is in
-%    http://www.latex-project.org/lppl/lppl-1-3c.txt
+%    https://www.latex-project.org/lppl/lppl-1-3c.txt
 % and the latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status "maintained".
 %
-% This Current Maintainer of this work is Heiko Oberdiek.
+% The Current Maintainers of this work are
+% Heiko Oberdiek and the Oberdiek Package Support Group
+% https://github.com/ho-tex/oberdiek/issues
 %
 % The Base Interpreter refers to any `TeX-Format',
 % because some files are installed in TDS:tex/generic//.
@@ -64,10 +66,6 @@
 % Installation:
 %    TDS:tex/generic/oberdiek/pdfcol.sty
 %    TDS:doc/latex/oberdiek/pdfcol.pdf
-%    TDS:doc/latex/oberdiek/test/pdfcol-test1.tex
-%    TDS:doc/latex/oberdiek/test/pdfcol-test2.tex
-%    TDS:doc/latex/oberdiek/test/pdfcol-test3.tex
-%    TDS:doc/latex/oberdiek/test/pdfcol-test4.tex
 %    TDS:source/latex/oberdiek/pdfcol.dtx
 %
 %<*ignore>
@@ -85,7 +83,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: pdfcol 2016/05/17 v1.4 Handle new color stacks for pdfTeX (HO)}
+\Msg{* Package: pdfcol 2018/11/01 v1.5 Handle new color stacks for pdfTeX (HO)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -97,24 +95,28 @@
 This is a generated file.
 
 Project: pdfcol
-Version: 2016/05/17 v1.4
+Version: 2018/11/01 v1.5
 
-Copyright (C) 2007 by
-   Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+Copyright (C)
+   2007 Heiko Oberdiek
+   2016-2019 Oberdiek Package Support Group
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
 version 1.3c of this license or (at your option) any later
 version. This version of this license is in
-   http://www.latex-project.org/lppl/lppl-1-3c.txt
+   https://www.latex-project.org/lppl/lppl-1-3c.txt
 and the latest version of this license is in
-   http://www.latex-project.org/lppl.txt
+   https://www.latex-project.org/lppl.txt
 and version 1.3 or later is part of all distributions of
 LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is Heiko Oberdiek.
+The Current Maintainers of this work are
+Heiko Oberdiek and the Oberdiek Package Support Group
+https://github.com/ho-tex/oberdiek/issues
+
 
 The Base Interpreter refers to any `TeX-Format',
 because some files are installed in TDS:tex/generic//.
@@ -132,15 +134,11 @@ and the derived files
   \file{pdfcol.drv}{\from{pdfcol.dtx}{driver}}%
   \usedir{tex/generic/oberdiek}%
   \file{pdfcol.sty}{\from{pdfcol.dtx}{package}}%
-  \usedir{doc/latex/oberdiek/test}%
-  \file{pdfcol-test1.tex}{\from{pdfcol.dtx}{test1}}%
-  \file{pdfcol-test2.tex}{\from{pdfcol.dtx}{test2}}%
-  \file{pdfcol-test3.tex}{\from{pdfcol.dtx}{test3}}%
-  \file{pdfcol-test4.tex}{\from{pdfcol.dtx}{test4}}%
-  \nopreamble
-  \nopostamble
-  \usedir{source/latex/oberdiek/catalogue}%
-  \file{pdfcol.xml}{\from{pdfcol.dtx}{catalogue}}%
+%  \usedir{doc/latex/oberdiek/test}%
+%  \file{pdfcol-test1.tex}{\from{pdfcol.dtx}{test1}}%
+%  \file{pdfcol-test2.tex}{\from{pdfcol.dtx}{test2}}%
+%  \file{pdfcol-test3.tex}{\from{pdfcol.dtx}{test3}}%
+%  \file{pdfcol-test4.tex}{\from{pdfcol.dtx}{test4}}%
 }
 
 \catcode32=13\relax% active space
@@ -167,7 +165,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{pdfcol.drv}%
-  [2016/05/17 v1.4 Handle new color stacks for pdfTeX (HO)]%
+  [2018/11/01 v1.5 Handle new color stacks for pdfTeX (HO)]%
 \documentclass{ltxdoc}
 \usepackage{holtxdoc}[2011/11/22]
 \begin{document}
@@ -177,29 +175,13 @@ and the derived files
 % \fi
 %
 %
-% \CharacterTable
-%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%   Digits        \0\1\2\3\4\5\6\7\8\9
-%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%   Dollar        \$     Percent       \%     Ampersand     \&
-%   Acute accent  \'     Left paren    \(     Right paren   \)
-%   Asterisk      \*     Plus          \+     Comma         \,
-%   Minus         \-     Point         \.     Solidus       \/
-%   Colon         \:     Semicolon     \;     Less than     \<
-%   Equals        \=     Greater than  \>     Question mark \?
-%   Commercial at \@     Left bracket  \[     Backslash     \\
-%   Right bracket \]     Circumflex    \^     Underscore    \_
-%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%   Right brace   \}     Tilde         \~}
 %
 % \GetFileInfo{pdfcol.drv}
 %
 % \title{The \xpackage{pdfcol} package}
-% \date{2016/05/17 v1.4}
+% \date{2018/11/01 v1.5}
 % \author{Heiko Oberdiek\thanks
-% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
-% \xemail{heiko.oberdiek at googlemail.com}}
+% {Please report any issues at \url{https://github.com/ho-tex/oberdiek/issues}}}
 %
 % \maketitle
 %
@@ -379,7 +361,7 @@ and the derived files
   \fi
 \expandafter\x\csname ver@pdfcol.sty\endcsname
 \ProvidesPackage{pdfcol}%
-  [2016/05/17 v1.4 Handle new color stacks for pdfTeX (HO)]%
+  [2018/11/01 v1.5 Handle new color stacks for pdfTeX (HO)]%
 %    \end{macrocode}
 %
 % \subsection{Catcodes}
@@ -448,7 +430,8 @@ and the derived files
 % LuaTeX Compatability
 %    \begin{macrocode}
 \ifx\pdfextension\@undefined\else
-  \PDFCOL@RequirePackage{luatex85}[2016/01/01]
+ \def\pdfcolorstackinit {\pdffeedback colorstackinit}
+ \protected\def\pdfcolorstack     {\pdfextension colorstack}
 \fi
 %    \end{macrocode}
 %
@@ -760,185 +743,12 @@ and the derived files
 \PDFCOL@AtEnd%
 %</package>
 %    \end{macrocode}
-%
-% \section{Test}
-%
-% \subsection{Catcode checks for loading}
-%
-%    \begin{macrocode}
-%<*test1>
-%    \end{macrocode}
-%    \begin{macrocode}
-\catcode`\{=1 %
-\catcode`\}=2 %
-\catcode`\#=6 %
-\catcode`\@=11 %
-\expandafter\ifx\csname count@\endcsname\relax
-  \countdef\count@=255 %
-\fi
-\expandafter\ifx\csname @gobble\endcsname\relax
-  \long\def\@gobble#1{}%
-\fi
-\expandafter\ifx\csname @firstofone\endcsname\relax
-  \long\def\@firstofone#1{#1}%
-\fi
-\expandafter\ifx\csname loop\endcsname\relax
-  \expandafter\@firstofone
-\else
-  \expandafter\@gobble
-\fi
-{%
-  \def\loop#1\repeat{%
-    \def\body{#1}%
-    \iterate
-  }%
-  \def\iterate{%
-    \body
-      \let\next\iterate
-    \else
-      \let\next\relax
-    \fi
-    \next
-  }%
-  \let\repeat=\fi
-}%
-\def\RestoreCatcodes{}
-\count@=0 %
-\loop
-  \edef\RestoreCatcodes{%
-    \RestoreCatcodes
-    \catcode\the\count@=\the\catcode\count@\relax
-  }%
-\ifnum\count@<255 %
-  \advance\count@ 1 %
-\repeat
-
-\def\RangeCatcodeInvalid#1#2{%
-  \count@=#1\relax
-  \loop
-    \catcode\count@=15 %
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\RangeCatcodeCheck#1#2#3{%
-  \count@=#1\relax
-  \loop
-    \ifnum#3=\catcode\count@
-    \else
-      \errmessage{%
-        Character \the\count@\space
-        with wrong catcode \the\catcode\count@\space
-        instead of \number#3%
-      }%
-    \fi
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\space{ }
-\expandafter\ifx\csname LoadCommand\endcsname\relax
-  \def\LoadCommand{\input pdfcol.sty\relax}%
-\fi
-\def\Test{%
-  \RangeCatcodeInvalid{0}{47}%
-  \RangeCatcodeInvalid{58}{64}%
-  \RangeCatcodeInvalid{91}{96}%
-  \RangeCatcodeInvalid{123}{255}%
-  \catcode`\@=12 %
-  \catcode`\\=0 %
-  \catcode`\%=14 %
-  \LoadCommand
-  \RangeCatcodeCheck{0}{36}{15}%
-  \RangeCatcodeCheck{37}{37}{14}%
-  \RangeCatcodeCheck{38}{47}{15}%
-  \RangeCatcodeCheck{48}{57}{12}%
-  \RangeCatcodeCheck{58}{63}{15}%
-  \RangeCatcodeCheck{64}{64}{12}%
-  \RangeCatcodeCheck{65}{90}{11}%
-  \RangeCatcodeCheck{91}{91}{15}%
-  \RangeCatcodeCheck{92}{92}{0}%
-  \RangeCatcodeCheck{93}{96}{15}%
-  \RangeCatcodeCheck{97}{122}{11}%
-  \RangeCatcodeCheck{123}{255}{15}%
-  \RestoreCatcodes
-}
-\Test
-\csname @@end\endcsname
-\end
-%    \end{macrocode}
-%    \begin{macrocode}
-%</test1>
-%    \end{macrocode}
-%
-% \subsection{Very simple test}
-%
-%    \begin{macrocode}
-%<*test2|test3>
-\NeedsTeXFormat{LaTeX2e}
-\nofiles
-\documentclass{article}
-\usepackage{pdfcol}[2016/05/17]
-\usepackage{qstest}
-\IncludeTests{*}
-\LogTests{log}{*}{*}
-\begin{document}
-  \begin{qstest}{pdfcol}{}%
-    \makeatletter
-%<*test2>
-    \Expect*{\ifpdfcolAvailable true\else false\fi}{false}%
-%</test2>
-%<*test3>
-    \Expect*{\ifpdfcolAvailable true\else false\fi}{true}%
-    \Expect*{\number\@pdfcolorstack}{0}%
-%</test3>
-    \setbox0=\hbox{%
-      \pdfcolInitStack{test}%
-%<*test3>
-      \Expect*{\number\pdfcol@Stack@test}{1}%
-      \Expect*{\number\@pdfcolorstack}{0}%
-%</test3>
-      \pdfcolSwitchStack{test}%
-%<*test3>
-      \Expect*{\number\@pdfcolorstack}{1}%
-%</test3>
-      \pdfcolSetCurrent{test}%
-      \pdfcolSetCurrent{}%
-    }%
-    \Expect*{\the\wd0}{0.0pt}%
-%<*test3>
-    \Expect*{\number\@pdfcolorstack}{0}%
-    \Expect*{\number\pdfcol@Stack@test}{1}%
-    \Expect*{\pdfcolIfStackExists{test}{true}{false}}{true}%
-%</test3>
-    \Expect*{\pdfcolIfStackExists{dummy}{true}{false}}{false}%
-  \end{qstest}%
-\end{document}
-%</test2|test3>
-%    \end{macrocode}
-%
-% \subsection{Detection of package \xpackage{luacolor}}
-%
-%    \begin{macrocode}
-%<*test4>
-\NeedsTeXFormat{LaTeX2e}
-\documentclass{article}
-\usepackage{luacolor}
-\usepackage{pdfcol}
-\makeatletter
-\ifpdfcolAvailable
-  \@latex@error{Detection of package luacolor failed}%
-\fi
-\csname @@end\endcsname
-%</test4>
-%    \end{macrocode}
-%
-% \section{Installation}
+%% \section{Installation}
 %
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{http://ctan.org/pkg/pdfcol}}:
+% CTAN\footnote{\CTANpkg{pdfcol}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfcol.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/pdfcol.pdf}] Documentation.
@@ -950,10 +760,10 @@ and the derived files
 % the packages are already unpacked and the documentation files
 % are generated. The files and directories obey the TDS standard.
 % \begin{description}
-% \item[\CTAN{install/macros/latex/contrib/oberdiek.tds.zip}]
+% \item[\CTANinstall{install/macros/latex/contrib/oberdiek.tds.zip}]
 % \end{description}
 % \emph{TDS} refers to the standard ``A Directory Structure
-% for \TeX\ Files'' (\CTAN{tds/tds.pdf}). Directories
+% for \TeX\ Files'' (\CTANpkg{tds}). Directories
 % with \xfile{texmf} in their name are usually organized this way.
 %
 % \subsection{Bundle installation}
@@ -963,18 +773,6 @@ and the derived files
 % Example (linux):
 % \begin{quote}
 %   |unzip oberdiek.tds.zip -d ~/texmf|
-% \end{quote}
-%
-% \paragraph{Script installation.}
-% Check the directory \xfile{TDS:scripts/oberdiek/} for
-% scripts that need further installation steps.
-% Package \xpackage{attachfile2} comes with the Perl script
-% \xfile{pdfatfi.pl} that should be installed in such a way
-% that it can be called as \texttt{pdfatfi}.
-% Example (linux):
-% \begin{quote}
-%   |chmod +x scripts/oberdiek/pdfatfi.pl|\\
-%   |cp scripts/oberdiek/pdfatfi.pl /usr/local/bin/|
 % \end{quote}
 %
 % \subsection{Package installation}
@@ -994,10 +792,6 @@ and the derived files
 % \begin{tabular}{@{}>{\ttfamily}l@{ $\rightarrow$ }>{\ttfamily}l@{}}
 %   pdfcol.sty & tex/generic/oberdiek/pdfcol.sty\\
 %   pdfcol.pdf & doc/latex/oberdiek/pdfcol.pdf\\
-%   test/pdfcol-test1.tex & doc/latex/oberdiek/test/pdfcol-test1.tex\\
-%   test/pdfcol-test2.tex & doc/latex/oberdiek/test/pdfcol-test2.tex\\
-%   test/pdfcol-test3.tex & doc/latex/oberdiek/test/pdfcol-test3.tex\\
-%   test/pdfcol-test4.tex & doc/latex/oberdiek/test/pdfcol-test4.tex\\
 %   pdfcol.dtx & source/latex/oberdiek/pdfcol.dtx\\
 % \end{tabular}^^A
 % }^^A
@@ -1067,21 +861,11 @@ and the derived files
 % \subsection{Refresh file name databases}
 %
 % If your \TeX~distribution
-% (\teTeX, \mikTeX, \dots) relies on file name databases, you must refresh
-% these. For example, \teTeX\ users run \verb|texhash| or
+% (\TeX\,Live, \mikTeX, \dots) relies on file name databases, you must refresh
+% these. For example, \TeX\,Live\ users run \verb|texhash| or
 % \verb|mktexlsr|.
 %
 % \subsection{Some details for the interested}
-%
-% \paragraph{Attached source.}
-%
-% The PDF documentation on CTAN also includes the
-% \xfile{.dtx} source file. It can be extracted by
-% AcrobatReader 6 or higher. Another option is \textsf{pdftk},
-% e.g. unpack the file into the current directory:
-% \begin{quote}
-%   \verb|pdftk pdfcol.pdf unpack_files output .|
-% \end{quote}
 %
 % \paragraph{Unpacking with \LaTeX.}
 % The \xfile{.dtx} chooses its action depending on the format:
@@ -1118,46 +902,6 @@ and the derived files
 %\end{verbatim}
 % \end{quote}
 %
-% \section{Catalogue}
-%
-% The following XML file can be used as source for the
-% \href{http://mirror.ctan.org/help/Catalogue/catalogue.html}{\TeX\ Catalogue}.
-% The elements \texttt{caption} and \texttt{description} are imported
-% from the original XML file from the Catalogue.
-% The name of the XML file in the Catalogue is \xfile{pdfcol.xml}.
-%    \begin{macrocode}
-%<*catalogue>
-<?xml version='1.0' encoding='us-ascii'?>
-<!DOCTYPE entry SYSTEM 'catalogue.dtd'>
-<entry datestamp='$Date$' modifier='$Author$' id='pdfcol'>
-  <name>pdfcol</name>
-  <caption>Defines macros fpr maintaining color stacks under pdfTeX.</caption>
-  <authorref id='auth:oberdiek'/>
-  <copyright owner='Heiko Oberdiek' year='2007'/>
-  <license type='lppl1.3'/>
-  <version number='1.4'/>
-  <description>
-    Since version 1.40 pdfTeX supports color stacks.
-    The driver file <tt>pdftex.def</tt> for package
-    <xref refid='color'>color</xref> defines and uses a main color
-    stack since version v0.04b.
-    <p/>
-    This package is intended for package writers.
-    It defines macros for setting and maintaining new color stacks.
-    <p/>
-    The package is part of the <xref refid='oberdiek'>oberdiek</xref>
-    bundle.
-  </description>
-  <documentation details='Package documentation'
-      href='ctan:/macros/latex/contrib/oberdiek/pdfcol.pdf'/>
-  <ctan file='true' path='/macros/latex/contrib/oberdiek/pdfcol.dtx'/>
-  <miktex location='oberdiek'/>
-  <texlive location='oberdiek'/>
-  <install path='/macros/latex/contrib/oberdiek/oberdiek.tds.zip'/>
-</entry>
-%</catalogue>
-%    \end{macrocode}
-%
 % \begin{History}
 %   \begin{Version}{2007/09/09 v1.0}
 %   \item
@@ -1178,6 +922,10 @@ and the derived files
 %   \begin{Version}{2016/05/17 v1.4}
 %   \item
 %     Use luatex85 package for new luatex compatibility
+%   \end{Version}
+%   \begin{Version}{2018/11/01 v1.5}
+%   \item
+%     Remove luatex85 dependency
 %   \end{Version}
 % \end{History}
 %

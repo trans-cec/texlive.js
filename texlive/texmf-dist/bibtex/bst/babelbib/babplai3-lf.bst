@@ -17,7 +17,7 @@
 %% 
 %%   harald.harders@gmx.de
 %% 
-%% 2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)
+%% 2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)
 ENTRY
   { address
     annote

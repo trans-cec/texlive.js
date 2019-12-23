@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2016
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -32,7 +32,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltfntcmd.dtx}
-             [2015/03/11 v3.4b LaTeX Kernel (Font commands)]
+             [2019/01/27 v3.4b LaTeX Kernel (Font commands)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltfntcmd.dtx}
@@ -154,6 +154,8 @@
 % \begin{center}
 % \begin{tabular}{lll}
 % \textit{Command} & \textit{Corresponds to }& \textit{Action} \\[4pt]
+% |\textnormal{..}| & |\normalfont| &
+%            Typeset argument in normal family  \\
 % |\textrm{..}| & |\rmfamily| &
 %            Typeset argument in roman family  \\
 % |\textsf{..}| & |\sffamily| &

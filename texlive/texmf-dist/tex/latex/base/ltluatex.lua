@@ -9,7 +9,7 @@
 -- This is a generated file.
 -- 
 -- The source is maintained by the LaTeX Project team and bug
--- reports for it can be opened at http://latex-project.org/bugs.html
+-- reports for it can be opened at https://latex-project.org/bugs.html
 -- (but please observe conditions on bug reports sent to that address!)
 -- 
 -- 
@@ -24,9 +24,9 @@
 -- conditions of the LaTeX Project Public License, either version 1.3c
 -- of this license or (at your option) any later version.
 -- The latest version of this license is in
---    http://www.latex-project.org/lppl.txt
+--    https://www.latex-project.org/lppl.txt
 -- and version 1.3c or later is part of all distributions of LaTeX
--- version 2005/12/01 or later.
+-- version 2008 or later.
 -- 
 -- This file has the LPPL maintenance status "maintained".
 -- 
@@ -171,7 +171,8 @@ return registernumber(key) or nil
 end}
 )
 luatexbase.attributes = attributes
-local attribute_count_name = attribute_count_name or "e@alloc@attribute@count"
+local attribute_count_name =
+                     attribute_count_name or "e@alloc@attribute@count"
 local function new_attribute(name)
   tex_setcount("global", attribute_count_name,
                           tex_count[attribute_count_name] + 1)
@@ -196,7 +197,8 @@ local function new_whatsit(name)
   return tex_count[whatsit_count_name]
 end
 luatexbase.new_whatsit = new_whatsit
-local bytecode_count_name = bytecode_count_name or "e@alloc@bytecode@count"
+local bytecode_count_name =
+                         bytecode_count_name or "e@alloc@bytecode@count"
 local function new_bytecode(name)
   tex_setcount("global", bytecode_count_name,
                          tex_count[bytecode_count_name] + 1)
@@ -208,7 +210,8 @@ local function new_bytecode(name)
   return tex_count[bytecode_count_name]
 end
 luatexbase.new_bytecode = new_bytecode
-local chunkname_count_name = chunkname_count_name or "e@alloc@luachunk@count"
+local chunkname_count_name =
+                        chunkname_count_name or "e@alloc@luachunk@count"
 local function new_chunkname(name)
   tex_setcount("global", chunkname_count_name,
                          tex_count[chunkname_count_name] + 1)
@@ -223,6 +226,19 @@ local function new_chunkname(name)
   return chunkname_count
 end
 luatexbase.new_chunkname = new_chunkname
+local luafunction_count_name =
+                         luafunction_count_name or "e@alloc@luafunction@count"
+local function new_luafunction(name)
+  tex_setcount("global", luafunction_count_name,
+                         tex_count[luafunction_count_name] + 1)
+  if tex_count[luafunction_count_name] > 65534 then
+    luatexbase_error("No room for a new luafunction register")
+  end
+  luatexbase_log("Lua function " .. (name or "") .. " = " ..
+                 tex_count[luafunction_count_name])
+  return tex_count[luafunction_count_name]
+end
+luatexbase.new_luafunction = new_luafunction
 local callbacklist = callbacklist or { }
 local list, data, exclusive, simple = 1, 2, 3, 4
 local types = {
@@ -240,7 +256,6 @@ local callbacktypes = callbacktypes or {
   find_vf_file       = data,
   find_map_file      = data,
   find_enc_file      = data,
-  find_sfd_file      = data,
   find_pk_file       = data,
   find_data_file     = data,
   find_opentype_file = data,
@@ -252,7 +267,6 @@ local callbacktypes = callbacktypes or {
   read_vf_file       = exclusive,
   read_map_file      = exclusive,
   read_enc_file      = exclusive,
-  read_sfd_file      = exclusive,
   read_pk_file       = exclusive,
   read_data_file     = exclusive,
   read_truetype_file = exclusive,
@@ -267,20 +281,21 @@ local callbacktypes = callbacktypes or {
   buildpage_filter       = simple,
   build_page_insert      = exclusive,
   pre_linebreak_filter   = list,
-  linebreak_filter       = list,
-  append_to_vlist_filter = list,
+  linebreak_filter       = exclusive,
+  append_to_vlist_filter = exclusive,
   post_linebreak_filter  = list,
   hpack_filter           = list,
   vpack_filter           = list,
   hpack_quality          = list,
   vpack_quality          = list,
   pre_output_filter      = list,
-  process_rule           = list,
+  process_rule           = exclusive,
   hyphenate              = simple,
   ligaturing             = simple,
   kerning                = simple,
   insert_local_par       = simple,
-  mlist_to_hlist         = list,
+  mlist_to_hlist         = exclusive,
+  new_graf               = simple,
   pre_dump             = simple,
   start_run            = simple,
   stop_run             = simple,
@@ -293,9 +308,17 @@ local callbacktypes = callbacktypes or {
   start_file           = simple,
   stop_file            = simple,
   call_edit            = simple,
-  finish_pdffile = data,
-  finish_pdfpage = data,
-  define_font = exclusive,
+  finish_synctex       = simple,
+  wrapup_run           = simple,
+  finish_pdffile            = data,
+  finish_pdfpage            = data,
+  page_objnum_provider      = data,
+  process_pdf_image_content = data,
+  define_font                     = exclusive,
+  glyph_not_found                 = exclusive,
+  glyph_stream_provider           = exclusive,
+  make_extensible                 = exclusive,
+  font_descriptor_objnum_provider = exclusive,
 }
 luatexbase.callbacktypes=callbacktypes
 local callback_register = callback_register or callback.register

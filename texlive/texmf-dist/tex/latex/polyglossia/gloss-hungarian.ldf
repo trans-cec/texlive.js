@@ -1,0 +1,287 @@
+\ProvidesFile{gloss-hungarian.ldf}[polyglossia: module for hungarian]
+
+\PolyglossiaSetup{hungarian}{
+  babelname=magyar,
+  hyphennames={hungarian,magyar},
+  langtag=HUN,
+  hyphenmins={2,2},
+  fontsetup=true,
+}
+
+\frenchspacing
+
+% Babel and backwards compat. alias
+\setlanguagealias{hungarian}{magyar}
+
+\newif\if@hungarian@swapcaptions
+\newif\if@hungarian@swapheadings
+\newif\if@hungarian@swapheaders
+\define@choicekey*+{hungarian}{swapstrings}[\val\nr]{all,captions,headings,headers,hheaders,none}[all]{%
+   \ifcase\nr\relax
+      % all:
+      \@hungarian@swapcaptionstrue%
+      \@hungarian@swapheadingstrue%
+      \@hungarian@swapheaderstrue%
+   \or
+      % captions:
+      \@hungarian@swapcaptionstrue%
+      \@hungarian@swapheadingsfalse%
+      \@hungarian@swapheadersfalse%
+   \or
+      % headings:
+      \@hungarian@swapcaptionsfalse%
+      \@hungarian@swapheadingstrue%
+      \@hungarian@swapheadersfalse%
+   \or
+      % headers:
+      \@hungarian@swapcaptionsfalse%
+      \@hungarian@swapheadingsfalse%
+      \@hungarian@swapheaderstrue%
+   \or
+      % hheaders:
+      \@hungarian@swapcaptionsfalse%
+      \@hungarian@swapheadingstrue%
+      \@hungarian@swapheaderstrue%
+   \or
+      % none:
+      \@hungarian@swapcaptionsfalse%
+      \@hungarian@swapheadingsfalse%
+      \@hungarian@swapheadersfalse%
+   \fi
+   \xpg@info{Option: Hungarian, swapstrings=\val}%
+}{\xpg@warning{Unknown Hungarian swapstrings value `#1'}}
+
+\setkeys{hungarian}{swapstrings}
+
+\def\captionshungarian{%
+   \def\refname{Hivatkozások}%
+   \def\abstractname{Kivonat}%
+   \def\bibname{Irodalomjegyzék}%
+   \def\prefacename{Előszó}%
+   \def\chaptername{fejezet}%
+   \def\appendixname{Függelék}%
+   \def\contentsname{Tartalomjegyzék}%
+   \def\listfigurename{Ábrák jegyzéke}%
+   \def\listtablename{Táblázatok jegyzéke}%
+   \def\indexname{Tárgymutató}%
+   \def\figurename{ábra}%
+   \def\tablename{táblázat}%
+   %\def\thepart{}%
+   \def\partname{rész}%
+   \def\pagename{oldal}%
+   \def\seename{lásd}%
+   \def\alsoname{lásd még}%
+   \def\enclname{Melléklet}%
+   \def\ccname{Körlevél–címzettek}%
+   \def\headtoname{Címzett}%
+   \def\proofname{Bizonyítás}%
+   \def\glossaryname{Szójegyzék}%
+}
+
+\def\datehungarian{%   
+   \def\today{%
+    \number\year.\nobreakspace\ifcase\month\or
+    január\or február\or március\or
+    április\or május\or június\or
+    július\or augusztus\or szeptember\or
+    október\or november\or december\fi
+    \space\number\day.}%
+   \def\ondatehungarian{%
+    \number\year.\nobreakspace\ifcase\month\or
+    január\or február\or március\or
+    április\or május\or június\or
+    július\or augusztus\or szeptember\or
+    október\or november\or december\fi
+      \space\ifcase\day\or
+      1-jén\or  2-án\or  3-án\or  4-én\or  5-én\or
+      6-án\or  7-én\or  8-án\or  9-én\or 10-én\or
+     11-én\or 12-én\or 13-án\or 14-én\or 15-én\or
+     16-án\or 17-én\or 18-án\or 19-én\or 20-án\or
+     21-én\or 22-én\or 23-án\or 24-én\or 25-én\or
+     26-án\or 27-én\or 28-án\or 29-én\or 30-án\or
+     31-én\fi}%
+   \let\ontoday\ondatehungarian%
+   \let\ondatemagyar\ondatehungarian%
+}
+
+% Save original capsformats
+\let\xpg@save@fnum@table\fnum@table
+\let\xpg@save@fnum@figure\fnum@figure
+
+\def\hungarian@capsformat{%
+  %
+  % Change captions
+  \if@hungarian@swapcaptions
+     % change 'ábra x.x' to 'x.x. ábra'
+     \def\fnum@figure{\thefigure.~\figurename}
+     %
+     % change 'táblázat x.x' to 'x.x. táblázat'
+     \def\fnum@table{\thetable.~\tablename}
+  \fi
+  %
+  % change chapter and part headings
+  \if@hungarian@swapheadings
+     % With titlesec
+     \ifdefined\titleformat%
+       \ifdefined\@part%
+          \let\xpg@save@part@format\@part%
+          \patchcmd{\@part}%
+                    {\partname\nobreakspace\thepart}%
+                    {\thepart.\nobreakspace\partname}%
+                    {}%
+                    {\xpg@warning{Failed to patch part for Hungarian}}%
+       \fi%
+       \ifdefined\chapter%
+          \titleformat\chapter[display]%
+             {\@ifundefined{ttl@fil}{\raggedright}{\ttl@fil}\ttl@fonts\ttl@sizes6}
+             {\thechapter.\space\@chapapp}{.8\baselineskip}{\ttl@sizes\z@\ttl@passexplicit}
+       \fi%
+     \else% (not \ifdefined\titleformat)
+       % With KOMA
+       \ifdefined\sectionformat%
+          \ifdefined\partformat%
+            \let\xpg@save@part@format\partformat%
+            \renewcommand{\partformat}{\thepart.~\partname}%
+          \fi%
+          \ifdefined\chapterformat%
+            \let\xpg@save@chap@format\chapterformat%
+            \renewcommand{\chapterformat}{\mbox{\thechapter\autodot%
+                                          \IfUsePrefixLine{\nobreakspace\chapapp}{\enskip}}}%
+          \fi%
+       \else%  (not \ifdefined\sectionformat)
+         % With memoir
+         \ifdefined\@memptsize%
+           \ifdefined\@makechapterhead%
+              \let\xpg@save@chap@format\@makechapterhead%
+              \patchcmd{\@makechapterhead}{\printchaptername \chapternamenum \printchapternum}%
+                       {\printchapternum.\chapternamenum\printchaptername}%
+                       {}%
+                       {\xpg@warning{Failed to patch chapter for Hungarian}}%
+           \fi%
+           \ifdefined\@part%
+              \let\xpg@save@part@format\@part%
+              \patchcmd{\@part}{\printpartname \partnamenum \printpartnum}%
+                               {\printpartnum.\partnamenum\printpartname}%
+                               {}%
+                               {\xpg@warning{Failed to patch part for Hungarian}}%
+           \fi%
+         \else%  (not \ifdefined\@memptsize)
+           % With standard classes
+            \ifdefined\@makechapterhead%
+              \let\xpg@save@chap@format\@makechapterhead%
+              \patchcmd{\@makechapterhead}%
+                       {\@chapapp\space \thechapter}%
+                       {\thechapter.\space \@chapapp}%
+                       {}%
+                       {\xpg@warning{Failed to patch chapter for Hungarian}}%
+            \fi%
+            \ifdefined\@part%
+              \let\xpg@save@part@format\@part%
+              \patchcmd{\@part}%
+                       {\partname\nobreakspace\thepart}%
+                       {\thepart.\nobreakspace\partname}%
+                       {}%
+                       {\xpg@warning{Failed to patch part for Hungarian}}%
+            \fi%  (end \ifdefined\@part)
+          \fi% (end \ifdefined\@memptsize)
+        \fi% (end \ifdefined\sectionformat)
+     \fi% (end \ifdefined\titleformat)
+  \fi% (end \if@hungarian@swapheadings)
+  %
+  % Change running headers
+  \if@hungarian@swapheaders
+    \ifdefined\chapterformat%
+      % With KOMA
+      \let\xpg@save@chaptermark@format\chaptermarkformat%
+      \renewcommand*\chaptermarkformat{%
+         \thechapter\autodot\ \IfChapterUsesPrefixLine{\chapapp\enskip}{}}
+    \else% (not \ifdefined\chapterformat)
+      \ifdefined\@memptsize%
+        % With memoir
+        \let\xpg@save@chaptermark@format\chaptermark%
+        \renewcommand*\chaptermark[1]{%
+          \markboth{\memUChead{%
+            \ifnum \c@secnumdepth >\m@ne
+              \if@mainmatter
+                \thechapter.\ \@chapapp\ %
+              \fi
+            \fi
+            ##1}}{}}%
+      \else% (not \ifdefined\@memptsize)
+        % With standard classes
+        \ifdefined\chaptermark%
+           \let\xpg@save@chaptermark@format\chaptermark%
+           \patchcmd{\chaptermark}%
+                    {\@chapapp\ \thechapter.}%
+                    {\thechapter.\ \@chapapp}%
+                    {}%
+                    {\xpg@warning{Failed to patch chaptermark for Hungarian}}%
+        \fi% (end \ifdefined\chaptermark)
+      \fi% (end \ifdefined\@memptsize)
+    \fi% (end \ifdefined\chapterformat)
+  \fi% (end \if@hungarian@swapheaders)
+}
+
+\def\nohungarian@capsformat{%
+   %
+   % Reset changes of \hungarian@capsformat
+   \let\fnum@table\xpg@save@fnum@table%
+   \let\fnum@figure\xpg@save@fnum@figure%
+   %
+   % Reset chapter and part heading
+   \ifdefined\titleformat%
+      % With titlesec
+     \ifdefined\xpg@save@part@format
+        \let\@part\xpg@save@part@format
+     \fi%
+     \ifdefined\chapter
+        \titleformat\chapter[display]%
+          {\@ifundefined{ttl@fil}{\raggedright}{\ttl@fil}\ttl@fonts\ttl@sizes6}
+          {\@chapapp\space\thechapter}{.8\baselineskip}{\ttl@sizes\z@\ttl@passexplicit}
+     \fi%
+   \else% (not \ifdefined\titleformat)
+     \ifdefined\sectionformat%
+        % With KOMA
+        \ifdefined\xpg@save@part@format
+           \let\partformat\xpg@save@part@format
+        \fi%
+        \ifdefined\xpg@save@chap@format
+           \let\chapterformat\xpg@save@chap@format
+        \fi%
+     \else%
+        % With memoir and standard classes
+        \ifdefined\xpg@save@part@format
+           \let\@part\xpg@save@part@format
+        \fi%
+        \ifdefined\xpg@save@chap@format
+          \let\@makechapterhead\xpg@save@chap@format
+        \fi%
+     \fi% (end \ifdefined\sectionformat)
+   \fi% (end \ifdefined\titleformat)
+  %
+  % Reset headers
+  \ifdefined\chaptermarkformat%
+     % With KOMA
+     \ifdefined\xpg@save@chaptermark@format
+       \let\chaptermarkformat\xpg@save@chaptermark@format%
+     \fi
+  \else%
+     \ifdefined\chaptermark%
+       % With memoir and standard classes
+       \ifdefined\xpg@save@chaptermark@format
+         \let\chaptermark\xpg@save@chaptermark@format%
+       \fi
+     \fi% (end \ifdefined\chaptermark)
+  \fi% (end \ifdefined\chapterformat)
+}
+
+\def\blockextras@hungarian{%
+   \hungarian@capsformat%
+}
+
+\def\noextras@hungarian{%
+   \nohungarian@capsformat%
+   \let\ontoday\@undefined%
+}
+
+\endinput

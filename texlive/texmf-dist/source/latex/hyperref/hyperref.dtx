@@ -2,8 +2,9 @@
 %% File: hyperref.dtx Copyright 1995-2001 Sebastian Rahtz,
 %% with portions written by David Carlisle and Heiko Oberdiek,
 %% 2001-2012 Heiko Oberdiek.
-%% 2016-2017 Oberdiek Package Suport Group
-%%      https://github.com/ho-tex/hyperref/issues
+%% 2016-2019 Oberdiek Package Suport Group
+%% 2019 LaTeX3 Project
+%%      https://github.com/latex3/hyperref/issues
 %%
 %% This file is part of the `Hyperref Bundle'.
 %% -------------------------------------------
@@ -18,7 +19,7 @@
 %%
 %% This work has the LPPL maintenance status `maintained'.
 %%
-%% The Current Maintainer of this work is Heiko Oberdiek.
+%% The Current Maintainer of this work is the LaTeX3 Project.
 %%
 %% The list of all files belonging to the `Hyperref Bundle' is
 %% given in the file `manifest.txt'.
@@ -48,7 +49,7 @@
 %<puvnenc>\ProvidesFile{puvnenc.def}
 %<puarenc>\ProvidesFile{puarenc.def}
 %<psdextra>\ProvidesFile{psdextra.def}
-%<!none>  [2017/03/14 v6.85a %
+%<!none>  [2019/11/10 v7.00c %
 %<package>  Hypertext links for LaTeX]
 %<nohyperref>  Dummy hyperref (SR)]
 %<driver>  Hyperref documentation driver file]
@@ -89,13 +90,12 @@
 %<psdextra>  Hyperref: Additions to PDF string support]
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{array}
-\usepackage{ifluatex,ifxetex}
-\ifnum 0\ifluatex 1\else\ifxetex 1\fi\fi=0 %
-  \usepackage[T1]{fontenc}%
+\usepackage{array,iftex}
+\iftutex
+  \usepackage{fontspec}%
   \renewcommand*{\ttdefault}{lmvtt}%
 \else
-  \usepackage{fontspec}%
+  \usepackage[T1]{fontenc}%
   \renewcommand*{\ttdefault}{lmvtt}%
 \fi
 \usepackage[%
@@ -119,8 +119,9 @@
   \GetFileInfo{hyperref.sty}%
   \title{Hypertext marks in \LaTeX}%
   \author{Sebastian Rahtz (deceased)\\%
-    Heiko Oberdiek (maintainer)\\%
-    \texttt{https://github.com/ho-tex/hyperref/issues}}%
+    Heiko Oberdiek (inactive)\\%
+    The \LaTeX3 Project\\%
+    \texttt{https://github.com/latex3/hyperref/issues}}%
   % \date{processed \today}%
   \date{\filedate\space\fileversion}%
   \maketitle
@@ -497,15 +498,6 @@
 %    \end{macrocode}
 % \section{Package options and setup}\label{options}
 %
-% \subsection{Lua\TeX\ compatibility}
-%
-% Until a Lua\TeX\ driver is writen, load |luatex85| so that
-% the |pdftex| driver continues to work with Lua\TeX.
-%    \begin{macrocode}
-%\ifx\directlua\@undefined\else
-%  \RequirePackage{luatex85}
-%\fi
-%    \end{macrocode}
 %
 % \subsection{Save catcodes}
 %    There are many packages that change the standard catcodes.
@@ -594,20 +586,9 @@
 \Hy@SetCatcodes
 %    \end{macrocode}
 %
-% It needs the December 95 release of \LaTeX, because it uses
-% |\protected@write|, and it defines commands in options; and the page
-% setup internal code changed at that point. It'll probably break
-% with the later releases!
-%
-% Use package |hobsub-hyperref| for faster package loading.
-%    \begin{macrocode}
-\IfFileExists{hobsub-hyperref.sty}{%
-  \RequirePackage{hobsub-hyperref}[2011/01/30]%
-}{}
-%    \end{macrocode}
 %    \begin{macrocode}
 \RequirePackage{ltxcmds}[2010/11/12]
-\RequirePackage{ifpdf}[2006/02/20]
+\RequirePackage{iftex}[2019/10/24]
 \RequirePackage{pdftexcmds}[2009/04/10]
 \@ifpackagelater{pdftexcmds}{2010/11/04}{}{%
   \ltx@IfUndefined{pdfdraftmode}{%
@@ -633,8 +614,6 @@
 \RequirePackage{kvsetkeys}[2007/09/29]
 \RequirePackage{kvdefinekeys}[2011/04/07]
 \RequirePackage{pdfescape}[2007/11/11]
-\RequirePackage{ifvtex}
-\RequirePackage{ifxetex}[2006/08/21]
 \RequirePackage{hycolor}
 \RequirePackage{letltxmacro}[2008/06/13]
 \RequirePackage{auxhook}[2009/12/14]
@@ -1231,6 +1210,9 @@
 %    There are several commands that prints characters in the
 %    printable ASCII area that don't obey the NFSS, so they have
 %    to be redefined here.
+%    UF 29.09.2017: added a mapping for \cs{noboundary}, see issue |#37|
+%    \url{https://github.com/latex3/hyperref/issues/37}
+%    No test for PU, if some definition for PD1 is added it will work too.
 %    \begin{macrocode}
     \let\{\textbraceleft
     \let\}\textbraceright
@@ -1244,6 +1226,8 @@
     \let\P\textparagraph
     \let\ldots\textellipsis
     \let\dots\textellipsis
+    \ltx@IfUndefined{textEncodingNoboundary}%
+      {}{\let\noboundary\textEncodingNoboundary}%
 %    \end{macrocode}
 %
 % \paragraph{Newline}
@@ -1382,6 +1366,7 @@
     \let\foreignlanguage\@secondoftwo
     \let\textlatin\@firstofone
     \ltx@IfUndefined{language@group}{}{%
+      \let\bbl@info\@gobble
       \csname HyPsd@babel@\language@group\endcsname
     }%
     \HyPsd@GreekPatch
@@ -1926,6 +1911,7 @@
               \Hy@unicodefalse
             }{%
               \HyPsd@ToBigChars#1%
+              \HyPsd@EscapeTeX#1%
             }%
           \else
             \StringEncodingConvertTest\HyPsd@temp\HyPsd@temp
@@ -4939,6 +4925,7 @@
   }%
   {\Hy@WarnOptionDisabled{#1}}%
 }
+
 %    \end{macrocode}
 %    \end{macro}
 %
@@ -5308,7 +5295,7 @@
 \@namedef{Hy@pdfversion@1.7}{7}%
 \@namedef{Hy@pdfversion@1.8}{8}%
 \@namedef{Hy@pdfversion@1.9}{9}%
-\def\Hy@pdfversion{2}
+\def\Hy@pdfversion{5}
 %    \end{macrocode}
 %
 % \section{Options for different drivers}\label{drivers}
@@ -5323,7 +5310,7 @@
     \def\Hy@DviErrMsg{XeTeX is running}%
   \else
     \ifvtex
-      \ifvtexdvi
+      \ifnum\OpMode=\z@
         \Hy@DviModetrue
       \else
         \def\Hy@DviErrMsg{VTeX is running, but not in DVI mode}%
@@ -5985,6 +5972,47 @@
   \def\pageautorefname{Trang}%
 }
 %    \end{macrocode}
+% Greek, see github issue 52
+%    \begin{macrocode}
+\def\HyLang@greek{%
+    \def\equationautorefname{\textEpsilon\textxi\acctonos\textiota\textsigma\textomega\textsigma\texteta}%
+    \def\footnoteautorefname{\textupsilon\textpi\textomicron\textsigma\texteta\textmu\textepsilon\acctonos\textiota\textomega\textsigma\texteta}%
+    \def\itemautorefname{\textalpha\textnu\texttau\textiota\textkappa\textepsilon\acctonos\textiota\textmu\textepsilon\textnu\textomicron}%
+    \def\figureautorefname{\textSigma\textchi\acctonos\texteta\textmu\textalpha}%
+    \def\tableautorefname{\textPi\acctonos\textiota\textnu\textalpha\textkappa\textalpha}%
+    \def\partautorefname{\textMu\acctonos\textepsilon\textrho\textomicron\textvarsigma}%
+    \def\appendixautorefname{\textPi\textalpha\textrho\acctonos\textalpha\textrho\texttau\texteta\textmu\textalpha}%
+    \def\chapterautorefname{\textkappa\textepsilon\textphi\acctonos\textalpha\textlambda\textalpha\textiota\textomicron}%
+    \def\sectionautorefname{\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\subsectionautorefname{\textupsilon\textpi\textomicron\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\subsubsectionautorefname{\textupsilon\textpi\textomicron-\textupsilon\textpi\textomicron\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\paragraphautorefname{\textpi\textalpha\textrho\acctonos\textalpha\textgamma\textrho\textalpha\textphi\textomicron\textvarsigma}%
+    \def\subparagraphautorefname{\textupsilon\textpi\textomicron\textpi\textalpha\textrho\acctonos\textalpha\textgamma\textrho\textalpha\textphi\textomicron\textvarsigma}%
+    \def\FancyVerbLineautorefname{\textgamma\textrho\textalpha\textmu\textmu\acctonos\texteta}%
+    \def\theoremautorefname{\textTheta\textepsilon\acctonos\textomega\textrho\texteta\textmu\textalpha}%
+    \def\pageautorefname{\textsigma\textepsilon\textlambda\acctonos\textiota\textdelta\textalpha}%
+}
+%    \end{macrocode}
+%    \begin{macrocode}
+\def\HyLang@dutch{%
+    \def\equationautorefname{Vergelijking}%
+    \def\footnoteautorefname{voetnoot}%
+    \def\itemautorefname{punt}%
+    \def\figureautorefname{Figuur}%
+    \def\tableautorefname{Tabel}%
+    \def\partautorefname{Deel}%
+    \def\appendixautorefname{Bijlage}%
+    \def\chapterautorefname{hoofdstuk}%
+    \def\sectionautorefname{paragraaf}%
+    \def\subsectionautorefname{deelparagraaf}%
+    \def\subsubsectionautorefname{deel-deelparagraaf}%
+    \def\paragraphautorefname{alinea}%
+    \def\subparagraphautorefname{deelalinea}%
+    \def\FancyVerbLineautorefname{regel}%
+    \def\theoremautorefname{Stelling}%
+    \def\pageautorefname{pagina}%
+}
+%    \end{macrocode}
 %
 %    Instead of package babel's definition of \cmd{\addto} the
 %    implementation of package varioref is used. Additionally
@@ -6060,6 +6088,8 @@
 \HyLang@DeclareLang{italian}{italian}{}
 \HyLang@DeclareLang{magyar}{magyar}{}
 \HyLang@DeclareLang{hungarian}{magyar}{}
+\HyLang@DeclareLang{greek}{greek}{}
+\HyLang@DeclareLang{dutch}{dutch}{}
 %    \end{macrocode}
 %    More work is needed in case of options |vietnamese| and |vietnam|.
 %    \begin{macrocode}
@@ -6390,6 +6420,12 @@
   \do{/O}{Outline}%
   \do{/P}{Push}%
 }
+\def\Hy@setpdfhighlight{%
+  \ifx\@pdfhighlight\@empty
+  \else
+    /H\@pdfhighlight
+  \fi
+}
 \define@key{Hyp}{pdfborder}{%
   \let\Hy@temp\@pdfborder
   \def\@pdfborder{#1}%
@@ -6555,28 +6591,18 @@
   \HyPsd@XeTeXBigCharstrue
   \HyPsd@PrerenderUnicode{#1}%
   \pdfstringdef\@pdfproducer{#1}%
-  \ifxetex
-    \Hy@Warning{%
-      pdfproducer: %
-      xdvipdfmx will use its own setting\MessageBreak
-      instead of the value given%
-    }%
-  \else
-    \def\Hy@temp{hdvipdfm}%
-    \ifx\Hy@driver\Hy@temp
-      \Hy@Warning{%
-        pdfproducer: %
-        dvipdfm(x) will use its own setting\MessageBreak
-        instead of the value given%
-      }%
-    \fi
-  \fi
 }
 \define@key{Hyp}{pdfcreator}{%
   \HyXeTeX@CheckUnicode
   \HyPsd@XeTeXBigCharstrue
   \HyPsd@PrerenderUnicode{#1}%
   \pdfstringdef\@pdfcreator{#1}%
+}
+\define@key{Hyp}{addtopdfcreator}{%
+ \HyXeTeX@CheckUnicode
+ \HyPsd@XeTeXBigCharstrue
+ \HyPsd@PrerenderUnicode{#1}%
+ \pdfstringdef\@pdfcreator{\@pdfcreator, #1}%
 }
 \define@key{Hyp}{pdfcreationdate}{%
   \begingroup
@@ -7006,7 +7032,7 @@
 \let\@pdftitle\ltx@empty
 \let\@pdfauthor\ltx@empty
 \let\@pdfproducer\relax
-\def\@pdfcreator{LaTeX with hyperref package}
+\def\@pdfcreator{LaTeX with hyperref}
 \let\@pdfcreationdate\ltx@empty
 \let\@pdfmoddate\ltx@empty
 \let\@pdfsubject\ltx@empty
@@ -7175,7 +7201,9 @@
 %
 %    \begin{macrocode}
 \ifHy@pdfa
+  \ifnum \Hy@pdfversion < 4
   \kvsetkeys{Hyp}{pdfversion=1.4}%
+  \fi
   \Hy@DisableOption{pdfversion}%
   \def\Hy@Acrobatmenu#1#2{%
     \leavevmode
@@ -7387,7 +7415,7 @@
   \ifx\Hy@driver\@empty
   \else
     \def\Hy@temp{hvtexhtm}%
-    \ifvtexhtml
+    \ifnum\ifvtex\OpMode\else\m@ne\fi=10 %
       \ifx\Hy@driver\Hy@temp
       \else
         \Hy@WarningNoLine{%
@@ -7427,7 +7455,7 @@
         \ifxetex
           \def\Hy@driver{hxetex}%
         \else
-          \ifvtexhtml
+          \ifnum\ifvtex\OpMode\else\m@ne\fi=10 %
             \def\Hy@driver{hvtexhtm}%
             \def\MaybeStopEarly{%
               \Hy@Message{Stopped early}%
@@ -7438,10 +7466,10 @@
               \endinput
             }%
           \else
-            \ifvtexpdf
+            \ifnum\ifvtex\OpMode\else\m@ne\fi=\@ne
               \def\Hy@driver{hvtex}%
             \else
-              \ifvtexps
+              \ifnum\ifvtex\OpMode\else\m@ne\fi=\tw@
                 \def\Hy@driver{hvtex}%
               \else
                 \ifx\HyOpt@DriverFallback\ltx@empty
@@ -7478,7 +7506,7 @@
     \def\HyOpt@DriverType{ (custom)}%
     \let\Hy@driver\HyOpt@CustomDriver
   \fi
-  \Hy@Message{Driver\HyOpt@DriverType: \Hy@driver}%
+  \Hy@InfoNoLine{Driver\HyOpt@DriverType: \Hy@driver}%
   \chardef\Hy@VersionChecked=0 %
   \input{\Hy@driver.def}%
   \ifcase\Hy@VersionChecked
@@ -7645,7 +7673,7 @@
     \Hy@Info{Link coloring ON}%
   \else
     \ifHy@frenchlinks
-      \def\Hy@colorlink#1{\begingroup\fontshape{sc}\selectfont}%
+      \def\Hy@colorlink#1{\begingroup\fontshape{\scdefault}\selectfont}%
       \def\Hy@endcolorlink{\endgroup}%
       \Hy@Info{French linking ON}%
     \else
@@ -7705,6 +7733,12 @@
       \@ifstar\@namerefstar\T@nameref
     }%
 %  }%
+ \ifHy@implicit
+ \else
+   \let \@pagerefstar\T@pageref
+   \let \@refstar\T@ref
+   \let \@namerefstar\T@nameref
+ \fi
 }
 \Hy@AtBeginDocument{%
   \ifHy@texht
@@ -8050,7 +8084,10 @@
 %    \end{macrocode}
 % We also have a need to give a \LaTeX\ \emph{label} to a
 % hyper reference, to ease the pain of referring to it later.
+% \verb|\hyperrefundefinedlink| may be redefined by a user
+% to add colour or other formatting.
 %    \begin{macrocode}
+\let\hyperrefundefinedlink\@firstofone
 \def\label@hyperref[#1]{%
   \expandafter\label@@hyperref\csname r@#1\endcsname{#1}%
 }%
@@ -8061,7 +8098,7 @@
       Hyper reference `#2' on page \thepage \space undefined%
     }%
     \begingroup
-      #3%
+      \hyperrefundefinedlink{#3}%
     \endgroup
   \else
     \hyper@@link{\expandafter\@fifthoffive#1}%
@@ -9315,6 +9352,7 @@
   \else
     \def\@currValue{#2}%
   \fi
+  \expandafter\Hy@pdfstringdef\expandafter\@currValue\expandafter{\@currValue}%
 }
 \define@key{Field}{loc}{%
   \def\Fld@loc{#1}%
@@ -9424,7 +9462,7 @@
   \def\Fld@bordersep{#1}%
 }
 \define@key{Field}{default}{%
-  \def\Fld@default{#1}%
+  \Hy@pdfstringdef\Fld@default{#1}%
 }
 \define@key{Field}{align}{%
   \def\Fld@align{#1}%
@@ -9591,13 +9629,28 @@
   \@ifnextchar[{\@Reset}{\@Reset[]}%
 }
 \def\LayoutTextField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutChoiceField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutCheckField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutPushButtonField#1{% button
   #1%
@@ -9624,12 +9677,12 @@
 \def\DefaultWidthofSubmit{2cm}
 \def\DefaultHeightofReset{14pt}
 \def\DefaultWidthofReset{2cm}
-\def\DefaultHeightofCheckBox{\baselineskip}
-\def\DefaultWidthofCheckBox{\baselineskip}
-\def\DefaultHeightofChoiceMenu{\baselineskip}
-\def\DefaultWidthofChoiceMenu{\baselineskip}
-\def\DefaultHeightofText{\baselineskip}
-\def\DefaultHeightofTextMultiline{4\baselineskip}
+\def\DefaultHeightofCheckBox{\normalbaselineskip}
+\def\DefaultWidthofCheckBox{\normalbaselineskip}
+\def\DefaultHeightofChoiceMenu{\normalbaselineskip}
+\def\DefaultWidthofChoiceMenu{\normalbaselineskip}
+\def\DefaultHeightofText{\normalbaselineskip}
+\def\DefaultHeightofTextMultiline{4\normalbaselineskip}
 \def\DefaultWidthofText{3cm}
 \def\DefaultOptionsofSubmit{print,name=Submit,noexport}
 \def\DefaultOptionsofReset{print,name=Reset,noexport}
@@ -9942,7 +9995,7 @@
 %
 %    If options |pdftitle| and |pdfauthor| are not used,
 %    these informations for the pdf information dictionary
-%    can be extracted by the \title and \author.
+%    can be extracted by the \cmd{\title} and \cmd{\author}.
 %    \begin{macrocode}
 \ifHy@pdfusetitle
   \let\HyOrg@title\title
@@ -9967,9 +10020,9 @@
   }%
 %    \end{macrocode}
 %
-%    The case, that \title, or \author are given before
+%    The case, that \cmd{\title}, or \cmd{\author} are given before
 %    hyperref is loaded, is much more complicate, because
-%    LaTeX initializes the macros \@title and \@author with
+%    LaTeX initializes the macros \cmd{\@title} and \cmd{\@author} with
 %    LaTeX error and warning messages.
 %    \begin{macrocode}
   \begingroup
@@ -10008,6 +10061,8 @@
 %    The possible arguments such as space or the optional
 %    argument after the newline macros are not detected.
 %
+%    A possible \thanks removes its argument.
+%
 %    \begin{macrocode}
 \def\Hy@UseMaketitleString#1{%
   \ltx@IfUndefined{Hy@#1}{}{%
@@ -10016,6 +10071,8 @@
       \pdfstringdefDisableCommands{%
         \expandafter\let\expandafter\\\csname Hy@newline@#1\endcsname
         \let\newline\\%
+        \def\and{; }%
+        \let\thanks\@gobble%
       }%
       \expandafter\ifx\csname @pdf#1\endcsname\@empty
         \expandafter\pdfstringdef\csname @pdf#1\endcsname{%
@@ -10490,6 +10547,15 @@
   \fi
 }
 \let\HyXeTeX@CheckUnicode\relax
+%    \end{macrocode}
+%    Since 2016 (x)dvipdfmx has a special to control the spacing of annotation borders.
+%    So let's make use of it:
+%    \begin{macrocode}
+\def\setpdflinkmargin#1{%
+  \begingroup
+    \setlength{\dimen@}{#1}%
+    \special{dvipdfmx:config g \strip@pt\dimen@}%
+  \endgroup}
 %</xetex>
 %    \end{macrocode}
 %
@@ -11131,6 +11197,7 @@
 %    Package nameref uses five arguments for the ref system.
 %    Fix provided by Felix Neubauer (\Email{felix.neubauer@gmx.net}).
 %    \begin{macrocode}
+\AtBeginDocument{%
 \def\Hy@varioref@undefined{{??}{??}{}{}{}}
 \@ifpackageloaded{varioref}{%
   \def\vref@pagenum#1#2{%
@@ -11151,7 +11218,6 @@
     \csname p@#1\expandafter\endcsname\csname the#1\endcsname
   }%
 }
-\AtBeginDocument{%
   \ifx\refstepcounter\Hy@varioref@refstepcounter
     \let\H@refstepcounter\refstepcounter
     \let\refstepcounter\Hy@saved@refstepcounter
@@ -11574,13 +11640,13 @@
       {%
         \expandafter\hyper@@anchor\expandafter{%
           \Hy@footnote@currentHref
-         }{#1}%
+         }{\ignorespaces #1}%
       }{%
         \Hy@raisedlink{%
           \expandafter\hyper@@anchor\expandafter{%
             \Hy@footnote@currentHref
           }{\relax}%
-        }#1%
+        }\ignorespaces #1%
       }%
     }%
   }%
@@ -11594,7 +11660,7 @@
       {%
         \expandafter\hyper@@anchor\expandafter{%
           \Hy@footnote@currentHref
-        }{#1}%
+        }{\ignorespaces #1}%
       }{%
         \Hy@raisedlink{%
           \expandafter\hyper@@anchor\expandafter{%
@@ -11603,7 +11669,7 @@
         }%
         \let\@currentHref\Hy@footnote@currentHref
         \let\@currentlabelname\@empty
-        #1%
+        \ignorespaces #1%
       }%
     }%
   }%
@@ -12454,6 +12520,13 @@
 % destination is empty. But if `the most recent destination' is not
 % what you expect, you will be in trouble.
 %    \begin{macrocode}
+% In newer \LaTeX\ releases this is defined to put a \verb|%| at the end of the
+% line in the \textt{toc}file.
+%    \begin{macrocode}
+\providecommand\protected@file@percent{}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \def\addcontentsline#1#2#3{% toc extension, type, tag
   \begingroup
     \let\label\@gobble
@@ -12500,7 +12573,7 @@
       \endgroup
     \fi
     \addtocontents{#1}{%
-      \protect\contentsline{#2}{#3}{\thepage}{\@currentHref}%
+      \protect\contentsline{#2}{#3}{\thepage}{\@currentHref}\protected@file@percent
     }%
   \endgroup
 }
@@ -13240,6 +13313,7 @@
 \def\@namerefstar#1{%
   \HyRef@StarSetRef{#1}\@thirdoffive
 }
+
 \Hy@AtBeginDocument{%
   \@ifpackageloaded{varioref}{%
     \def\@Refstar#1{%
@@ -13254,26 +13328,70 @@
     \def\HyRef@Ref#1{%
       \hyperref[{#1}]{\Ref*{#1}}%
     }%
-    \def\Vr@f#1{%
-      \leavevmode\unskip\vref@space
-      \hyperref[{#1}]{%
-        \Ref*{#1}%
-        \let\vref@space\nobreakspace
-        \@vpageref[\unskip]{#1}%
-      }%
-    }%
-    \def\vr@f#1{%
-      \leavevmode\unskip\vref@space
+%    \end{macrocode}
+%    Test if we are running new 2019 varioref or old one:
+%    \begin{macrocode}
+%FMi
+  \ifdefined\vp@gerefstar
+   \renewcommand\Vref@star[2][]{%
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \Ref*{#2}
+       \vpageref[#1]{#2}%
+     \endgroup
+   }%
+   \renewcommand\Vr@f[2][]{%
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \hyperref[{#2}]{%
+         \Ref*{#2}
+         \vpageref[#1]{#2}%
+       }%
+     \endgroup
+   }%
+    \renewcommand\vr@f[2][]{%
       \begingroup
         \let\T@pageref\@pagerefstar
-        \hyperref[{#1}]{%
-          \ref*{#1}%
-          \vpageref[\unskip]{#1}%
+        \hyperref[{#2}]{%
+          \ref*{#2}
+          \vpageref[#1]{#2}%
         }%
-      \endgroup
+       \endgroup
     }%
+    \renewcommand\vref@star[2][]{%
+      \begingroup
+        \let\T@pageref\@pagerefstar
+        \ref*{#2}
+        \vpageref[#1]{#2}%
+       \endgroup
+    }%
+%    \end{macrocode}
+%    old varioref:
+%    \begin{macrocode}
+ \else
+   \def\Vr@f#1{%
+     \leavevmode\unskip\vref@space
+     \hyperref[{#1}]{%
+       \Ref*{#1}%
+       \let\vref@space\nobreakspace
+       \@vpageref[\unskip]{#1}%
+     }%
+   }%
+   \def\vr@f#1{%
+     \leavevmode\unskip\vref@space
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \hyperref[{#1}]{%
+         \ref*{#1}%
+         \vpageref[\unskip]{#1}%
+       }%
+     \endgroup
+   }%
+ \fi
+%FMi -end mod
   }{}%
 }
+
 \DeclareRobustCommand*{\autopageref}{%
   \@ifstar{%
     \HyRef@autopagerefname\pageref*%
@@ -13820,10 +13938,7 @@
   \Hy@StartlinkName{%
     \ifHy@pdfa /F 4\fi
     \Hy@setpdfborder
-    \ifx\@pdfhighlight\@empty
-    \else
-      /H\@pdfhighlight
-    \fi
+    \Hy@setpdfhighlight
     \ifx\CurrentBorderColor\relax
     \else
       /C[\CurrentBorderColor]%
@@ -13879,10 +13994,7 @@
     \pdfstartlink
       attr{%
         \Hy@setpdfborder
-        \ifx\@pdfhightlight\@empty
-        \else
-          /H\@pdfhighlight
-        \fi
+        \Hy@setpdfhighlight
         \ifx\@urlbordercolor\relax
         \else
           /C[\@urlbordercolor]%
@@ -13917,10 +14029,7 @@
     \pdfstartlink
       attr{%
         \Hy@setpdfborder
-        \ifx\@pdfhighlight\@empty
-        \else
-          /H\@pdfhighlight
-        \fi
+        \Hy@setpdfhighlight
         \ifx\@filebordercolor\relax
         \else
           /C[\@filebordercolor]%
@@ -13968,10 +14077,7 @@
     \pdfstartlink
       attr{%
         \Hy@setpdfborder
-        \ifx\@pdfhighlight\@empty
-        \else
-          /H\@pdfhighlight
-        \fi
+        \Hy@setpdfhighlight
         \ifx\@runbordercolor\relax
         \else
           /C[\@runbordercolor]%
@@ -13997,68 +14103,6 @@
   \endgroup
 }
 %    \end{macrocode}
-%    \begin{macro}{\@pdfproducer}
-%    \begin{macrocode}
-\ifx\@pdfproducer\relax
-  \begingroup\expandafter\expandafter\expandafter\endgroup
-  \expandafter\ifx\csname luatexversion\endcsname\relax
-    \def\@pdfproducer{pdfTeX}%
-    \ifx\eTeXversion\@undefined
-    \else
-      \ifx\eTeXversion\relax
-      \else
-        \ifnum\eTeXversion>0 %
-          \def\@pdfproducer{pdfeTeX}%
-        \fi
-      \fi
-    \fi
-    \ifx\pdftexversion\@undefined
-    \else
-      \ifnum\pdftexversion<100 %
-        \edef\@pdfproducer{%
-          \@pdfproducer
-          \the\pdftexversion.\pdftexrevision
-        }%
-      \else
-        \ifnum\pdftexversion<130 %
-          \edef\@pdfproducer{%
-            \@pdfproducer-%
-            \expandafter\@car\the\pdftexversion\@empty\@nil.%
-            \expandafter\@cdr\the\pdftexversion\@empty\@nil
-            \pdftexrevision
-          }%
-        \else
-          \ifnum\pdftexversion<140 %
-          \else
-            \def\@pdfproducer{pdfTeX}%
-          \fi
-          \edef\@pdfproducer{%
-            \@pdfproducer-%
-            \expandafter\@car\the\pdftexversion\@empty\@nil.%
-            \expandafter\@cdr\the\pdftexversion\@empty\@nil.%
-            \pdftexrevision
-          }%
-        \fi
-      \fi
-    \fi
-  \else
-    \begingroup
-      \count@=\luatexversion
-      \divide\count@ by 100 %
-      \edef\x{\the\count@}%
-      \count@=-\x\relax
-      \multiply\count@ by 100 %
-      \advance\count@ by \luatexversion
-      \edef\x{\endgroup
-        \def\noexpand\@pdfproducer{%
-          LuaTeX-\x.\the\count@.\luatexrevision
-        }%
-      }%
-    \x
-  \fi
-\fi
-%    \end{macrocode}
-%    \end{macro}
 %    \begin{macro}{\PDF@SetupDox}
 %    \begin{macrocode}
 \def\PDF@SetupDoc{%
@@ -14167,6 +14211,7 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -14382,10 +14427,7 @@
     \pdfstartlink
       attr{%
         \Hy@setpdfborder
-        \ifx\@pdfhighlight\@empty
-        \else
-          /H\@pdfhighlight
-        \fi
+        \Hy@setpdfhighlight
         \ifx\@menubordercolor\relax
         \else
           /C[\@menubordercolor]%
@@ -14774,9 +14816,6 @@
     \fi
   \endgroup
 }
-\ifx\@pdfproducer\relax
-  \def\@pdfproducer{dviwindo + Distiller}%
-\fi
 \HyInfo@AddonUnsupportedtrue
 \def\PDF@FinishDoc{%
   \Hy@UseMaketitleInfos
@@ -14802,6 +14841,8 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
+  \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -15124,6 +15165,7 @@
         /Subtype/Link%
         \ifHy@pdfa /F 4\fi
         \Hy@setpdfborder
+        \Hy@setpdfhighlight
         \expandafter\ifx\csname @#1bordercolor\endcsname\relax
         \else
           /C[\csname @#1bordercolor\endcsname]%
@@ -15156,6 +15198,7 @@
         /Subtype/Link%
         \ifHy@pdfa /F 4\fi
         \Hy@setpdfborder
+        \Hy@setpdfhighlight
         \ifx\@filebordercolor\relax
         \else
           /C[\@filebordercolor]%
@@ -15190,6 +15233,7 @@
         /Subtype/Link%
         \ifHy@pdfa /F 4\fi
         \Hy@setpdfborder
+        \Hy@setpdfhighlight
         \ifx\@runbordercolor\relax
         \else
           /C[\@runbordercolor]%
@@ -15221,6 +15265,7 @@
         /Subtype/Link%
         \ifHy@pdfa /F 4\fi
         \Hy@setpdfborder
+        \Hy@setpdfhighlight
         \ifx\@urlbordercolor\relax
         \else
           /C[\@urlbordercolor]%
@@ -15250,6 +15295,7 @@
           /Subtype/Link%
           \ifHy@pdfa /F 4\fi
           \Hy@setpdfborder
+          \Hy@setpdfhighlight
           \ifx\@menubordercolor\relax
           \else
             /C[\@menubordercolor]%
@@ -15267,18 +15313,7 @@
     \Hy@EndAnnot
   }%
 }
-\ifx\@pdfproducer\relax
-  \def\@pdfproducer{dvipdfm}%
-%    \end{macrocode}
-%    Detect Xe\TeX. However, but \textsf{xdvipdfmx} will overwrite it
-%    in the final PDF file.
-%    \begin{macrocode}
-  \begingroup\expandafter\expandafter\expandafter\endgroup
-  \expandafter\ifx\csname XeTeXversion\endcsname\relax
-  \else
-    \edef\@pdfproducer{XeTeX \the\XeTeXversion\XeTeXrevision}%
-  \fi
-\fi
+
 \def\PDF@FinishDoc{%
   \Hy@UseMaketitleInfos
   \HyInfo@GenerateAddons
@@ -15312,6 +15347,8 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
+  \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -16239,6 +16276,8 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
+  \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -16576,6 +16615,8 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
+  \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -17691,9 +17732,6 @@
 \def\literalps@out#1{\special{ps:#1}}%
 \def\headerps@out#1{\special{headertext=#1}}%
 \input{pdfmark.def}%
-\ifx\@pdfproducer\relax
-  \def\@pdfproducer{dvipsone + Distiller}%
-\fi
 \HyInfo@AddonUnsupportedtrue
 \def\PDF@FinishDoc{%
   \Hy@UseMaketitleInfos
@@ -17719,6 +17757,8 @@
   \Hy@DisableOption{pdftitle}%
   \Hy@DisableOption{pdfsubject}%
   \Hy@DisableOption{pdfcreator}%
+  \Hy@DisableOption{addtopdfcreator}%
+  \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfcreationdate}%
   \Hy@DisableOption{pdfmoddate}%
   \Hy@DisableOption{pdfproducer}%
@@ -26420,7 +26460,7 @@
 % U+200C ZERO WIDTH NON-JOINER; afii61664
 \DeclareTextCommand{\ZWNJ}{PU}{\9040\014}% U+200C
 % U+200D ZERO WIDTH JOINER; afii301
-\DeclareTextCommand{\noboundary}{PU}{\9040\015}% U+200D
+\DeclareTextCommand{\textEncodingNoboundary}{PU}{\9040\015}% U+200D
 %    \end{macrocode}
 %    \begin{macrocode}
 %</puarenc>
@@ -26513,6 +26553,7 @@
   \let\iota\textiota
   \let\kappa\textkappa
   \let\lambda\textlambda
+  \let\mu\textmu
   \let\mugreek\textmugreek
   \let\nu\textnu
   \let\xi\textxi

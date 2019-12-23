@@ -4,24 +4,26 @@
 % Version: 2016/05/16 v1.1
 % Info: Define protected commands
 %
-% Copyright (C) 2011 by
-%    Heiko Oberdiek <heiko.oberdiek at googlemail.com>
-%    2016
+% Copyright (C)
+%    2011 Heiko Oberdiek
+%    2016-2019 Oberdiek Package Support Group
 %    https://github.com/ho-tex/oberdiek/issues
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3c of this license or (at your option) any later
 % version. This version of this license is in
-%    http://www.latex-project.org/lppl/lppl-1-3c.txt
+%    https://www.latex-project.org/lppl/lppl-1-3c.txt
 % and the latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status "maintained".
 %
-% This Current Maintainer of this work is Heiko Oberdiek.
+% The Current Maintainers of this work are
+% Heiko Oberdiek and the Oberdiek Package Support Group
+% https://github.com/ho-tex/oberdiek/issues
 %
 % The Base Interpreter refers to any `TeX-Format',
 % because some files are installed in TDS:tex/generic//.
@@ -64,8 +66,6 @@
 % Installation:
 %    TDS:tex/generic/oberdiek/protecteddef.sty
 %    TDS:doc/latex/oberdiek/protecteddef.pdf
-%    TDS:doc/latex/oberdiek/test/protecteddef-test1.tex
-%    TDS:doc/latex/oberdiek/test/protecteddef-test2.tex
 %    TDS:source/latex/oberdiek/protecteddef.dtx
 %
 %<*ignore>
@@ -97,22 +97,26 @@ This is a generated file.
 Project: protecteddef
 Version: 2016/05/16 v1.1
 
-Copyright (C) 2011 by
-   Heiko Oberdiek <heiko.oberdiek at googlemail.com>
+Copyright (C)
+   2011 Heiko Oberdiek
+   2016-2019 Oberdiek Package Support Group
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
 version 1.3c of this license or (at your option) any later
 version. This version of this license is in
-   http://www.latex-project.org/lppl/lppl-1-3c.txt
+   https://www.latex-project.org/lppl/lppl-1-3c.txt
 and the latest version of this license is in
-   http://www.latex-project.org/lppl.txt
+   https://www.latex-project.org/lppl.txt
 and version 1.3 or later is part of all distributions of
 LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is Heiko Oberdiek.
+The Current Maintainers of this work are
+Heiko Oberdiek and the Oberdiek Package Support Group
+https://github.com/ho-tex/oberdiek/issues
+
 
 The Base Interpreter refers to any `TeX-Format',
 because some files are installed in TDS:tex/generic//.
@@ -130,13 +134,9 @@ and the derived files
   \file{protecteddef.drv}{\from{protecteddef.dtx}{driver}}%
   \usedir{tex/generic/oberdiek}%
   \file{protecteddef.sty}{\from{protecteddef.dtx}{package}}%
-  \usedir{doc/latex/oberdiek/test}%
-  \file{protecteddef-test1.tex}{\from{protecteddef.dtx}{test1}}%
-  \file{protecteddef-test2.tex}{\from{protecteddef.dtx}{test2}}%
-  \nopreamble
-  \nopostamble
-  \usedir{source/latex/oberdiek/catalogue}%
-  \file{protecteddef.xml}{\from{protecteddef.dtx}{catalogue}}%
+%  \usedir{doc/latex/oberdiek/test}%
+%  \file{protecteddef-test1.tex}{\from{protecteddef.dtx}{test1}}%
+%  \file{protecteddef-test2.tex}{\from{protecteddef.dtx}{test2}}%
 }
 
 \catcode32=13\relax% active space
@@ -173,29 +173,13 @@ and the derived files
 % \fi
 %
 %
-% \CharacterTable
-%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%   Digits        \0\1\2\3\4\5\6\7\8\9
-%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%   Dollar        \$     Percent       \%     Ampersand     \&
-%   Acute accent  \'     Left paren    \(     Right paren   \)
-%   Asterisk      \*     Plus          \+     Comma         \,
-%   Minus         \-     Point         \.     Solidus       \/
-%   Colon         \:     Semicolon     \;     Less than     \<
-%   Equals        \=     Greater than  \>     Question mark \?
-%   Commercial at \@     Left bracket  \[     Backslash     \\
-%   Right bracket \]     Circumflex    \^     Underscore    \_
-%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%   Right brace   \}     Tilde         \~}
 %
 % \GetFileInfo{protecteddef.drv}
 %
 % \title{The \xpackage{protecteddef} package}
 % \date{2016/05/16 v1.1}
 % \author{Heiko Oberdiek\thanks
-% {Please report any issues at https://github.com/ho-tex/oberdiek/issues}\\
-% \xemail{heiko.oberdiek at googlemail.com}}
+% {Please report any issues at \url{https://github.com/ho-tex/oberdiek/issues}}}
 %
 % \maketitle
 %
@@ -548,280 +532,12 @@ and the derived files
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
-%
-% \section{Test}
-%
-% \subsection{Catcode checks for loading}
-%
-%    \begin{macrocode}
-%<*test1>
-%    \end{macrocode}
-%    \begin{macrocode}
-\catcode`\{=1 %
-\catcode`\}=2 %
-\catcode`\#=6 %
-\catcode`\@=11 %
-\expandafter\ifx\csname count@\endcsname\relax
-  \countdef\count@=255 %
-\fi
-\expandafter\ifx\csname @gobble\endcsname\relax
-  \long\def\@gobble#1{}%
-\fi
-\expandafter\ifx\csname @firstofone\endcsname\relax
-  \long\def\@firstofone#1{#1}%
-\fi
-\expandafter\ifx\csname loop\endcsname\relax
-  \expandafter\@firstofone
-\else
-  \expandafter\@gobble
-\fi
-{%
-  \def\loop#1\repeat{%
-    \def\body{#1}%
-    \iterate
-  }%
-  \def\iterate{%
-    \body
-      \let\next\iterate
-    \else
-      \let\next\relax
-    \fi
-    \next
-  }%
-  \let\repeat=\fi
-}%
-\def\RestoreCatcodes{}
-\count@=0 %
-\loop
-  \edef\RestoreCatcodes{%
-    \RestoreCatcodes
-    \catcode\the\count@=\the\catcode\count@\relax
-  }%
-\ifnum\count@<255 %
-  \advance\count@ 1 %
-\repeat
-
-\def\RangeCatcodeInvalid#1#2{%
-  \count@=#1\relax
-  \loop
-    \catcode\count@=15 %
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\RangeCatcodeCheck#1#2#3{%
-  \count@=#1\relax
-  \loop
-    \ifnum#3=\catcode\count@
-    \else
-      \errmessage{%
-        Character \the\count@\space
-        with wrong catcode \the\catcode\count@\space
-        instead of \number#3%
-      }%
-    \fi
-  \ifnum\count@<#2\relax
-    \advance\count@ 1 %
-  \repeat
-}
-\def\space{ }
-\expandafter\ifx\csname LoadCommand\endcsname\relax
-  \def\LoadCommand{\input protecteddef.sty\relax}%
-\fi
-\def\Test{%
-  \RangeCatcodeInvalid{0}{47}%
-  \RangeCatcodeInvalid{58}{64}%
-  \RangeCatcodeInvalid{91}{96}%
-  \RangeCatcodeInvalid{123}{255}%
-  \catcode`\@=12 %
-  \catcode`\\=0 %
-  \catcode`\%=14 %
-  \LoadCommand
-  \RangeCatcodeCheck{0}{36}{15}%
-  \RangeCatcodeCheck{37}{37}{14}%
-  \RangeCatcodeCheck{38}{47}{15}%
-  \RangeCatcodeCheck{48}{57}{12}%
-  \RangeCatcodeCheck{58}{63}{15}%
-  \RangeCatcodeCheck{64}{64}{12}%
-  \RangeCatcodeCheck{65}{90}{11}%
-  \RangeCatcodeCheck{91}{91}{15}%
-  \RangeCatcodeCheck{92}{92}{0}%
-  \RangeCatcodeCheck{93}{96}{15}%
-  \RangeCatcodeCheck{97}{122}{11}%
-  \RangeCatcodeCheck{123}{255}{15}%
-  \RestoreCatcodes
-}
-\Test
-\csname @@end\endcsname
-\end
-%    \end{macrocode}
-%    \begin{macrocode}
-%</test1>
-%    \end{macrocode}
-%
-% \subsection{Test without \hologo{LaTeX} and \cs{protected}}
-%
-%    \begin{macrocode}
-%<*test2>
-\errorcontextlines=10000 %
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname RequirePackage\endcsname\relax
-  \input protecteddef.sty\relax
-  \catcode`\{=1 %
-  \catcode`\}=2 %
-  \catcode`\#=6 %
-\else
-  \RequirePackage{protecteddef}[2016/05/16]%
-\fi
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname protected\endcsname\relax
-  \let\pdef\def
-\else
-  \def\pdef{\protected\def}%
-\fi
-\def\msg#{\immediate\write16}
-\countdef\errcount=2 %
-\long\def\BeginCheck#1\ProtectedDef#2\EndCheck{%
-  \begingroup
-    \toks0={\ProtectedDef#2}%
-    \msg{<<\the\toks0>>}%
-  \endgroup
-  \setbox0=\hbox{%
-    #1%
-    \ProtectedDef#2%
-    \check\foo
-  }%
-  \ifdim\wd0=0pt\relax
-  \else
-    \errmessage{[Definition] Unwanted spaces?!}%
-  \fi
-  \setbox0=\hbox{%
-    \def\fooinitial{XYZ}%
-    \let\foo\fooinitial
-    \errcount=0 %
-    \expandafter\def\csname @PackageError\endcsname##1##2##3{%
-      \advance\errcount by 1 %
-    }%
-    \expandafter\def\csname @notdefinable\endcsname{%
-      \advance\errcount by 1 %
-    }%
-    \ProtectedDef#2%
-    \ifnum\errcount=1 %
-    \else
-      \errmessage{1 error expected, but found: \the\errcount}%
-    \fi
-    \ifx\foo\fooinitial
-    \else
-      \def\space{ }%
-      \errmessage{\string\foo\space is overwritten}%
-    \fi
-  }%
-  \ifdim\wd0=0pt\relax
-  \else
-    \errmessage{[Error] Unwanted spaces?!}%
-  \fi
-}
-\chardef\DeclareVersion=0 %
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname protected\endcsname\relax
-  \begingroup\expandafter\expandafter\expandafter\endgroup
-  \expandafter\ifx\csname DeclareRobustCommand\endcsname\relax
-  \else
-    \chardef\DeclareVersion=1 %
-  \fi
-\fi
-\ifnum\DeclareVersion=0 %
-  \def\check#1{%
-    \ifx\cmp#1%
-      \msg{* Test passed.}%
-    \else
-      \msg{}%
-      \msg{[\meaning#1]}%
-      \msg{[\meaning\cmp]}%
-      \errmessage{Test failed!}%
-    \fi
-  }%
-\else
-  \def\check#1{%
-    \begingroup
-      \escapechar=-1 %
-    \edef\x{\endgroup
-      \def\noexpand\cs/{\string#1}%
-    }\x
-    \edef\CMP{%
-      \noexpand\protect
-      \expandafter\noexpand\csname\cs/ \endcsname
-    }%
-    \ifx\CMP#1%
-      \expandafter\ifx\csname\cs/ \endcsname\cmp
-        \msg{Test passed.}%
-      \else
-        \msg{}%
-        \msg{[\expandafter\meaning\csname\cs/ \endcsname]}%
-        \msg{[\meaning\cmp]}%
-        \errmessage{Test failed!}%
-      \fi
-    \else
-      \msg{}%
-      \msg{[\meaning#1]}%
-      \msg{[\meaning\CMP]}%
-      \errmessage{Test failed!}%
-    \fi
-  }%
-\fi
-
-\tracingmacros=1
-
-\BeginCheck
-  \pdef\cmp{}%
-  \ProtectedDef*\foo{}%
-\EndCheck
-
-\BeginCheck
-  \pdef\cmp{}%
-  \ProtectedDef*\foo[0]{}%
-\EndCheck
-
-\BeginCheck
-  \pdef\cmp#1{<#1>}%
-  \ProtectedDef*\foo[1]{<#1>}%
-\EndCheck
-
-\BeginCheck
-  \pdef\cmp(#1){<#1>}%
-  \ProtectedDef*\foo(#1){<#1>}%
-\EndCheck
-
-\BeginCheck
-  \long\pdef\cmp{}%
-  \ProtectedDef\foo{}%
-\EndCheck
-
-\BeginCheck
-  \long\pdef\cmp{}%
-  \ProtectedDef\foo[0]{}%
-\EndCheck
-
-\BeginCheck
-  \long\pdef\cmp#1{<#1>}%
-  \ProtectedDef\foo[1]{<#1>}%
-\EndCheck
-
-\BeginCheck
-  \long\pdef\cmp(#1){<#1>}%
-  \ProtectedDef\foo(#1){<#1>}%
-\EndCheck
-
-\csname @@end\endcsname\end
-%</test2>
-%    \end{macrocode}
-%
-% \section{Installation}
+%% \section{Installation}
 %
 % \subsection{Download}
 %
 % \paragraph{Package.} This package is available on
-% CTAN\footnote{\url{http://ctan.org/pkg/protecteddef}}:
+% CTAN\footnote{\CTANpkg{protecteddef}}:
 % \begin{description}
 % \item[\CTAN{macros/latex/contrib/oberdiek/protecteddef.dtx}] The source file.
 % \item[\CTAN{macros/latex/contrib/oberdiek/protecteddef.pdf}] Documentation.
@@ -833,10 +549,10 @@ and the derived files
 % the packages are already unpacked and the documentation files
 % are generated. The files and directories obey the TDS standard.
 % \begin{description}
-% \item[\CTAN{install/macros/latex/contrib/oberdiek.tds.zip}]
+% \item[\CTANinstall{install/macros/latex/contrib/oberdiek.tds.zip}]
 % \end{description}
 % \emph{TDS} refers to the standard ``A Directory Structure
-% for \TeX\ Files'' (\CTAN{tds/tds.pdf}). Directories
+% for \TeX\ Files'' (\CTANpkg{tds}). Directories
 % with \xfile{texmf} in their name are usually organized this way.
 %
 % \subsection{Bundle installation}
@@ -846,18 +562,6 @@ and the derived files
 % Example (linux):
 % \begin{quote}
 %   |unzip oberdiek.tds.zip -d ~/texmf|
-% \end{quote}
-%
-% \paragraph{Script installation.}
-% Check the directory \xfile{TDS:scripts/oberdiek/} for
-% scripts that need further installation steps.
-% Package \xpackage{attachfile2} comes with the Perl script
-% \xfile{pdfatfi.pl} that should be installed in such a way
-% that it can be called as \texttt{pdfatfi}.
-% Example (linux):
-% \begin{quote}
-%   |chmod +x scripts/oberdiek/pdfatfi.pl|\\
-%   |cp scripts/oberdiek/pdfatfi.pl /usr/local/bin/|
 % \end{quote}
 %
 % \subsection{Package installation}
@@ -877,8 +581,6 @@ and the derived files
 % \begin{tabular}{@{}>{\ttfamily}l@{ $\rightarrow$ }>{\ttfamily}l@{}}
 %   protecteddef.sty & tex/generic/oberdiek/protecteddef.sty\\
 %   protecteddef.pdf & doc/latex/oberdiek/protecteddef.pdf\\
-%   test/protecteddef-test1.tex & doc/latex/oberdiek/test/protecteddef-test1.tex\\
-%   test/protecteddef-test2.tex & doc/latex/oberdiek/test/protecteddef-test2.tex\\
 %   protecteddef.dtx & source/latex/oberdiek/protecteddef.dtx\\
 % \end{tabular}^^A
 % }^^A
@@ -948,21 +650,11 @@ and the derived files
 % \subsection{Refresh file name databases}
 %
 % If your \TeX~distribution
-% (\teTeX, \mikTeX, \dots) relies on file name databases, you must refresh
-% these. For example, \teTeX\ users run \verb|texhash| or
+% (\TeX\,Live, \mikTeX, \dots) relies on file name databases, you must refresh
+% these. For example, \TeX\,Live\ users run \verb|texhash| or
 % \verb|mktexlsr|.
 %
 % \subsection{Some details for the interested}
-%
-% \paragraph{Attached source.}
-%
-% The PDF documentation on CTAN also includes the
-% \xfile{.dtx} source file. It can be extracted by
-% AcrobatReader 6 or higher. Another option is \textsf{pdftk},
-% e.g. unpack the file into the current directory:
-% \begin{quote}
-%   \verb|pdftk protecteddef.pdf unpack_files output .|
-% \end{quote}
 %
 % \paragraph{Unpacking with \LaTeX.}
 % The \xfile{.dtx} chooses its action depending on the format:
@@ -998,42 +690,6 @@ and the derived files
 %pdflatex protecteddef.dtx
 %\end{verbatim}
 % \end{quote}
-%
-% \section{Catalogue}
-%
-% The following XML file can be used as source for the
-% \href{http://mirror.ctan.org/help/Catalogue/catalogue.html}{\TeX\ Catalogue}.
-% The elements \texttt{caption} and \texttt{description} are imported
-% from the original XML file from the Catalogue.
-% The name of the XML file in the Catalogue is \xfile{protecteddef.xml}.
-%    \begin{macrocode}
-%<*catalogue>
-<?xml version='1.0' encoding='us-ascii'?>
-<!DOCTYPE entry SYSTEM 'catalogue.dtd'>
-<entry datestamp='$Date$' modifier='$Author$' id='protecteddef'>
-  <name>protecteddef</name>
-  <caption>Define protected commands.</caption>
-  <authorref id='auth:oberdiek'/>
-  <copyright owner='Heiko Oberdiek' year='2011'/>
-  <license type='lppl1.3'/>
-  <version number='1.1'/>
-  <description>
-    The package defines a command <tt>\ProtectedDef</tt> that will
-    create LaTeX &#x2018;robust&#x2019; command or an e-TeX
-    &#x2018;protected&#x2019; command as appropriate
-    to its environment.
-    <p/>
-    The package is part of the <xref refid='oberdiek'>oberdiek</xref> bundle.
-  </description>
-  <documentation details='Package documentation'
-      href='ctan:/macros/latex/contrib/oberdiek/protecteddef.pdf'/>
-  <ctan file='true' path='/macros/latex/contrib/oberdiek/protecteddef.dtx'/>
-  <miktex location='oberdiek'/>
-  <texlive location='oberdiek'/>
-  <install path='/macros/latex/contrib/oberdiek/oberdiek.tds.zip'/>
-</entry>
-%</catalogue>
-%    \end{macrocode}
 %
 % \begin{History}
 %   \begin{Version}{2011/01/31 v1.0}

@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 1993-2014
+% Copyright (C) 1993-2019
 % The LaTeX3 Project and any individual authors listed elsewhere
 % in this file.
 %
@@ -11,9 +11,9 @@
 % conditions of the LaTeX Project Public License, either version 1.3c
 % of this license or (at your option) any later version.
 % The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3c or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
+% version 2008 or later.
 %
 % This file has the LPPL maintenance status "maintained".
 %
@@ -32,7 +32,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltmiscen.dtx}
-             [2014/09/29 v1.1l LaTeX Kernel (Misc. Environments)]
+             [2019/11/10 v1.1r LaTeX Kernel (Misc. Environments)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltmiscen.dtx}
@@ -72,6 +72,7 @@
 % \changes{v1.1d}{1996/06/03}{Move setting of verbatim font and
 %         \cs{@noligs}.}
 % \changes{v1.1g}{1998/08/17}{(RmS) Minor documentation fixes.}
+% \changes{v1.1p}{2019/08/27}{Make various commands robust}
 %
 % \section{Miscellaneous Environments}
 %  This section implements the basic environment mechanism, and also
@@ -303,18 +304,155 @@
 %  \end{macro}
 %
 %
+% Reading data from auxiliary files (like \texttt{.toc} normally
+% happens in vertical mode and it therefore doesn't matter if line
+% endings are converted to spaces by \TeX{} during that process.
+%
+% However, especially the \texttt{.toc} file might be read in L-R mode
+% (in cases the \cs{tableofcontents} attempts to put, say a list of
+% sub-sections as a paragraph. In that case the newlines after a line
+% like
+% \begin{verbatim}
+% \contentsline {subsubsection}{\numberline {1.1.1}A C-head}{2}
+% \end{verbatim}
+% might result in spurious spaces (e.g., when that level is not
+% included).
+%
+% That could be fixed by reading in the file using
+% \cs{endlinechar}\texttt{=-1} but that has the danger that it drops
+% some valid endlines that should be converted to spaces (for example
+% when the user edited the TOC and then used \cs{nofiles} to preserve
+% it.
+%
+% So the approach taken instead is this:
+% \begin{itemize}
+% \item \cs{addcontentsline} adds the command
+%    \cs{protected@file@percent} to the end of the second argument of
+%    \cs{@writefile} that is written to the \texttt{.aux}. As the name
+%    indicates this is a protected macro so it doesn't change if it is
+%    written out.
+%
+% \item When the \texttt{.aux} is read back in at the end of the run,
+%    \cs{@writefile} is executed and writes its second argument
+%    unmodified to the file with the extension given by its first
+%    argument. Or rather that was how it was in the past.
+%
+% \item Instead we change \cs{@writefile} slightly: basically it looks
+%    at the second argument and if the last token in there is
+%    \cs{protected@file@percent} then it is replaced by a percent
+%    character and that is then written out. If not (for example, if
+%    the data came from a user issued \cs{addtocontents}, or from some
+%    package that uses \cs{@writefile} for writing its own files) then
+%    the command behaves exactly as before.
+% \end{itemize}
+% 
+%
+%  \begin{macro}{\protected@file@percent}
+%    Dummy cs to be replaced by a percent sign inside
+%    \cs{@writefile}. If it survives (when used incorrectly) it will
+%    expand to nothing in a typsetting context.
+% \changes{v1.1n}{2018/09/26}{Sometimes mask the endline char when
+%    writing to files (github/73)}
+%    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2018/12/01}%
+%<latexrelease>                 {\protected@file@percent}{Mask line endings}%
+\protected\def\protected@file@percent{} 
+%    \end{macrocode}
+%  \end{macro}
+
+
+%  \begin{macro}{\add@percent@to@temptokena}
+%    Helper function which is used to inspect a sequence of tokens
+%    (the second argument of \cs{@writefile} and it the last token is
+%    \cs{protected@file@percent} it will replace it by a harmless
+%    percent. The result is saved in \cs{@temptokena} for later use.
+% \changes{v1.1n}{2018/09/26}{Sometimes mask the endline char when
+%    writing to files (github/73)}
+%
+%    \begin{macrocode}
+\catcode`\^^A=9 
+\long\gdef\add@percent@to@temptokena
+    #1\protected@file@percent#2\add@percent@to@temptokena
+%    \end{macrocode}
+%    When we call this macro in |\@writefile| we stick in |\@empty| at
+%   the beginning, so that in case the tokenlist consists of a single brace
+%   group the braces aren't stripped. The |\expandafter| then expands
+%   this extra token away again.
+% \changes{v1.1q}{2019/10/25}{Allow unbalanced conditionals in \texttt{\#1} (gh/202)}
+% \changes{v1.1r}{2019/08/27}{fix to special comment catcodes (gh/202)}
+%    \begin{macrocode}
+    {\expandafter\ifx\expandafter X\detokenize{#2}X\expandafter\dont@add@percent@to@temptokena\else
+             \expandafter\do@add@percent@to@temptokena\fi{#1}}
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
+\long\def\dont@add@percent@to@temptokena#1{%
+  \@temptokena\expandafter{#1}}
+%    \end{macrocode}
+%    \texttt{latexrelease} will read this code in high-speed
+%    mode in certain situations. During that it will only look for
+%    \cs{if} tests but not actually execute the \cs{catcode} change
+%    above. As a result it will drop anything after the |%| character
+%    in the definition. Therefore the |\fi| needs to be on the next
+%    line and we need locally another comment character to avoid
+%    getting spaces into the definition---a weird problem :-)
+%    
+%    \begin{macrocode}
+\begingroup
+\catcode`\%=12
+\catcode`\^^A=14
+\long\gdef\do@add@percent@to@temptokena#1{\@temptokena\expandafter{#1%^^A
+%    \end{macrocode}
+%    Can't be on the same line as the |%| --- see above.
+%    \begin{macrocode}
+  }}
+\endgroup
+%    \end{macrocode}
+%  \end{macro}
+%
 % \begin{macro}{\@writefile}
 % \changes{v1.0l}{1994/05/20}{Added correct setting of \cs{protect}.}
 % \changes{v1.0t}{1994/11/04}{Removed setting of \cs{protect}. ASAJ.}
 % \changes{v1.0z}{1995/07/13}{Added missing percent and use \cs{relax}
 %  in the THEN case}
+% \changes{v1.1n}{2018/09/26}{Sometimes mask the endline char when
+%    writing to files (github/73)}
 %    \begin{macrocode}
 \long\def\@writefile#1#2{%
   \@ifundefined{tf@#1}\relax
-    {\@temptokena{#2}%
+    {%
+%    \end{macrocode}
+%    If we write to the file we first prepare |#2| using
+%    \cs{add@percent@to@temptokena} and then write the token register
+%    out.
+%    \begin{macrocode}
+      \add@percent@to@temptokena
+        \@empty#2\protected@file@percent
+        \add@percent@to@temptokena
      \immediate\write\csname tf@#1\endcsname{\the\@temptokena}%
     }%
 }
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\protected@file@percent}{Mask line endings}%
+%<latexrelease>\let\protected@file@percent\@undefined
+%<latexrelease>\let\add@percent@to@temptokena\@undefined
+%<latexrelease>\let\do@add@percent@to@temptokena\@undefined
+%<latexrelease>\let\dont@add@percent@to@temptokena\@undefined
+%<latexrelease>\long\def\@writefile#1#2{%
+%<latexrelease>  \@ifundefined{tf@#1}\relax
+%<latexrelease>    {\@temptokena{#2}%
+%<latexrelease>     \immediate\write\csname tf@#1\endcsname{\the\@temptokena}%
+%<latexrelease>    }%
+%<latexrelease>}
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -381,8 +519,13 @@
 %      remember line number. Used by \cs{@badend} to display
 %      position of non-matching \cs{begin}.}
 % \changes{v1.1e}{1996/07/26}{remove \cs{global} before \cs{@ignore...}}
+% \changes{v1.1p}{2019/08/27}{Make command robust}
 %    \begin{macrocode}
-\def\begin#1{%
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2019/10/01}%
+%<latexrelease>                 {\begin}{Making \begin/\end robust}%
+\DeclareRobustCommand\begin[1]{%
   \@ifundefined{#1}%
     {\def\reserved@a{\@latex@error{Environment #1 undefined}\@eha}}%
     {\def\reserved@a{\def\@currenvir{#1}%
@@ -391,17 +534,123 @@
   \@ignorefalse
   \begingroup\@endpefalse\reserved@a}
 %    \end{macrocode}
-%  \end{macro}
+%    A version that doesn't start out with \cs{relax} when in
+%    typesetting mode would be the following, but since \cs{begin}
+%    issues a \cs{begingroup} it wouldn't help much with respect to
+%    allowing things like \cs{noalign} or \cs{multicolumn} inside.
+%    \begin{macrocode}
+%\edef\begin
+%  {\unexpanded{%
+%       \ifx\protect\@typeset@protect
+%         \expandafter\@gobble
+%       \fi
+%       \protect
+%     }%
+%   \expandafter\noexpand\csname begin \endcsname
+%  }
+%\@namedef{begin }#1{%
+%  \@ifundefined{#1}%
+%    {\def\reserved@a{\@latex@error{Environment #1 undefined}\@eha}}%
+%    {\def\reserved@a{\def\@currenvir{#1}%
+%     \edef\@currenvline{\on@line}%
+%     \csname #1\endcsname}}%
+%  \@ignorefalse
+%  \begingroup\@endpefalse\reserved@a}
+%    \end{macrocode}
 %
 %  \begin{macro}{\end}
+%    While \cs{begin} was made robust simply by using
+%    \cs{DeclareRobustCommand} we need to be a bit more subtle with
+%    \cs{end} as there are packages out there that try to look into
+%    the top-level contents of \verb=\end{foo}= (that is at the expansion
+%    of \verb=\endfoo=) to see if it contains certain macros. This is
+%    done by hitting \verb=\end{foo}=  with three \cs{expandafter}s,
+%    the first to get
+%\begin{verbatim}
+%  \csname endfoo\endcsname       \@checkend{foo}% etc.
+%\end{verbatim}
+%    the second to expand the \cs{csname}, i.e., to get to
+%\begin{verbatim}
+%  \endfoo                        \@checkend{foo}% etc.
+%\end{verbatim}
+%    and the third to finally get to the top-level content of
+%    \verb=\endfoo=, i.e.
+%\begin{verbatim}
+%  <top-level content of \endfoo> \@checkend{foo}% etc.
+%\end{verbatim}
+%    Therefore a robust replacement should produce the same results
+%    after three expansions (there first is obviously different).
+%
+%    Basically the definition of \cs{end} should either produce
+%    \verb*=\protect\end = (when not doing typesetting) or it should
+%    produce \verb*=\end = (without the \cs{protect}) when doing typesetting.
+%    Furthermore, it should (when in typesetting mode) show exactly the
+%    same result as
+%    \verb*=\end = (which is the original fragile definition
+%    of \cs{end}) when you expand either of them twice, i.e.,
+%\begin{verbatim}
+%  \endfoo                        \@checkend{foo}% etc.
+%\end{verbatim}
+%    That is achieved with the code below (which is worth studying
+%    carefully).
+%
+%    There is some trickery involved here: in particular we use
+%    \cs{romannumeral} to change a single expansion into three
+%    successive expansions in one go. That primitive expands until it
+%    has scanned a number (0 in this case, so it doesn't produce any
+%    output) and so it allows us to place arbitrary many
+%    \cs{expandafter}s inside that are all going to be executed when
+%    \cs{romannumeral} is hit by a single \cs{expandafter}.
+%
 % \changes{v1.1e}{1996/07/26}{remove \cs{global} before \cs{@ignore...}}
+% \changes{v1.1p}{2019/08/27}{Make command robust}
+%
 %    \begin{macrocode}
-\def\end#1{%
+\edef\end
+  {\unexpanded{%
+     \romannumeral
+       \ifx\protect\@typeset@protect
+       \expandafter       %1
+         \expandafter        %2
+       \expandafter       %1
+           \expandafter         %3 expands the \csname inside \end<space>
+       \expandafter       %1
+         \expandafter        %2  expands \end<space>
+       \expandafter       %1     expands the \else
+           \z@
+       \else
+         \expandafter\z@\expandafter\protect
+       \fi
+   }%
+   \expandafter\noexpand\csname end \endcsname
+  }
+%    \end{macrocode}
+%    And here is the original definition of \cs{end} the way it was in
+%    \LaTeX{} for several decades now hidden in \verb*=\end =.
+%    \begin{macrocode}
+\@namedef{end }#1{%
   \csname end#1\endcsname\@checkend{#1}%
   \expandafter\endgroup\if@endpe\@doendpe\fi
   \if@ignore\@ignorefalse\ignorespaces\fi}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%    \end{macrocode}
+%    An here the rollback in case that is ever needed.
+%    \begin{macrocode}
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\begin}{Making \begin/\end robust}%
+%<latexrelease>\kernel@make@fragile\begin
+%<latexrelease>\kernel@make@fragile\end
+%<latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
 %    \end{macrocode}
 %  \end{macro}
+%  \end{macro}
+%
+%
+%
+%
 %
 %  \begin{macro}{\@checkend}
 %    \begin{macrocode}
@@ -474,6 +723,7 @@
 %    \begin{macrocode}
 \def\@icentercr[#1]{\vskip #1\ignorespaces}
 %    \end{macrocode}
+%    
 % \end{macro}
 %
 %
@@ -491,14 +741,56 @@
 %    \end{macrocode}
 % \end{environment}
 %
+%    
+%    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2019/10/01}%
+%<latexrelease>                 {\centering}{Make commands robust}%
+%    \end{macrocode}
+%
 % \begin{macro}{\centering}
 %    \begin{macrocode}
-\def\centering{%
+\DeclareRobustCommand\centering{%
   \let\\\@centercr
   \rightskip\@flushglue\leftskip\@flushglue
   \parindent\z@\parfillskip\z@skip}
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\raggedright}
+%    \begin{macrocode}
+\DeclareRobustCommand\raggedright{%
+  \let\\\@centercr\@rightskip\@flushglue \rightskip\@rightskip
+  \leftskip\z@skip
+  \parindent\z@}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\raggedleft}
+%    \begin{macrocode}
+\DeclareRobustCommand\raggedleft{%
+  \let\\\@centercr
+  \rightskip\z@skip\leftskip\@flushglue
+  \parindent\z@\parfillskip\z@skip}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\centering}{Make commands robust}%
+%<latexrelease>
+%<latexrelease>\kernel@make@fragile\centering
+%<latexrelease>\kernel@make@fragile\raggedright
+%<latexrelease>\kernel@make@fragile\raggedleft
+%<latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
+%    \end{macrocode}
+%
+%
 %
 % \begin{macro}{\@rightskip}
 %    \begin{macrocode}
@@ -520,14 +812,6 @@
 %    \end{macrocode}
 % \end{environment}
 %
-% \begin{macro}{\raggedright}
-%    \begin{macrocode}
-\def\raggedright{%
-  \let\\\@centercr\@rightskip\@flushglue \rightskip\@rightskip
-  \leftskip\z@skip
-  \parindent\z@}
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{environment}{flushright}
 % \changes{v0.9h}{1993/12/13}{Removed optional argument of \cs{item}}
@@ -543,21 +827,12 @@
 %    \end{macrocode}
 % \end{environment}
 %
-% \begin{macro}{\raggedleft}
-%    \begin{macrocode}
-\def\raggedleft{%
-  \let\\\@centercr
-  \rightskip\z@skip\leftskip\@flushglue
-  \parindent\z@\parfillskip\z@skip}
-%    \end{macrocode}
-% \end{macro}
+%
+% \subsection{Verbatim}
 %
 %    \begin{macrocode}
 \message{verbatim,}
 %    \end{macrocode}
-%
-% \subsection{Verbatim}
-%
 %
 %  The verbatim environment uses the fixed-width |\ttfamily| font, turns
 %  blanks into spaces, starts a new line for each carriage return (or
@@ -609,6 +884,10 @@
 % \changes{v1.0b}{1994/03/16}
 %         {Remove \cs{global}\cs{@inlabelfalse} again.}
 %    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2017-04-15}{\@verbatim}%
+%<latexrelease>                 {Disable hyphenation in verbatim}%
 \def\@verbatim{\trivlist \item\relax
   \if@minipage\else\vskip\parskip\fi
   \leftskip\@totalleftmargin\rightskip\z@skip
@@ -619,8 +898,14 @@
 %    from a surrounding list (the verbatim guru says).
 % \changes{v0.9p}{1994/01/18}
 %         {Only add \cs{penalty} if in hmode}
+% Switch language when in vertical mode.
 %    \begin{macrocode}
   \@@par
+%    \end{macrocode}
+% Set |\language| here to suppress hyphenation. Done this way rather
+% than setting |\hyphenchar| as that is a global setting.
+%    \begin{macrocode}
+  \language\l@nohyphenation
   \@tempswafalse
   \def\par{%
     \if@tempswa
@@ -642,10 +927,10 @@
 %           so that \cs{dospecials} cannot reset the category code
 %           of characters handled by \cs{@noligs}.}
 %  \changes{v1.1h}{2000/01/07}{Disable hyphenation even if the font allows it.}
+%  \changes{v1.1m}{2017-03-09}{Use \cs{language} not \cs{hyphenchar}}
 %    \begin{macrocode}
   \let\do\@makeother \dospecials
   \obeylines \verbatim@font \@noligs
-  \hyphenchar\font\m@ne
 %    \end{macrocode}
 %    To avoid a breakpoint after the labels box, we remove the penalty
 %    put there by the list macros: another use of |\unpenalty|!
@@ -653,6 +938,30 @@
 %    \begin{macrocode}
   \everypar \expandafter{\the\everypar \unpenalty}%
 }
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000-00-00}{\@verbatim}%
+%<latexrelease>                 {Disable hyphenation in verbatim}%
+%<latexrelease>\def\@verbatim{\trivlist \item\relax
+%<latexrelease>  \if@minipage\else\vskip\parskip\fi
+%<latexrelease>  \leftskip\@totalleftmargin\rightskip\z@skip
+%<latexrelease>  \parindent\z@\parfillskip\@flushglue\parskip\z@skip
+%<latexrelease>  \@@par
+%<latexrelease>  \@tempswafalse
+%<latexrelease>  \def\par{%
+%<latexrelease>    \if@tempswa
+%<latexrelease>      \leavevmode \null \@@par\penalty\interlinepenalty
+%<latexrelease>    \else
+%<latexrelease>      \@tempswatrue
+%<latexrelease>      \ifhmode\@@par\penalty\interlinepenalty\fi
+%<latexrelease>    \fi}%
+%<latexrelease>  \let\do\@makeother \dospecials
+%<latexrelease>  \obeylines \verbatim@font \@noligs
+%<latexrelease>  \hyphenchar\font\m@ne
+%<latexrelease>  \everypar \expandafter{\the\everypar \unpenalty}%
+%<latexrelease>}
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -678,13 +987,168 @@
 %    \end{macrocode}
 %  \end{macro}
 %
+%    
+%    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2018/12/01}%
+%<latexrelease>                 {\verbvisiblespace}{Setup visible space for verb}%
+%    \end{macrocode}
+%
+%
+%  \begin{macro}{\asciispace}
+%    The character in slot 32, in typewriter fonts (historically) a
+%    visible space but in other fonts a real space or something else
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
+%    \begin{macrocode}
+\DeclareRobustCommand\asciispace{\char 32 }
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\verbvisiblespace}
+%    This defines how to get a visible space in
+%    |\verb*| and friends. In classic \TeX{} this is just the
+%    slot 32, but in TU encoded fonts we switch fonts and take the
+%    character from cmtt.
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
+% \changes{v1.1o}{2018/10/11}
+%     {Provide \cs{verbvisiblespace} such that it is usable in normal text (github/70)}
+%    \begin{macrocode}
+\ifx\Umathcode\@undefined
+  \let\verbvisiblespace\asciispace                                % Pdftex version
+\else
+  \DeclareRobustCommand\verbvisiblespace
+           {\leavevmode{\usefont{OT1}{cmtt}{m}{n}\asciispace}}    % xetex/luatex version
+\fi
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+
+%  \begin{macro}{\@setupverbvisiblespace}
+%
+%    In pdf\TeX{} a catcode 12 space will produce the character in
+%   slot 32 which is assumed to be a visible space character (in a
+%   typewriter font in OT1 or T1 encoding). In Xe\TeX{} or Lua\TeX{} a
+%   font in TU encoding is normally used and that has a real space in
+%   this slot. So what we do in this case is this: we check the
+%   definition of
+%   |\verbvisiblespace| and if it is |\asciispace| we assume that the
+%   char32 can be used (e.g., in pdf\TeX{}). We then redefine
+%   |\@xobeysp| so that after running |\@vobeyspaces| we get
+%   characters from slot 32 for each active space.
+%
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
+%    \begin{macrocode}
+\def\@setupverbvisiblespace{%
+  \ifx\verbvisiblespace\asciispace
+    \let\@xobeysp\asciispace
+  \else
+%    \end{macrocode} Otherwise we measure the width of a character in
+%   the mon-spaced current font and place a
+%   |\verbvisiblespace| into a box of the right width which we are then
+%   using as the character for a space. By default this will be the space
+%   character from OT1 cmtt but by changing
+%   |\verbvisiblespace| one could use, for example, the |\textvisiblespace|
+%   of the current typewriter font.
+%    \begin{macrocode}
+    \setbox\z@\hbox{x}%
+    \setbox\@verbvisiblespacebox\hbox to\wd\z@{\hss\verbvisiblespace\hss}%
+    \def\@xobeysp{\leavevmode\copy\@verbvisiblespacebox}%
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+
+%  \begin{macro}{\@verbvisiblespacebox}
+%    The box to hold the visible space character if it isn't in slot
+%    32 in the current typewriter font.
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
+%    \begin{macrocode}
+\newbox\@verbvisiblespacebox
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+% \begin{macro}{\@sverb}
+% \changes{v1.0j}{1994/05/10}{Slight change in error message text.}
+% Definitions of |\@sverb| and |\@verb| changed so |\verb+ foo+|
+% does not lose leading blanks when it comes at the beginning of a line.
+% Change made 24 May 89. Suggested by Frank Mittelbach and Rainer
+% Sch\"opf.
+%    \begin{macrocode}
+\def\@sverb#1{%
+  \catcode`#1\active
+  \lccode`\~`#1%
+  \gdef\verb@balance@group{\verb@egroup
+     \@latex@error{\noexpand\verb illegal in command argument}\@ehc}%
+  \aftergroup\verb@balance@group
+  \lowercase{\let~\verb@egroup}%
+%    \end{macrocode}
+%    If |\@sverb| is called from |\@verb| then space is already active
+%    and supposed to produce a real space. In this case we do
+%    nothing. Otherwise we run |\@setupverbvisiblespace| to setup the
+%    right visible space char and afterwards |\@vobeyspaces| to make
+%    it the definition for the active space character.
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
+%    \begin{macrocode}
+  \ifnum\catcode`\ =\active
+  \else  \@setupverbvisiblespace \@vobeyspaces \fi
+}
+%    \end{macrocode}
+%  \end{macro}
 %
 %  \begin{environment}{verbatim*}
+%    For \texttt{verbatim*} we also set up the correct visible space
+%    character definition and then run |\@vobeyspaces|. As this code
+%    is not called as part of the normal verbatim environment (the
+%    method is done the other way around this time) we don't have to
+%    check if space is already active---it shouldn't be.
+% \changes{v1.1o}{2018/10/11}
+%     {Provide visible space in \cs{verb*} also for XeTeX and LuaTeX (github/69)}
 %    \begin{macrocode}
-\@namedef{verbatim*}{\@verbatim\@sxverbatim}
+\@namedef{verbatim*}{\@verbatim
+  \@setupverbvisiblespace
+  \frenchspacing\@vobeyspaces\@sxverbatim}
 \expandafter\let\csname endverbatim*\endcsname =\endverbatim
 %    \end{macrocode}
 %  \end{environment}
+%
+%
+%
+%    \begin{macrocode}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000/00/00}%
+%<latexrelease>                 {\verbvisiblespace}{Setup visible space for verb}%
+%<latexrelease>
+%<latexrelease>\@namedef{verbatim*}{\@verbatim\@sxverbatim}
+%<latexrelease>
+%<latexrelease>\let\asciispace            \@undefined
+%<latexrelease>\let\verbvisiblespace      \@undefined
+%<latexrelease>\let\@setupverbvisiblespace\@undefined
+%<latexrelease>\let\@verbvisiblespacebox  \@undefined
+%<latexrelease>
+%<latexrelease>\def\@sverb#1{%
+%<latexrelease>  \catcode`#1\active
+%<latexrelease>  \lccode`\~`#1%
+%<latexrelease>  \gdef\verb@balance@group{\verb@egroup
+%<latexrelease>     \@latex@error{\noexpand\verb illegal in command argument}\@ehc}%
+%<latexrelease>  \aftergroup\verb@balance@group
+%<latexrelease>  \lowercase{\let~\verb@egroup}}%
+%<latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
+%    \end{macrocode}
+%
+%
+%
 %
 %  \begin{macro}{\@makeother}
 %    \begin{macrocode}
@@ -731,33 +1195,38 @@
 %           \cs{dospecials}
 %           so that \cs{dospecials} cannot reset the category code
 %           of characters handled by \cs{@noligs}.}
+%  \changes{v1.1m}{2017/03/09}
+%         {Use \cs{language} to stop hyphenation}
 %    \begin{macrocode}
+%</2ekernel>
+%<*2ekernel|latexrelease>
+%<latexrelease>\IncludeInRelease{2017-04-15}{\verb}%
+%<latexrelease>                 {Disable hyphenation in verb}%
 \def\verb{\relax\ifmmode\hbox\else\leavevmode\null\fi
   \bgroup
     \verb@eol@error \let\do\@makeother \dospecials
     \verbatim@font\@noligs
+%    \end{macrocode}
+% Set |\language| here to suppress hyphenation. Done this way rather
+% than setting |\hyphenchar| as that is a global setting.
+%    \begin{macrocode}
+    \language\l@nohyphenation
     \@ifstar\@sverb\@verb}
+%</2ekernel|latexrelease>
+%<latexrelease>\EndIncludeInRelease
+%<latexrelease>\IncludeInRelease{0000-00-00}{\verb}%
+%<latexrelease>                 {Disable hyphenation in verb}%
+%<latexrelease>\def\verb{\relax\ifmmode\hbox\else\leavevmode\null\fi
+%<latexrelease>  \bgroup
+%<latexrelease>    \verb@eol@error \let\do\@makeother \dospecials
+%<latexrelease>    \verbatim@font\@noligs
+%<latexrelease>    \@ifstar\@sverb\@verb}
+%<latexrelease>\EndIncludeInRelease
+%<*2ekernel>
 %    \end{macrocode}
 %  \end{macro}
 %
 %
-% \begin{macro}{\@sverb}
-% \changes{v1.0j}{1994/05/10}{Slight change in error message text.}
-% Definitions of |\@sverb| and |\@verb| changed so |\verb+ foo+|
-% does not lose leading blanks when it comes at the beginning of a line.
-% Change made 24 May 89. Suggested by Frank Mittelbach and Rainer
-% Sch\"opf.
-%
-%    \begin{macrocode}
-\def\@sverb#1{%
-  \catcode`#1\active
-  \lccode`\~`#1%
-  \gdef\verb@balance@group{\verb@egroup
-     \@latex@error{\noexpand\verb illegal in command argument}\@ehc}%
-  \aftergroup\verb@balance@group
-  \lowercase{\let~\verb@egroup}}%
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\@verb}
 %    \begin{macrocode}

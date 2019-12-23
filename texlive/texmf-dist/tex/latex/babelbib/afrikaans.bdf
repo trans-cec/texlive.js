@@ -20,7 +20,7 @@
 %% Language definitions for Afrikaans by
 %%   Danie Els <dnjels@sun.ac.za>
 \ProvidesFile{afrikaans.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsafrikaans[1][afrikaans]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{et~al##1{}}}%

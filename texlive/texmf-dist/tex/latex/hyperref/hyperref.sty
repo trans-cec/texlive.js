@@ -9,8 +9,9 @@
 %% File: hyperref.dtx Copyright 1995-2001 Sebastian Rahtz,
 %% with portions written by David Carlisle and Heiko Oberdiek,
 %% 2001-2012 Heiko Oberdiek.
-%% 2016-2017 Oberdiek Package Suport Group
-%%      https://github.com/ho-tex/hyperref/issues
+%% 2016-2019 Oberdiek Package Suport Group
+%% 2019 LaTeX3 Project
+%%      https://github.com/latex3/hyperref/issues
 %%
 %% This file is part of the `Hyperref Bundle'.
 %% -------------------------------------------
@@ -25,14 +26,14 @@
 %%
 %% This work has the LPPL maintenance status `maintained'.
 %%
-%% The Current Maintainer of this work is Heiko Oberdiek.
+%% The Current Maintainer of this work is the LaTeX3 Project.
 %%
 %% The list of all files belonging to the `Hyperref Bundle' is
 %% given in the file `manifest.txt'.
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesPackage{hyperref}
-  [2017/03/14 v6.85a %
+  [2019/11/10 v7.00c %
   Hypertext links for LaTeX]
 \begingroup
   \@makeother\`%
@@ -101,11 +102,8 @@
   }%
 \endgroup
 \Hy@SetCatcodes
-\IfFileExists{hobsub-hyperref.sty}{%
-  \RequirePackage{hobsub-hyperref}[2011/01/30]%
-}{}
 \RequirePackage{ltxcmds}[2010/11/12]
-\RequirePackage{ifpdf}[2006/02/20]
+\RequirePackage{iftex}[2019/10/24]
 \RequirePackage{pdftexcmds}[2009/04/10]
 \@ifpackagelater{pdftexcmds}{2010/11/04}{}{%
   \ltx@IfUndefined{pdfdraftmode}{%
@@ -129,8 +127,6 @@
 \RequirePackage{kvsetkeys}[2007/09/29]
 \RequirePackage{kvdefinekeys}[2011/04/07]
 \RequirePackage{pdfescape}[2007/11/11]
-\RequirePackage{ifvtex}
-\RequirePackage{ifxetex}[2006/08/21]
 \RequirePackage{hycolor}
 \RequirePackage{letltxmacro}[2008/06/13]
 \RequirePackage{auxhook}[2009/12/14]
@@ -440,6 +436,8 @@
     \let\P\textparagraph
     \let\ldots\textellipsis
     \let\dots\textellipsis
+    \ltx@IfUndefined{textEncodingNoboundary}%
+      {}{\let\noboundary\textEncodingNoboundary}%
     \def\\{\pdfstringdefWarn\\}%
     \def\newline{\pdfstringdefWarn\newline}%
     \def\TeX{TeX}%
@@ -515,6 +513,7 @@
     \let\foreignlanguage\@secondoftwo
     \let\textlatin\@firstofone
     \ltx@IfUndefined{language@group}{}{%
+      \let\bbl@info\@gobble
       \csname HyPsd@babel@\language@group\endcsname
     }%
     \HyPsd@GreekPatch
@@ -680,6 +679,7 @@
               \Hy@unicodefalse
             }{%
               \HyPsd@ToBigChars#1%
+              \HyPsd@EscapeTeX#1%
             }%
           \else
             \StringEncodingConvertTest\HyPsd@temp\HyPsd@temp
@@ -2636,6 +2636,7 @@
   }%
   {\Hy@WarnOptionDisabled{#1}}%
 }
+
 \def\Hy@WarnOptionDisabled#1{%
   \Hy@Warning{%
     Option `#1' has already been used,\MessageBreak
@@ -2908,7 +2909,7 @@
 \@namedef{Hy@pdfversion@1.7}{7}%
 \@namedef{Hy@pdfversion@1.8}{8}%
 \@namedef{Hy@pdfversion@1.9}{9}%
-\def\Hy@pdfversion{2}
+\def\Hy@pdfversion{5}
 \newif\ifHy@DviMode
 \let\Hy@DviErrMsg\ltx@empty
 \ifpdf
@@ -2918,7 +2919,7 @@
     \def\Hy@DviErrMsg{XeTeX is running}%
   \else
     \ifvtex
-      \ifvtexdvi
+      \ifnum\OpMode=\z@
         \Hy@DviModetrue
       \else
         \def\Hy@DviErrMsg{VTeX is running, but not in DVI mode}%
@@ -3398,6 +3399,42 @@
   \def\theoremautorefname{\DJ{}\d{i}nh l\'y}%
   \def\pageautorefname{Trang}%
 }
+\def\HyLang@greek{%
+    \def\equationautorefname{\textEpsilon\textxi\acctonos\textiota\textsigma\textomega\textsigma\texteta}%
+    \def\footnoteautorefname{\textupsilon\textpi\textomicron\textsigma\texteta\textmu\textepsilon\acctonos\textiota\textomega\textsigma\texteta}%
+    \def\itemautorefname{\textalpha\textnu\texttau\textiota\textkappa\textepsilon\acctonos\textiota\textmu\textepsilon\textnu\textomicron}%
+    \def\figureautorefname{\textSigma\textchi\acctonos\texteta\textmu\textalpha}%
+    \def\tableautorefname{\textPi\acctonos\textiota\textnu\textalpha\textkappa\textalpha}%
+    \def\partautorefname{\textMu\acctonos\textepsilon\textrho\textomicron\textvarsigma}%
+    \def\appendixautorefname{\textPi\textalpha\textrho\acctonos\textalpha\textrho\texttau\texteta\textmu\textalpha}%
+    \def\chapterautorefname{\textkappa\textepsilon\textphi\acctonos\textalpha\textlambda\textalpha\textiota\textomicron}%
+    \def\sectionautorefname{\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\subsectionautorefname{\textupsilon\textpi\textomicron\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\subsubsectionautorefname{\textupsilon\textpi\textomicron-\textupsilon\textpi\textomicron\textepsilon\textnu\acctonos\textomicron\texttau\texteta\texttau\textalpha}%
+    \def\paragraphautorefname{\textpi\textalpha\textrho\acctonos\textalpha\textgamma\textrho\textalpha\textphi\textomicron\textvarsigma}%
+    \def\subparagraphautorefname{\textupsilon\textpi\textomicron\textpi\textalpha\textrho\acctonos\textalpha\textgamma\textrho\textalpha\textphi\textomicron\textvarsigma}%
+    \def\FancyVerbLineautorefname{\textgamma\textrho\textalpha\textmu\textmu\acctonos\texteta}%
+    \def\theoremautorefname{\textTheta\textepsilon\acctonos\textomega\textrho\texteta\textmu\textalpha}%
+    \def\pageautorefname{\textsigma\textepsilon\textlambda\acctonos\textiota\textdelta\textalpha}%
+}
+\def\HyLang@dutch{%
+    \def\equationautorefname{Vergelijking}%
+    \def\footnoteautorefname{voetnoot}%
+    \def\itemautorefname{punt}%
+    \def\figureautorefname{Figuur}%
+    \def\tableautorefname{Tabel}%
+    \def\partautorefname{Deel}%
+    \def\appendixautorefname{Bijlage}%
+    \def\chapterautorefname{hoofdstuk}%
+    \def\sectionautorefname{paragraaf}%
+    \def\subsectionautorefname{deelparagraaf}%
+    \def\subsubsectionautorefname{deel-deelparagraaf}%
+    \def\paragraphautorefname{alinea}%
+    \def\subparagraphautorefname{deelalinea}%
+    \def\FancyVerbLineautorefname{regel}%
+    \def\theoremautorefname{Stelling}%
+    \def\pageautorefname{pagina}%
+}
 \def\HyLang@addto#1#2{%
   #2%
   \@temptokena{#2}%
@@ -3465,6 +3502,8 @@
 \HyLang@DeclareLang{italian}{italian}{}
 \HyLang@DeclareLang{magyar}{magyar}{}
 \HyLang@DeclareLang{hungarian}{magyar}{}
+\HyLang@DeclareLang{greek}{greek}{}
+\HyLang@DeclareLang{dutch}{dutch}{}
 \DeclareVoidOption{vietnamese}{%
   \HyLang@addto\extrasvietnamese\HyLang@vietnamese
   \Hy@AtEndOfPackage{%
@@ -3691,6 +3730,12 @@
   \do{/O}{Outline}%
   \do{/P}{Push}%
 }
+\def\Hy@setpdfhighlight{%
+  \ifx\@pdfhighlight\@empty
+  \else
+    /H\@pdfhighlight
+  \fi
+}
 \define@key{Hyp}{pdfborder}{%
   \let\Hy@temp\@pdfborder
   \def\@pdfborder{#1}%
@@ -3854,28 +3899,18 @@
   \HyPsd@XeTeXBigCharstrue
   \HyPsd@PrerenderUnicode{#1}%
   \pdfstringdef\@pdfproducer{#1}%
-  \ifxetex
-    \Hy@Warning{%
-      pdfproducer: %
-      xdvipdfmx will use its own setting\MessageBreak
-      instead of the value given%
-    }%
-  \else
-    \def\Hy@temp{hdvipdfm}%
-    \ifx\Hy@driver\Hy@temp
-      \Hy@Warning{%
-        pdfproducer: %
-        dvipdfm(x) will use its own setting\MessageBreak
-        instead of the value given%
-      }%
-    \fi
-  \fi
 }
 \define@key{Hyp}{pdfcreator}{%
   \HyXeTeX@CheckUnicode
   \HyPsd@XeTeXBigCharstrue
   \HyPsd@PrerenderUnicode{#1}%
   \pdfstringdef\@pdfcreator{#1}%
+}
+\define@key{Hyp}{addtopdfcreator}{%
+ \HyXeTeX@CheckUnicode
+ \HyPsd@XeTeXBigCharstrue
+ \HyPsd@PrerenderUnicode{#1}%
+ \pdfstringdef\@pdfcreator{\@pdfcreator, #1}%
 }
 \define@key{Hyp}{pdfcreationdate}{%
   \begingroup
@@ -4288,7 +4323,7 @@
 \let\@pdftitle\ltx@empty
 \let\@pdfauthor\ltx@empty
 \let\@pdfproducer\relax
-\def\@pdfcreator{LaTeX with hyperref package}
+\def\@pdfcreator{LaTeX with hyperref}
 \let\@pdfcreationdate\ltx@empty
 \let\@pdfmoddate\ltx@empty
 \let\@pdfsubject\ltx@empty
@@ -4417,7 +4452,9 @@
 }
 \Hy@DisableOption{pdfa}
 \ifHy@pdfa
+  \ifnum \Hy@pdfversion < 4
   \kvsetkeys{Hyp}{pdfversion=1.4}%
+  \fi
   \Hy@DisableOption{pdfversion}%
   \def\Hy@Acrobatmenu#1#2{%
     \leavevmode
@@ -4604,7 +4641,7 @@
   \ifx\Hy@driver\@empty
   \else
     \def\Hy@temp{hvtexhtm}%
-    \ifvtexhtml
+    \ifnum\ifvtex\OpMode\else\m@ne\fi=10 %
       \ifx\Hy@driver\Hy@temp
       \else
         \Hy@WarningNoLine{%
@@ -4640,7 +4677,7 @@
         \ifxetex
           \def\Hy@driver{hxetex}%
         \else
-          \ifvtexhtml
+          \ifnum\ifvtex\OpMode\else\m@ne\fi=10 %
             \def\Hy@driver{hvtexhtm}%
             \def\MaybeStopEarly{%
               \Hy@Message{Stopped early}%
@@ -4651,10 +4688,10 @@
               \endinput
             }%
           \else
-            \ifvtexpdf
+            \ifnum\ifvtex\OpMode\else\m@ne\fi=\@ne
               \def\Hy@driver{hvtex}%
             \else
-              \ifvtexps
+              \ifnum\ifvtex\OpMode\else\m@ne\fi=\tw@
                 \def\Hy@driver{hvtex}%
               \else
                 \ifx\HyOpt@DriverFallback\ltx@empty
@@ -4691,7 +4728,7 @@
     \def\HyOpt@DriverType{ (custom)}%
     \let\Hy@driver\HyOpt@CustomDriver
   \fi
-  \Hy@Message{Driver\HyOpt@DriverType: \Hy@driver}%
+  \Hy@InfoNoLine{Driver\HyOpt@DriverType: \Hy@driver}%
   \chardef\Hy@VersionChecked=0 %
   \input{\Hy@driver.def}%
   \ifcase\Hy@VersionChecked
@@ -4835,7 +4872,7 @@
     \Hy@Info{Link coloring ON}%
   \else
     \ifHy@frenchlinks
-      \def\Hy@colorlink#1{\begingroup\fontshape{sc}\selectfont}%
+      \def\Hy@colorlink#1{\begingroup\fontshape{\scdefault}\selectfont}%
       \def\Hy@endcolorlink{\endgroup}%
       \Hy@Info{French linking ON}%
     \else
@@ -4881,6 +4918,12 @@
     \DeclareRobustCommand*{\nameref}{%
       \@ifstar\@namerefstar\T@nameref
     }%
+ \ifHy@implicit
+ \else
+   \let \@pagerefstar\T@pageref
+   \let \@refstar\T@ref
+   \let \@namerefstar\T@nameref
+ \fi
 }
 \Hy@AtBeginDocument{%
   \ifHy@texht
@@ -5145,6 +5188,7 @@
     \expandafter\hyper@@anchor\expandafter{\Hy@AnchorName}{\relax}#3%
   \fi
 }
+\let\hyperrefundefinedlink\@firstofone
 \def\label@hyperref[#1]{%
   \expandafter\label@@hyperref\csname r@#1\endcsname{#1}%
 }%
@@ -5155,7 +5199,7 @@
       Hyper reference `#2' on page \thepage \space undefined%
     }%
     \begingroup
-      #3%
+      \hyperrefundefinedlink{#3}%
     \endgroup
   \else
     \hyper@@link{\expandafter\@fifthoffive#1}%
@@ -6039,6 +6083,7 @@
   \else
     \def\@currValue{#2}%
   \fi
+  \expandafter\Hy@pdfstringdef\expandafter\@currValue\expandafter{\@currValue}%
 }
 \define@key{Field}{loc}{%
   \def\Fld@loc{#1}%
@@ -6148,7 +6193,7 @@
   \def\Fld@bordersep{#1}%
 }
 \define@key{Field}{default}{%
-  \def\Fld@default{#1}%
+  \Hy@pdfstringdef\Fld@default{#1}%
 }
 \define@key{Field}{align}{%
   \def\Fld@align{#1}%
@@ -6303,13 +6348,28 @@
   \@ifnextchar[{\@Reset}{\@Reset[]}%
 }
 \def\LayoutTextField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutChoiceField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutCheckField#1#2{% label, field
-  #1 #2%
+  \def\Hy@temp{#1}%
+  \ifx\Hy@temp\@empty
+    #2%
+  \else
+    #1 #2%
+  \fi
 }
 \def\LayoutPushButtonField#1{% button
   #1%
@@ -6336,12 +6396,12 @@
 \def\DefaultWidthofSubmit{2cm}
 \def\DefaultHeightofReset{14pt}
 \def\DefaultWidthofReset{2cm}
-\def\DefaultHeightofCheckBox{\baselineskip}
-\def\DefaultWidthofCheckBox{\baselineskip}
-\def\DefaultHeightofChoiceMenu{\baselineskip}
-\def\DefaultWidthofChoiceMenu{\baselineskip}
-\def\DefaultHeightofText{\baselineskip}
-\def\DefaultHeightofTextMultiline{4\baselineskip}
+\def\DefaultHeightofCheckBox{\normalbaselineskip}
+\def\DefaultWidthofCheckBox{\normalbaselineskip}
+\def\DefaultHeightofChoiceMenu{\normalbaselineskip}
+\def\DefaultWidthofChoiceMenu{\normalbaselineskip}
+\def\DefaultHeightofText{\normalbaselineskip}
+\def\DefaultHeightofTextMultiline{4\normalbaselineskip}
 \def\DefaultWidthofText{3cm}
 \def\DefaultOptionsofSubmit{print,name=Submit,noexport}
 \def\DefaultOptionsofReset{print,name=Reset,noexport}
@@ -6564,6 +6624,8 @@
       \pdfstringdefDisableCommands{%
         \expandafter\let\expandafter\\\csname Hy@newline@#1\endcsname
         \let\newline\\%
+        \def\and{; }%
+        \let\thanks\@gobble%
       }%
       \expandafter\ifx\csname @pdf#1\endcsname\@empty
         \expandafter\pdfstringdef\csname @pdf#1\endcsname{%
@@ -7137,6 +7199,7 @@
 \@ifpackageloaded{titletoc}{%
   \def\ttl@gobblecontents#1#2#3#4{\ignorespaces}%
 }{}
+\AtBeginDocument{%
 \def\Hy@varioref@undefined{{??}{??}{}{}{}}
 \@ifpackageloaded{varioref}{%
   \def\vref@pagenum#1#2{%
@@ -7152,7 +7215,6 @@
     \csname p@#1\expandafter\endcsname\csname the#1\endcsname
   }%
 }
-\AtBeginDocument{%
   \ifx\refstepcounter\Hy@varioref@refstepcounter
     \let\H@refstepcounter\refstepcounter
     \let\refstepcounter\Hy@saved@refstepcounter
@@ -7484,13 +7546,13 @@
       {%
         \expandafter\hyper@@anchor\expandafter{%
           \Hy@footnote@currentHref
-         }{#1}%
+         }{\ignorespaces #1}%
       }{%
         \Hy@raisedlink{%
           \expandafter\hyper@@anchor\expandafter{%
             \Hy@footnote@currentHref
           }{\relax}%
-        }#1%
+        }\ignorespaces #1%
       }%
     }%
   }%
@@ -7504,7 +7566,7 @@
       {%
         \expandafter\hyper@@anchor\expandafter{%
           \Hy@footnote@currentHref
-        }{#1}%
+        }{\ignorespaces #1}%
       }{%
         \Hy@raisedlink{%
           \expandafter\hyper@@anchor\expandafter{%
@@ -7513,7 +7575,7 @@
         }%
         \let\@currentHref\Hy@footnote@currentHref
         \let\@currentlabelname\@empty
-        #1%
+        \ignorespaces #1%
       }%
     }%
   }%
@@ -8082,6 +8144,7 @@
 \g@addto@macro\Hy@EveryPageBoxHook{%
   \Hy@EveryPageAnchor
 }
+\providecommand\protected@file@percent{}
 \def\addcontentsline#1#2#3{% toc extension, type, tag
   \begingroup
     \let\label\@gobble
@@ -8128,7 +8191,7 @@
       \endgroup
     \fi
     \addtocontents{#1}{%
-      \protect\contentsline{#2}{#3}{\thepage}{\@currentHref}%
+      \protect\contentsline{#2}{#3}{\thepage}{\@currentHref}\protected@file@percent
     }%
   \endgroup
 }
@@ -8693,6 +8756,7 @@
 \def\@namerefstar#1{%
   \HyRef@StarSetRef{#1}\@thirdoffive
 }
+
 \Hy@AtBeginDocument{%
   \@ifpackageloaded{varioref}{%
     \def\@Refstar#1{%
@@ -8707,26 +8771,62 @@
     \def\HyRef@Ref#1{%
       \hyperref[{#1}]{\Ref*{#1}}%
     }%
-    \def\Vr@f#1{%
-      \leavevmode\unskip\vref@space
-      \hyperref[{#1}]{%
-        \Ref*{#1}%
-        \let\vref@space\nobreakspace
-        \@vpageref[\unskip]{#1}%
-      }%
-    }%
-    \def\vr@f#1{%
-      \leavevmode\unskip\vref@space
+  \ifdefined\vp@gerefstar
+   \renewcommand\Vref@star[2][]{%
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \Ref*{#2}
+       \vpageref[#1]{#2}%
+     \endgroup
+   }%
+   \renewcommand\Vr@f[2][]{%
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \hyperref[{#2}]{%
+         \Ref*{#2}
+         \vpageref[#1]{#2}%
+       }%
+     \endgroup
+   }%
+    \renewcommand\vr@f[2][]{%
       \begingroup
         \let\T@pageref\@pagerefstar
-        \hyperref[{#1}]{%
-          \ref*{#1}%
-          \vpageref[\unskip]{#1}%
+        \hyperref[{#2}]{%
+          \ref*{#2}
+          \vpageref[#1]{#2}%
         }%
-      \endgroup
+       \endgroup
     }%
+    \renewcommand\vref@star[2][]{%
+      \begingroup
+        \let\T@pageref\@pagerefstar
+        \ref*{#2}
+        \vpageref[#1]{#2}%
+       \endgroup
+    }%
+ \else
+   \def\Vr@f#1{%
+     \leavevmode\unskip\vref@space
+     \hyperref[{#1}]{%
+       \Ref*{#1}%
+       \let\vref@space\nobreakspace
+       \@vpageref[\unskip]{#1}%
+     }%
+   }%
+   \def\vr@f#1{%
+     \leavevmode\unskip\vref@space
+     \begingroup
+       \let\T@pageref\@pagerefstar
+       \hyperref[{#1}]{%
+         \ref*{#1}%
+         \vpageref[\unskip]{#1}%
+       }%
+     \endgroup
+   }%
+ \fi
   }{}%
 }
+
 \DeclareRobustCommand*{\autopageref}{%
   \@ifstar{%
     \HyRef@autopagerefname\pageref*%

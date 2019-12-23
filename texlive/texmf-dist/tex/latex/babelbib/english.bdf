@@ -18,7 +18,7 @@
 %%   harald.harders@gmx.de
 %% 
 \ProvidesFile{english.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \makeatletter
 \@ifpackageloaded{french}{}{\newcommand\bibsenglish{}}
 \makeatother

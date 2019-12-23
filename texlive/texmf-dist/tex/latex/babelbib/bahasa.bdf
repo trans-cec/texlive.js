@@ -20,7 +20,7 @@
 %% Language definitions for Bahasa by
 %%   Yanti Yulianti <y_yanti@students.itb.ac.id>
 \ProvidesFile{bahasa.bdf}
-  [2012/01/03 v1.31  babelbib: multilingual bibliographies (HH)]
+  [2019/03/11 v1.32  babelbib: multilingual bibliographies (HH)]
 \newcommand\bibsbahasa[1][bahasa]{%
   \def\biblanguagename{#1}%
   \def\btxetalshort##1{\protect\foreignlanguage{#1}{et~al##1{}}}%

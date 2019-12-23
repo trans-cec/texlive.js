@@ -1,20 +1,25 @@
-This is LuaTeX, Version 0.95.0 (TeX Live 2016)  (INITEX)  16 MAY 2017 14:24
+This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (INITEX)  23 DEC 2019 17:18
  restricted system commands enabled.
 **luatex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/luatex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/luatexconfig.
-tex
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/pdftexconfig.
-tex))
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/config/luatexiniconfig.tex)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/unicode-data/load-unicode-d
-ata.tex 
-load-unicode-data.tex v1.5 (2016-06-22)
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+luatex.ini
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+luatexconfig.tex
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+pdftexconfig.tex))
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/config/luatexi
+niconfig.tex)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/unicode-data/l
+oad-unicode-data.tex 
+load-unicode-data.tex v1.11 (2019-11-28)
 Reading Unicode data
-# UnicodeData-9.0.0.txt
-# Downloaded 2016-06-22 17:00:00 GMT [JAW]
-) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.src
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
+# UnicodeData-12.1.0.txt
+# Modified 2019-04-01 05:08:00 GMT [MFK]
+)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/luatex/hyph-utf8/etex.
+src
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/base/plain.tex
 Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
@@ -54,20 +59,21 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex
-[skipping from \patterns to end-of-file...]))
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.
+tex [skipping from \patterns to end-of-file...]))
 \et@xinput=\read0
 \et@xtoks=\toks12
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/plain/etex/etexdefs.lib
-Skipping module "grouptypes"; Loading module "interactionmodes";
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/plain/etex/etexdefs.li
+b Skipping module "grouptypes"; Loading module "interactionmodes";
 Skipping module "nodetypes"; Skipping module "iftypes";)
-(/tmp/tex/texlive.js/texlive/texmf-var/tex/generic/config/language.def
+(/home/peter/workspace/texlive.js/texlive/texmf-var/tex/generic/config/language
+.def
 \lang@USenglish=\language0
-luatex-hyphen: using data file: /tmp/tex/texlive.js/texlive/texmf-var/tex/generi
-c/config/language.dat.lua
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex))
-Augmenting the Plain TeX definitions: \tracingall;
+luatex-hyphen: using data file: /home/peter/workspace/texlive.js/texlive/texmf-v
+ar/tex/generic/config/language.dat.lua
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.
+tex)) Augmenting the Plain TeX definitions: \tracingall;
 Adding new e-TeX definitions: \eTeX, \loggingall, \tracingnone,
 register allocation;
 \et@xins=\count26
@@ -81,10 +87,10 @@ Retaining: \et@xerr, \et@xinput, \et@xlibhdr, \et@xmsg, \et@xtoks, \et@xwarn,
 \et@xl@@d, \et@xl@ad, \et@xload, \et@xlang, \et@xhash, \eTeX, \etexhdrchk,
 \etexstatus, \module, \uselanguage, \r@tain, \r@cycle,))
 Beginning to dump on file luatex.fmt
- (format=luatex 2017.5.16)
-3127 strings using 10180 bytes
-68833 memory locations dumped; current usage is 155&7713
-1758 multiletter control sequences
+ (format=luatex 2019.12.23)
+3394 strings using 10503 bytes
+68807 memory locations dumped; current usage is 149&7700
+1865 multiletter control sequences
 \font\nullfont=nullfont
 \font\tenrm=cmr10
 \font\preloaded=cmr9
@@ -141,5 +147,5 @@ warning  (pdf backend): no pages of output.
 
 PDF statistics: 0 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
 

@@ -1,12 +1,15 @@
-This is LuaTeX, Version 0.95.0 (TeX Live 2016)  (INITEX)  16 MAY 2017 14:24
+This is LuaTeX, Version 1.10.0 (TeX Live 2019)  (INITEX)  23 DEC 2019 17:18
  restricted system commands enabled.
 **lualatex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/lualatex.ini
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/luatexconfig.
-tex
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/pdftexconfig.
-tex)) (/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/latex.ltx
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/texsys.cfg)
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+lualatex.ini
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+luatexconfig.tex
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/tex-ini-files/
+pdftexconfig.tex))
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/latex.ltx
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/texsys.cfg)
 \openout15 = texsys.aux
 
 ./texsys.aux found
@@ -35,7 +38,7 @@ catcodes, registers,
 \interfootnotelinepenalty=\count23
 \strutbox=\box11
 
-LaTeX2e <2017/01/01> patch level 3
+LaTeX2e <2019-10-01> patch level 3
 hacks,
 \@tempcnta=\count24
 \@tempcntb=\count25
@@ -74,50 +77,50 @@ hacks,
 Local config file fonttext.cfg used
 
 ====================================
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.cfg
-File: fonttext.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised text font setup)
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.ltx
-File: fonttext.ltx 2016/12/03 v3.0a LaTeX Kernel (Text font setup)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.cf
+g
+File: fonttext.cfg 2019/09/21 v3.0d LaTeX Kernel (Uncustomised text font setup)
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/fonttext.lt
+x
+File: fonttext.ltx 2019/09/21 v3.0d LaTeX Kernel (Text font setup)
 
 === Don't modify this file, use a .cfg file instead ===
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omlenc.def
-File: omlenc.def 2017/02/22 v2.0g Standard LaTeX file
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/omlenc.def
+File: omlenc.def 2018/08/11 v2.0j Standard LaTeX file
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2018/08/11 v2.0j Standard LaTeX file
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/ot1enc.de
+f
+File: ot1enc.def 2018/08/11 v2.0j Standard LaTeX file
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/t1enc.def
-File: t1enc.def 2017/02/22 v2.0g Standard LaTeX file
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1enc.def
-File: ot1enc.def 2017/02/22 v2.0g Standard LaTeX file
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omsenc.def
-File: omsenc.def 2017/02/22 v2.0g Standard LaTeX file
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/tuenc.def
-File: tuenc.def 2017/02/22 v2.0g Standard LaTeX file
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/tulmr.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/omsenc.def
+File: omsenc.def 2018/08/11 v2.0j Standard LaTeX file
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/tuenc.def
+File: tuenc.def 2018/08/11 v2.0j Standard LaTeX file
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/tulmr.fd
 File: tulmr.fd 2017/01/26 v1.8 Standard LaTeX font definitions for Latin Modern
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/tulmss.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/tulmss.fd
 File: tulmss.fd 2017/01/26 v1.8 Standard LaTeX font definitions for Latin Modern
 
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/tulmtt.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/tulmtt.fd
 File: tulmtt.fd 2017/01/26 v1.8 Standard LaTeX font definitions for Latin Modern
 
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/t1cmr.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/t1cmr.fd
 File: t1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmr.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmr.fd
 File: ot1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmss.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmss.fd
 File: ot1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmtt.fd
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/ot1cmtt.f
+d
 File: ot1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )))
 ====================================
@@ -125,26 +128,28 @@ File: ot1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 Local config file fontmath.cfg used
 
 ====================================
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.cfg
-File: fontmath.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised math font setup)
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.ltx
-File: fontmath.ltx 2016/12/03 v3.0a LaTeX Kernel (Math font setup)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.cf
+g
+File: fontmath.cfg 2019/09/21 v3.0d LaTeX Kernel (Uncustomised math font setup)
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/fontmath.lt
+x
+File: fontmath.ltx 2019/09/21 v3.0d LaTeX Kernel (Math font setup)
 
 === Don't modify this file, use a .cfg file instead ===
 
 LaTeX Font Info:    Redeclaring font encoding OML on input line 44.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 45.
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omlcmm.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/omlcmm.fd
 File: omlcmm.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omscmsy.fd
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/omscmsy.fd
 File: omscmsy.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/omxcmex.fd
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/omxcmex.f
+d
 File: omxcmex.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/ucmr.fd
+) (/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/ucmr.fd
 File: ucmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 \symoperators=\mathgroup0
@@ -167,19 +172,21 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 Local config file preload.cfg used
 
 =====================================
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/preload.cfg
-File: preload.cfg 2016/12/03 v3.0a LaTeX Kernel (Uncustomised preload font setup
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/preload.cfg
+File: preload.cfg 2019/09/21 v3.0d LaTeX Kernel (Uncustomised preload font setup
 )
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/latex/base/preload.ltx
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/latex/base/preload.ltx
 File: preload.ltx 2014/09/29 v2.1g LaTeX Kernel (Font Preloading)
-))
-page nos., x-ref, environments, center,
+)) page nos., x-ref, environments, center,
 \@rightskip=\skip21
- verbatim, math definitions,
+ verbatim,
+\@verbvisiblespacebox=\box13
+ math definitions,
 \jot=\dimen20
 \interdisplaylinepenalty=\count30
-\rootbox=\box13
+\rootbox=\box14
 \c@equation=\count31
 \@eqcnt=\count32
 \@eqpen=\count33
@@ -209,7 +216,7 @@ page nos., x-ref, environments, center,
 \@itempenalty=\count35
 \@beginparpenalty=\count36
 \@endparpenalty=\count37
-\@labels=\box14
+\@labels=\box15
 \par@deathcycles=\count38
 \@enumdepth=\count39
 \c@enumi=\count40
@@ -222,6 +229,7 @@ page nos., x-ref, environments, center,
 \fboxsep=\dimen36
 \@mplistdepth=\count45
 \@mpfootins=\insert254
+LaTeX Info: Redefining \underline on input line 5289.
 \@gtempa=\dimen37
 \@gtempa=\dimen38
 \@gtempa=\dimen39
@@ -241,9 +249,9 @@ page nos., x-ref, environments, center,
 \@curtab=\count48
 \@hightab=\count49
 \@tabpush=\count50
-\@curline=\box15
-\@curfield=\box16
-\@tabfbox=\box17
+\@curline=\box16
+\@curfield=\box17
+\@tabfbox=\box18
 \tabbingsep=\dimen51
 \@chclass=\count51
 \@lastchclass=\count52
@@ -252,11 +260,11 @@ page nos., x-ref, environments, center,
 \tabcolsep=\dimen53
 \arrayrulewidth=\dimen54
 \doublerulesep=\dimen55
-\@arstrutbox=\box18
+\@arstrutbox=\box19
 \@wholewidth=\dimen56
 \@halfwidth=\dimen57
 \unitlength=\dimen58
-\@picbox=\box19
+\@picbox=\box20
 \@picht=\dimen59
 \@ovxx=\dimen60
 \@ovyy=\dimen61
@@ -270,13 +278,17 @@ page nos., x-ref, environments, center,
 \@multicnt=\count57
 \@xdim=\dimen66
 \@ydim=\dimen67
-\@linechar=\box20
+\@linechar=\box21
 \@linelen=\dimen68
 \@clnwd=\dimen69
 \@clnht=\dimen70
 \@dashdim=\dimen71
-\@dashbox=\box21
+\@dashbox=\box22
 \@dashcnt=\count58
+LaTeX Info: The control sequence `\linethickness' is already robust on input lin
+e 6047.
+LaTeX Info: The control sequence `\thinlines' is already robust on input line 60
+53.
 
 title, sectioning,
 \@secpenalty=\count59
@@ -356,7 +368,7 @@ title, sectioning,
 \marginparwidth=\dimen84
 \marginparsep=\dimen85
 \marginparpush=\dimen86
-\@begindvibox=\box22
+\@begindvibox=\box23
 \@maxdepth=\dimen87
 \paperheight=\dimen88
 \paperwidth=\dimen89
@@ -376,9 +388,9 @@ title, sectioning,
 \@pagedp=\dimen98
 \@mparbottom=\dimen99
 \@currtype=\count70
-\@outputbox=\box23
-\@leftcolumn=\box24
-\@holdpg=\box25
+\@outputbox=\box24
+\@leftcolumn=\box25
+\@holdpg=\box26
 \@kludgeins=\insert200
 \@fpstype=\count71
 \@reqcolroom=\dimen100
@@ -398,45 +410,55 @@ title, sectioning,
 \@dblfptop=\skip38
 \@dblfpsep=\skip39
 \@dblfpbot=\skip40
+\pkgcls@targetdate=\count76
 \catcodetable@initex=\catcodetable1
 \catcodetable@string=\catcodetable2
 \catcodetable@latex=\catcodetable3
 \catcodetable@atletter=\catcodetable4
-\@lowpenalty=\count76
-\@medpenalty=\count77
-\@highpenalty=\count78
+\@lowpenalty=\count77
+\@medpenalty=\count78
+\@highpenalty=\count79
 
  Unicode character data,
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/unicode-data/load-unicode-d
-ata.tex 
-load-unicode-data.tex v1.5 (2016-06-22)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/unicode-data/l
+oad-unicode-data.tex 
+load-unicode-data.tex v1.11 (2019-11-28)
 Reading Unicode data
-# UnicodeData-9.0.0.txt
-# Downloaded 2016-06-22 17:00:00 GMT [JAW]
+# UnicodeData-12.1.0.txt
+# Modified 2019-04-01 05:08:00 GMT [MFK]
 )
 ===========================================
 Local configuration file hyphen.cfg used
 ===========================================
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/babel/hyphen.cfg
-File: hyphen.cfg 2016/04/23 3.9r Babel hyphens
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/babel/luababel.def)
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/babel/switch.def
-File: switch.def 2016/04/23 3.9r Babel switching mechanism
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/babel/hyphen.c
+fg
+File: hyphen.cfg 2019/12/08 3.37 Babel hyphens
+
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/babel/luababel
+.def
+\bbl@attr@locale=\attribute1
+)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/babel/switch.d
+ef
+File: switch.def 2019/12/08 3.37 Babel switching mechanism
 )
 \l@english=\language0
 
-(/tmp/tex/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)
+(/home/peter/workspace/texlive.js/texlive/texmf-dist/tex/generic/hyphen/hyphen.
+tex)
 \l@usenglish=\language0
 \l@USenglish=\language0
 \l@american=\language0
 )
+\l@nohyphenation=\language1
+
 ))
 Beginning to dump on file lualatex.fmt
- (format=lualatex 2017.5.16)
-5423 strings using 40642 bytes
-158781 memory locations dumped; current usage is 174&51527
-4186 multiletter control sequences
+ (format=lualatex 2019.12.23)
+6144 strings using 45985 bytes
+185493 memory locations dumped; current usage is 175&64710
+4801 multiletter control sequences
 \font\nullfont=nullfont
 \font\OMX/cmex/m/n/10=cmex10
 \font\tenln=line10
@@ -457,5 +479,5 @@ warning  (pdf backend): no pages of output.
 
 PDF statistics: 0 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
