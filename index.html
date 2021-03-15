@@ -194,7 +194,11 @@
   });
 
   document.getElementById("open_pdf_btn").addEventListener("click", function(e) {
-    window.open(pdf_dataurl);
+    var iframe = "<iframe width='100%' height='100%' src='" + pdf_dataurl + "'></iframe>"
+    var x = window.open();
+    x.document.open();
+    x.document.write(iframe);
+    x.document.close();
     e.preventDefault();
   });
 
