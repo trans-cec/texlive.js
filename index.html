@@ -51,7 +51,7 @@
 
   <div id="buttons">
     <button id="compile" autofocus>Compile to PDF</button>
-    <button id="open_pdf_btn" style="display: none">Open PDF</button>
+    <a id="open_pdf_btn" href='' style="display: none">Open PDF</a>
   </div>
 
   <div id="editor">
@@ -183,7 +183,9 @@
       if (pdf_dataurl === false)
         return;
       showOpenButton(true);
-      document.getElementById("open_pdf_btn").focus();
+      btn = document.getElementById("open_pdf_btn");
+      btn.href = pdf_dataurl;
+      btn.focus();
       texlive.terminate();
     });
   }
@@ -193,10 +195,6 @@
     compile(source_code);
   });
 
-  document.getElementById("open_pdf_btn").addEventListener("click", function(e) {
-    window.open(pdf_dataurl);
-    e.preventDefault();
-  });
 
   //var pdftex_preload = new PDFTeX("pdftex-worker.js");
   pdftex_preload = undefined;
