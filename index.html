@@ -51,7 +51,7 @@
 
   <div id="buttons">
     <button id="compile" autofocus>Compile to PDF</button>
-    <a id="open_pdf_btn" href='' style="display: none">Open PDF</a>
+    <button id="open_pdf_btn" style="display: none">Open PDF</button>
   </div>
 
   <div id="editor">
@@ -60,7 +60,7 @@
 \usepackage{graphicx}
 
 \title{\TeX live.js}
-\author{Created by Manuel Sch\"olling}
+\author{Created by Felix Zimmermann and Manuel Sch\"olling}
 \date{\today}
 \begin{document}
   \maketitle
@@ -183,9 +183,7 @@
       if (pdf_dataurl === false)
         return;
       showOpenButton(true);
-      btn = document.getElementById("open_pdf_btn");
-      btn.href = pdf_dataurl;
-      btn.focus();
+      document.getElementById("open_pdf_btn").focus();
       texlive.terminate();
     });
   }
@@ -195,6 +193,14 @@
     compile(source_code);
   });
 
+  document.getElementById("open_pdf_btn").addEventListener("click", function(e) {
+    var iframe = "<iframe width='100%' height='100%' src='" + pdf_dataurl + "'></iframe>"
+    var x = window.open();
+    x.document.open();
+    x.document.write(iframe);
+    x.document.close();
+    e.preventDefault();
+  });
 
   //var pdftex_preload = new PDFTeX("pdftex-worker.js");
   pdftex_preload = undefined;
